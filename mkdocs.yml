@@ -1,0 +1,9 @@
+site_name: fiware-sinfonier-docs
+site_description: Sinfonier Documentation
+docs_dir: docs/
+theme: readthedocs
+extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
+pages:
+  - 'Home': 'index.md'
+  - 'Installation': 'installation.md'
+  - 'Docker': 'docker.md'
