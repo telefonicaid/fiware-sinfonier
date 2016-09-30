@@ -11,11 +11,6 @@
 
 ## User and programmer manual 
 + [Introduction](user_and_programmer_manual/introduction.md)
-+ Batch
-    + [Data management and I/O](user_and_programmer_manual/batch/data_management_and_io.md)
-    + [Requesting computing resources](user_and_programmer_manual/batch/request_computing_resources.md)
-    + [Using Hadoop and its ecosystem](user_and_programmer_manual/batch/using_hadoop_and_ecosystem.md)
-    + [OAuth2-protected REST APIs](user_and_programmer_manual/batch/oauth2_rest_apis.md)
 + Streaming
     + [Apche Storm & Sinfonier](user_and_programmer_manual/streaming/stream_processing_storm_sinfonier.md)
     + [Sinfonier Topologies](user_and_programmer_manual/streaming/stream_processing_sinfonier_topologies.md)
