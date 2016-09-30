@@ -123,4 +123,4 @@ play start
 For checking if everything is alright visit [diagnosing](http://localhost:9000/diagnosis/) [http://localhost:9000/diagnosis]
 
  Global architecture and default ports (all port using by HTTP)
-![Figure 1 - Sinfonier Simple View](../resources/images/arquitecturaSinfonier.png "Figure 1 - Sinfonier Simple View")
+![Figure 1 - Sinfonier architecture Simple View](https://raw.githubusercontent.com/telefonicaid/fiware-sinfonier/master/resources/images/arquitecturaSinfonier.png "Sinfonier architecture Simple View")
