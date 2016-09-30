@@ -1,4 +1,4 @@
-#<a name="top"></a>Stream processing: Sinfonier Drawer
+#<a name="top"></a>Sinfonier Drawer
 
 Content:<br>
 

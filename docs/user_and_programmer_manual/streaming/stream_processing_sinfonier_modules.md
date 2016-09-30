@@ -1,4 +1,4 @@
-#<a name="top"></a>Stream processing: Sinfonier Modules
+#<a name="top"></a>Sinfonier Modules
 
 Content:<br>
 

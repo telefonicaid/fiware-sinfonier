@@ -1,4 +1,4 @@
-#<a name="top"></a>Stream processing: Sinfonier Topologies
+#<a name="top"></a>Sinfonier Topologies
 
 Content:<br>
 

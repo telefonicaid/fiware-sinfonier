@@ -1,4 +1,4 @@
-#<a name="top"></a>Stream processing: Sinfonier Backend
+#<a name="top"></a>Sinfonier Backend
 
 Content:<br>
 

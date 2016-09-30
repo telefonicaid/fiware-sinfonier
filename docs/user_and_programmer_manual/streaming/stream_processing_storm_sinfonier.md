@@ -1,4 +1,4 @@
-#<a name="top"></a>Stream processing: Apche Storm & Sinfonier
+#<a name="top"></a>Apache Storm & Sinfonier
 
 Content:<br>
 
