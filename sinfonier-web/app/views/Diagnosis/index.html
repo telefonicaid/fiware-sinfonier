@@ -1,0 +1,18 @@
+#{extends 'Secure/simple_layout.html' /}
+#{set 'title'} &{'Diagnosis.index.title'} #{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'basic.css' /}
+    #{stylesheet 'main.css' /}
+#{/set}
+
+<ul class="list-unstyled">
+  <li>&{'Diagnosis.index.play'}: #{if playStatus == true} <span class="text-success">Ok</span>#{/if} #{else } <span
+      class="text-danger">Error</span>#{/else}</li>
+  <hr>
+  <li>&{'Diagnosis.index.api'}: #{if apiStatus == true} <span class="text-success">Ok</span>#{/if} #{else } <span
+      class="text-danger">Error</span>#{/else}</li>
+  <li>&{'Diagnosis.index.db'}: #{if dbStatus == true} <span class="text-success">Ok</span>#{/if} #{else } <span
+      class="text-danger">Error</span>#{/else}</li>
+</ul>
+
+

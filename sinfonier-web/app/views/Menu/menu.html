@@ -1,0 +1,61 @@
+<ul>
+  <li class="#{if request.url.contains('dashboard')} active #{/if}">
+    <a id="menu-a-dashboards" href="@{controllers.Dashboards.index()}"><i class="material-icons">developer_board</i><span>&{'Dashboard.index.title'}</span></a>
+  </li>
+  <li class="#{if request.url.contains('modules')} active #{/if}">
+    <a id="menu-a-modules" href="@{controllers.Modules.index(null,0)}">
+      <i class="fa fa-cube" aria-hidden="true"></i><span>&{'Modules.index.title'}</span></a>
+  </li>
+  <li class="#{if request.url.contains('topologies')} active #{/if}">
+    <a id="menu-a-topologies" href="@{controllers.Topologies.index(null,null,0)}"><i class="fa fa-cubes" aria-hidden="true"></i><span>&{'Topologies.index.title'}</span></a>
+  </li>
+  <li class="#{if request.url.contains('drawer')} active #{/if}">
+    <a id="menu-a-drawer" href="@{controllers.Drawers.index()}"><i class="material-icons">content_paste</i><span>&{'Drawer.index.title'}</span></a>
+  </li>
+
+#{secure.check "ADMIN"}
+    #{if models.Config.getUserActivationType().equals(models.user.ActivationType.INVITATION)}
+      <li class="#{if request.action.equals('Admin.invitations')} active #{/if}">
+        <a id="menu-a-invitations" href="@{Admin.invitations()}"><i class="material-icons">person_add</i> <span>&{'Nav.admin.invitations'}</span></a>
+      </li>
+    #{/if}
+  <li class="#{if request.action.equals('Admin.roles')} active #{/if}">
+    <a id="menu-a-roles" href="@{Admin.roles()}"><i class="material-icons">portrait</i> <span>&{'Nav.admin.roles'}</span></a>
+  </li>
+  <li class="#{if request.action.equals('Changelog.adminChangelog')} active #{/if}"><a id="menu-a-changelog" href="@{Changelog.adminChangelog()}"><i class="material-icons">list</i>
+    <span>&{'Nav.admin.changelog'} (Admin)</span></a></li>
+#{/secure.check}
+#{secure.check "USER_READ"}
+  <li class="#{if request.action.equals('Users.index')} active #{/if}">
+    <a id="menu-a-users" href="@{Users.index(null, 0)}"><i class="material-icons">people</i> <span>&{'Nav.users'}</span></a>
+  </li>
+#{/secure.check}
+
+#{secure.check "API_CLIENTS"}
+  <li class="#{if request.action.equals('APIClients.index')} active #{/if}">
+    <a id="menu-a-apiClients" href="@{APIClients.index()}"><i class="material-icons">code</i> <span>&{'Nav.apiClients'}</span></a>
+  </li>
+#{/secure.check}
+
+#{if models.Config.isLatchActive() }
+  <li class="#{if request.url.contains('latch')} active #{/if}"><a id="menu-a-latch" href="@{Latch.checkLatch()}"><i class="icn-latch"></i><span>Latch</span></a></li>
+#{/if}
+
+#{if models.Config.isMobileConnectActive() }
+  <li class="#{if request.url.contains('mobileConnect')} active #{/if}"><a id="menu-a-mobileConnect" href="@{MobileConnect.checkMobileConnect()}"><i class="icn-mc"></i><span>Mobile Connect</span></a>
+  </li>
+#{/if}
+#{if models.Config.isChangelogActivated()}
+  <li class="#{if request.action.equals('Changelog.userChangelog')} active #{/if}"><a id="menu-a-userChangelog" href="@{Changelog.userChangelog()}"><i class="material-icons">list</i>
+    <span>&{'Nav.admin.changelog'}</span></a></li>
+#{/if}
+  <li class="#{if request.action.equals('Profile.index') || request.action.equals('Profile.showUserProfile')} active #{/if}"><a
+     id="menu-a-profile" href="@{Profile.index()}"><i class="material-icons">person_pin</i> <span>&{'Profile'}</span></a></li>
+  <li>
+  #{form @Security.logout(), class:'form-logout'}
+    <button type="submit" name="Logout" id="Logout">
+      <i class="material-icons" style="font-size: 24px;">exit_to_app</i> <span>&{'Nav.logout'}</span>
+    </button>
+  #{/form}
+  </li>
+</ul>

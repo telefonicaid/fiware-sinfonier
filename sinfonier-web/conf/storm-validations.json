@@ -1,0 +1,34 @@
+{
+  "TOPOLOGY_WORKERS": {
+    "type": "integer",
+    "value": "topology.workers",
+    "range": [
+      1,
+      50
+    ]
+  },
+  "TOPOLOGY_MAX_SPOUT_PENDING": {
+    "type": "integer",
+    "value": "topology.max.spout.pending",
+    "range": [
+      1,
+      5
+    ]
+  },
+  "TOPOLOGY_MESSAGE_TIMEOUT_SECS": {
+    "type": "integer",
+    "value": "topology.message.timeout.secs",
+    "range": [
+      5,
+      100
+    ]
+  },
+  "TOPOLOGY_MAX_TASK_PARALLELISM": {
+    "type": "integer",
+    "value": "topology.max.task.parallelism",
+    "range": [
+      1,
+      50
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+.topologies-diagram-list {
+  float: right;
+  width: 426px;
+  height: 300px;
+  border: 0 solid #eaeaea;
+}
+
+.topology .title {
+  margin: 0;
+}
+
+.topology .title a {
+  padding: 0;
+  font-size: 22px;
+  color: rgb(13, 45, 66);
+  font-weight: 900;
+}
+
+.topology .details-section p.details {
+  margin-bottom: 0;
+}
+
+.topology .details-section p.details a {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 5px;
+}
+
+.topology .buttons {
+  display: inline;
+}
+
+.topology .log-expanded {
+  background: #2c3e50;
+  overflow: auto;
+  color: white;
+  width: 100%;
+  display: inline-block;
+  margin: 2px 0 2px;
+  padding: 6px 12px;
+  min-height: 140px;
+  max-height: 600px;
+  position: relative;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.control-panel.menu-closed form.topologies input#query {
+  width: 300px;
+}
+
+form.topologies label {
+  margin-right: 5px;
+}
+
+form.topologies input, form.topologies select {
+  margin-right: 15px;
+}
+
+.text-center {
+  margin-bottom: 20px;
+}

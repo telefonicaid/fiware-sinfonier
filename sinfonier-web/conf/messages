@@ -1,0 +1,223 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+UserArea.latch=Latch your account
+UserArea.password=Change your password
+UserArea.logout=Logout
+UserArea.rights=All rigths reserved
+
+Dashboard.index.title = Dashboard
+Dashboard.index.running_topologies=Running
+Dashboard.index.topologies=Topologies (%s)
+Dashboard.index.modules=Modules (%s)
+Dashboard.index.topRated=Top Rated
+Dashboard.index.topUsed=Top Used
+
+Drawer.index.title = Drawer
+Drawer.index.infos = Infos
+Drawer.index.miniMap = MiniMap
+Drawer.index.properties = Properties
+Drawer.index.loadingEditor = Loading the editor...
+Drawer.index.welcomeToSinfonier = Welcome to Sinfonier!
+
+Modules.index.title = Modules
+Modules.index.btn.top = Top Modules
+Modules.index.btn.my = My Modules
+Modules.index.btn.new = New Module
+Modules.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s
+Modules.index.create_by_short = Created by <a href="/profile/%s">%s</a> at %s
+Modules.index.create_by_text = Created by %s at %s
+
+Modules.details.title = Module
+Modules.details.vote = Vote
+Modules.details.vote.msg = Attach a message for your vote
+Modules.details.complain = Report module
+Modules.details.complain.msg = Attach a message for your complain
+Modules.details.delete.title = Remove module
+Modules.details.delete.text = Do you want to delete the module '%s (%s)'?
+Modules.details.versions = Versions
+Modules.sendValidation.title = Send validation request confirmation
+Modules.sendValidation.text = Are you sure that you want to validate this module: <strong>'%s (%s)'</strong>? If so, please be sure that the code that you want be checked be available before to send this request.
+
+Modules.btn.import = Import
+Modules.btn.add = Add
+Modules.btn.create = Create
+Modules.btn.update = Update
+Modules.btn.sendValidation = Send Validation Request
+Modules.btn.validate = Validate
+Modules.btn.search = Search
+Modules.btn.source = Source Code
+Modules.btn.addTools = Add to my tools
+Modules.btn.removeTools = Remove from my tools
+Modules.btn.export = Export
+Modules.btn.delete = Delete
+Modules.btn.edit = Edit
+Modules.btn.sourceCode = Source code
+Modules.btn.vote = Vote
+Modules.btn.complain = Report
+Modules.btn.cancel = Cancel
+Modules.btn.publish = Publish
+Modules.btn.privatize = Privatize
+Modules.btn.newVersion = New version
+
+Modules.Module.vote = Vote
+
+Modules.btn.add_tools = Add to my tools
+Modules.Module.btn.recheck = Send validation request
+Modules.Module.btn.export = Export
+Modules.Module.btn.delete = Remove
+Modules.Module.btn.edit = Edit
+Modules.Module.multipleVersions = Module with multiple versions available
+
+Modules.form.name = Name
+Modules.form.versionTag = Version tag
+Modules.form.icon = Icon
+Modules.form.owner = Owner
+Modules.form.owner.placeholder = Name or email
+Modules.form.type = Type
+Modules.form.status = Status
+Modules.form.language = Language
+Modules.form.source_code = Code
+Modules.form.source_url = Code URL
+Modules.form.template = Template
+Modules.form.description = Description
+Modules.form.singleton = Allows parallel processing
+Modules.form.fields = Fields
+Modules.form.label = Label
+Modules.form.required = Required
+Modules.form.libraries = Libraries
+Modules.form.ticktuple = Tick tuple
+Modules.form.vars = Allow vars
+Modules.form.elementType = Element type
+Modules.form.elementType.text = Text
+Modules.form.elementType.keyValue = Key-Value
+Modules.form.elementType.keyValueDefault = Key-Value-Default
+Modules.form.code.url = Code URL
+Modules.form.text.code = Source code
+Modules.form.lib.url = URL
+Modules.form.status.developing = developing
+Modules.form.status.pending = pending
+Modules.form.status.published = published
+Modules.form.status.private = private
+Modules.form.status.deleted = deleted
+Modules.validate.error = Something was wrong trying to validate the module
+Modules.recheck.error = Something was wrong trying to check the module
+
+Modules.module = Module %s
+Modules.build.status = Build status
+Modules.build.status.success = Success
+Modules.build.status.failure = Failure
+
+Modules.form.err.required.name = Name is required
+Modules.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
+Modules.form.err.pattern.versionTag = Invalid version tag format. Must be without space
+Modules.form.err.required.type = Type is required
+Modules.form.err.required.language = Language is required
+Modules.form.err.required.description = Description is required
+Modules.form.err.remove = Module with status '%s' can't remove
+Modules.form.err.versionTagUsed = Version tag already used in this module
+Modules.form.warning.versions.moreDeveloping = There are more developing versions of this module. Consider continue working in some of them before adding a new version
+
+Topologies.index.title = Topologies
+Topologies.index.btn.my = My Topologies
+Topologies.index.btn.new = New Topology
+Topology.btn.privatize = Privatize
+Topology.btn.publish = Publish
+Topology.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s, last update %s.
+Topology.index.create_by_text = Created by %s at %s, last update %s.
+
+Topologies.form.description = Description
+Topologies.form.sharing = Sharing
+Topologies.form.status = Status
+Topologies.form.status.active = Active
+Topologies.form.status.deleted = Deleted
+Topologies.form.status.running = Running
+Topologies.form.status.stopped = Stopped
+Topologies.form.query = Query
+Topologies.form.update = Updated
+Topologies.form.queryHelp = Topology name or author name/email
+
+Topologies.btn.search = Search
+Topologies.btn.remove = Remove
+Topologies.btn.launch = Launch
+Topologies.btn.stop = Stop
+Topologies.btn.edit = Edit
+Topologies.btn.asTemplate = Use as template
+
+Topologies.details.delete.title = Remove topology
+Topologies.details.delete.text = Do you want to delete the topology '%s'?
+
+Topologies.topology = Topology
+Topologies.error.launching = Error trying to launching the topology
+Topologies.error.stopping = Error trying to stopping the topology
+
+Profile.editAccount = Edit profile
+Profile.saveAccount = Save profile
+Profile.twitter = Twitter
+Profile.organization = Organization
+Profile.timeZone = Time zone
+Profile.web = Web
+Profile.changePassword = Change password
+Profile.changePassword.message = Enter your new password twice
+Profile.newPassword1 = New password
+Profile.newPassword2 = Repeat password
+Profile.changePassword.confirm = Save password
+Diagnosis.index.play = App
+Diagnosis.index.api = API
+Diagnosis.index.db = Database
+
+validation.required.profile.password = The password field is required
+validation.match.profile.password = The two passwords must match
+
+validation.required.module.id = "Module's id is mandatory for this operation"
+validation.required.module.name = "Module's name is mandatory for this operation"
+validation.required.module.type = "Module's type is mandatory for this operation"
+validation.required.module.sourceType = "Module's source type is mandatory for this operation"
+validation.required.module.language = "Module's language is mandatory for this operation"
+validation.match.module.name = "Module's name only can contains letters and digits"
+validation.minValue.rating.rate = "The min value allowed is 0."
+validation.maxValue.rating.rate = "The max value allowed is 5."
+validation.required.ticktuple.label = "TickTuple's label is mandatory if it's used into module."
+validation.required.ticktuple.required = "TickTuple's required is mandatory if it's used into module."
+validation.required.ticktuple.wirable = "TickTuple's wirable is mandatory if it's used into module."
+validation.required.field.name = "Field's name is mandatory if it's used into module."
+validation.match.field.name = "Field's name can not should have special characters."
+validation.required.field.label = "Field's label is mandatory if it's used into module."
+validation.required.field.type = "Field's type is mandatory if it's used into module."
+validation.required.field.required = "Field's required is mandatory if it's used into module."
+validation.required.field.wirable = "Field's wirable is mandatory if it's used into module."
+validation.required.library.name = "Library's name is mandatory if it's used into module"
+validation.required.library.url = "Library's url is mandatory if it's used into module"
+validation.required.rating.rate = "The rate is mandatory for this operation."
+validation.required.topology.id = "Topology's id is mandatory for this operation."
+validation.required.topology.name = "Topology's name is mandatory for this operation."
+validation.required.author.id = "Author's id is mandatory for this operation."
+validation.required.author.name = "Author's name is mandatory for this operation."
+validation.required.author.email = "Author's email is mandatory for this operation."
+validation.required.sourceCode = "The source code is required."
+validation.required.sourceCodeUrl = "The url of the code is required."
+validation.required.complain.msg = "Complain's comment is mandatory for this operation"
+validation.required.drawer.name = "Module's name is mandatory for this operation"
+validation.required.drawer.versionCode = "Module's versionCode is mandatory for this operation"
+validation.requiere.email = "Email is mandatory for this operation"
+validation.requiere.name = "User name is mandatory"
+validation.topology.params = "Some params are incorrect or it is not allowed."
+validation.not.allow.module.name="This module's name is not allowed"
+
+## Password policy
+validation.passwordPolicy.username=The password cannot contain the user email.
+validation.passwordPolicy.1=The password must contain at least of 8 characters
+validation.passwordPolicy.2=The password must contain at least of one lowercase character, one uppercase character, one digit and one special symbols in the list (&!"#'()*+,-./:;<=>?@[]^{|})
+validation.passwordPolicy=Invalid password. &{%2$s}.
+
+Mailer.subject.reviewModule = New code review
+Mailer.subject.complainModule = Your module has been reported
+Mailer.subject.nofityComplainModuleAdmin = Module inappropriate
+
+Error.sinfonier.title = We have detected an error
+Error.500.title = Internal error
+Error.500.msg = This exception has been logged. Report to the administrator about the error.
+Error.1001.msg = The module name '%s' is already used
+Error.1002.msg = The module '%s' is not available.
+Error.1004.msg = The user reached the limit of pending modules.
+Error.3001.msg = The password doesn't meet the security policy.

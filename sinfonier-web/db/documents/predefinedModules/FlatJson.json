@@ -1,0 +1,17 @@
+{
+   "name":"FlatJson",
+   "type":"bolt",
+   "category":"Bolts",
+   "status":"predefined",
+   "language":"java",
+   "created_at":{
+      "$date":"2016-09-01T00:00:00.000Z"
+   },
+   "updated_at":{
+      "$date":"2016-09-01T00:00:00.000Z"
+   },
+   "authorId":"sinfonier@sinfonier.com",
+   "average_rate":0,
+   "topologies_count":0,
+   "icon":""
+}

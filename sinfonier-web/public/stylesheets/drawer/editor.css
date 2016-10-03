@@ -1,0 +1,53 @@
+#WiringEditor-runButton button {
+	background: transparent url(/public/javascripts/vendor/WireIt/plugins/editor/assets/bullet_go.png) no-repeat scroll 10% 50%;
+	font-weight: bold;
+}
+
+#WiringEditor-templateButton.yui-button button {
+	background: transparent url(/public/images/icons/script_edit.png) no-repeat scroll 10% 50%;
+	padding-left: 28px;
+}
+
+
+div.WireIt-Container div.inputEx-Group div.inputEx-label {	width: auto;}
+div.inputEx-TypeField-PropertiesPanel {	z-index: 7;}
+
+/* Comment Module */
+div.WireIt-Container.WiringEditor-module-comment { width: 200px; }
+div.WireIt-Container.WiringEditor-module-comment div.body { background-color: #EEEE66; }
+div.WireIt-Container.WiringEditor-module-comment div.body textarea { background-color: transparent; font-weight: bold; border: 0; }
+
+div.WireIt-InputExTerminal { position: relative ;}
+
+/* Composed Module */
+/*div.ComposedModule { background-color: #DDDDAA; }*/
+
+div.savedStatus {
+	left:600px;
+}
+
+#appLoading-old {
+	font-size: 18px;
+	font-weight: bold;
+	padding: 20px;
+	border: 1px solid #CCC;
+	background-color: #DDD;
+	width: 400px;
+	margin: 60px auto;
+}
+
+#appLoading {
+  text-align: center;
+  z-index: 100;
+  position: fixed;
+  left: 45%;
+  bottom: 40px;
+  width: 200px;
+  padding: 10px;
+  background: #2581bc;
+  opacity: 1;
+  color: #FFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}

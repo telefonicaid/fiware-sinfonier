@@ -1,0 +1,100 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Modules.index.title'} (${totalModules}) #{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'modules.css' /}
+#{/set}
+
+<div class="row form-group">
+  <div class="col-md-4">
+  #{if request.querystring.contains(controllers.Modules.INDEX_MODE_TOP_MODULES)}
+    <a id="module-a-topActive" href="@{Modules.index(null,0)}" class="btn btn-default width-100 active">&{'Modules.index.btn.top'}</a>
+  #{/if}
+  #{else }
+    <a id="module-a-top" href="@{Modules.index(controllers.Modules.INDEX_MODE_TOP_MODULES,0)}"
+       class="btn btn-tab btn-default width-100">&{'Modules.index.btn.top'}</a>
+  #{/else}
+  </div>
+  <div class="col-md-4">
+  #{if request.querystring.contains(controllers.Modules.INDEX_MODE_MY_MODULES)}
+    <a id="module-a-myActive" href="@{Modules.index(null,0)}" class="btn btn-default width-100 active">&{'Modules.index.btn.my'}</a>
+  #{/if}
+  #{else }
+    <a id="module-a-my" href="@{Modules.index(controllers.Modules.INDEX_MODE_MY_MODULES,0)}"
+       class="btn btn-tab btn-default width-100">&{'Modules.index.btn.my'}</a>
+  #{/else}
+
+  </div>
+  <div class="col-md-4">
+    <a id="module-a-add" href="@{Modules.add()}" class="btn-tab btn btn-default width-100">&{'Modules.index.btn.new'}</a>
+  </div>
+</div>
+
+#{if modules.size() > 0 || flash.get("searching")}
+<div id="form-search" class="row non-h-padding">
+  <div class="col-lg-12">
+    <div class="well">
+        #{form @Modules.search(), method:'GET', id:'search-modules', class:'form-horizontal'}
+          <div class="form-group">
+            <!-- MODULE'S NAME -->
+            <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'}</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              <input type="text" class="form-control" id="name" name="search.name" value="${search?.getName()}">
+            </div>
+
+            <!-- MODULE'S OWNER-->
+            <label for="owner" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.owner'}</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              <input type="text" class="form-control" id="owner" name="search.owner" value="${search?.getOwner()}" placeholder="&{'Modules.form.owner.placeholder'}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <!-- MODULE'S TYPE-->
+            <label for="type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.type'}</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                #{select 'search.type', value:search?.getType(), id:'type', class:'form-control'}
+                    #{option ''}#{/option}
+                    #{option 'spout'}Spout#{/option}
+                    #{option 'bolt'}Bolt#{/option}
+                    #{option 'drain'}Drain#{/option}
+                #{/select}
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+              <button id="module-button-search" type="submit" class="btn btn-primary pull-right">&{'Modules.btn.search'}</button>
+            </div>
+          </div>
+        #{/form}
+    </div>
+  </div>
+</div>
+#{/if}
+
+%{
+  Map<String, String[]> params = new HashMap<String, String[]>();
+  for (Map.Entry<String, String[]> param : request.params.all()) {
+    if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
+      params.put(param.getKey(), param.getValue());
+    }
+  }
+}%
+#{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
+
+<div id="modules" class="row">
+  <div class="col-lg-6 col-xs-12 non-h-padding">
+  #{list items:modules, as:'module'}
+    #{if module_index%2 != 0}
+      #{modules._module module:module, version:module.lastModuleVersion(), wc:controllers.WebController/}
+  #{/if}
+  #{/list}
+  </div>
+  <div class="col-lg-6 col-xs-12 non-h-padding">
+  #{list items:modules, as:'module'}
+    #{if module_index%2 == 0}
+      #{modules._module module:module, version:module.lastModuleVersion(), wc:controllers.WebController/}
+  #{/if}
+  #{/list}
+  </div>
+</div>
+#{utils.pagination url: (request.url.contains('search') ? 'Modules.search' : 'Modules.index'), params:params, currentPage: page, total: totalModules /}

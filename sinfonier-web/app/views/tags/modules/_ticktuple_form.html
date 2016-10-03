@@ -1,0 +1,68 @@
+<div id="tick-tuple-section" class="form-group">
+  <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.ticktuple'}</label>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 form-group">
+    <a id="module-${_module?.getId()}-a-ticktuple" class="btn btn-primary" role="button" data-toggle="collapse" href="#ticktuple-collapse"
+    #{if _tickTuple?.getLabel() != null} aria-expanded="true" #{/if} #{else } aria-expanded="false" #{/else}
+       aria-controls="#ticktuple-collapse">
+    &{'Modules.btn.add'}
+    </a>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="collapse" id="ticktuple-collapse">
+        <div class="well">
+          <!-- Forms for add fields -->
+          <div id="ticktuple-form" class="form-horizontal">
+            <div class="form-group">
+              <!-- TICK TUPLE'S NAME -->
+              <label for="name-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'}:TickTuple</label>
+            </div>
+            <div class="form-group">
+              <!-- TICK TUPLE'S Label -->
+              <label for="label-field"
+                     class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.label'} *</label>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <input type="text" class="form-control" id="label-tuple" name="version.tickTuple.label"
+                       value="${_tickTuple?.getLabel()}">
+              </div>
+
+              <!-- TICK TUPLE'S type -->
+              <label for="type-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.type'}: Integer</label>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              *{#{select 'version.tickTuple.type', value:_tickTuple?.getType(), class:'form-control', id:'type-tuple'}}*
+                  *{#{option 'string'}String#{/option}}*
+                  *{#{option 'list'}List#{/option}}*
+                  *{#{option 'number'}Number#{/option}}*
+                  *{#{option 'Integer'}Integer#{/option}}*
+                  *{#{option 'bool'}Boolean#{/option}}*
+                  *{#{option 'url'}URL#{/option}}*
+              *{#{/select}}*
+              </div>
+            </div>
+
+            <div class="form-group">
+              <!-- TICK TUPLE'S required -->
+              <label for="required-field"
+                     class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.required'} *</label>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              #{select 'version.tickTuple.required', value:_tickTuple?.isRequired(), class:'form-control', id:'required-tuple'}
+                  #{option false}No#{/option}
+                  #{option true}Yes#{/option}
+              #{/select}
+              </div>
+
+              <!-- TICK TUPLE'S Var -->
+              <label for="var-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.vars'}
+                *</label>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              #{select 'version.tickTuple.wirable', value:_tickTuple?.isWirable(), class:'form-control', id:'var-tuple'}
+                  #{option false}No#{/option}
+                  #{option true}Yes#{/option}
+              #{/select}
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

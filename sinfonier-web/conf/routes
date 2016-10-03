@@ -1,0 +1,77 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Index
+GET /dashboard                                                 Dashboards.index
+
+# Modules
+GET /modules/?                                                  Modules.index(page:'1')
+GET /modules/0                                                  Modules.index(page:'1')
+GET /modules/{<-?[0-9]+>page}                                   Modules.index
+GET /modules/search/?                                           Modules.search(page:'1')
+GET /modules/search/0                                           Modules.search(page:'1')
+GET /modules/search/{<-?[0-9]+>page}                            Modules.search
+GET /modules/add                                                Modules.add
+GET /modules/user/{user}                                        Modules.user
+GET /modules/loadPredefined                                     Modules.loadPredefined
+GET /modules/{name}/versions/{versionCode}/edit                 Modules.edit
+GET /modules/{name}/versions/{versionCode}                      Modules.module
+GET /modules/{name}                                             Modules.module
+POST /modules/save                                              Modules.save
+POST /modules/vote                                              Modules.vote
+POST /modules/{id}/versions/{versionCode}/remove                Modules.remove
+POST /modules/{id}/versions/{versionCode}/export                Modules.export
+POST /modules/{id}/versions/{versionCode}/add-to-my-tools       Modules.addToMyTools
+POST /modules/{id}/versions/{versionCode}/remove-to-my-tools    Modules.removeToMyTools
+POST /modules/{id}/versions/{versionCode}/recheck               Modules.recheck
+POST /modules/{id}/versions/{versionCode}/validate              Modules.validate
+POST /modules/{id}/versions/{versionCode}/privatize             Modules.privatize
+POST /modules/{id}/versions/{versionCode}/publish               Modules.publish
+POST /modules/{id}/complain                                     Modules.complain
+
+# Topologies
+GET /topologies/?                                               Topologies.index(page:'1')
+GET /topologies/0                                               Topologies.index(page:'1')
+GET /topologies/{<-?[0-9]+>page}                                Topologies.index
+GET /topologies/search/?                                        Topologies.search(page:'1')
+GET /topologies/search/0                                        Topologies.search(page:'1')
+GET /topologies/search/{<-?[0-9]+>page}                         Topologies.search
+POST /topology/save                                             Topologies.save
+POST /topologies/{id}/save                                      Topologies.save
+POST /topology/{id}/remove                                      Topologies.remove
+POST /topology/{id}/launch                                      Topologies.launch
+POST /topology/{id}/stop                                        Topologies.stop
+POST /topology/{id}/log                                         Topologies.log
+POST /topology/{id}/privatize                                   Topologies.privatize
+POST /topology/{id}/publish                                     Topologies.publish
+GET /topologies/{name}                                          Topologies.topology
+
+# Diagnostig
+GET /diagnosis                                                  Diagnosis.index
+
+# Editor
+GET /drawer                                                     Drawers.index
+GET /drawer/modules/{name}/versions/{versionCode}/json          Drawers.module
+
+
+# Index
+GET /                                                           Dashboards.index
+
+# Profile
+GET /profile/{email}/edit                                       ProfileSinfonier.edit
+POST /profile/{email}/save                                      ProfileSinfonier.save
+POST /profile/{email}/changePassword                            ProfileSinfonier.changePassword
+
+# Darwin
+* /                                                             module:darwin
+
+# Ignore favicon requests
+GET /favicon.ico                                                404
+GET /images/space.gif                                           staticFile:/public/javascripts/vendor/inputex/images/space.gif
+
+# Map static resources from the /app/public folder to the /public path
+GET /public/                                                    staticDir:public
+
+# Catch all
+* /{controller}/{action}                                        {controller}.{action}

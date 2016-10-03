@@ -1,0 +1,128 @@
+#{stylesheet 'basic.css' /}
+<h2 class="page-title">&{'Profile'}</h2>
+
+#{ifErrors }
+<div class="row">
+  <div class="col-lg-12">
+    #{errors }
+      <div id="profile-div-error" class="alert alert-danger alert-dismissible" role="alert">
+        <button id="profile-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      ${error}
+      </div>
+    #{/errors}
+  </div>
+</div>
+#{/ifErrors}
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p id="profile-p-name"><span class="bold">&{'Profile.name'}:</span> ${user.getName()}</p>
+        <p id="profile-p-email"><span class="bold">&{'Profile.email'}:</span> ${user.getEmail()}</p>        
+        <p id="profile-p-created"><span class="bold">&{'Profile.created'}:</span> ${user.getCreated().format()}</p>
+        <p id="profile-p-preferredLang"><span class="bold">&{'Profile.preferredLang'}:</span> &{'Languages.' + user.getPreferredLang()}</p>
+        <p id="profile-p-lastPasswordChange"><span class="bold">&{'Profile.lastPasswordChange'}:</span> ${user.getPasswordChange().format()}</p>
+        <br/>
+        <p><span class="bold">&{'Profile.twitter'}:</span> <a  id="profile-a-twitter" 
+          href="https://twitter.com/${user.getImplementation().getTwitter()}" target="_blank">
+            ${user.getImplementation().getTwitter()}</a>
+        </p>
+        <p id="profile-p-organization">
+          <span class="bold">&{'Profile.organization'}:</span> ${user.getImplementation().getOrganization()}
+        </p>
+        <p id="profile-p-timeZone">
+          <span class="bold">&{'Profile.timeZone'}:</span> ${utils.Utils.displayTimeZone(user.getImplementation().getTimeZoneID(), user.getPreferredLang())}
+        </p>
+        <p>
+          <span class="bold">&{'Profile.web'}:</span> 
+          <a id="profile-a-web" href="${user.getImplementation().getWeb()}" target="_blank">
+            ${user.getImplementation().getWeb()}</a>
+        </p>
+
+        #{secure.check "ADMIN"}
+            #{if latchOperation != null}
+                <p id="profile-p-latchId"><span class="bold">&{'Profile.latchAlias'}:</span> ${user.getLatchId()}</p>
+                <h2>Latch</h2>
+                %{ operation = latchOperation; }%
+                #{include 'Profile/latchOperationsHistory.html' /}
+            #{/if}
+        #{/secure.check}
+
+        #{secure.check "USER_SELF_DELETE"}
+            #{if session.get("username") == user.getEmail()}
+                <p class="text-center">
+                  <a id="profile-a-delete" class="btn-bezel danger" data-toggle="modal" 
+                    href="#${user.getEmail().hash()}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}">
+                      &{'Profile.deleteAccount'}</a>
+                </p>
+                <!-- BEGIN REMOVE  MODAL -->
+                <div class="modal fade" id="${user.getEmail().hash()}RemoveModal" tabindex="-1" aria-hidden="false">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h2 class="modal-title m-b-0">&{'Profile.deleteAccount'}</h2>
+                            </div>
+                            <div class="modal-body text-center">
+                                #{form @Profile.deleteAccount()}
+                                <h5 class="overflow-hidden">&{'Profile.deleteAccount.message'}</h5>
+                                <input type="hidden" name="email" value="${user.getEmail()}">
+                                <button id="profile-button-delete" type="submit" class="submit">
+                                  &{'Profile.deleteAccount.confirm'}</button>
+                                #{/form}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END REMOVE  MODAL -->
+            #{/if}
+        #{/secure.check}
+        
+        #{if session.get("username") == user.getEmail() || controllers.WebController.getCurrentUser().isAdminUser()}
+          <p class="text-center">
+            <a id="profile-a-edit" class="btn-bezel danger" href="@{ProfileSinfonier.edit(user.getEmail())}" 
+              title="&{'Profile.editAccount'}">&{'Profile.editAccount'}</a>
+
+            <a id="profile-a-changePassword" class="btn-bezel danger" data-toggle="modal" 
+              href="#${user.getEmail().hash()}PasswordModal" title="&{'Profile.editAccount'}">&{'Profile.changePassword'}</a>
+            <!-- BEGIN CHANGE PASSWORD MODAL -->
+            <div class="modal fade" id="${user.getEmail().hash()}PasswordModal" tabindex="-1" aria-hidden="false">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title m-b-0">&{'Profile.changePassword'}</h2>
+                  </div>
+                  <div class="modal-body text-center">
+                    #{form @ProfileSinfonier.changePassword(user.getEmail()), class:"form-horizontal"}
+                      <h5 class="overflow-hidden">&{'Profile.changePassword.message'}</h5>
+                      <!-- <input type="hidden" name="email" value="${user.getEmail()}" />-->
+                      <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="newPassword1" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label">&{'Profile.newPassword1'}</label>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                              <input id="newPassword1" name="newPassword1" type="password" class="form-control" required/>
+                            </div>
+                          </div>
+                        
+                          <div class="form-group">
+                            <label for="newPassword2" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label">&{'Profile.newPassword2'}</label>
+                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                              <input id="newPassword2" name="newPassword2" type="password" class="form-control" required/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button id="profile-button-changePassword" type="submit" class="submit">
+                        &{'Profile.changePassword.confirm'}</button>
+                    #{/form}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END CHANGE PASSWORD MODAL -->
+      
+          </p>
+        #{/if}
+    </div>
+</div>

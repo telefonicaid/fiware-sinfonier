@@ -1,0 +1,53 @@
+#gauge {
+  width: 400px;
+  height: 180px;
+  display: block;
+  margin: 0 auto;
+}
+
+.module .title {
+  margin: 0;
+}
+
+.module .title a {
+  padding: 0;
+  font-size: 22px;
+  color: rgb(13, 45, 66);
+  font-weight: 900;
+}
+
+.module .details-section p.details {
+  margin-bottom: 0;
+}
+
+.module .details-section p.details a {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 5px;
+}
+
+.module .vote-section h4 {
+  margin-bottom: 0;
+}
+
+.module .vote-section ul.stars {
+  margin-top: -7px;
+  margin-left: 5px;
+}
+
+.star-vote {
+  cursor: pointer;
+}
+
+.star-vote-color {
+  cursor: pointer;
+  color: #337ab7;
+}
+
+.text-center {
+  margin-bottom: 20px;
+}
+
+.module-icon {
+  width: 70%;
+}

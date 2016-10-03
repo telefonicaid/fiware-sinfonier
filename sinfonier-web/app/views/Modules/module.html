@@ -1,0 +1,73 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} ${module?.getName()} #{/set}
+#{set 'moreStyles'}
+  <link rel="stylesheet" href="@{'/public/javascripts/vendor/codemirror-5.16.0/lib/codemirror.css'}">
+  #{stylesheet 'modules.css' /}
+#{/set}
+
+#{ifErrors }
+<div class="row">
+  <div class="col-lg-12">
+    #{errors }
+      <div id="module-div-error" class="alert alert-danger alert-dismissible" role="alert">
+        <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      ${error}
+      </div>
+    #{/errors}
+  </div>
+</div>
+#{/ifErrors}
+
+#{if flash.get(controllers.Modules.FLASH_KEY_BACKEND_LOG) }
+<div class="row">
+  <div class="col-lg-12">
+    <div id="module-div-error" class="alert alert-danger alert-dismissible" role="alert">
+      <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${ flash.get(controllers.Modules.FLASH_KEY_BACKEND_LOG) }
+    </div>
+  </div>
+</div>
+#{/if}
+
+<div class="row">
+  <div class="col-lg-8 form-group">
+    <h1 id="module-h1-title">&{'Modules.details.title'} '${module?.getName()} (vc${moduleVersion.getVersionCode()})'</h1>
+  </div>
+  <div class="col-lg-4">
+    <div class="form-group col-lg-3 col-md-3 col-sm-2 col-xs-12 ">
+      <label for="version" class="control-label pull-right">&{'Modules.details.versions'}</label>
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-4 col-xs-12">
+      #{select 'version', id:'version', class:'form-control', onchange:'changeVersion()'}
+        #{list module.getVersions().getVersions(), as:'v'}
+          #{if (module.isOwner(controllers.WebController.getCurrentUser()) && !v.getIsDeleted()) 
+            || (v.getVersionTag() != null && v.getIsVisible() && !v.getIsDeleted()) 
+            || controllers.WebController.getCurrentUser().isAdminUser() }
+            <option value="${v.getVersionCode()}" data-url="@{Modules.module(module?.getName(), v.getVersionCode())}" 
+                #{if v.getVersionCode() == moduleVersion.getVersionCode()}selected#{/if}>
+              #{if v.getVersionTag() != null}
+                Tag ${v.getVersionTag()} (vc${v.getVersionCode()})
+              #{/if}
+              #{else}
+                vc${v.getVersionCode()}
+              #{/else}
+            </option>
+          #{/if}
+        #{/list}
+      #{/select}
+    </div>  
+  </div>
+</div>
+
+<div class="row">
+#{modules._module module:module, version:moduleVersion, size:"large", vote:true, wc:controllers.WebController/}
+</div>
+
+#{set 'moreScripts'}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+  <script src="@{'/public/javascripts/vendor/codemirror-5.16.0/lib/codemirror.js'}"></script>
+  <script src="@{'/public/javascripts/vendor/codemirror-5.16.0/mode/javascript/javascript.js'}"></script>
+	
+  #{script 'util/code.js'/}
+  #{script 'modules.js'/}
+#{/set}

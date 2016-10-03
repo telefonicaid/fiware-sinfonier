@@ -1,0 +1,72 @@
+<div id="form-model-field" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 field-form">
+  <div class="well">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 align-right">
+          <span class="glyphicon glyphicon-remove cursor-pointer remove"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- FIELD'S NAME -->
+        <label for="name-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <input type="text" pattern="\w+" class="form-control" id="name-field" name="version.fields.fields[X].name" required>
+        </div>
+
+        <!-- FIELD'S Label -->
+        <label for="label-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.label'} *</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <input type="text" class="form-control" id="label-field" name="version.fields.fields[X].label" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <!-- FIELD'S type -->
+        <label for="type-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.type'}</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <select name="version.fields.fields[X].type" id="type-field" class="form-control" onchange="handleFieldType(this)" required>
+            <option value="string">String</option>
+            <option value="list">List</option>
+            <option value="number" selected>Number</option>
+            <option value="integer">Integer</option>
+            <option value="bool">Boolean</option>
+            <option value="url">URL</option>
+          </select>
+        </div>
+
+        <!-- FIELD'S required -->
+        <label for="required-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.required'}</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <select name="version.fields.fields[X].required" id="required-field" class="form-control" required>
+            <option value="false" selected>No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- FIELD'S Var -->
+      <div class="form-group vars">
+        <label for="var-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.vars'}</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <select name="version.fields.fields[X].wirable" id="var-field" class="form-control" required>
+            <option value="false" selected>No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- FIELD'S Element type -->
+      <div class="form-group elementType" style="display: none;">
+        <label for="elementType-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.elementType'}</label>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <select name="version.fields.fields[X].elementTypeEnum" id="elementType-field" class="form-control" required>
+            <option value="text">&{'Modules.form.elementType.text'}</option>
+            <option value="keyValue">&{'Modules.form.elementType.keyValue'}</option>
+            <option value="keyValueDefault">&{'Modules.form.elementType.keyValueDefault'}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

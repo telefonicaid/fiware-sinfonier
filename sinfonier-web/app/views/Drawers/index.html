@@ -1,0 +1,232 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} Sinfonier - &{'Drawer.index.title'} #{/set}
+#{set 'moreStyles'}
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/yui/reset-fonts-grids/reset-fonts-grids.css'}">
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/yui/assets/skins/sam/skin.css'}">
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/inputex/css/inputEx.css'}">
+	<link rel="stylesheet" type="text/css" media="screen"
+      href="@{'public/javascripts/vendor/WireIt/plugins/editor/lib/accordionview/assets/skins/sam/accordionview.css'}">
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/WireIt/assets/WireIt.css'}">
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/WireIt/plugins/inputex/assets/extension.css'}">
+	<link rel="stylesheet" type="text/css" media="screen" href="@{'public/javascripts/vendor/WireIt/plugins/editor/assets/WireItEditor.css'}">
+
+    #{stylesheet 'drawer.css' /}
+    #{stylesheet 'drawer/editor.css' /}
+    #{stylesheet 'drawer/editor-sinfonier.css' /}
+#{/set}
+
+<div class="yui-skin-sam">
+  <div id="editorContainer">
+    <div id="app" class="display-none">
+      <input type="hidden" id="previous" value=""/>
+      <input type="hidden" id="templateid" value=""/>
+      <div id="top">
+        <div id="toolbar"></div>
+      </div>
+
+      <div id="left"></div>
+
+      <div id="right">
+        <ul id="accordionView">
+          <li>
+            <h2>&{'Drawer.index.properties'}</h2>
+            <div>
+              <div id="propertiesForm"></div>
+            </div>
+          </li>
+          <li>
+            <h2>&{'Drawer.index.miniMap'}</h2>
+            <div style='position: relative;'>
+              <div id="layerMap"></div>
+            </div>
+          </li>
+          <li>
+            <h2>&{'Drawer.index.infos'}</h2>
+            <div>
+              <div style="padding: 10px;">
+                <p id="description-paragraph" style="font-weight: bold;">&{'Drawer.index.welcomeToSinfonier'}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div id="center"></div>
+
+      <div id="bottom"></div>
+    </div>
+    <div id="appLoading">&{'Drawer.index.loadingEditor'}</div>
+  </div>
+</div>
+
+#{set 'moreScripts'}
+<!-- [id IE] #{script 'vendor/WireIt/lib/excanvas.js'/} -->
+
+    #{script 'vendor/yui/utilities/utilities.js'/}
+    #{script 'vendor/yui/container/container-min.js'/}
+    #{script 'vendor/yui/button/button-min.js'/}
+    #{script 'vendor/yui/resize/resize-min.js'/}
+    #{script 'vendor/yui/json/json-min.js'/}
+    #{script 'vendor/yui/layout/layout-min.js'/}
+    #{script 'vendor/yui/selector/selector-min.js'/}
+
+<!-- InputEx with wirable options (WirableField) -->
+    #{script 'vendor/inputex/js/inputex.js'/}
+    #{script 'vendor/inputex/js/Field.js'/}
+    #{script 'vendor/WireIt/plugins/inputex/js/WirableField.js'/}
+    #{script 'vendor/inputex/js/Group.js'/}
+    #{script 'vendor/inputex/js/mixins/choice.js'/}
+    #{script 'vendor/inputex/js/Visus.js'/}
+    #{script 'vendor/inputex/js/fields/StringField.js'/}
+    #{script 'vendor/inputex/js/fields/CombineField.js'/}
+    #{script 'vendor/inputex/js/fields/Textarea.js'/}
+    #{script 'vendor/inputex/js/fields/SelectField.js'/}
+    #{script 'vendor/inputex/js/fields/IntegerField.js'/}
+    #{script 'vendor/inputex/js/fields/NumberField.js'/}
+    #{script 'vendor/inputex/js/fields/EmailField.js'/}
+    #{script 'vendor/inputex/js/fields/UrlField.js'/}
+    #{script 'vendor/inputex/js/fields/ListField.js'/}
+    #{script 'vendor/inputex/js/fields/CheckBox.js'/}
+    #{script 'vendor/inputex/js/fields/InPlaceEdit.js'/}
+    #{script 'vendor/inputex/js/fields/ColorField.js'/}
+    #{script 'vendor/inputex/js/fields/TypeField.js'/}
+    #{script 'vendor/inputex/js/widgets/json-tree-inspector.js'/}
+    #{script 'vendor/WireIt/plugins/inputex/js/fields.js' /}
+
+<!-- YUI-Accordion -->
+    #{script 'vendor/WireIt/plugins/editor/lib/accordionview/accordionview-min.js'/}
+
+<!-- WireIt -->
+    #{script 'vendor/WireIt/js/WireIt.js'/}
+    #{script 'vendor/WireIt/js/CanvasElement.js'/}
+    #{script 'vendor/WireIt/js/Wire.js'/}
+    #{script 'vendor/WireIt/js/BezierWire.js'/}
+    #{script 'vendor/WireIt/js/Terminal.js'/}
+    #{script 'vendor/WireIt/js/TerminalProxy.js'/}
+    #{script 'vendor/WireIt/js/Scissors.js'/}
+    #{script 'vendor/WireIt/js/DD.js'/}
+    #{script 'vendor/WireIt/js/DDResize.js'/}
+    #{script 'vendor/WireIt/js/Container.js'/}
+    #{script 'vendor/WireIt/js/Layer.js'/}
+    #{script 'vendor/WireIt/plugins/inputex/js/FormContainer.js'/}
+    #{script 'vendor/WireIt/plugins/inputex/js/TextareaContainer.js'/}
+    #{script 'vendor/WireIt/js/LayerMap.js'/}
+    #{script 'vendor/WireIt/plugins/editor/js/ModuleProxy.js'/}
+    #{script 'vendor/WireIt/plugins/editor/js/BaseEditor.js'/}
+    #{script 'vendor/WireIt/plugins/editor/js/WiringEditor.js'/}
+    #{script 'vendor/WireIt/plugins/editor/js/adapters/ajax.js'/}
+    #{script 'vendor/WireIt/js/ImageContainer.js'/}
+    #{script 'vendor/WireIt/plugins/composable/js/ComposableWiringEditor.js'/}
+    #{script 'vendor/WireIt/plugins/composable/js/ComposedContainer.js'/}
+
+<!--WebHookIt editor -->
+    #{script 'vendor/webhookit/editor/webhookit.js'/}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+
+<script>
+  var userId = '${controllers.WebSecurityController.getCurrentUser().getId()}';
+
+  webhookit.language.layoutOptions.units = WireIt.BaseEditor.defaultOptions.layoutOptions.units;
+
+  WireIt.Container.maxParallel = '${models.module.Module.getMaxParallelism()}';
+
+  WireIt.ComposableWiringEditor.modules[0].category = 'Deprecated';
+  WireIt.ComposableWiringEditor.modules[0].container.icon = "@{'/public/images/icons/door_in.png'}" || '';
+  WireIt.ComposableWiringEditor.modules[1].category = 'Deprecated';
+  WireIt.ComposableWiringEditor.modules[1].container.icon = "@{'/public/images/icons/door_out.png'}" || '';
+
+      #{list drawer.getModules(), as:'module'}
+          #{if module.getModule().getStatus() == models.SinfonierConstants.Module.STATUS_PUBLISHED
+          || module.getModule().getStatus() == models.SinfonierConstants.Module.STATUS_PRIVATE}
+          webhookit.language.modules.push(JSON.parse('${module.toString().escapeJavaScript().raw()}'));
+          #{/if}
+      #{/list}
+    	
+      %{
+    	  models.storm.ParamsValidator validator = models.storm.ParamsValidator.getInstance();
+    	  models.storm.Params params = validator.getParams();
+      }%
+      
+      #{if models.SinfonierConstants.Drawer.IS_ACTIVE_N_WORKERS}
+      webhookit.language.propertiesFields.push({
+        "type": "string",
+        inputParams: {"name": "TOPOLOGY_WORKERS", label: "Storm Num. Workers", typeInvite: "1 (default) (${params.getParams().get('TOPOLOGY_WORKERS').getMinRange()} - ${params.getParams().get('TOPOLOGY_WORKERS').getMaxRange()})"}
+      });
+      #{/if}
+
+      #{if models.SinfonierConstants.Drawer.IS_ACTIVE_SPOUT_PENDING}
+      webhookit.language.propertiesFields.push({
+        "type": "string",
+        inputParams: {"name": "TOPOLOGY_MAX_SPOUT_PENDING", label: "Max Spout Pending", typeInvite: "blank or integer (${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMinRange()} - ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMaxRange()})"}
+      });
+      #{/if}
+
+      #{if models.SinfonierConstants.Drawer.IS_ACTIVE_MSG_TIMEOUT}
+      webhookit.language.propertiesFields.push({
+        "type": "string",
+        inputParams: {"name": "TOPOLOGY_MESSAGE_TIMEOUT_SECS", label: "Topology Message Timeout", typeInvite: "30 (default) (${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMinRange()} - ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMaxRange()})"}
+      });
+      #{/if}
+
+      #{if models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS}
+      webhookit.language.propertiesFields.push({
+        "type": "text",
+        inputParams: {
+          "name": "extraConfiguration", label: "Extra Configuration", cols: 30, rows: 3,
+          typeInvite: "extra configuration using multiple lines with key=value format"
+        }
+      });
+      #{/if}
+
+  webhookit.language.parentEl = 'editorContainer';
+
+  var previousValue = '';
+  $(function () {
+    $('input[name=name]')
+        .focus(function () {
+          previousValue = $(this).val();
+        })
+        .change(function () {
+          var currentValue = $(this).val();
+          if (currentValue != previousValue) {
+            $(this).data('dirty', 'true');
+          }
+        });
+  });
+  $(document).ready(function () {
+    $('.menu-arrow').click(function (event) {
+      setTimeout(function () {
+        var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
+        layout.resize();
+      }, 1000);
+    });
+    window.addEventListener('resize', function(event){      
+      var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
+      layout.resize();
+    });
+  });
+  $("#changeToen,#changeToes").each(function(){
+    $(this).submit(function(event) {
+      adviseTopologyNotSaved(event);
+    });
+  });
+  
+  $("a[id^='menu-a'],a[id^='header-a'],#Logout").each(function(){
+    $(this).click(function(event) {
+      adviseTopologyNotSaved(event);
+    });
+  });
+  
+  function adviseTopologyNotSaved(event) {
+    if (!webhookit.editor.isSaved()) {
+      if (!confirm("Warning: Your work is not saved yet! Press ok to continue anyway.")) {
+        event.preventDefault();
+        return;
+      }
+    }    
+  }
+</script>
+
+    #{script 'vendor/webhookit/editor/adapter.js'/}
+    #{script 'vendor/webhookit/editor/topology_editor.js'/}
+#{/set}

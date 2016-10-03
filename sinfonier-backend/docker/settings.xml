@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <servers>
+    <server>
+      <id>${env.MVN_TARGET_ID}</id>
+        <username>${env.MVN_TARGET_USER}</username>
+        <password>${env.MVN_TARGET_PASSWORD}</password>
+    </server>
+  </servers>
+  <profiles>
+    <profile>
+      <repositories>
+        <repository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>${env.MVN_TARGET_ID}</id>
+          <name>${env.MVN_TARGET_NAME}</name>
+          <url>http://${env.MVN_TARGET_HOST}:${env.MVN_TARGET_PORT}/${env.MVN_TARGET_URL_PATH}</url>
+        </repository>
+      </repositories>
+      <id>artifactory</id>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>artifactory</activeProfile>
+  </activeProfiles>
+</settings>

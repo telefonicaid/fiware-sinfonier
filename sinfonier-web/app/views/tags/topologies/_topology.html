@@ -1,0 +1,222 @@
+<div id="topology-${_topology.getId()}" data-id="${_topology.getId()}" class="col-lg-12 topology">
+  <div class="panel panel-default">
+    <div class="row panel-body">
+
+      <!-- ERROR -->
+    #{if flash.get(controllers.Topologies.FLASH_KEY_LAUNCHING_ERROR) }
+      <div class="col-lg-12">
+        <div id="topology-div-error" class="alert alert-danger alert-dismissible" role="alert">
+          <button id="topology-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        ${ flash.get(controllers.Topologies.FLASH_KEY_LAUNCHING_ERROR) }
+        </div>
+      </div>
+    #{/if}
+
+    #{if flash.get(controllers.Topologies.FLASH_KEY_STOPPING_ERROR) }
+      <div class="col-lg-12">
+        <div id="topology-div-error" class="alert alert-danger alert-dismissible" role="alert">
+          <button id="topology-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        ${ flash.get(controllers.Topologies.FLASH_KEY_STOPPING_ERROR) }
+        </div>
+      </div>
+    #{/if}
+
+      <!-- NAME -->
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <h2 class="title"><a id="topology-${_topology.getId()}-a-title" href="/topologies/${_topology?.getName()}"
+                             class="btn btn-link">${_topology?.getName()}</a></h2>
+      </div>
+
+      <!-- LOG -->
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+        <a id="topology-${_topology.getId()}-a-log" role="button" data-toggle="collapse"
+           href="#collapseLog-${_topology.getId()}" aria-expanded="false" aria-controls="collapseLog" class="collapse-log">
+          <img src="@{'public/images/log.png'}" alt="logger console">
+        </a>
+      </div>
+
+      <div class="col-lg-12" id="log">
+        <div class="collapse" id="collapseLog-${_topology.getId()}">
+          <div class="well">
+            <pre id="topology-${_topology.getId()}-pre-log" class="log-expanded" style="max-height: 200px"></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEFT -->
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+
+        <!-- DESCRIPTION -->
+      #{if _topology.getDescription().length() > 0 }
+        <div class="row">
+          <div class="col-lg-12">
+            <p id="topology-${_topology.getId()}-p-description">
+              <span class="bold">&{'Topologies.form.description'}:</span> ${_topology.getDescription()}
+            </p>
+          </div>
+        </div>
+      #{/if}
+
+        <!-- SHARING -->
+        <div class="row">
+          <div class="col-lg-8">
+            <p id="topology-${_topology.getId()}-p-sharing">
+              <span class="bold">&{'Topologies.form.sharing'}:</span> ${_topology.getSharing()}
+            </p>
+          </div>
+
+          <div class="col-lg-4">
+          #{if _topology.hasWritePermission(_wc?.getCurrentUser()) && _topology.getSharing() && !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+              #{form @Topologies.privatize(_topology.getId())}
+                <button id="topology-${_topology.getId()}-button-privatize" type="submit" class="btn btn-primary">
+                &{'Topology.btn.privatize'}</button>
+              #{/form}
+          #{/if}
+          #{elseif _topology.hasWritePermission(_wc?.getCurrentUser()) && !_topology.getSharing() && !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+              #{form @Topologies.publish(_topology.getId())}
+                <button id="topology-${_topology.getId()}-button-publish" type="submit" class="btn btn-primary">
+                &{'Topology.btn.publish'}</button>
+              #{/form}
+          #{/elseif}
+          </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="row">
+          <div class="col-lg-12">
+            <p id="topology-${_topology.getId()}-p-status">
+              <span class="bold">&{'Topologies.form.status'}:</span> ${_topology.getStatus()}
+            </p>
+          </div>
+        </div>
+
+        <!-- SOME DETAILS -->
+        <div class="row details-section">
+          <div class="col-lg-12">
+            <div class="well">
+              <p id="topology-${_topology.getId()}-p-createBy" class="details">
+              #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
+                &{'Topology.index.create_by', _topology.getAuthor().getEmail(), _topology.getAuthor().getName(), _topology.getAuthor().getEmail(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+              #{/if}
+              #{else}
+                &{'Topology.index.create_by_text', _topology.getAuthor().getName(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), , _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+              #{/else}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="row form-group">
+          <div class="col-lg-3">
+          #{if (_topology.isOwner(_wc?.getCurrentUser()) || _wc?.getCurrentUser()?.isAdminUser()) && 
+            !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+            <button id="topology-${_topology.getId()}-button-delete" class="btn btn-danger" type="button"
+                    data-toggle="modal" data-target="#confirmModal-${_topology.getId()}">&{'Topologies.btn.remove'}</button>
+          #{/if}
+          </div>
+          <div class="col-lg-3">
+          #{if (_topology.isOwner(_wc?.getCurrentUser()) || _wc?.getCurrentUser()?.isAdminUser()) && 
+            !_topology.isRunning() && !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+              #{form @Topologies.launch(_topology.getId()), method:'POST', class:'buttons'}
+                <button id="topology-${_topology.getId()}-button-launch" type="submit" class="btn btn-primary">
+                &{'Topologies.btn.launch'}</button>
+              #{/form}
+          #{/if}
+          #{elseif (_topology.isOwner(_wc?.getCurrentUser()) || _wc?.getCurrentUser()?.isAdminUser()) && 
+            _topology.isRunning() && !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+              #{form @Topologies.stop(_topology.getId()), method:'POST', class:'buttons'}
+                <button id="topology-${_topology.getId()}-button-stop" type="submit" class="btn btn-primary">
+                &{'Topologies.btn.stop'}</button>
+              #{/form}
+          #{/elseif}
+          </div>
+          <div class="col-lg-3">
+          #{if _topology.isOwner(_wc.getCurrentUser()) && !_topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_DELETED)}
+              #{form @Drawers.index(), class:'buttons'}
+                <input type="hidden" name="id" value="${_topology.getId()}">
+                <button id="topology-${_topology.getId()}-button-edit" type="submit" class="btn btn-success">
+                &{'Topologies.btn.edit'}</button>
+              #{/form}
+          #{/if}
+          </div>
+          <div class="col-lg-3"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <!-- CANVAS -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="topologies-diagram-list">
+              <div class="topology-description display-none">"${_topology.toString().escapeJavaScript().raw()}"</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BUTTON -->
+        <div class="row">
+          <div class="col-lg-4 pull-right">
+          #{form @Drawers.index()}
+            <input type="hidden" name="template" value="${_topology.getId()}">
+            <button id="topology-${_topology.getId()}-button-asTemplate" type="submit" class="btn btn-primary">
+            &{'Topologies.btn.asTemplate'}</button>
+          #{/form}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal-${_topology.getId()}" tabindex="-1" role="dialog" aria-labelledby="confirmModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">&{'Topologies.details.delete.title'}</h4>
+      </div>
+      <div class="modal-body">
+      &{'Topologies.details.delete.text', _topology?.getName()}
+      </div>
+      <div class="modal-footer">
+      #{form @Topologies.remove(_topology.getId()), method:'POST', id:'remove-' + _topology.getId()}
+        <button id="topology-${_topology.getId()}-button-deleteCancel" type="button" class="btn btn-default btn-modal"
+                data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+        <button id="topology-${_topology.getId()}-button-deleteOK" type="submit" class="btn btn-danger btn-modal">
+        &{'Topologies.btn.remove'}</button>
+      #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (!window.intervalPolling)
+    window.intervalPolling = ${play.Play.configuration.getProperty("storm.log.frequency")} || 3000;
+  if (!window.intervals) window.intervals = {};
+  if (!window.errors) window.errors = {};
+
+  window.intervals['${_topology.getId()}'] = setInterval(function () {
+    if ($('#collapseLog-${_topology.getId()}').hasClass('in')) {
+      $.ajax('@{Topologies.log(_topology.getId())}', {method: 'POST'})
+          .done(function (res) {
+            $('#collapseLog-${_topology.getId()}')
+                .find('.log-expanded')
+                .append(res.data.msg);
+          })
+          .fail(function (err) {
+            //clearInterval(window.intervals['${_topology.getId()}']);
+            $('#collapseLog-${_topology.getId()}')
+                .find('.log-expanded')
+                .append(new Date() + ' | [ERROR] Something was wrong with the connexion.\n');
+          });
+    }
+  }, window.intervalPolling);
+
+</script>

@@ -1,0 +1,97 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Topologies.index.title'} (${totalTopologies}) #{/set}
+#{set 'moreStyles'}
+<link rel="stylesheet" href="/public/javascripts/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    #{stylesheet 'topologies.css' /}
+#{/set}
+
+<div class="row form-group">
+  <div class="col-md-offset-4 col-md-4">
+  #{if request.querystring.contains("indexMode=" + controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES)}
+    <a id="topologies-a-list" href="@{Topologies.index(null, null, 0)}" class="btn-tab btn btn-default width-100">&{'Topologies.index.title'}</a>
+  #{/if}
+  #{else }
+    <a id="topologies-a-my" href="@{Topologies.index(controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES, null, 0)}"
+       class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.my'}</a>
+  #{/else}
+  </div>
+  <div class="col-md-4">
+    <a id="topologies-a-add" href="@{Drawers.index()}" class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.new'}</a>
+  </div>
+</div>
+
+#{if topologies.size() > 0 || flash.get("searching")}
+<div id="form-search" class="row non-h-padding">
+  <div class="col-lg-12">
+    <div class="well">
+        #{form @Topologies.search(), method:'GET', id:'search-topology', class:'form-inline topologies text-center'}
+          <div class="form-group">
+            <!-- TOPOLOGY'S STATUS -->
+            <label for="status" class="control-label">&{'Topologies.form.status'}</label>
+              #{select 'status', class:'form-control', id:'status', value:flash.get("status")}
+                  #{option ''}#{/option}
+                  #{option 'active'}&{'Topologies.form.status.active'}#{/option}
+                  #{option 'deleted'}&{'Topologies.form.status.deleted'}#{/option}
+                  #{option 'running'}&{'Topologies.form.status.running'}#{/option}
+                  #{option 'stopped'}&{'Topologies.form.status.stopped'}#{/option}
+              #{/select}
+          </div>
+
+          <div class="form-group">
+            <!-- TOPOLOGY'S QUERY -->
+            <label for="query" class="control-label">&{'Topologies.form.query'}</label>
+            <input type="text" class="form-control" id="query" name="query" value="${params.get("query")}"
+                   placeholder="&{'Topologies.form.queryHelp'}">
+          </div>
+
+          <div class="form-group">
+            <!-- TOPOLOGY'S UPDATE -->
+            <label for="update" class="control-label">&{'Topologies.form.update'}</label>
+            <div class="input-group date" id="updateDate">
+              <input type="text" class="form-control" id="updated" name="updated" placeholder="yyyy-mm-dd" value="${params.get("updated")}">
+                <span class="input-group-addon">
+                  <span id="topologies-span-updated" class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+          </div>
+
+          <button id="topologies-button-search" type="submit" class="btn btn-primary btn-inline">&{'Topologies.btn.search'}</button>
+        #{/form}
+    </div>
+  </div>
+</div>
+#{/if}
+
+%{
+  Map<String, String[]> params = new HashMap<String, String[]>();
+  for (Map.Entry<String, String[]> param : request.params.all()) {
+    if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
+      params.put(param.getKey(), param.getValue());
+    }
+  }
+}%
+#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+
+<div id="topologies" class="row">
+#{list items:topologies, as:'topology'}
+    #{topologies._topology topology:topology, wc:controllers.WebController/}
+  #{/list}
+</div>
+
+#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+
+#{set 'moreScripts'}
+<script type="text/javascript" src="/public/javascripts/vendor/moment/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="/public/javascripts/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    #{script 'topologies.js'/}
+
+<script>
+  $(document).ready(function () {
+    $('#updateDate').datetimepicker({
+      locale: $('html').attr('lang'),
+      format: 'YYYY-MM-DD',
+      showClose: true
+    });
+  });
+</script>
+#{/set}

@@ -1,0 +1,81 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Modules.index.title'} #{/set}
+#{set 'moreStyles'}
+  <link rel="stylesheet" href="@{'/public/javascripts/vendor/codemirror-5.16.0/lib/codemirror.css'}">
+#{/set}
+
+#{ifErrors }
+<div class="row">
+  <div class="col-lg-12">
+      #{errors }
+        <div id="module-div-error" class="alert alert-danger alert-dismissible" role="alert">
+          <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        ${error}
+        </div>
+      #{/errors}
+  </div>
+</div>
+#{/ifErrors}
+
+#{if flash.get(controllers.Modules.FLASH_KEY_BACKEND_LOG) }
+<div class="row">
+  <div class="col-lg-12">
+    <div id="module-div-error" class="alert alert-danger alert-dismissible" role="alert">
+      <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${ flash.get(controllers.Modules.FLASH_KEY_BACKEND_LOG) }
+    </div>
+  </div>
+</div>
+#{/if}
+
+#{if flash.get(controllers.Modules.FLASH_KEY_WARNING) }
+<div class="row">
+  <div class="col-lg-12">
+    <div id="module-div-error" class="alert alert-warning alert-dismissible" role="alert">
+      <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${ flash.get(controllers.Modules.FLASH_KEY_WARNING) }
+    </div>
+  </div>
+</div>
+#{/if}
+
+<div class="row form-group">
+#{if module?.getId() == null}
+  <div class="pull-right col-lg-2 col-md-2 col-sm-2 col-xs-12">
+    <button id="import-btn" class="btn btn-primary" type="button">&{'Modules.btn.import'}</button>
+  </div>
+
+  <div id="import-doc" class="pull-right col-lg-10 col-md-10 col-sm-10 col-xs-12 display-none">
+    <form id="import-doc-form" class="form-inline text-right">
+      <div class="form-group">
+        <input type="file" id="file-upload" name="file-upload" class="form-control" onchange="handleFileSelect(this)">
+      </div>
+    </form>
+  </div>
+#{/if}
+</div>
+
+#{modules.form module:module, version:moduleVersion, wc:controllers.WebController /}
+
+#{set 'moreScripts'}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js"></script>
+<script src="@{'/public/javascripts/vendor/codemirror-5.16.0/lib/codemirror.js'}"></script>
+<script src="@{'/public/javascripts/vendor/codemirror-5.16.0/mode/javascript/javascript.js'}"></script>
+
+<script>
+  TitlesI18n = {
+    name: '&{'Modules.form.name'}',
+    label: '&{'Modules.form.label'}',
+    type: '&{'Modules.form.type'}',
+    required: '&{'Modules.form.required'}',
+    vars: '&{'Modules.form.vars'}',
+    url: '&{'Modules.form.url'}',
+  }
+</script>
+
+    #{script 'util/forms.js'/}
+    #{script 'util/code.js'/}
+    #{script 'modules.js'/}
+#{/set}
+

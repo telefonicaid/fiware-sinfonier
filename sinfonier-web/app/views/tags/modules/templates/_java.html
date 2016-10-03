@@ -1,0 +1,212 @@
+<div id="java-template" class="display-none">
+  <pre>
+    <code class="language-java">
+    /*
+    The MIT License (MIT)
+
+    Copyright (c) <span class="date"></span> sinfonier-project
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+    */
+
+    <div class="type-bolt type-drain display-none">
+      package com.sinfonier.<span class="type"></span>s ;
+
+      public class <span class="name"></span> extends BaseSinfonier<span class="type"></span> {
+        //TO-DO: Declare variables
+        private String var;
+        private String name;
+
+        public <span class="name"></span> (String xmlFile) {
+            super(xmlFile);
+        }
+
+        @Override
+        public void userprepare() {
+            // TO-DO: Init values. Code here runs once
+            this.var = "value";
+
+            // Get Param (get value of "param_name" from input box)
+            this.name = (String)this.getParam("param_name");
+        }
+
+        @Override
+        public void userexecute() {
+            // TO-DO: Write your code here. This code runs once by each input tuple
+            // You can use the following functions to process it
+
+            // Add field
+            this.addField("name","Peter");
+
+            // Get field (return a String)
+            this.getField("country");
+
+            // Remove field
+            this.removeField(this.var);
+
+            // Exists field (return Boolean)
+            this.existsField("lastname");
+
+            <div class="type-bolt display-none">
+            // Mandatory. Emit the tuple to the next bolt
+            this.emit();
+            </div>
+        }
+        public void usercleanup() {}
+
+    </div>
+
+    <div class="type-spout display-none">
+    package com.sinfonier.<span class="type"></span>s;
+
+    import java.util.concurrent.LinkedBlockingQueue;
+    import org.json.JSONObject;
+    import org.quartz.Job;
+    import org.quartz.JobBuilder;
+    import org.quartz.JobDetail;
+    import org.quartz.JobExecutionContext;
+    import org.quartz.JobExecutionException;
+    import org.quartz.Scheduler;
+    import org.quartz.SchedulerContext;
+    import org.quartz.SchedulerException;
+    import org.quartz.SimpleScheduleBuilder;
+    import org.quartz.Trigger;
+    import org.quartz.TriggerBuilder;
+    import org.quartz.impl.StdSchedulerFactory;
+    import backtype.storm.utils.Utils;
+    import java.security.SecureRandom;
+    import java.math.BigInteger;
+
+    public class <span class="name"></span> %> extends BaseSinfonierSpout {
+        private String name;
+        private int age;
+        private LinkedBlockingQueue&LT;String&GT; queue = null;
+        private int frequency = 300;
+        private SecureRandom random = new SecureRandom();
+
+        public <span class="name"></span>(String spoutName, String xmlPath) {
+            super(spoutName, xmlPath);
+        }
+
+        public void useropen(){
+            // TO-DO: Init values. Code here runs once.
+            // Get params from module
+
+            try {
+                name = getParam("name");
+                age = Integer.parseInt(getParam("age",true));
+                frequency = Integer.parseInt(getParam("frequency",true));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            queue = new LinkedBlockingQueue&LT;String&GT;(1000);
+            JobDetail job = JobBuilder.newJob(JobClass.class)
+                .withIdentity("dummyJobName", "group1")
+                .build();
+
+            Trigger trigger = TriggerBuilder
+                .newTrigger()
+                .withIdentity("Generate Items")
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                                .withIntervalInSeconds(frequency)
+                                .repeatForever()).build();
+
+                Scheduler scheduler = null;
+
+            try {
+                String schedulerName = new BigInteger(130, random).toString(32);
+                System.setProperty("org.quartz.scheduler.instanceName", schedulerName);
+                StdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();
+                stdSchedulerFactory.initialize();
+                scheduler = stdSchedulerFactory.getScheduler();
+                } catch (Exception e) {
+                    try{
+                        String schedulerName = new BigInteger(130, random).toString(32);
+                        System.setProperty("org.quartz.scheduler.instanceName", schedulerName);
+                        StdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();
+                        stdSchedulerFactory.initialize();
+                        scheduler = stdSchedulerFactory.getScheduler();
+                    } catch (Exception u) {
+                        u.printStackTrace();
+                        System.out.println("ERROR - Second try scheduler error.");
+                    }
+                }
+
+            if (scheduler != null){
+                try {
+                    scheduler.getContext().put("queue", queue);
+                    scheduler.getContext().put("name", name);
+                    scheduler.getContext().put("age", age);
+                    scheduler.getContext().put("frequency", frequency);
+                    scheduler.start();
+                    scheduler.scheduleJob(job, trigger);
+                } catch (SchedulerException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        public void usernextTuple(){
+            if (!queue.isEmpty()) {
+                String json = queue.poll();
+                this.setJson(json);
+                this.emit();
+            } else {
+                Utils.sleep(50);
+            }
+        }
+
+        public void userclose() {}
+
+        public static class JobClass implements Job {
+            @Override
+            public void execute(JobExecutionContext context) throws JobExecutionException {
+                SchedulerContext schedulerContext = null;
+                String name;
+                int age;
+
+                try {
+                    schedulerContext = context.getScheduler().getContext();
+                    @SuppressWarnings("unchecked")
+                    LinkedBlockingQueue&LT;String&GT; queue = (LinkedBlockingQueue&LT;String&GT;) schedulerContext
+                        .get("queue");
+
+                    name = (String) schedulerContext.get("name");
+                    age = (Integer) schedulerContext.get("age");
+
+                    JSONObject jobj = new JSONObject();
+                    jobj.put("name",name);
+                    jobj.put("age",age);
+
+                    queue.put(jobj.toString());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    </div>
+
+    </code>
+  </pre>
+</div>

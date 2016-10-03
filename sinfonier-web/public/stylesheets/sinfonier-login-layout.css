@@ -1,0 +1,20 @@
+html, body {
+  background: #0d2d42 none;
+}
+
+.login .content {
+  margin: 10px auto !important;
+}
+
+.btn-bezel.btn-primary, .btn-primary {
+  background-color: #1F74BA;
+  background-image:none !important;
+  transition: background 1s;
+}
+.btn-bezel.btn-primary:hover, .btn-primary:hover{
+  background:#3F96DE;
+  transition: background 1s;
+}
+.login .logo {
+  margin-left:-30px;
+}

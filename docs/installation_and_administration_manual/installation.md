@@ -1,4 +1,9 @@
 # Installation
+In this guide we suppose that we are using git for getting the code but you may want to have your own way to get it.
+```sh
+git clone git@github.com:telefonicaid/fiware-sinfonier.git
+cd fiware-sinfonier
+```
 
 ### Requirements
 + Ubuntu (14.04)
@@ -91,8 +96,7 @@ We do not recommend to use the default configuration and add a new user with the
 In this guide we suppose that we are using git for getting the code but you may want to have your own way to get it. After get the code you will have to compile the code and push it to your maven repository. One time done this you can remove this proyect.
 
 ```sh
-git clone git@github.com:ElevenPaths/sinfonier-backend.git
-cd sinfonier-backend
+cd path/to/fiware-sinfonier/sinfonier-backend
 mvn clean compile package
 mvn deploy:deploy-file -Dfile=target/sinfonier-backend-1.1.0.jar -DgroupId=com.sinfonier -DartifactId=sinfonier-backend -Dversion=1.1.0 -Dpackaging=jar -DrepositoryId=central -Durl=http://yourmavenserver/artifactory/libs-release-local
 ```
@@ -105,8 +109,7 @@ This allow to communicate the both main components, the web and  apache storm. F
 NOTE: If you want to deployed using high availability you can use gunicorn. Take a look to their [guide](http://docs.gunicorn.org/en/stable/deploy.html)      
 
 ```sh
-git clone git@github.com:ElevenPaths/sinfonier-backend-api.git
-cd sinfonier-backend
+cd cd path/to/fiware-sinfonier/sinfonier-backend-api
 pip install -r requirements
 # dev mode
 # python sinfonierapi.py
@@ -119,6 +122,7 @@ You may want to deployed using high availability, so in this case you can use [n
 By default you can register with `admin@localhost.com`. Also, you can define the default admin user and register with it changing in `conf/darwin.conf` the following values `auto_activated_users=your@email.com` and `auto_admin_users=your@email.com`. For more info take a look in [Darwin](https://github.com/ElevenPaths/darwin)
 
 ```sh
+cd cd path/to/fiware-sinfonier/sinfonier-frontend
 play dependencies --sync
 play start
 ```
