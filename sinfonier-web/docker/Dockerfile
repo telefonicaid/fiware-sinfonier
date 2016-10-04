@@ -43,7 +43,7 @@ ADD ca.pem /etc/ssl/certs/
 RUN keytool -noprompt -storepass changeit -keystore ${JAVA_CACERTS} -import -file /etc/ssl/certs/ca.pem -alias ELEVENPATH_CA
 
 
-RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git /app && cd app && git checkout $SOURCE_BRANCH
+RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git /app && cd /app && git checkout $SOURCE_BRANCH
 WORKDIR /app/sinfonier-web
 
 RUN play dependencies --verbose
