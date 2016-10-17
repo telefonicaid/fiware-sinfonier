@@ -12,8 +12,3 @@ pages:
     - 'Sinfonier Drawer': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_drawer.md'
     - 'Sinfonier API': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_api.md'
     - 'Sinfonier BackEnd': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_backend.md'
-  - 'User and Programmer manual':
-      - 'Introduction': 'user_and_programmer_manual/introduction.md'
-      - 'Apche Storm & Sinfonier': 'user_and_programmer_manual/streaming/stream_processing_storm_sinfonier.md'
-      - 'Sinfonier Topologies': 'user_and_programmer_manual/streaming/stream_processing_sinfonier_topologies.md'
-      - 'Sinfonier Modules': 'user_and_programmer_manual/streaming/stream_processing_sinfonier_modules.md'
