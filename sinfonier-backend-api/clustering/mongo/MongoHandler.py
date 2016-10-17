@@ -1,27 +1,42 @@
 import datetime
+import sys
 
 from bson.objectid import ObjectId
 from pymongo import MongoClient
-from pymongo.errors import OperationFailure
+from pymongo.errors import OperationFailure, ServerSelectionTimeoutError
 
 from config.config import conf as config
 from error.ErrorHandler import MongodbInvalidDatabase, MongodbInvalidCollection, MongodbInvalidCredentials, TopologyInvalidId, \
     ModuleInvalidId, ModuleVersionInvalidId, MissingMandatoryFields, ModuleException
 from logger.Logger import logger
-from utils.SinfonierConstants import Topology as TopologyConsts, Module as ModuleConst, \
-    ModuleVersions as ModVersionsConst
+from utils.SinfonierConstants import Topology as TopologyConsts, Module as ModuleConst, ModuleVersions as ModVersionsConst
 
 
 class MongodbHandler(object):
-    def __init__(self, host='localhost', port=27017, db_name=None, user=None, pwd=None):
+    def __init__(self, host='localhost', port=27017, db_name=None, user=None, pwd=None, time_out_ms=config.MONGO_MAX_TIME_OUT):
         if not db_name:
             raise MongodbInvalidDatabase()
 
-        self.client = MongoClient('mongodb://' + host + ':' + str(port))
+        self._client = MongoClient('mongodb://' + host + ':' + str(port), serverSelectionTimeoutMS=time_out_ms if time_out_ms else 300)
+        is_db_ready = False
+
+        for i in xrange(1, config.MONGO_MAX_ATTEMPT_CONNECTION + 1 if config.MONGO_MAX_ATTEMPT_CONNECTION else 3):
+            logger.debug('Attempt ' + str(i) + ': checking confection.')
+            try:
+                self._client.server_info()
+                is_db_ready = True
+                break
+            except ServerSelectionTimeoutError as e:
+                logger.error('** mongodb ** ' + e.message)
+
+        if not is_db_ready:
+            sys.exit(1)
+        else:
+            logger.info('Connection ready.')
 
         if user and pwd:
             try:
-                is_logged = self.client[db_name].authenticate(user, pwd)
+                is_logged = self._client[db_name].authenticate(user, pwd)
             except OperationFailure as e:
                 logger.error(e.message)
                 is_logged = False
@@ -29,7 +44,10 @@ class MongodbHandler(object):
             if not is_logged:
                 raise MongodbInvalidCredentials()
 
-        self.db = self.client[db_name]
+        self.db = self._client[db_name]
+
+    def close(self):
+        self._client.close()
 
     def find(self, collection, *args, **kwargs):
         if not collection:
@@ -199,7 +217,7 @@ class MongodbFactory:
             raise ModuleInvalidId()
 
         return instance.update_one(ModuleConst.COLLECTION_NAME, {ModuleConst.FIELD_ID: ObjectId(id)},
-                                   {'$set': {ModuleConst.FIELD_UPDATE_AT: datetime.datetime.utcnow()}}, upsert=False)
+                                   {'$set': {ModuleConst.FIELD_UPDATED_AT: datetime.datetime.utcnow()}}, upsert=False)
 
     @staticmethod
     def validate_module_params(module):

@@ -1,0 +1,394 @@
+[
+  {
+    "_id": "57ff98ffb5aa858d11776184",
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "template",
+    "sourceCode": "/**The MIT License (MIT) \r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.*/\r\n\r\npackage com.sinfonier.bolts;\r\n\r\npublic class AddFieldOverwrite extends BaseSinfonierBolt {\r\n\t//TO-DO: Declare variables\r\n\tprivate String var;\r\n\tprivate String name;\r\n\tpublic AddFieldOverwrite (String xmlFile) {\r\n\t\tsuper(xmlFile);\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void userprepare() {\r\n\t\t// TO-DO: Init values. Code here runs once\r\n\t\tthis.var = \"value\";\r\n\t\t// Get Param (get value of \"param_name\" from input box)\r\n\t\tthis.name = (String)this.getParam(\"param_name\");\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void userexecute() {\r\n\t\t//TO-DO: Write your code here. This code runs once by each input tuple\r\n\t\t// You can use the following functions to process it\r\n\r\n\t\t// Add field\r\n\t\tthis.addField(\"name\",\"Peter\");\r\n\r\n\t\t// Get field (return a String)\r\n\t\tthis.getField(\"country\");\r\n\r\n\t\t// Remove field\r\n\t\tthis.removeField(this.var);\r\n\r\n\t\t// Exists field (return Boolean)\r\n\t\tthis.existsField(\"lastname\");\r\n\r\n\t\t// Mandatory. Emit the tuple to the next bolt\r\n\t\tthis.emit();\r\n\t}\r\n\r\n\tpublic void usercleanup() {}\r\n}",
+    "sourceCodeUrl": "",
+    "description": "Add new field or update the value if the field exists",
+    "created_at": "2016-10-13T14:23:59.103+0000",
+    "updated_at": "2016-10-13T14:24:27.456+0000",
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "keyfield",
+        "label": "Key",
+        "type": "string",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "valuefield",
+        "label": "Value",
+        "type": "string",
+        "required": true,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "bolt",
+      "icon": "/public/images/icons/bolt.png",
+      "attributes": {
+        "abstractionId": "addfieldoverwrite",
+        "class": "com.sinfonier.bolts.AddFieldOverwrite"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        },
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "libraries": [],
+    "my_tools": []
+  },
+  {
+    "_id": "57ff8856b5aad378bac5abd9",
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/ffr4nz/77a196f4a948e61d89d6",
+    "description": "Generate fake tuples using key list and value list",
+    "created_at": "2016-10-13T13:12:54.500+0000",
+    "updated_at": "2016-10-13T15:33:12.619+0000",
+    "singleton": true,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "keylist",
+        "label": "Key List",
+        "type": "list",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "valuelist",
+        "label": "Value List",
+        "type": "list",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "frequency",
+        "label": "Frequency (sec.)",
+        "type": "integer",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "delay",
+        "label": "Delay",
+        "type": "integer",
+        "required": true,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "dummy",
+        "class": "com.sinfonier.spouts.Dummy"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "libraries": [],
+    "my_tools": []
+  },
+  {
+    "_id": "57ff9930b5aa858d11776186",
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/ajsanchezsanz/197960f457455aefe1d2",
+    "description": "Emit a dummy list every X seconds.",
+    "created_at": "2016-10-13T14:24:48.619+0000",
+    "updated_at": "2016-10-13T14:45:22.484+0000",
+    "singleton": true,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "listfield",
+        "label": "listfield",
+        "type": "string",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "items",
+        "label": "items",
+        "type": "list",
+        "required": true,
+        "wirable": false
+      },
+      {
+        "name": "frequency",
+        "label": "frequency",
+        "type": "integer",
+        "required": true,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "dummylistspout",
+        "class": "com.sinfonier.spouts.DummyListSpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "libraries": [],
+    "my_tools": []
+  },
+  {
+    "_id": "57ff9ea7b5aa858d11776188",
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/ajsanchezsanz/834ed61b47ccdb4db53b",
+    "description": "Send a GET request to a URL. Add field 'content' with source code of the resource.",
+    "created_at": "2016-10-13T14:48:07.233+0000",
+    "updated_at": "2016-10-13T14:58:18.094+0000",
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "urlfield",
+        "label": "urlfield",
+        "type": "string",
+        "required": true,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "bolt",
+      "icon": "/public/images/icons/bolt.png",
+      "attributes": {
+        "abstractionId": "javahttpget",
+        "class": "com.sinfonier.bolts.JavaHTTPGet"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        },
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "libraries": [],
+    "my_tools": []
+  },
+  {
+    "_id": "57ffa120b5aa858d1177618a",
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/ffr4nz/6d0a0e825c033e4e5cbc",
+    "description": "Log JSON received as input into Topology log file.",
+    "created_at": "2016-10-13T14:58:40.390+0000",
+    "updated_at": "2016-10-13T15:13:06.324+0000",
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "drain",
+      "icon": "/public/images/icons/drain.png",
+      "attributes": {
+        "abstractionId": "logit",
+        "class": "com.sinfonier.drains.LogIt"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    "fields": [],
+    "libraries": [],
+    "my_tools": []
+  },
+  {
+    "_id": "5800851aba789ab538a62263",
+    "versionTag": "2",
+    "versionCode": 2,
+    "status": "developing",
+    "sourceType": "template",
+    "sourceCode": "/*\r\n    The MIT License (MIT)\r\n    Copyright (c) 2014 sinfonier-project\r\n    Permission is hereby granted, free of charge, to any person obtaining a copy\r\n    of this software and associated documentation files (the \"Software\"), to deal\r\n    in the Software without restriction, including without limitation the rights\r\n    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\n    copies of the Software, and to permit persons to whom the Software is\r\n    furnished to do so, subject to the following conditions:\r\n    The above copyright notice and this permission notice shall be included in\r\n    all copies or substantial portions of the Software.\r\n    THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\n    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\n    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\n    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\n    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\n    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\n    THE SOFTWARE.\r\n*/\r\n\r\npackage com.sinfonier.drains;\r\n\r\npublic class LogIt extends BaseSinfonierDrain {\r\n\r\n    public LogIt(String xmlFile) {\r\n        super(xmlFile);\r\n    }\r\n\r\n    @Override\r\n    public void userprepare() {\r\n    }\r\n\r\n    @Override\r\n    public void userexecute() {\r\n      \tgetLog().info(\"**** VERSION 2 ****\");\r\n        getLog().info(getRawJson());\r\n    }\r\n\r\n    @Override\r\n    public void usercleanup() {\r\n    }\r\n\r\n}",
+    "sourceCodeUrl": "",
+    "description": "Log JSON received as input into Topology log file.",
+    "created_at": "2016-10-14T07:11:22.492+0000",
+    "updated_at": "2016-10-14T07:13:40.245+0000",
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "drain",
+      "icon": "/public/images/icons/drain.png",
+      "attributes": {
+        "abstractionId": "logit",
+        "class": "com.sinfonier.drains.LogIt"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    "fields": [],
+    "libraries": [],
+    "my_tools": []
+  }
+]
