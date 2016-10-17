@@ -18,7 +18,7 @@ Main features are:
 
 * Compile modules
 * Manage Sinfonier Backend classpath
-* Start/Stop Storm toplogies
+* Start/Stop Storm topologies
 * Storm Log management
 
 [Top](#top)
