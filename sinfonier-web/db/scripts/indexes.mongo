@@ -1,0 +1,2 @@
+db.modules.ensureIndex({name:1},{unique:true});
+db.modules.ensureIndex({user_id:1});

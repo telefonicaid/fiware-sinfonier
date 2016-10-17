@@ -1,0 +1,100 @@
+.width-100 {
+  width: 100%;
+  max-width: 100%;
+}
+
+.non-h-padding {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.display-none {
+  display: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.display-inline {
+  display: inline-flex;
+  width: 100%;
+}
+
+.fa {
+  min-width: 24px;
+}
+
+@-moz-document url-prefix() {
+  .form-control {
+    height: auto;	
+  }
+}
+
+.control-panel .control-panel-content .control-panel-page {
+  max-width: none;
+}
+
+.control-panel .control-panel-content .menu ul li a span,
+.control-panel .control-panel-content .menu ul li button span {
+  width: auto;
+}	
+
+.control-panel.menu-closed .control-panel-content .menu ul li a span,
+.control-panel.menu-closed .control-panel-content .menu ul li button span {
+  width: 0;
+}
+
+.btn-inline {
+  margin: 0 5px;
+}
+
+.btn-black-width {
+  color: #000;
+  max-width: 240px;
+}
+
+.btn-tab {
+  color: #a6a6a6;
+  max-width: 100%;
+}
+
+input[type="text"],input[type="text"]:focus,input[type="text"]:hover {
+  background: #FFF !important;
+}
+
+div.checkbox input[type="checkbox"] {
+  display: block;  
+}
+
+div.checkbox label {
+  margin-left: 20px;
+}
+
+.btn-link {
+  color: #000;
+  text-align: left;
+}
+
+.panel-body {
+  padding: 15px;
+}
+
+.control-panel .control-panel-content .menu ul li form button:hover {
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  background-image: none;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-center {
+  text-align: center;
+}

@@ -1,0 +1,48 @@
+.yui-skin-sam {
+  min-height: 700px;
+}
+.yui-layout {
+  min-height: 700px;
+}
+/*.dropdown-menu>li,.dropdown-menu>li>form,.dropdown-menu>li>form>input {
+  margin: 2px 0 0;
+}*/
+.control-panel .control-panel-content .menu {
+  max-width: 260px;
+}	
+.control-panel .control-panel-content .control-panel-page {
+  padding-left: 265px;
+  padding-right: 0px;
+}
+.control-panel .yui-layout .shadow {
+  max-width: 500px;
+}
+.yui-layout .yui-layout-unit div.yui-layout-hd .collapse {
+  display: inline;
+}	
+.yui-layout .yui-layout-clip .collapse {
+  display: inline;
+}
+.nav-lang {
+  bottom: 0px;
+}
+
+#editorContainer .parallInput {
+  background-color: #3366cc !important;
+}
+
+#editorContainer input[type="text"] {
+  width: auto;
+  min-width: 0;
+  height: 19px;
+  font-size: 99% !important;
+}
+
+#editorContainer label {
+  text-transform: none;
+}
+
+#editorContainer h2 {
+  font-size: 100%;
+}
+	

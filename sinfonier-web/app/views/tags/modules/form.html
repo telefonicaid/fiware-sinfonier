@@ -1,0 +1,214 @@
+<div class="row">
+  <div class="col-md-12">
+  #{form @Modules.save(), enctype:"multipart/form-data", method:'POST', id:'module-form', class:'form-horizontal'}
+
+    #{if _module?.getId() != null}<input type="hidden" name="module.id" value="${_module?.getId()}">#{/if}
+    #{if _version?.getId() != null}<input type="hidden" name="version.id" value="${_version?.getId()}">#{/if}
+    <input type="hidden" name="version.versionCode" value="${_version?.getVersionCode()}">
+
+    <!-- NAME -->
+    <div class="form-group">
+      <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <input type="text" class="form-control" id="name" name="module.name" 
+        pattern="^(([A-Z]+[a-z0-9]*)+)$" title="&{'Modules.form.err.pattern.name'}" 
+        value="${_module?.getName()}" required #{if _module?.getId() != null}readonly#{/if}>
+      </div>
+    </div>
+    
+    <!-- VERSION CODE -->
+    <div class="form-group">
+      <label for="versionTag" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.versionTag'} *</label>
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <input type="text" class="form-control" id="versionTag" name="version.versionTag" 
+        pattern="^[A-Za-z0-9_\.-]+$" title="&{'Modules.form.err.pattern.versionTag'}" 
+        value="${_version?.getVersionTag()}" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <!-- TYPE -->
+      <label for="type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.type'} *</label>
+      <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+          #{select 'module.type', value:_module.getType(), id:'type', class:'form-control', 
+            onchange:'handleIconModule()', required:'required'}
+              #{option 'spout'}Spout#{/option}
+              #{option 'bolt'}Bolt#{/option}
+              #{option 'drain'}Drain#{/option}
+          #{/select}
+      </div>
+
+      <!-- SINGLETON -->
+      <div class="checkbox col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <input name="version.singleton" id="singleton" type="checkbox" #{if !_version?.isSingleton()}checked #{/if}/>
+        <label>&{'Modules.form.singleton'}</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <!-- ICON -->
+      <label for="icon" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.icon'}</label>
+      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+        <input type="file" class="form-control" id="icon" name="module.icon" onchange="handleIconModule(this)">
+      </div>
+
+      <!-- PREVIEW -->
+      <div id="icon-preview" class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+      	#{if _module?.getIcon() != null}
+      		<img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" alt="icono" style="width: 140px;" />
+      	#{/if}
+      	#{else}
+        	<img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}" alt="icono" style="width: 140px;" />
+        #{/else}
+      </div>
+    </div>
+
+    <!-- STATUS -->
+      #{if _wc?.getCurrentUser().isAdminUser() && _module?.getId()}
+        <div class="form-group">
+          <label for="status" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.status'}</label>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+              #{select 'version.status', value:_version.getStatus(), id:'status', class:'form-control'}
+                #{option 'pending'}&{'Modules.form.status.pending'}#{/option}
+                #{option 'developing'}&{'Modules.form.status.developing'}#{/option}
+                #{option 'published'}&{'Modules.form.status.published'}#{/option}
+                #{option 'private'}&{'Modules.form.status.private'}#{/option}
+                #{option 'deleted'}&{'Modules.form.status.deleted'}#{/option}
+            #{/select}
+          </div>
+        </div>
+      #{/if}
+      #{else }
+        <input type="hidden" name="version.status" value="${_version?.getStatus()}">
+      #{/else}
+
+    <div class="form-group">
+      <!-- LANGUAGE -->
+      <label for="language" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.language'}
+        *</label>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+          #{select 'module.language', value:_module.getLanguage(), id:'language', class:'form-control', 
+            required:'required'}
+              #{option 'java'} Java #{/option}
+              #{option 'python'} Python #{/option}
+          #{/select}
+      </div>
+
+      <label for="source-type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.source_code'}
+        *</label>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+          #{select 'version.sourceType', value:_version.getSourceType(), id:'source-type', class:'form-control', onchange:'handleSourceCode()', required:'required'}
+              #{option 'gist'} Gist #{/option}
+              #{option 'template'} Local #{/option}
+          #{/select}
+      </div>
+
+      <!-- SOURCE CODE BUTTON -->
+      <div id="button-template-edit" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 display-none">
+        <button id="module-${_module?.getId()}-button-source" type="button" data-toggle="collapse" data-target="#collapseCode" class="btn btn-primary"
+                onclick="handleModuleTemplate(this, undefined, undefined, undefined, false)">&{'Modules.btn.source'}</button>
+      </div>
+    </div>
+
+    <!-- SOURCE CODE URL -->
+    <div id="source-external-code" class="form-group">
+      <label for="code-url" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.source_url'}
+        *</label>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <input type="text" pattern="^https?:\/\/gist\.github\.com\/\w+\/\w+$" class="form-control" id="code-url" value="${_version?.getSourceCodeURL()}"
+               name="version.sourceCodeURL">
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+        <button id="module-${_module?.getId()}-button-template" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapseCode"
+                onclick="handleModuleTemplate(this, undefined, undefined, undefined, true)">&{'Modules.form.template'}</button>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="form-group">
+      <label for="type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.description'}</label>
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+          <textarea name="version.description" id="description" cols="30" rows="5" class="form-control">${_version?.getDescription()}</textarea>
+      </div>
+    </div>
+
+    <!--FIELDS -->
+    <div id="fields-section" class="form-group">
+      <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.fields'}</label>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 form-group">
+        <button id="module-${_module?.getId()}-button-addField" type="button" class="btn btn-primary" onclick="handleAddField()">&{'Modules.btn.add'}</button>
+      </div>
+      <div id="field-forms"></div>
+    </div>
+
+    <!--TICK TUPLE -->
+      #{modules._ticktuple_form tickTuple:_version?.getTickTuple() /}
+
+    <!--LIBRARIES -->
+    <div id="libraries-section" class="form-group">
+      <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.libraries'}</label>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 form-group">
+        <button id="module-${_module?.getId()}-button-addLibrary" type="button" onclick="handleAddLibrary()" class="btn btn-primary">&{'Modules.btn.add'}</button>
+      </div>
+      <div id="library-forms"></div>
+    </div>
+
+    <div id="sourceCode-section" class="row form-group">
+      <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.text.code'}</label>
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="collapse" id="collapseCode">
+          <textarea name="version.sourceCode" id="code" cols="30" rows="10" class="form-control">${_version?.getSourceCode()}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-lg-2">
+        <button id="module-${_module?.getId()}-button-save" type="submit" class="btn btn-primary">
+          #{if _module?.getId() == null}
+            &{'Modules.btn.create'}
+          #{/if}
+          #{else}
+            &{'Modules.btn.update'}
+          #{/else}
+        </button>
+      </div>
+    </div>
+  #{/form}
+  </div>
+</div>
+
+<div id="help-zone" class="display-none">
+  <!--FIELDS -->
+#{modules._fields_form /}
+
+  <!--LIBRARIES -->
+#{modules._libraries_form /}
+
+  <div id="data" data-fields-size="0" data-libraries-size="0"></div>
+</div>
+
+<script>
+  ModuleInit = {fields: [], libraries: [], code: undefined};
+  
+  #{list items:_version.getFields(), as:'fields'}
+    ModuleInit.fields.push(JSON.parse('${fields.toString().escapeJavaScript().raw()}'));
+  #{/list}
+
+  
+  #{list items:_version.getLibraries(), as:'library'}
+    ModuleInit.libraries.push(JSON.parse('${library.toString().escapeJavaScript().raw()}'));
+  #{/list}
+	
+  #{if !_version.isFromGist()}
+    ModuleInit.code = {
+      name: '${_module.getName()}',
+      readOnly: false,
+      language: '${_module.getLanguage()}',
+      type: '${_module.getType()}',
+      code: '${_version.getSourceCodeBase64()}'
+    };
+  #{/if}
+</script>

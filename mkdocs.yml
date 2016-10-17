@@ -1,0 +1,19 @@
+site_name: fiware-sinfonier
+site_description: Sinfonier Documentation
+docs_dir: docs/manuals/
+theme: readthedocs
+extra_css: ["https://fiware.org/style/fiware_readthedocs.css"]
+pages:
+  - 'Home': 'index.md'
+  - 'Installation and Administration manual':
+    - 'Installation': 'installation_and_administration_manual/installation.md'
+    - 'Docker': 'installation_and_administration_manual/docker.md'
+    - 'Sinfonier Architecture Overview': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_architecture.md'
+    - 'Sinfonier Drawer': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_drawer.md'
+    - 'Sinfonier API': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_api.md'
+    - 'Sinfonier BackEnd': 'installation_and_administration_manual/streaming/stream_processing_sinfonier_backend.md'
+  - 'User and Programmer manual':
+      - 'Introduction': 'user_and_programmer_manual/introduction.md'
+      - 'Apche Storm & Sinfonier': 'user_and_programmer_manual/streaming/stream_processing_storm_sinfonier.md'
+      - 'Sinfonier Topologies': 'user_and_programmer_manual/streaming/stream_processing_sinfonier_topologies.md'
+      - 'Sinfonier Modules': 'user_and_programmer_manual/streaming/stream_processing_sinfonier_modules.md'

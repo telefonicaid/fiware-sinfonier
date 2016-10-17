@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>#{get 'title' /}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>
+  <meta name="MobileOptimized" content="320">
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap/css/bootstrap.min.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/font-awesome/css/font-awesome.min.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap-select/dist/css/bootstrap-select.min.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/font.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/basic.css'}"/>
+  <link rel="shortcut icon" type="image/png" href="/public/images/favicon.ico">
+
+#{get 'moreStyles'/}
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sinfonier-login-layout.css'}"/>
+</head>
+<body class="login-bg">
+
+<div class="login">
+  <div class="logo">
+    <img src="@{'/public/images/logo.png'}" alt="ElevenPaths"/>
+  </div>
+#{doLayout /}
+  <div class="footer">
+    <div class="row">
+      <div class="col-xs-3">
+        <img src="@{'/public/images/elevenpaths-white.png'}" alt="Eleven Paths Logo" class="logo1">
+      </div>
+      <div class="col-xs-6 text-center">
+        <div class="copy">2016 © Telefónica Digital España S.L.U. &{'UserArea.rights'}.</div>
+      </div>
+      <div class="col-xs-3 text-right">
+        <img src="@{'/public/images/telefonica-white.png'}" alt="Telefonica Logo" class="logo2">
+      </div>
+    </div>
+  </div>
+</div>
+
+#{include 'Latch/pairAccountAlert.html' /}
+<script type="text/javascript" src="@{'/public/javascripts/jquery-1.11.2.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/plugins/bootstrap/js/bootstrap.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/plugins/bootstrap-select/js/bootstrap-select.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/input-loading.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/latch-alert.js'}"></script>
+
+#{get 'moreScripts'/}
+#{changelog.alert /}
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Application dependencies
+
+require:
+    - play
+    - Darwin -> darwin 1.0.6
+    - org.jsoup -> jsoup 1.7.2
+    - play -> mockito 0.1
+
+repositories:
+   - my modules repo:
+        type: http
+        artifact: "https://maven.elevenpaths.com/play-repo/modules/[module]-[revision].zip"
+        contains:
+            - Darwin -> *

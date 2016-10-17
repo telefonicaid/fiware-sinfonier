@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="${controllers.Drawers.getLanguage()}">
+<head>
+  <title>#{get 'title' /}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>
+  <meta name="MobileOptimized" content="320">
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap/css/bootstrap.min.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/font-awesome/css/font-awesome.min.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap-select/dist/css/bootstrap-select.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/font.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/darwin-control-panel.css'}"/>
+  <link rel="shortcut icon" type="image/png" href="/public/images/favicon.ico">
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sinfonier-control-panel-layout.css'}"/>
+#{stylesheet 'basic.css' /}
+#{stylesheet 'main.css' /}
+#{get 'moreStyles'/}
+</head>
+<body class="control-panel">
+
+#{include 'Layouts/darwin-control-panel-header.html' /}
+
+<div class="control-panel-content">
+#{include 'Menu/layout.html' /}
+  <div class="control-panel-page">
+    <div class="container-fluid">
+    #{doLayout /}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="@{'/public/javascripts/jquery-1.11.2.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/plugins/bootstrap/js/bootstrap.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/plugins/bootstrap-select/js/bootstrap-select.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/input-loading.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/js.cookie.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/latch-alert.js'}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.7.2/jquery.serializejson.min.js"></script>
+
+#{changelog.alert /}
+
+#{get 'moreScripts'/}
+<script type="text/javascript" language="javascript" src="/public/plugins/radiocheck.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+  });
+</script>
+
+</body>
+<div class="footer">
+  <div class="row">
+    <div class="col-xs-3">
+      <img src="@{'/public/images/elevenpaths.png'}" alt="Eleven Paths Logo" class="logo1">
+    </div>
+    <div class="col-xs-6 text-center">
+      <div class="copy">2016 © Telefónica Digital España S.L.U. &{'UserArea.rights'}.</div>
+    </div>
+    <div class="col-xs-3 text-right">
+      <img src="@{'/public/images/telefonica.png'}" alt="Telefonica Logo" class="logo2">
+    </div>
+  </div>
+</div>
+</html>

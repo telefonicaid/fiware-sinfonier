@@ -1,0 +1,9 @@
+gunicorn==19.6.0
+falcon==1.0.0
+pymongo==3.3.0
+inflection==0.3.1
+bs4==0.0.1
+lxml==3.5.0
+simplegist==1.0.0
+requests==2.10.0
+

@@ -1,0 +1,13 @@
+#{extends 'DarwinMailer/mailLayout.html' /}
+#{set 'subject'}Reported module#{/set}
+
+<h3>Hello ${module.getAuthor().getName()},</h3>
+<p>Your module '${module.getName()}' has been reported. Please, check your module for prevent other users feel offended.<p>
+<ul>
+  <li>Module: <a href="@@{Modules.module(module?.getName(), null)}" target="_blank" style="text-align:center;">${module.getName()}</a></li>
+  <li>Number of complaints: ${module?.getComplains()?.getComplains()?.size()}</li>
+  <li>Date: ${inappropriate?.getTimestamp()}</li>
+  <li>Comment: ${inappropriate?.getComment()}</li>
+</ul>
+<br/>
+<p>Greetings.<br/>The team ${appName}.</p>

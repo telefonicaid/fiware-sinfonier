@@ -1,0 +1,85 @@
+#{set 'moreScripts'}
+<script>
+  $(document).ready(function () {
+    if (Cookies.get('darwin-menu-state') === 'close') {
+      toggleMenu(false);
+    }
+    $('.menu-arrow').click(function (event) {
+      toggleMenu(true);
+    });
+  });
+
+  function toggleMenu(animated) {
+    if (!animated) {
+      $('.control-panel').addClass('transition-off');
+    } else {
+      $('.control-panel').removeClass('transition-off');
+    }
+    var state;
+    var arrowIcon;
+    if ($('body').hasClass('menu-closed')) {
+      $('body').removeClass('menu-closed');
+      $('.small-logo').show();
+      $('.big-logo').hide();
+      $('body').one('webkitTransitionEnd otransitionend msTransitionEnd transitionend', function () {
+        $('.big-logo').fadeIn();
+      });
+      arrowIcon = 'keyboard_arrow_left';
+      state = 'open';
+    } else {
+      $('body').addClass('menu-closed');
+
+      arrowIcon = 'keyboard_arrow_right';
+      state = 'close';
+    }
+    $('.logo-area > i').text(arrowIcon);
+    Cookies.set('darwin-menu-state', state);
+  }
+</script>
+    #{get 'moreScripts'/}
+#{/set}
+
+<header>
+  <div class="logo-area">
+    <img class="big-logo" src="@{'/public/images/logo.png'}" alt="Logo"/>
+    <img class="small-logo" src="@{'/public/images/logo-small.png'}" alt="Logo"/>
+    <i id="header-i-menuArrow" class="material-icons menu-arrow">keyboard_arrow_left</i>
+  </div>
+  <div class="nav-area">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h1 id="header-h1-title">#{get 'title' /}</h1>
+          <div class="right-nav">
+            <div class="nav-lang">
+            #{include 'Lang/languages.html' /}
+            </div>
+            <div class="nav-lang">
+              <div class="btn-group"><a data-toggle="dropdown" aria-expanded="false" class="btn-lang">${session.username} <span class="caret"></span></a>
+                <ul role="menu" class="dropdown-menu">
+                  <li><a href="@{Profile.index()}" id="header-a-profile">&{'Profile'}</a></li>
+                  <li><a href="@{PublicContentBase.passwordReset()}" id="header-a-password">&{'UserArea.password'}</a></li>
+                #{if models.Config.isLatchActive() }
+                  <li><a href="@{Latch.checkLatch()}" id="header-a-latch">&{'UserArea.latch'}</a></li>
+                #{/if}
+                </ul>
+              </div>
+            </div>
+            <div class="nav-lang">
+            #{form @Security.logout(), class:'form-logout'}
+              <div class="btn-group">
+                <button class="btn btn-default logout" id="Logout">
+                  <span>&{'UserArea.logout'}</span><i class="material-icons">exit_to_app</i>
+                </button>
+              </div>
+            #{/form}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="shadow">
+  <img src="@{'/public/images/background/shadow.png'}" alt="shadow"/>
+</div>

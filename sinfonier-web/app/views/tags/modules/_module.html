@@ -1,0 +1,439 @@
+<div id="module-${_module.getId()}" data-id="${_module.getId()}"
+     class="#{if _size == "small"} col-lg-6 col-md-6 col-sm-6 col-xs-12 #{/if} #{else } col-lg-12 #{/else} module module">
+  <div class="panel panel-default">
+
+  #{if _wc && !_module.isOwner(_wc?.getCurrentUser()) && _module.getStatus().equals(models.SinfonierConstants.Module.STATUS_PUBLISHED) && !_version?.getMyTools()?.hasAdded(_wc?.getCurrentUser())}
+    <div class="panel-heading">
+        #{form @Modules.addToMyTools(_module.getId(), _version.getVersionCode())}
+          <div class="row">
+            <button id="module-${_module?.getId()}-button-addTools" class="btn-black-width btn btn-link pull-right align-right"
+                    type="submit">&{'Modules.btn.addTools'}<i class="material-icons">build</i></button>
+          </div>
+        #{/form}
+    </div>
+  #{/if}
+  #{elseif _wc && !_module.isOwner(_wc?.getCurrentUser()) && _version?.getMyTools()?.hasAdded(_wc?.getCurrentUser())}
+    <div class="panel-heading">
+        #{form @Modules.removeToMyTools(_module.getId(), _version.getVersionCode())}
+          <div class="row">
+            <button id="module-${_module?.getId()}-button-removeTools" class="btn-black-width btn btn-link pull-right align-right"
+                    type="submit">&{'Modules.btn.removeTools'}<i class="material-icons">build</i></button>
+          </div>
+        #{/form}
+    </div>
+  #{/elseif}
+
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <h2 class="title inline pull-left">
+          #{if _size == "small"}
+            <img id="module-${_module?.getId()}-img-type" class="icon-xs"
+                 src="/public/images/icons/${_module?.getType()}.png" alt="Module icon by type">
+          #{/if}
+            <a id="module-${_module?.getId()}-a-title" href="@{Modules.module(_module?.getName())}" class="btn btn-link"
+               style="font-size: 20px;">${_module?.getName()}</a>
+          #{if _size != "small" && _module.getVisibleVersionsToUser(_wc?.getCurrentUser()).size() > 1}
+            <img id="module-${_module?.getId()}-img-multi-version" class="icon-xs"
+                 src="/public/images/icons/application_cascade.png" title="&{'Modules.Module.multipleVersions'}">
+          #{/if}
+          </h2>
+        </div>
+      </div>
+
+    #{if _size != "small"}
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+          <p id="module-${_module?.getId()}-p-type"><span class="bold">&{'Modules.form.type'}:</span> ${_module?.getType()}</p>
+          <p id="module-${_module?.getId()}-p-status"><span class="bold">&{'Modules.form.status'}:</span> ${_version?.getStatus()}
+              #{if _size =="large" && _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_SUCCESS)}
+                <br>
+                <small class="text-success">&{'Modules.build.status'}: &{'Modules.build.status.success'}</small>
+              #{/if}
+              #{elseif _size =="large" && _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_FAILURE)}
+                <br>
+                <small class="text-danger">&{'Modules.build.status'}: &{'Modules.build.status.failure'}</small>
+              #{/elseif}
+
+          <div class="row">
+            <div class="col-lg-4">
+                #{if _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
+                && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PUBLISHED)}
+                    #{form @Modules.privatize(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
+                      <button id="module-${_module?.getId()}-button-privatize" type="submit" class="btn btn-primary">
+                      &{'Modules.btn.privatize'}</button>
+                    #{/form}
+                #{/if}
+                #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
+                && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PRIVATE)}
+                    #{form @Modules.publish(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
+                      <button id="module-${_module?.getId()}-button-publish" type="submit" class="btn btn-primary">
+                      &{'Modules.btn.publish'}</button>
+                    #{/form}
+                #{/elseif}
+                #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
+                && _version?.getStatus().equals(models.SinfonierConstants.Module.STATUS_DEV)}
+                  <button type="button" id="module-${_module?.getId()}-button-send-request-petition" class="btn btn-primary"
+                          data-toggle="modal" data-target="#confirmModalForSendRequest">
+                  &{'Modules.btn.sendValidation'}
+                  </button>
+                #{/elseif}
+                #{elseif _size == 'large' && _wc?.getCurrentUser().isAdminUser()
+                && _version?.getStatus().equals(models.SinfonierConstants.Module.STATUS_PENDING)}
+                    #{form @Modules.validate(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
+                        #{if _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_SUCCESS)}
+                          <button id="module-${_module?.getId()}-button-validate" type="submit" class="btn btn-primary">
+                          &{'Modules.btn.validate'}</button>
+                        #{/if}
+                        #{else }
+                          <button id="module-${_module?.getId()}-button-validate" type="submit" class="btn btn-primary"
+                                  disabled>&{'Modules.btn.validate'}</button>
+                        #{/else}
+                    #{/form}
+                #{/elseif}
+            </div>
+          </div>
+          </p>
+          <p id="module-${_module?.getId()}-p-language">
+            <span class="bold">&{'Modules.form.language'}:</span> ${_module?.getLanguage()}
+          </p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            #{if _module?.getIcon() != null}
+              <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" alt="${_module?.getName()}"
+                   class="module-icon"/>
+            #{/if}
+            #{else}
+                #{if _module?.getType() == "spout"}
+                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/>
+                #{/if}
+                #{elseif _module?.getType() == "bolt"}
+                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/bolt-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/>
+                #{/elseif}
+                #{elseif _module?.getType() == "drain"}
+                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/drain-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/>
+                #{/elseif}
+            #{/else}
+        </div>
+      </div>
+    #{/if}
+
+    #{if _version.isFromGist() && _size != "small" && !_version.getStatus().equals(models.SinfonierConstants.Module.STATUS_PENDING)}
+      <div class="row">
+        <div class="col-lg-12">
+          <p><span class="bold">&{'Modules.form.code.url'}:</span>
+            <a id="module-${_module?.getId()}-a-url" href="${_version?.getSourceCodeURL()}" target="_blank"
+               class="btn btn-link">${_version?.getSourceCodeURL()}</a>
+          </p>
+        </div>
+      </div>
+    #{/if}
+
+      <!-- DESCRIPTION -->
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="bold">&{'Modules.form.description'}:</span>
+          <p id="module-${_module?.getId()}-p-description">${_version.getDescription()}</p>
+        </div>
+      </div>
+
+      <!-- EXTERNAL LIBRARIES -->
+    #{if _size == "large" && _version?.hasLibraries()}
+      <div class="row">
+        <div class="col-lg-12">
+          <p>
+            <span class="bold">&{'Modules.form.libraries'}:</span>
+          <table class="table sinfonier table-bordered">
+            <tr class="active">
+              <th>&{'Modules.form.name'}</th>
+              <th>&{'Modules.form.lib.url'}</th>
+            </tr>
+              #{list items:_version.getLibraries(), as:'library'}
+                <tr id="module-${_module?.getId()}-tr-library${library_index}">
+                  <th>${library.getName()}</th>
+                  <th>${library.getUrl()}</th>
+                </tr>
+              #{/list}
+          </table>
+          </p>
+        </div>
+      </div>
+    #{/if}
+
+    #{if _version.hasFields() && _size != "small"}
+      <div class="row">
+        <div class="col-lg-12">
+          <p><span class="bold">&{'Modules.form.fields'}:</span>
+          <table class="table sinfonier table-bordered">
+            <tr class="active">
+              <th>&{'Modules.form.name'}</th>
+              <th>&{'Modules.form.label'}</th>
+              <th>&{'Modules.form.type'}</th>
+            </tr>
+
+              #{list items:_version.getFields(), as:'field'}
+                <tr id="module-${_module?.getId()}-tr-field${field_index}">
+                  <th>#{if field.isRequired()}
+                    <span style="text-decoration: underline;">${field.getName()}</span>
+                  #{/if}
+                      #{else}
+                      ${field.getName()}
+                      #{/else}
+                  </th>
+                  <th>${field.getLabel()}</th>
+                  <th>${field.getType()}</th>
+                </tr>
+              #{/list}
+
+          </table>
+          </p>
+        </div>
+      </div>
+    #{/if}
+
+    #{if _version.getTickTuple() && _size != "small"}
+      <div class="row">
+        <div class="col-lg-12">
+          <p>
+            <span class="bold">&{'Modules.form.ticktuple'}:</span>
+          <table class="table sinfonier table-bordered">
+            <tr class="active">
+              <th>&{'Modules.form.name'}</th>
+              <th>&{'Modules.form.label'}</th>
+              <th>&{'Modules.form.type'}</th>
+            </tr>
+            <tr id="module-${_module?.getId()}-tr-field${_version.getFields()?.size() + 1}">
+              <th>#{if _version.getTickTuple().isRequired()}
+                <span style="text-decoration: underline;">${_version.getTickTuple().getName()}</span>
+              #{/if}
+                  #{else}
+                  ${_version.getTickTuple().getName()}
+                  #{/else}
+              </th>
+              <th>${_version.getTickTuple().getLabel()}</th>
+              <th>${_version.getTickTuple().getType()}</th>
+            </tr>
+          </table>
+          </p>
+        </div>
+      </div>
+    #{/if}
+
+    #{if !_module.getStatus().equals(models.SinfonierConstants.Module.STATUS_PREDEFINED)}
+      <!-- SOME DETAILS -->
+      <div class="row details-section">
+        <div class="col-lg-12">
+          <div class="well">
+            <p id="module-${_module?.getId()}-p-createBy" class="details">
+                #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
+                    #{if _size != "small"}
+                    &{'Modules.index.create_by', _module.getAuthor()?.getEmail(), _module.getAuthor()?.getName(), _module.getAuthor()?.getEmail(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                    #{/if}
+                    #{else}
+                    &{'Modules.index.create_by_short', _module.getAuthor()?.getEmail(), _module.getAuthor()?.getName(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                    #{/else}
+                #{/if}
+            #{else}
+            &{'Modules.index.create_by_text', _module.getAuthor()?.getName(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+            #{/else}
+            </p>
+          </div>
+        </div>
+      </div>
+    #{/if}
+
+      <!-- VOTE -->
+    #{if _vote}
+      <div class="row vote-section">
+        <div class="col-lg-12">
+          <div class="well">
+            <h3 class="display-inline">
+              <small>&{'Modules.details.vote'}:</small>
+              <ul class="stars list-inline list-unstyled" data-value="${_module.getAverageRate()}">
+                  #{list items:[1,2,3,4,5], as:'index'}
+                    <li id="module-${_module?.getId()}-li-start${index}" data-value="${index}"
+                        #{if !_module.isOwner(_wc?.getCurrentUser()) && !_module.getRatings()?.hasVoted(_wc?.getCurrentUser())}
+                        onclick="handleVote(this, ${index})"
+                        #{/if}>
+                      <i class="material-icons star-vote">star_border</i>
+                    </li>
+                  #{/list}
+              </ul>
+            </h3>
+          </div>
+        </div>
+      </div>
+    #{/if}
+
+
+      <!-- BUTTONS -->
+    #{if _size == "large"}
+      <div class="row">
+        <!-- CODE -->
+          #{if (!_version.isFromGist() || _version.getStatus().equals(models.SinfonierConstants.Module.STATUS_PENDING))}
+            <div class="col-xs-2">
+              <button id="module-${_module?.getId()}-button-sourceCode" class="btn-black-width btn" type="button" data-toggle="collapse"
+                      data-target="#collapseCode${_module.getId()}" aria-expanded="false"
+                      aria-controls="collapseCode${_module.getId()}"
+                      onclick="handleModuleTemplate(this, '${_module.getName()}', '${_module.getLanguage()}', '${_module.getType()}', true, '${_version.getSourceCodeBase64()}')">
+              &{'Modules.btn.sourceCode'}
+              </button>
+            </div>
+          #{/if}
+
+        <!-- EXPORT -->
+        <div class="col-xs-2">
+            #{form @Modules.export(_module?.getId(), _version?.getVersionCode()), class:"display-inline"}
+              <button id="module-${_module?.getId()}-button-export" class="btn btn-primary btn-inline" type="submit">
+              &{'Modules.btn.export'}</button>
+            #{/form}
+        </div>
+
+          #{if _module.hasWritePermission(_wc?.getCurrentUser())}
+            <!-- DELETE -->
+              #{if _version.getStatus().equals(models.SinfonierConstants.Module.STATUS_DEV)}
+                <div class="col-xs-2">
+                  <button id="module-${_module?.getId()}-button-delete" class="btn btn-danger btn-inline" type="button"
+                          data-toggle="modal" data-target="#confirmModal">
+                  &{'Modules.btn.delete'}
+                  </button>
+                </div>
+              #{/if}
+
+            <!-- EDIT -->
+            <div class="col-xs-2">
+              <a id="module-${_module?.getId()}-button-edit"
+                 href="@{Modules.edit(_module?.getName(), _version?.getVersionCode())}" class="btn btn-success btn-inline">
+                  #{if _version.getStatus().equals(models.SinfonierConstants.Module.STATUS_DEV)}
+                  &{'Modules.btn.edit'}
+                  #{/if}
+                  #{else}
+              &{'Modules.btn.newVersion'}
+              #{/else}
+              </a>
+            </div>
+          #{/if}
+
+
+        <!-- COMPLAINS -->
+          #{if !_module?.getComplains()?.hasComplained(_wc?.getCurrentUser()) && !_module?.isOwner(_wc?.getCurrentUser()) && _module.getStatus().equals(models.SinfonierConstants.Module.STATUS_PUBLISHED)}
+            <div class="col-xs-3 col-xs-offset-5">
+              <button type="button" id="module-${_module?.getId()}-a-complain" class="btn-black-width btn pull-right"
+                      title="&{'Modules.details.complain'}" onclick="handleComplain()"> &{'Modules.details.complain'}
+                <i class="material-icons cursor-pointer">feedback</i>
+              </button>
+            </div>
+          #{/if}
+
+      </div>
+    #{/if}
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="collapse" id="collapseCode${_module.getId()}">
+            <textarea id="code" cols="30" rows="10" class="form-control">${_version?.getSourceCode()}</textarea>
+          </div>
+        </div>
+      </div>
+
+    #{form @Modules.vote(), method:'POST', id:'form-' + _module.getId(), class:'form-horizontal form-vote display-none'}
+      <input type="hidden" name="rate" value="" class="rate">
+      <input type="hidden" name="module_name" value="${_module.getName()}">
+
+      <!-- Message -->
+      <div class="form-group">
+        <label for="name"
+               class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.details.vote.msg'}</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+          <textarea name="msg" id="msg" rows="10" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-lg-6"></div>
+        <div class="col-lg-6 pull-right display-inline">
+          <a id="module-${_module?.getId()}-button-cancelVote" class="btn btn-danger btn-inline" onclick="cancelVote()">
+          &{'Modules.btn.cancel'}</a>
+          <button id="module-${_module?.getId()}-button-vote" type="submit" class="btn btn-primary btn-inline">
+          &{'Modules.btn.vote'}</button>
+        </div>
+      </div>
+    #{/form}
+    #{form @Modules.complain(), method:'POST', id:'complain-' + _module.getId(), class:'form-horizontal form-complain display-none'}
+      <input type="hidden" name="module_name" value="${_module.getName()}">
+
+      <!-- Message -->
+      <div class="row form-group">
+        <label for="name"
+               class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.details.complain.msg'}</label>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+          <textarea name="msg" id="msgComplain" rows="10" class="form-control" required></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-lg-6"></div>
+        <div class="col-lg-6 pull-right display-inline">
+          <a id="module-${_module?.getId()}-button-cancelComplain" class="btn btn-danger btn-inline" onclick="cancelComplain()">
+          &{'Modules.btn.cancel'}</a>
+          <button id="module-${_module?.getId()}-button-complain" type="submit" class="btn btn-primary btn-inline">
+          &{'Modules.btn.complain'}</button>
+        </div>
+      </div>
+    #{/form}
+    </div>
+  </div>
+</div>
+
+#{if _size == "large"}
+
+<!-- Remove modal confirmation -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">&{'Modules.details.delete.title'}</h4>
+      </div>
+      <div class="modal-body">
+      &{'Modules.details.delete.text', _module?.getName(), "vc"+_version?.getVersionCode()}
+      </div>
+      <div class="modal-footer">
+          #{form @Modules.remove(_module.getId(), _version.getVersionCode()), method:'POST', id:'remove-' + _module.getId()}
+            <button id="module-${_module?.getId()}-button-deleteCancel" type="button" class="btn btn-default btn-modal"
+                    data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+            <button id="module-${_module?.getId()}-button-deleteOK" type="submit" class="btn btn-danger btn-modal">
+            &{'Modules.btn.delete'}</button>
+          #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Send request modal confirmation -->
+<div class="modal fade" id="confirmModalForSendRequest" tabindex="-1" role="dialog" aria-labelledby="confirmModalForSendRequest">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">&{'Modules.sendValidation.title'}</h4>
+      </div>
+      <div class="modal-body">
+      &{'Modules.sendValidation.text', _module?.getName(), "vc"+_version?.getVersionCode()}
+      </div>
+      <div class="modal-footer">
+          #{form @Modules.recheck(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
+            <button id="module-${_module?.getId()}-button-deleteCancel" type="button" class="btn btn-default btn-modal"
+                    data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+            <button id="module-${_module?.getId()}-button-sendValidation" type="submit" class="btn btn-primary btn-modal">
+            &{'Modules.btn.sendValidation'}</button>
+          #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+#{/if}

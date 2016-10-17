@@ -1,0 +1,131 @@
+#top .logo{
+   background-color: #2980b9;
+   border: #2980b9;
+   color: #fff;
+   padding-bottom: 3px;
+   padding-top: 0px;
+   height: 28px;
+}
+
+.btn-link{
+  padding-top: 0px;		
+}
+
+/*#nav { float: right; display: block; }*/
+/*#nav a {	color: white; text-decoration: none; font-weight: 300; font-size: 14px; }*/
+/*#nav ul {}*/
+/*#nav ul li { float: left; padding: 3px 10px; }*/
+/*#nav ul li a {padding: 5px 10px;	}*/
+/*#nav ul li.current a { background-color: #2a628a; padding: 7px 10px; }*/
+
+.WireIt-Container{
+  overflow:visible;
+}
+
+div.inputEx-Group fieldset{
+  display:table;
+}
+
+div.inputEx-fieldWrapper{
+  display:table-row;
+}
+div.inputEx-fieldWrapper div{
+  display:table-cell;
+}
+div.inputEx-label{
+  float:none;
+  white-space:nowrap;
+}
+div.inputEx-fieldWrapper div.inputEx-Field{
+  float:none;
+  white-space:nowrap;
+}
+
+div.inputEx-ListField-childContainer>div{
+  display:table-row;
+}
+div.inputEx-ListField-childContainer > div > a{
+  display: table-cell;
+  vertical-align: middle;
+  margin: 10px;
+}
+div.inputEx-ListField-childContainer > div > div{
+  display: table-cell;
+}
+
+
+div.inputEx-fieldWrapper div.WireIt-InputExTerminal {
+  display:inline;
+}
+div.WireIt-InputExTerminal {
+  float: left;
+}
+
+div.WireIt-InputExTerminal div.WireIt-Terminal {
+  left: -21px;
+  top: -7px;
+}
+div.WireIt-InputExTerminal+div input{
+  text-align:left;
+}
+
+.divino.WireIt-Container div.body {
+  overflow:auto;
+}
+
+.inputEx-CombineField {
+  display: table;
+}
+
+div.inputEx-CombineField-separator{
+  float:none;
+}
+
+#WiringEditor-zoomInButton button {
+  background: url("/public/images/icons/zoom_in.png") no-repeat scroll 10% 50% rgba(0, 0, 0, 0);
+}
+#WiringEditor-zoomOutButton button {
+  background: url("/public/images/icons/zoom_out.png") no-repeat scroll 10% 50% rgba(0, 0, 0, 0);
+}
+.parallInput {
+  background-color: #3366cc;
+  width: 16px !important;
+  height: 16px !important;
+  padding:0px !important;
+  border-radius:25px !important;
+  text-align: center !important;
+  color: white !important;
+  border: 2px solid #ffffff !important;
+  font-weight: bold !important;
+  cursor: move !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+.WireIt-Container-parallupbutton{
+  background: #ffffff url("/public/images/icons/new.png");
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  border-radius:100px;
+  display:inline-block;
+  vertical-align: middle;
+
+}
+.WireIt-Container-paralldownbutton{
+  background: #ffffff url("/public/images/icons/delete.png");
+  cursor: pointer;
+  height: 16px;
+  width: 16px;
+  border-radius:100px;
+  display:inline-block;
+  vertical-align: middle;
+
+}
+.WireIt-Container-parallcontrol{
+  cursor: pointer;
+  height: 16px;
+  display: inline;
+  width: 54px;
+  margin-right:24px;
+  float: right;
+}

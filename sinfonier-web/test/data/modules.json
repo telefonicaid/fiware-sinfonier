@@ -1,0 +1,260 @@
+[
+  {
+    "_id": {
+      "$oid": "57ad73e8e1c0801a5832424b"
+    },
+    "name": "MyBolt",
+    "type": "bolt",
+    "category": "Bolts",
+    "status": "published",
+    "language": "java",
+    "created_at": {
+      "$date": "2016-08-12T06:59:52.406Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:01:51.134Z"
+    },
+    "authorId": "test1@test.com",
+    "average_rate": 3.5,
+    "topologies_count": 9,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1.0",
+        "versionCode": 1,
+        "versionId": "57ad73e8e1c0801a5832424a",
+        "isDeleted": false,
+        "isVisible": true
+      }
+    ],
+    "complains": [
+    ],
+    "ratings": [
+      {
+        "userId": "ivan.ramos@11paths.com",
+        "timestamp": {
+          "$date": "2016-08-12T07:02:22.966Z"
+        },
+        "rate": 4,
+        "comment": "Votamos este módulo con 4 estrellas, media 4."
+      },
+      {
+        "userId": "test@test.com",
+        "timestamp": {
+          "$date": "2016-08-12T07:03:02.171Z"
+        },
+        "rate": 3,
+        "comment": "Votamos con 3 estrellas, media 3,5."
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad752ae1c0801a5832424d"
+    },
+    "name": "MyDrain",
+    "type": "drain",
+    "category": "Drains",
+    "status": "published",
+    "language": "python",
+    "created_at": {
+      "$date": "2016-08-12T07:05:14.930Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:06:53.263Z"
+    },
+    "authorId": "test1@test.com",
+    "average_rate": 2.1,
+    "topologies_count": 10,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1.0",
+        "versionCode": 1,
+        "versionId": "57ad752ae1c0801a5832424c",
+        "isDeleted": false,
+        "isVisible": true
+      },
+      {
+        "versionTag": "2.0",
+        "versionCode": 2,
+        "versionId": "57ad7566e1c0801a5832424e",
+        "isDeleted": false,
+        "isVisible": true
+      }
+    ],
+    "complains": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad72bde1c0801a58324248"
+    },
+    "name": "MySpout",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "published",
+    "language": "java",
+    "created_at": {
+      "$date": "2016-08-12T06:54:53.894Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:29:54.853Z"
+    },
+    "authorId": "test1@test.com",
+    "average_rate": 0.0,
+    "topologies_count": 6,
+    "icon": "/public\\images\\modules\\icons\\MySpout.jpeg",
+    "versions": [
+      {
+        "versionTag": "1.0",
+        "versionCode": 1,
+        "versionId": "57ad72bde1c0801a58324247",
+        "isDeleted": false,
+        "isVisible": true
+      },
+      {
+        "versionTag": "1.1",
+        "versionCode": 2,
+        "versionId": "57ad7385e1c0801a58324249",
+        "isDeleted": false,
+        "isVisible": true
+      },
+      {
+        "versionTag": null,
+        "versionCode": 3,
+        "versionId": "57ad7aaae1c0801a5832424f",
+        "isDeleted": false,
+        "isVisible": true
+      }
+    ],
+    "complains": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad835fe1c0801a58324253"
+    },
+    "name": "ModuloSpout",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "private",
+    "language": "python",
+    "created_at": {
+      "$date": "2016-08-12T08:05:51.139Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-24T08:55:44.222Z"
+    },
+    "authorId": "test@test.com",
+    "average_rate": 0.0,
+    "topologies_count": 4,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1.0-SNAPSHOT",
+        "versionCode": 1,
+        "versionId": "57ad835fe1c0801a58324252",
+        "isDeleted": false,
+        "isVisible": true
+      },
+      {
+        "versionTag": null,
+        "versionCode": 2,
+        "versionId": "57bd61106825f7d1739eb0cf",
+        "isDeleted": false,
+        "isVisible": true
+      }
+    ],
+    "complains": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57b40a65b902ae2bb5bd704f"
+    },
+    "name": "ModuloFirefox",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "published",
+    "language": "python",
+    "created_at": {
+      "$date": "2016-08-17T06:55:33.985Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-17T06:56:05.198Z"
+    },
+    "authorId": "ivan@gmail.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "/public\\images\\modules\\icons\\ModuloFirefox.jpg",
+    "versions": [
+      {
+        "versionTag": "1.0",
+        "versionCode": 1,
+        "versionId": "57b40a65b902ae2bb5bd704e",
+        "isDeleted": false,
+        "isVisible": true
+      }
+    ],
+    "complains": [
+      {
+        "userId": "test@test.com",
+        "timestamp": {
+          "$date": "2016-08-17T07:01:37.460Z"
+        },
+        "comment": "Este módulo es una copia."
+      },
+      {
+        "userId": "ivan.ramos@11paths.com",
+        "timestamp": {
+          "$date": "2016-08-17T07:09:53.357Z"
+        },
+        "comment": "Este comentario es una prueba"
+      },
+      {
+        "userId": "test1@test.com",
+        "timestamp": {
+          "$date": "2016-08-17T07:20:33.467Z"
+        },
+        "comment": "Tercera denuncia del módulo"
+      },
+      {
+        "userId": "test2@test.com",
+        "timestamp": {
+          "$date": "2016-08-17T07:23:50.580Z"
+        },
+        "comment": "Este comentario deberá desencadenar dos correos."
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ce8820ba787b7edd7c8cab"
+    },
+    "name": "ModulesForDeleting",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "developing",
+    "language": "java",
+    "created_at": {
+      "$date": "2016-09-06T09:10:56.255+0000"
+    },
+    "updated_at": {
+      "$date": "2016-09-06T09:10:56.255+0000"
+    },
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": null,
+        "versionCode": 1,
+        "versionId": "57ce8820ba787b7edd7c8caa",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  }
+]

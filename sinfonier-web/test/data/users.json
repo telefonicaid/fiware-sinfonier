@@ -1,0 +1,56 @@
+[
+  {
+    "_id": {
+      "$oid": "579b385e914af346d1bc245d"
+    },
+    "email": "test1@test.com",
+    "name": "User 1",
+    "password": "428f97596494328322fb5e2654c757c692548ebe64463b22e8a75cc7597876fe",
+    "passChange": {
+      "$date": "2016-08-19T08:37:12.974Z"
+    },
+    "authenticationAttempts": 0,
+    "active": true,
+    "preferredLang": "en",
+    "latchId": "",
+    "latchOtp": "",
+    "latchOtpAttempts": 0,
+    "role": "RegularUser",
+    "mobileConnectId": "",
+    "enabledAlertMessage": true,
+    "changelogRead": false,
+    "ignoreChangeLog": false,
+    "oldPasswords": [
+      "428f97596494328322fb5e2654c757c692548ebe64463b22e8a75cc7597876fe"
+    ]
+  },
+  {
+    "_id":{
+      "$oid":"577e30a1307d6687de6a30a1"
+    },
+    "email":"test@test.com",
+    "name":"Super Admin",
+    "password":"3954cb0ff97d7f17779b53b0d1926b145ed9956b9938c623ae514096bc6e37ff",
+    "passChange":{
+      "$date":"2016-07-07T10:36:17.377Z"
+    },
+    "authenticationAttempts":0,
+    "active":true,
+    "preferredLang":"es",
+    "latchId":"",
+    "latchOtp":"",
+    "latchOtpAttempts":0,
+    "role":"SuperAdmin",
+    "mobileConnectId":"",
+    "enabledAlertMessage":true,
+    "changelogRead":false,
+    "ignoreChangeLog":false,
+    "oldPasswords":[
+  
+    ],
+    "twitter":null,
+    "organization":null,
+    "timeZone":null,
+    "web":null
+  }
+]

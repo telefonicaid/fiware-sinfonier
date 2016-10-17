@@ -1,0 +1,29 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} ${topology?.getName()} #{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'topologies.css' /}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css">
+#{/set}
+
+<div class="row form-group">
+  <div class="col-lg-12">
+    <h1 id="topology-h1-title">&{'Topologies.topology'} '${topology?.getName()}'</h1>
+  </div>
+</div>
+
+<div class="row">
+#{topologies._topology topology:topology, size:"large", vote:true, wc:controllers.WebController/}
+</div>
+
+#{set 'moreScripts'}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/tinymce.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/jquery.tinymce.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/plugins/codesample/plugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/plugins/autoresize/plugin.min.js"></script>
+    #{script 'util/code.js'/}
+    #{script 'topologies.js'/}
+#{/set}

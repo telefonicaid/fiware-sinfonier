@@ -1,0 +1,434 @@
+.control-panel {
+    /*font-family: 'TelefonicaWebThin';*/
+    background-color: #E4E4E4;
+}
+
+.control-panel h1,
+.control-panel h2,
+.control-panel h3,
+.control-panel h4,
+.control-panel h5,
+.control-panel h6 {
+    color: #2D0038;
+}
+
+.control-panel .form-group .input-icon {
+    margin-bottom: 0;
+}
+
+.control-panel .white-box input, .control-panel .white-box textarea {
+    background: #F1F1F1;
+}
+
+.control-panel .white-box .form-inline input {
+    margin-right: 10px;
+}
+
+.control-panel .btn-bezel,
+.control-panel .submit {
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06),0 2px 5px 0 rgba(0,0,0,.2);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 7px;
+    text-align: center;
+    color: white;
+    border-radius: 3px;
+    text-shadow: 0px -1px 0px #1b8bc3;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+    background: #1ad1b8;
+    background: -webkit-linear-gradient(#1ad1b8, #28a7e7);
+    background: -o-linear-gradient(#1ad1b8, #28a7e7);
+    background: -moz-linear-gradient(#1ad1b8, #28a7e7);
+    background: linear-gradient(#1ad1b8, #28a7e7);
+    transition: background 1s;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+}
+
+.control-panel .submit .material-icons,
+.control-panel .btn-bezel .material-icons {
+    font-size: 21px;
+}
+
+.control-panel .submit.inline,
+.control-panel .btn-bezel + .btn-bezel {
+    margin-left: 7px;
+}
+
+.control-panel .submit:hover,
+.control-panel .btn-bezel:hover {
+    cursor: pointer;
+    border: none;
+    text-shadow: 0px 1px 0px #1b8bc3;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06) inset,0 2px 5px 0 rgba(0,0,0,.2) inset;
+}
+
+.control-panel a i.material-icons,
+.control-panel button i.material-icons {
+    vertical-align: middle;
+}
+
+.control-panel header {
+    background: url('../images/background/header-texture.png') #0d2d42 bottom no-repeat;
+    height: 75px;
+    padding: 20px 30px 20px 0px;
+    color: #FFF;
+}
+
+.control-panel header h1,
+.control-panel header h2,
+.control-panel header h3,
+.control-panel header h4,
+.control-panel header h5,
+.control-panel header h6 {
+    color: #fff;
+}
+
+.control-panel header .logo-area,
+.control-panel .control-panel-content .menu {
+    max-width: 330px;
+    width: 100%;
+    display:block;
+    position:absolute;
+    z-index: 1;
+    -webkit-transition: max-width 1s;
+    -moz-transition: max-width 1s;
+    -o-transition: max-width 1s;
+    transition: max-width 1s;
+}
+
+.control-panel .menu {
+    padding-top: 30px;
+}
+
+.control-panel.menu-closed header .logo-area,
+.control-panel.menu-closed .control-panel-content .menu {
+   max-width: 100px;
+}
+
+.control-panel .control-panel-content .menu ul li a span,
+.control-panel .control-panel-content .menu ul li button span {
+    -webkit-transition: opacity 1s;
+    -moz-transition: opacity 1s;
+    -o-transition: opacity 1s;
+    transition: opacity 1s;
+    position: absolute;
+    opacity:1;
+}
+
+.control-panel.menu-closed .control-panel-content .menu ul li a span,
+.control-panel.menu-closed .control-panel-content .menu ul li button span {
+    opacity:0;
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    overflow: hidden;
+}
+
+.control-panel .control-panel-content .menu ul li form,
+.control-panel .control-panel-content .menu ul li button {
+    width: 100%;
+    text-align: left;
+}
+
+.control-panel header .logo-area i {
+    float: right;
+    margin-top: 8px;
+    margin-right: 20px;
+    cursor: pointer;
+    font-size: 27px;
+}
+
+.control-panel.menu-closed header .logo-area i {
+     margin-right: 0;
+}
+
+.control-panel header .logo-area img {
+    max-width: 200px;
+    width: 100%;
+    margin: 0px 5px 20px 30px;
+    position: absolute;
+}
+
+.control-panel.menu-closed header .logo-area img {
+    max-width: 30px;
+    margin: 10px 5px 20px 30px;
+}
+
+.control-panel.menu-closed header .logo-area img.big-logo,
+.control-panel header .logo-area img.small-logo {
+    display:none;
+}
+
+.control-panel header .logo-area img.big-logo,
+.control-panel.menu-closed header .logo-area img.small-logo {
+    display:inline-block;
+}
+
+
+.control-panel header .nav-area,
+.control-panel .control-panel-content .control-panel-page {
+    width: 100%;
+    display: block;
+    padding-left: 355px;
+    position: absolute;
+    -webkit-transition: padding 1s;
+    -moz-transition: padding 1s;
+    -o-transition: padding 1s;
+    transition: padding 1s;
+    padding-bottom: 40px;
+}
+
+.control-panel.transition-off header .logo-area,
+.control-panel.transition-off .control-panel-content .menu,
+.control-panel.transition-off .control-panel-content .menu ul li a span,
+.control-panel.transition-off .control-panel-content .menu ul li button span,
+.control-panel.transition-off header .nav-area,
+.control-panel.transition-off .control-panel-content .control-panel-page {
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.control-panel.menu-closed header .nav-area,
+.control-panel.menu-closed .control-panel-content .control-panel-page {
+    padding-left: 100px;
+}
+
+
+.control-panel .control-panel-content .control-panel-page {
+    padding-top: 30px;
+    max-width: 1600px;
+}
+
+.control-panel header .nav-area h1 {
+    margin: 0px;
+    display: inline-block;
+}
+
+.control-panel .right-nav {
+   display: inline-block;
+   float: right;
+   margin-top: 0 px;
+   margin-right: 30px;
+   vertical-align: middle;
+}
+
+.control-panel .nav-lang {
+   position:relative;
+   display: inline-block;
+   margin-right: 20px;
+}
+
+.control-panel .user-name {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.control-panel .shadow {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.control-panel .shadow img {
+    width: 100%;
+}
+
+.control-panel .control-panel-content {
+    margin-top: -32px;
+    position: absolute;
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+}
+
+.control-panel .control-panel-content .menu > .row {
+    margin-right: 0;
+}
+.control-panel .control-panel-content .menu ul {
+    padding-top: 0;
+    padding-left: 0;
+}
+
+.control-panel .control-panel-content .menu ul li {
+    display: block;
+    padding: 0;
+    font-size: 16px;
+    color: #035c84;
+    margin: 5px 0;
+}
+
+.control-panel .control-panel-content .menu ul li a,
+.control-panel .control-panel-content .menu ul li button {
+    color: #2D0038;
+    display:block;
+    padding: 15px 20px 15px 30px;
+    background: none;
+    border: none;
+}
+
+.control-panel .control-panel-content .menu ul li:hover,
+.control-panel .control-panel-content .menu ul li.active {
+    background: #1ad1b8;
+    background: -webkit-linear-gradient(#1ad1b8, #28a7e7);
+    background: -o-linear-gradient(#1ad1b8, #28a7e7);
+    background: -moz-linear-gradient(#1ad1b8, #28a7e7);
+    background: linear-gradient(#1ad1b8, #28a7e7);
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 1px rgba(0,0,0,0.3);
+    cursor:pointer;
+}
+
+.control-panel .control-panel-content .menu ul li:hover a,
+.control-panel .control-panel-content .menu ul li.active a,
+.control-panel .control-panel-content .menu ul li.active button,
+.control-panel .control-panel-content .menu ul li:hover button {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.control-panel .control-panel-content .menu ul li a i,
+.control-panel .control-panel-content .menu ul li a img,
+.control-panel .control-panel-content .menu ul li button i,
+.control-panel .control-panel-content .menu ul li button img {
+    margin-right: 20px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.control-panel .control-panel-content .menu ul li a img,
+.control-panel .control-panel-content .menu ul li button img {
+    width: 22px;
+    padding-left: 3px;
+}
+
+.control-panel .white-box {
+    background: #fff;
+    width: 100%;
+    margin: 15px 0;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06),0 2px 5px 0 rgba(0,0,0,0.2);
+    padding: 15px 15px 10px 15px;
+    border-radius: 2px;
+}
+
+.control-panel table.darwin-table tbody tr {
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06), 0 2px 5px 0 rgba(0,0,0,0.2);
+    border-radius: 2px;
+}
+
+.control-panel table.darwin-table  td {
+    padding: 15px !important;
+}
+
+.control-panel table.darwin-table  th {
+    padding: 0px 15px !important;
+    position: relative;
+    bottom: -6px;
+}
+
+.control-panel table.darwin-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.control-panel table.darwin-table thead tr th {
+    border: none;
+    padding-bottom: 0px;
+}
+
+.control-panel .input-icon i {
+    color: #2D0038;
+    margin-top: 10px;
+}
+
+.control-panel .white-box .selectpicker,
+.control-panel .white-box .bootstrap-select .dropdown-menu,
+.control-panel table.darwin-table .selectpicker,
+.control-panel table.darwin-table .bootstrap-select .dropdown-menu{
+    background: #F1F1F1;
+}
+
+
+/* API CLIENTS */
+
+.api-client .form-container {
+   padding-right: 130px;
+}
+
+.api-client .form-container input {
+    margin: 0 8px 5px 0;
+}
+
+.api-client .form-group h5 {
+    border-right: 2px solid #D1D1D1;
+    margin: 0;
+    padding: 7px 10px;
+    height: 33px;
+    vertical-align: top;
+    display:inline-block;
+}
+
+.api-client .form-group h5 + h5 {
+    border: none;
+}
+
+@media(max-width:1236px) {
+    .api-client .form-group h5 {
+        display:block;
+        border: none;
+        padding: 0;
+        height: auto;
+    }
+}
+
+.api-client .form-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+}
+
+/* ROLES */
+
+.role .form-container {
+   padding-right: 100px;
+}
+
+.role .form-container input, .role .form-container .check-tag {
+    margin: 0 8px 5px 0;
+}
+
+.role .form-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+}
+
+/* CHANGELOG */
+
+.changelog .changelog-title,
+.changelog .changelog-title a,
+.changelog .changelog-title a:hover,
+.changelog .changelog-title a:focus {
+    color: #2D0038;
+    text-decoration: none;
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    margin: 2px 0 3px 0;
+}
+
+.changelog .changelog-title + .form-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+}

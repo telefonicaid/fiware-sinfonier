@@ -1,0 +1,753 @@
+[
+  {
+    "_id": {
+      "$oid": "57ad72bde1c0801a58324247"
+    },
+    "versionTag": "1.0",
+    "versionCode": 1,
+    "status": "private",
+    "sourceType": "template",
+    "sourceCode": "/**The MIT License (MIT) \r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.*/\r\n\r\npackage com.sinfonier.spouts;\r\n\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\nimport org.json.JSONObject;\r\nimport org.quartz.Job;\r\nimport org.quartz.JobBuilder;\r\nimport org.quartz.JobDetail;\r\nimport org.quartz.JobExecutionContext;\r\nimport org.quartz.JobExecutionException;\r\nimport org.quartz.Scheduler;\r\nimport org.quartz.SchedulerContext;\r\nimport org.quartz.SchedulerException;\r\nimport org.quartz.SimpleScheduleBuilder;\r\nimport org.quartz.Trigger;\r\nimport org.quartz.TriggerBuilder;\r\nimport org.quartz.impl.StdSchedulerFactory;\r\nimport backtype.storm.utils.Utils;\r\nimport java.security.SecureRandom;\r\nimport java.math.BigInteger;\r\n\r\npublic class Myspout extends BaseSinfonierSpout {\r\n\r\n\tprivate String name;\r\n\tprivate int age;\r\n\tprivate LinkedBlockingQueue<String> queue = null;\r\n\tprivate int frequency = 300;\r\n\tprivate SecureRandom random = new SecureRandom();\r\n\r\n\tpublic Myspout (String spoutName, String xmlPath) {\r\n\t\tsuper(spoutName, xmlPath);\r\n\t}\r\n\r\n\tpublic void useropen() {\r\n\t\t// TO-DO: Init values. Code here runs once.\r\n\t\t// Get params from module\r\n\t\ttry {\r\n\t\t\tname = getParam(\"name\");\r\n\t\t\tage = Integer.parseInt(getParam(\"age\",true));\r\n\t\t\tfrequency = Integer.parseInt(getParam(\"frequency\",true));\r\n\t\t} catch (Exception e) {\r\n\t\t\te.printStackTrace();\r\n\t\t}\r\n\t\tqueue = new LinkedBlockingQueue<String>(1000);\r\n\t\tJobDetail job = JobBuilder.newJob(JobClass.class)\r\n\t\t\t.withIdentity(\"dummyJobName\", \"group1\").build();\r\n\r\n\t\tTrigger trigger = TriggerBuilder\r\n\t\t\t.newTrigger()\r\n\t\t\t.withIdentity(\"Generate Items\")\r\n\t\t\t.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(frequency).repeatForever())\r\n\t\t\t.build();\r\n\t\tScheduler scheduler = null;\r\n\t\ttry {\r\n\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\tSystem.setProperty(\"org.quartz.scheduler.instanceName\", schedulerName);\r\n\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t} catch (Exception e) {\r\n\t\t\ttry {\r\n\t\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\t\tSystem.setProperty(\"org.quartz.scheduler.instanceName\", schedulerName);\r\n\t\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t\t} catch (Exception u) {\r\n\t\t\t\tu.printStackTrace();\r\n\t\t\t\tSystem.out.println(\"ERROR - Second try scheduler error.\");\r\n\t\t\t}\r\n\t\t}\r\n\t\tif (scheduler != null){\r\n\t\t\ttry {\r\n\t\t\t\tscheduler.getContext().put(\"queue\", queue);\r\n\t\t\t\tscheduler.getContext().put(\"name\", name);\r\n\t\t\t\tscheduler.getContext().put(\"age\", age);\r\n\t\t\t\tscheduler.getContext().put(\"frequency\", frequency);\r\n\r\n\t\t\t\tscheduler.start();\r\n\t\t\t\tscheduler.scheduleJob(job, trigger);\r\n\t\t\t} catch (SchedulerException e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void usernextTuple(){\r\n\t\tif (!queue.isEmpty()) {\r\n\t\t\tString json = queue.poll();\r\n\t\t\tthis.setJson(json);\r\n\t\t\tthis.emit();\r\n\t\t} else {\r\n\t\t\tUtils.sleep(50);\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void userclose() {}\r\n\r\n\tpublic static class JobClass implements Job {\r\n\r\n\t\t@Override\r\n\t\tpublic void execute(JobExecutionContext context) throws JobExecutionException {\r\n\t\t\tSchedulerContext schedulerContext = null;\r\n\r\n\t\t\tString name;\r\n\t\t\tint age;\r\n\r\n\t\t\ttry {\r\n\t\t\t\tschedulerContext = context.getScheduler().getContext();\r\n\t\t\t\t@SuppressWarnings(\"unchecked\")\r\n\t\t\t\tLinkedBlockingQueue<String> queue = (LinkedBlockingQueue<String>) schedulerContext\r\n\t\t\t\t\t.get(\"queue\");\r\n\r\n\t\t\t\tname = (String) schedulerContext.get(\"name\");\r\n\t\t\t\tage = (Integer) schedulerContext.get(\"age\");\r\n\r\n\t\t\t\tJSONObject jobj = new JSONObject();\r\n\t\t\t\tjobj.put(\"name\",name);\r\n\t\t\t\tjobj.put(\"age\",age);\r\n\r\n\t\t\t\tqueue.put(jobj.toString());\r\n\r\n\t\t\t} catch (Exception e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}",
+    "sourceCodeUrl": "",
+    "buildStatus": "success",
+    "description": "Descripción del módulo MySpout. Versión 1.0",
+    "created_at": {
+      "$date": "2016-08-12T06:54:53.894Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T06:56:43.289Z"
+    },
+    "singleton": false,
+    "topologies_count": 1,
+    "ticktuple": null,
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "myspout",
+        "class": "com.sinfonier.spouts.MySpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "fields": [
+    ],
+    "libraries": [
+    ],
+    "my_tools": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad7385e1c0801a58324249"
+    },
+    "versionTag": "1.1",
+    "versionCode": 2,
+    "status": "published",
+    "sourceType": "template",
+    "sourceCode": "/**The MIT License (MIT) \r\nVersion 1.1\r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the &quot;Software&quot;), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.*/\r\n\r\npackage com.sinfonier.spouts;\r\n\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\nimport org.json.JSONObject;\r\nimport org.quartz.Job;\r\nimport org.quartz.JobBuilder;\r\nimport org.quartz.JobDetail;\r\nimport org.quartz.JobExecutionContext;\r\nimport org.quartz.JobExecutionException;\r\nimport org.quartz.Scheduler;\r\nimport org.quartz.SchedulerContext;\r\nimport org.quartz.SchedulerException;\r\nimport org.quartz.SimpleScheduleBuilder;\r\nimport org.quartz.Trigger;\r\nimport org.quartz.TriggerBuilder;\r\nimport org.quartz.impl.StdSchedulerFactory;\r\nimport backtype.storm.utils.Utils;\r\nimport java.security.SecureRandom;\r\nimport java.math.BigInteger;\r\n\r\npublic class Myspout extends BaseSinfonierSpout {\r\n\r\n\tprivate String name;\r\n\tprivate int age;\r\n\tprivate LinkedBlockingQueue&lt;String&gt; queue = null;\r\n\tprivate int frequency = 300;\r\n\tprivate SecureRandom random = new SecureRandom();\r\n\r\n\tpublic Myspout (String spoutName, String xmlPath) {\r\n\t\tsuper(spoutName, xmlPath);\r\n\t}\r\n\r\n\tpublic void useropen() {\r\n\t\t// TO-DO: Init values. Code here runs once.\r\n\t\t// Get params from module\r\n\t\ttry {\r\n\t\t\tname = getParam(&quot;name&quot;);\r\n\t\t\tage = Integer.parseInt(getParam(&quot;age&quot;,true));\r\n\t\t\tfrequency = Integer.parseInt(getParam(&quot;frequency&quot;,true));\r\n\t\t} catch (Exception e) {\r\n\t\t\te.printStackTrace();\r\n\t\t}\r\n\t\tqueue = new LinkedBlockingQueue&lt;String&gt;(1000);\r\n\t\tJobDetail job = JobBuilder.newJob(JobClass.class)\r\n\t\t\t.withIdentity(&quot;dummyJobName&quot;, &quot;group1&quot;).build();\r\n\r\n\t\tTrigger trigger = TriggerBuilder\r\n\t\t\t.newTrigger()\r\n\t\t\t.withIdentity(&quot;Generate Items&quot;)\r\n\t\t\t.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(frequency).repeatForever())\r\n\t\t\t.build();\r\n\t\tScheduler scheduler = null;\r\n\t\ttry {\r\n\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\tSystem.setProperty(&quot;org.quartz.scheduler.instanceName&quot;, schedulerName);\r\n\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t} catch (Exception e) {\r\n\t\t\ttry {\r\n\t\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\t\tSystem.setProperty(&quot;org.quartz.scheduler.instanceName&quot;, schedulerName);\r\n\t\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t\t} catch (Exception u) {\r\n\t\t\t\tu.printStackTrace();\r\n\t\t\t\tSystem.out.println(&quot;ERROR - Second try scheduler error.&quot;);\r\n\t\t\t}\r\n\t\t}\r\n\t\tif (scheduler != null){\r\n\t\t\ttry {\r\n\t\t\t\tscheduler.getContext().put(&quot;queue&quot;, queue);\r\n\t\t\t\tscheduler.getContext().put(&quot;name&quot;, name);\r\n\t\t\t\tscheduler.getContext().put(&quot;age&quot;, age);\r\n\t\t\t\tscheduler.getContext().put(&quot;frequency&quot;, frequency);\r\n\r\n\t\t\t\tscheduler.start();\r\n\t\t\t\tscheduler.scheduleJob(job, trigger);\r\n\t\t\t} catch (SchedulerException e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void usernextTuple(){\r\n\t\tif (!queue.isEmpty()) {\r\n\t\t\tString json = queue.poll();\r\n\t\t\tthis.setJson(json);\r\n\t\t\tthis.emit();\r\n\t\t} else {\r\n\t\t\tUtils.sleep(50);\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void userclose() {}\r\n\r\n\tpublic static class JobClass implements Job {\r\n\r\n\t\t@Override\r\n\t\tpublic void execute(JobExecutionContext context) throws JobExecutionException {\r\n\t\t\tSchedulerContext schedulerContext = null;\r\n\r\n\t\t\tString name;\r\n\t\t\tint age;\r\n\r\n\t\t\ttry {\r\n\t\t\t\tschedulerContext = context.getScheduler().getContext();\r\n\t\t\t\t@SuppressWarnings(&quot;unchecked&quot;)\r\n\t\t\t\tLinkedBlockingQueue&lt;String&gt; queue = (LinkedBlockingQueue&lt;String&gt;) schedulerContext\r\n\t\t\t\t\t.get(&quot;queue&quot;);\r\n\r\n\t\t\t\tname = (String) schedulerContext.get(&quot;name&quot;);\r\n\t\t\t\tage = (Integer) schedulerContext.get(&quot;age&quot;);\r\n\r\n\t\t\t\tJSONObject jobj = new JSONObject();\r\n\t\t\t\tjobj.put(&quot;name&quot;,name);\r\n\t\t\t\tjobj.put(&quot;age&quot;,age);\r\n\r\n\t\t\t\tqueue.put(jobj.toString());\r\n\r\n\t\t\t} catch (Exception e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}",
+    "sourceCodeUrl": "",
+    "description": "Descripción del módulo MySpout. Corrección de errores y cambio de los campos. Versión 1.1",
+    "created_at": {
+      "$date": "2016-08-12T06:58:13.340Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T06:58:45.432Z"
+    },
+    "singleton": false,
+    "topologies_count": 5,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Param Numeric",
+        "type": "number",
+        "required": true,
+        "wirable": true
+      },
+      {
+        "name": "param2",
+        "label": "Param List",
+        "type": "list",
+        "required": false,
+        "wirable": false,
+        "elementType": {
+          "name": "keyValue",
+          "type": "combine",
+          "fields": [
+            {
+              "name": "key",
+              "type": "string",
+              "typeInvite": "Key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "typeInvite": "Value"
+            }
+          ],
+          "separators": [
+            false,
+            false,
+            false
+          ]
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": "lib1",
+        "url": "http://maven.org/loquesea"
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "myspout",
+        "class": "com.sinfonier.spouts.MySpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "my_tools": [
+      {
+        "userId": "test2@test.com",
+        "timestamp": {
+          "$date": "2016-08-17T08:16:07.879Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad73e8e1c0801a5832424a"
+    },
+    "versionTag": "1.0",
+    "versionCode": 1,
+    "status": "published",
+    "sourceType": "template",
+    "sourceCode": "/**The MIT License (MIT) \r\nVersion 1.0\r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the &quot;Software&quot;), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.*/\r\n\r\npackage com.sinfonier.bolts;\r\n\r\npublic class Mybolt extends BaseSinfonierBolt {\r\n\t//TO-DO: Declare variables\r\n\tprivate String&nbsp;var;\r\n\tprivate String name;\r\n\tpublic&nbsp;Mybolt (String xmlFile) {\r\n\t\tsuper(xmlFile);\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void userprepare() {\r\n\t\t// TO-DO: Init values. Code here runs once\r\n\t\tthis.var = &quot;value&quot;;\r\n\t\t// Get Param (get value of &quot;param_name&quot; from input box)\r\n\t\tthis.name = (String)this.getParam(&quot;param_name&quot;);\r\n\t}\r\n\r\n\t@Override\r\n\tpublic void userexecute() {\r\n\t\t//TO-DO: Write your code here. This code runs once by each input tuple\r\n\t\t// You can use the following functions to process it\r\n\r\n\t\t// Add field\r\n\t\tthis.addField(&quot;name&quot;,&quot;Peter&quot;);\r\n\r\n\t\t// Get field (return a String)\r\n\t\tthis.getField(&quot;country&quot;);\r\n\r\n\t\t// Remove field\r\n\t\tthis.removeField(this.var);\r\n\r\n\t\t// Exists field (return Boolean)\r\n\t\tthis.existsField(&quot;lastname&quot;);\r\n\r\n\t\t// Mandatory. Emit the tuple to the next bolt\r\n\t\tthis.emit();\r\n\t}\r\n\r\n\tpublic void usercleanup() {}\r\n}",
+    "sourceCodeUrl": "",
+    "description": "Descripción de MyBolt. Versión 1.0",
+    "created_at": {
+      "$date": "2016-08-12T06:59:52.406Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:01:51.132Z"
+    },
+    "singleton": true,
+    "topologies_count": 9,
+    "ticktuple": {
+      "name": "TickTuple",
+      "label": "label1",
+      "type": "string",
+      "required": false,
+      "wirable": true
+    },
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "bolt",
+      "icon": "/public/images/icons/bolt.png",
+      "attributes": {
+        "abstractionId": "mybolt",
+        "class": "com.sinfonier.bolts.MyBolt"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        },
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "fields": [
+    ],
+    "libraries": [
+    ],
+    "my_tools": [
+      {
+        "userId": "test@test.com",
+        "timestamp": {
+          "$date": "2016-08-12T08:35:42.147Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad752ae1c0801a5832424c"
+    },
+    "versionTag": "1.0",
+    "versionCode": 1,
+    "status": "published",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/ivan11paths/0c2b6ac0071cfb1000bec4f6b0042f8a",
+    "description": "Descripción de MyDrain. Versión 1.0",
+    "created_at": {
+      "$date": "2016-08-12T07:05:14.930Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:06:50.015Z"
+    },
+    "singleton": false,
+    "topologies_count": 2,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Parámetro string",
+        "type": "string",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param2",
+        "label": "Parámetro boolean",
+        "type": "bool",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param3",
+        "label": "Parámetro integer",
+        "type": "integer",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param4",
+        "label": "Parámetro URL",
+        "type": "url",
+        "required": false,
+        "wirable": false
+      }
+    ],
+    "libraries": [
+      {
+        "name": "lib1",
+        "url": "http://maven.org/loquesea"
+      },
+      {
+        "name": "lib2",
+        "url": "http://maven.org/loquesea2"
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "drain",
+      "icon": "/public/images/icons/drain.png",
+      "attributes": {
+        "abstractionId": "mydrain",
+        "class": "com.sinfonier.drains.MyDrain"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    "my_tools": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad7566e1c0801a5832424e"
+    },
+    "versionTag": "2.0",
+    "versionCode": 2,
+    "status": "published",
+    "sourceType": "gist",
+    "sourceCode": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\n\"\"\"The MIT License (MIT) \r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.\"\"\"\r\n\r\nimport basesinfonierdrain\r\n\r\nclass Mydrain (basesinfonierDrain.BaseSinfonierDrain):\r\n\r\n\tdef userprepare(self):\r\n\t\t# TO-DO: Init values. Code here runs once\r\n\t\tself.variable = \"hello\"\r\n\r\n\t\t# Get Param (get value of \"param_name\" from input box)\r\n\t\tself.name = self.getParam(\"param_name\")\r\n\r\n\tdef userprocess(self):\r\n\t\t# TO-DO:\r\n\t\t# Write your code here.\r\n\t\t# This code runs once by each input tuple\r\n\t\t# You can use the following functions to process it\r\n\r\n\t\t# Add field\r\n\t\tself.addField(\"name\",\"Peter\")\r\n\t\tself.addField(\"name2\",self.name)\r\n\r\n\t\t# Get field (return a String)\r\n\t\tself.getField(\"country\")\r\n\r\n\t\t# Remove field\r\n\t\tself.removeField(\"age\")\r\n\r\n\t\t# Exists field (return bool)\r\n\t\tself.existsField(\"lastname\")\r\n\r\n\r\nMydrain().run()\r\n",
+    "sourceCodeUrl": "https://gist.github.com/ivan11paths/0c2b6ac0071cfb1000bec4f6b0042f8a",
+    "description": "Descripción de MyDrain. Versión 2.0",
+    "created_at": {
+      "$date": "2016-08-12T07:06:14.520Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:06:53.261Z"
+    },
+    "singleton": false,
+    "topologies_count": 7,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Parámetro string",
+        "type": "string",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param2",
+        "label": "Parámetro boolean",
+        "type": "bool",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param3",
+        "label": "Parámetro integer",
+        "type": "integer",
+        "required": false,
+        "wirable": false
+      },
+      {
+        "name": "param4",
+        "label": "Parámetro URL",
+        "type": "url",
+        "required": false,
+        "wirable": false
+      }
+    ],
+    "libraries": [
+      {
+        "name": "lib1",
+        "url": "http://maven.org/loquesea"
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "drain",
+      "icon": "/public/images/icons/drain.png",
+      "attributes": {
+        "abstractionId": "mydrain",
+        "class": "com.sinfonier.drains.MyDrain"
+      },
+      "terminals": [
+        {
+          "name": "in[]",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "top": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "input",
+            "allowedTypes": [
+              "output"
+            ]
+          },
+          "direction": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    "my_tools": [
+      {
+        "userId": "test@test.com",
+        "timestamp": {
+          "$date": "2016-08-12T10:43:27.619Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ad7aaae1c0801a5832424f"
+    },
+    "versionTag": "1.2",
+    "versionCode": 3,
+    "status": "developing",
+    "sourceType": "template",
+    "sourceCode": "/**The MIT License (MIT) \r\nVersion 1.2\r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the &amp;amp;quot;Software&amp;amp;quot;), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED &amp;amp;quot;AS IS&amp;amp;quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.*/\r\n\r\npackage com.sinfonier.spouts;\r\n\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\nimport org.json.JSONObject;\r\nimport org.quartz.Job;\r\nimport org.quartz.JobBuilder;\r\nimport org.quartz.JobDetail;\r\nimport org.quartz.JobExecutionContext;\r\nimport org.quartz.JobExecutionException;\r\nimport org.quartz.Scheduler;\r\nimport org.quartz.SchedulerContext;\r\nimport org.quartz.SchedulerException;\r\nimport org.quartz.SimpleScheduleBuilder;\r\nimport org.quartz.Trigger;\r\nimport org.quartz.TriggerBuilder;\r\nimport org.quartz.impl.StdSchedulerFactory;\r\nimport backtype.storm.utils.Utils;\r\nimport java.security.SecureRandom;\r\nimport java.math.BigInteger;\r\n\r\npublic class Myspout extends BaseSinfonierSpout {\r\n\r\n\tprivate String name;\r\n\tprivate int age;\r\n\tprivate LinkedBlockingQueue&amp;amp;lt;String&amp;amp;gt; queue = null;\r\n\tprivate int frequency = 300;\r\n\tprivate SecureRandom random = new SecureRandom();\r\n\r\n\tpublic Myspout (String spoutName, String xmlPath) {\r\n\t\tsuper(spoutName, xmlPath);\r\n\t}\r\n\r\n\tpublic void useropen() {\r\n\t\t// TO-DO: Init values. Code here runs once.\r\n\t\t// Get params from module\r\n\t\ttry {\r\n\t\t\tname = getParam(&amp;amp;quot;name&amp;amp;quot;);\r\n\t\t\tage = Integer.parseInt(getParam(&amp;amp;quot;age&amp;amp;quot;,true));\r\n\t\t\tfrequency = Integer.parseInt(getParam(&amp;amp;quot;frequency&amp;amp;quot;,true));\r\n\t\t} catch (Exception e) {\r\n\t\t\te.printStackTrace();\r\n\t\t}\r\n\t\tqueue = new LinkedBlockingQueue&amp;amp;lt;String&amp;amp;gt;(1000);\r\n\t\tJobDetail job = JobBuilder.newJob(JobClass.class)\r\n\t\t\t.withIdentity(&amp;amp;quot;dummyJobName&amp;amp;quot;, &amp;amp;quot;group1&amp;amp;quot;).build();\r\n\r\n\t\tTrigger trigger = TriggerBuilder\r\n\t\t\t.newTrigger()\r\n\t\t\t.withIdentity(&amp;amp;quot;Generate Items&amp;amp;quot;)\r\n\t\t\t.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(frequency).repeatForever())\r\n\t\t\t.build();\r\n\t\tScheduler scheduler = null;\r\n\t\ttry {\r\n\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\tSystem.setProperty(&amp;amp;quot;org.quartz.scheduler.instanceName&amp;amp;quot;, schedulerName);\r\n\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t} catch (Exception e) {\r\n\t\t\ttry {\r\n\t\t\t\tString schedulerName = new BigInteger(130, random).toString(32);\r\n\t\t\t\tSystem.setProperty(&amp;amp;quot;org.quartz.scheduler.instanceName&amp;amp;quot;, schedulerName);\r\n\t\t\t\tStdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();\r\n\t\t\t\tstdSchedulerFactory.initialize();\r\n\t\t\t\tscheduler = stdSchedulerFactory.getScheduler();\r\n\t\t\t} catch (Exception u) {\r\n\t\t\t\tu.printStackTrace();\r\n\t\t\t\tSystem.out.println(&amp;amp;quot;ERROR - Second try scheduler error.&amp;amp;quot;);\r\n\t\t\t}\r\n\t\t}\r\n\t\tif (scheduler != null){\r\n\t\t\ttry {\r\n\t\t\t\tscheduler.getContext().put(&amp;amp;quot;queue&amp;amp;quot;, queue);\r\n\t\t\t\tscheduler.getContext().put(&amp;amp;quot;name&amp;amp;quot;, name);\r\n\t\t\t\tscheduler.getContext().put(&amp;amp;quot;age&amp;amp;quot;, age);\r\n\t\t\t\tscheduler.getContext().put(&amp;amp;quot;frequency&amp;amp;quot;, frequency);\r\n\r\n\t\t\t\tscheduler.start();\r\n\t\t\t\tscheduler.scheduleJob(job, trigger);\r\n\t\t\t} catch (SchedulerException e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void usernextTuple(){\r\n\t\tif (!queue.isEmpty()) {\r\n\t\t\tString json = queue.poll();\r\n\t\t\tthis.setJson(json);\r\n\t\t\tthis.emit();\r\n\t\t} else {\r\n\t\t\tUtils.sleep(50);\r\n\t\t}\r\n\t}\r\n\r\n\tpublic void userclose() {}\r\n\r\n\tpublic static class JobClass implements Job {\r\n\r\n\t\t@Override\r\n\t\tpublic void execute(JobExecutionContext context) throws JobExecutionException {\r\n\t\t\tSchedulerContext schedulerContext = null;\r\n\r\n\t\t\tString name;\r\n\t\t\tint age;\r\n\r\n\t\t\ttry {\r\n\t\t\t\tschedulerContext = context.getScheduler().getContext();\r\n\t\t\t\t@SuppressWarnings(&amp;amp;quot;unchecked&amp;amp;quot;)\r\n\t\t\t\tLinkedBlockingQueue&amp;amp;lt;String&amp;amp;gt; queue = (LinkedBlockingQueue&amp;amp;lt;String&amp;amp;gt;) schedulerContext\r\n\t\t\t\t\t.get(&amp;amp;quot;queue&amp;amp;quot;);\r\n\r\n\t\t\t\tname = (String) schedulerContext.get(&amp;amp;quot;name&amp;amp;quot;);\r\n\t\t\t\tage = (Integer) schedulerContext.get(&amp;amp;quot;age&amp;amp;quot;);\r\n\r\n\t\t\t\tJSONObject jobj = new JSONObject();\r\n\t\t\t\tjobj.put(&amp;amp;quot;name&amp;amp;quot;,name);\r\n\t\t\t\tjobj.put(&amp;amp;quot;age&amp;amp;quot;,age);\r\n\r\n\t\t\t\tqueue.put(jobj.toString());\r\n\r\n\t\t\t} catch (Exception e) {\r\n\t\t\t\te.printStackTrace();\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}",
+    "sourceCodeUrl": "",
+    "description": "Descripción del módulo MySpout. Corrección de errores y cambio de los campos. Versión 1.2",
+    "created_at": {
+      "$date": "2016-08-12T07:28:42.766Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T07:29:54.851Z"
+    },
+    "singleton": true,
+    "topologies_count": -1,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Param Numeric",
+        "type": "number",
+        "required": true,
+        "wirable": true
+      },
+      {
+        "name": "param2",
+        "label": "Param List",
+        "type": "list",
+        "required": false,
+        "wirable": false,
+        "elementType": {
+          "name": "keyValue",
+          "type": "combine",
+          "fields": [
+            {
+              "name": "key",
+              "type": "string",
+              "typeInvite": "Key"
+            },
+            {
+              "name": "value",
+              "type": "string",
+              "typeInvite": "Value"
+            }
+          ],
+          "separators": [
+            false,
+            false,
+            false
+          ]
+        }
+      }
+    ],
+    "libraries": [
+      {
+        "name": "lib1",
+        "url": "http://maven.org/loquesea"
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "myspout",
+        "class": "com.sinfonier.spouts.MySpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "_id": {
+      "$oid": "57ad835fe1c0801a58324252"
+    },
+    "versionTag": "1.0-SNAPSHOT",
+    "versionCode": 1,
+    "status": "private",
+    "sourceType": "template",
+    "sourceCode": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\n\"\"\"The MIT License (MIT) \r\nVersion 1.0-SNAPSHOT\r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.\"\"\"\r\n\r\nfrom apscheduler.schedulers.background import BackgroundScheduler\r\nfrom collections import deque\r\nimport time\r\nimport basesinfonierspout\r\nimport json\r\n\r\nclass Modulospout(basesinfonierspout.BaseSinfonierSpout):\r\n\tdef useropen(self):\r\n\t\t# TO-DO: Init values. Code here runs once.\r\n\t\t# Using deque as a queue\r\n\t\tself.queue = deque()\r\n\t\tself.frequency = int(self.getParam(\"frequency\"))\r\n\r\n\t\t# This scheduler launches self.job function every X seconds\r\n\t\tself.sched = BackgroundScheduler()\r\n\t\tself.sched.add_job(self.job, \"interval\", seconds=self.frequency, id=\"testpy\")\r\n\t\tself.sched.start()\r\n\r\n\tdef usernextTuple(self):\r\n\t\t# If there are items in self.queue, get the first one (.popleft()), do what you want with it and emit the tuple\r\n\t\tif self.queue:\r\n\t\t\tself.addField(\"timestamp\",self.queue.popleft())\r\n\t\t\tself.emit()\r\n\r\n\tdef userclose(self):\r\n\t\tpass\r\n\r\n\t\tdef job(self):\r\n\t\tself.queue.append(str(int(time.time())))",
+    "sourceCodeUrl": "",
+    "description": "Descripción del modulo Spout.\r\nVersión 1.0-SNAPSHOT",
+    "created_at": {
+      "$date": "2016-08-12T08:05:51.139Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-12T08:06:30.970Z"
+    },
+    "singleton": true,
+    "topologies_count": 4,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Parámetro 1",
+        "type": "list",
+        "required": false,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "modulospout",
+        "class": "com.sinfonier.spouts.ModuloSpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "libraries": [
+    ],
+    "my_tools": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57bd61106825f7d1739eb0cf"
+    },
+    "versionTag": "1.1-SNAPSHOT",
+    "versionCode": 2,
+    "status": "developing",
+    "sourceType": "template",
+    "sourceCode": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\n&quot;&quot;&quot;The MIT License (MIT) \r\nVersion 1.1-SNAPSHOT\r\n\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the &quot;Software&quot;), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.&quot;&quot;&quot;\r\n\r\nfrom apscheduler.schedulers.background import BackgroundScheduler\r\nfrom collections import deque\r\nimport time\r\nimport basesinfonierspout\r\nimport json\r\n\r\nclass Modulospout(basesinfonierspout.BaseSinfonierSpout):\r\n\tdef useropen(self):\r\n\t\t# TO-DO: Init values. Code here runs once.\r\n\t\t# Using deque as a queue\r\n\t\tself.queue = deque()\r\n\t\tself.frequency = int(self.getParam(&quot;frequency&quot;))\r\n\r\n\t\t# This scheduler launches self.job function every X seconds\r\n\t\tself.sched = BackgroundScheduler()\r\n\t\tself.sched.add_job(self.job, &quot;interval&quot;, seconds=self.frequency, id=&quot;testpy&quot;)\r\n\t\tself.sched.start()\r\n\r\n\tdef usernextTuple(self):\r\n\t\t# If there are items in self.queue, get the first one (.popleft()), do what you want with it and emit the tuple\r\n\t\tif self.queue:\r\n\t\t\tself.addField(&quot;timestamp&quot;,self.queue.popleft())\r\n\t\t\tself.emit()\r\n\r\n\tdef userclose(self):\r\n\t\tpass\r\n\r\n\t\tdef job(self):\r\n\t\tself.queue.append(str(int(time.time())))",
+    "sourceCodeUrl": "",
+    "description": "Descripción del modulo Spout.\r\nVersión 1.1-SNAPSHOT",
+    "created_at": {
+      "$date": "2016-08-24T08:55:44.216Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-24T08:55:44.216Z"
+    },
+    "singleton": true,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "fields": [
+      {
+        "name": "param1",
+        "label": "Parámetro 1",
+        "type": "list",
+        "required": false,
+        "wirable": false
+      }
+    ],
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "modulospout",
+        "class": "com.sinfonier.spouts.ModuloSpout"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "_id": {
+      "$oid": "57b40a65b902ae2bb5bd704e"
+    },
+    "versionTag": "1.0",
+    "versionCode": 1,
+    "status": "published",
+    "sourceType": "template",
+    "sourceCode": "#!/usr/bin/env python\r\n# -*- coding: utf-8 -*-\r\n\"\"\"The MIT License (MIT) \r\nVersion: 1.0\r\nCopyright (c) 2016 sinfonier-project\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in\r\nall copies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\r\nTHE SOFTWARE.\"\"\"\r\n\r\nfrom apscheduler.schedulers.background import BackgroundScheduler\r\nfrom collections import deque\r\nimport time\r\nimport basesinfonierspout\r\nimport json\r\n\r\nclass Modulofirefox(basesinfonierspout.BaseSinfonierSpout):\r\n\tdef useropen(self):\r\n\t\t# TO-DO: Init values. Code here runs once.\r\n\t\t# Using deque as a queue\r\n\t\tself.queue = deque()\r\n\t\tself.frequency = int(self.getParam(\"frequency\"))\r\n\r\n\t\t# This scheduler launches self.job function every X seconds\r\n\t\tself.sched = BackgroundScheduler()\r\n\t\tself.sched.add_job(self.job, \"interval\", seconds=self.frequency, id=\"testpy\")\r\n\t\tself.sched.start()\r\n\r\n\tdef usernextTuple(self):\r\n\t\t# If there are items in self.queue, get the first one (.popleft()), do what you want with it and emit the tuple\r\n\t\tif self.queue:\r\n\t\t\tself.addField(\"timestamp\",self.queue.popleft())\r\n\t\t\tself.emit()\r\n\r\n\tdef userclose(self):\r\n\t\tpass\r\n\r\n\t\tdef job(self):\r\n\t\tself.queue.append(str(int(time.time())))",
+    "sourceCodeUrl": "",
+    "description": "Módulo python en local. Versión 1.0",
+    "created_at": {
+      "$date": "2016-08-17T06:55:33.985Z"
+    },
+    "updated_at": {
+      "$date": "2016-08-17T06:56:05.195Z"
+    },
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "modulofirefox",
+        "class": "com.sinfonier.spouts.ModuloFirefox"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    "fields": [
+    ],
+    "libraries": [
+    ],
+    "my_tools": [
+    ]
+  },
+  {
+    "_id": {
+      "$oid": "57ce8820ba787b7edd7c8caa"
+    },
+    "versionTag": "1",
+    "versionCode": 1,
+    "status": "developing",
+    "sourceType": "gist",
+    "sourceCode": "",
+    "sourceCodeUrl": "https://gist.github.com/amatosc/6d0a0e825c033e4e5cbc",
+    "description": "",
+    "created_at": {
+      "$date": "2016-09-06T09:10:56.255+0000"
+    },
+    "updated_at": {
+      "$date": "2016-09-06T09:10:56.255+0000"
+    },
+    "singleton": false,
+    "topologies_count": 0,
+    "ticktuple": null,
+    "container": {
+      "xtype": "WireIt.FormContainer",
+      "type": "spout",
+      "icon": "/public/images/icons/spout.png",
+      "attributes": {
+        "abstractionId": "modulesfordeleting",
+        "class": "com.sinfonier.spouts.ModulesForDeleting"
+      },
+      "terminals": [
+        {
+          "name": "out",
+          "nMaxWires": 10,
+          "offsetPosition": {
+            "bottom": -15,
+            "left": 82
+          },
+          "ddConfig": {
+            "type": "output",
+            "allowedTypes": [
+              "input"
+            ]
+          },
+          "direction": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  }
+]

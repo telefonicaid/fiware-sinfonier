@@ -1,0 +1,9 @@
+#{extends 'DarwinMailer/mailLayout.html' /}
+#{set 'subject'}Code review#{/set}
+
+<h3>Hello administrator,</h3>
+<p>It added a new module, '${module.getName()}'. Please check the code of the module and publish it to the user.<p>
+<p>In the following link you can access the module must review and publish:</p>
+<a href="${baseUrl}@{Modules.module(module.getName(), version.getVersionCode())}" target="_blank" style="text-align:center;">Click here to go to the module</a></p>
+<br/>
+<p>Greetings.<br/>The team ${appName}.</p>

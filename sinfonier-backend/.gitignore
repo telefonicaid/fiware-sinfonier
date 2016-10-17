@@ -1,0 +1,16 @@
+*~
+*.swp
+*.swo
+target/
+target/**/*
+doc/**
+*.html
+*.css
+.classpath
+.project
+.settings
+.pydevproject
+test-output/
+test-output/**/*
+.idea/
+*.iml
