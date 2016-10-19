@@ -160,6 +160,14 @@
             &{'Topologies.btn.asTemplate'}</button>
           #{/form}
           </div>
+          
+          <div class="col-lg-4 pull-right">
+          #{form @Topologies.export(_topology.getId()), method:'POST'}
+            <input type="hidden" name="template" value="${_topology.getId()}">
+            <button id="topology-${_topology.getId()}-button-export" type="submit" class="btn btn-primary">
+            &{'Topologies.btn.export'}</button>
+          #{/form}
+          </div>
         </div>
       </div>
 

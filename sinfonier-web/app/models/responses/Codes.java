@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 public enum Codes {
   CODE_200("OK", 200),
   CODE_400("NOOK", 400),
+  CODE_404("Not Found", 404),
   CODE_500("NOOK", 500);
 
   private final String status;
