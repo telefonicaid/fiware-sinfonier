@@ -54,7 +54,7 @@ public class TopologyDeserializer implements JsonDeserializer<Topology> {
     final JsonElement templateIdElement = topologyObject.get("template_id");
     String templateId = null;
     if (templateIdElement != null) {
-      templateId = templateIdElement.toString();
+      templateId = templateIdElement.getAsString();
     }
 
     final JsonElement sharingElement = topologyObject.get("sharing");

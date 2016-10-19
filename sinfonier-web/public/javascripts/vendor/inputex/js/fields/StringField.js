@@ -26,7 +26,10 @@ inputEx.StringField = function(options) {
 };
 
 lang.extend(inputEx.StringField, inputEx.Field, {
-   /**
+   
+    topologyConfKeyRefPattern: /^\[\$([a-zA-Z0-9]+)\]*$/i,
+
+    /**
     * Set the default values of the options
     * @param {Object} options Options object as passed to the constructor
     */
@@ -114,7 +117,31 @@ lang.extend(inputEx.StringField, inputEx.Field, {
          value = YAHOO.lang.trim(value);
       }
       
-	   return value;
+      return value;
+   },
+   
+   /**
+    * Return the string field value or the reference to extra config
+    * @param {String} The string value
+    */
+   getValueOrReferenced: function() {
+            
+      var value;
+      
+      value = (this.options.typeInvite && this.el.value == this.options.typeInvite) ? '' : this.el.value;
+      
+      if (this.options.trim) {
+         value = YAHOO.lang.trim(value);
+      }
+      
+      if (this.topologyConfKeyRefPattern.test(value)) {
+         var referencedKey = value.substring(2, value.length - 1);
+         if (window.extraConf[referencedKey]) {
+            value = window.extraConf[referencedKey];
+         }
+      }
+      
+      return value;
    },
 
    /**
@@ -134,12 +161,17 @@ lang.extend(inputEx.StringField, inputEx.Field, {
     * Uses the optional regexp to validate the field value
     */
    validate: function() {
-      var val = this.getValue();
+      var val = this.getValueOrReferenced();
 
       // empty field
       if (val === '') {
          // validate only if not required
          return !this.options.required;
+      }
+      
+      // Avoid use references to not existing configuration keys
+      if (this.topologyConfKeyRefPattern.test(val)) {
+         return false;  
       }
 
       // Check regex matching and minLength (both used in password field...)
@@ -192,7 +224,9 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 	getStateString: function(state) {
 	   if(state == inputEx.stateInvalid && this.options.minLength && this.el.value.length < this.options.minLength) {
 	      return inputEx.messages.stringTooShort[0]+this.options.minLength+inputEx.messages.stringTooShort[1];
-      }
+       } else if (state == inputEx.stateInvalid && this.topologyConfKeyRefPattern.test(this.getValueOrReferenced())) {
+          return inputEx.messages.invalidConfigReference;   
+       }
 	   return inputEx.StringField.superclass.getStateString.call(this, state);
 	},
 
@@ -266,6 +300,7 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 
 
 inputEx.messages.stringTooShort = ["This field should contain at least "," numbers or characters"];
+inputEx.messages.invalidConfigReference = "Invalid configuration reference";
 
 // Register this class as "string" type
 inputEx.registerType("string", inputEx.StringField, [

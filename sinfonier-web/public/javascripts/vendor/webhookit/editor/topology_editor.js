@@ -245,7 +245,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     value.name = _.upperFirst(_.camelCase(_.deburr(value.name)));
 
     if (document.getElementsByClassName("inputEx-invalid").length > 0) {
-      this.alert("Review required fields on modules");
+      this.alert("Review required/invalid fields on modules");
       return;
     }
 
@@ -516,15 +516,24 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       this.layer.clear();
 
       // Add to properties name and description for normalize
-      pipe.working.properties['name'] = pipe.name;
-      pipe.working.properties['description'] = pipe.description;
+      if (document.getElementById("templateid").value == '') {
+        pipe.working.properties['name'] = pipe.name;
+        pipe.working.properties['description'] = pipe.description;
+      } else {
+        document.getElementById("previous").value = '';
+      }
 
       this.propertiesForm.setValue(pipe.working.properties, false); // the false tells inputEx to NOT fire the updatedEvt
-      if (pipe.name) // When loading a template not set readonly
-        $("input[name=name]").attr('readonly', true);
-
+      //Process the extra configuration
+      if (this.propertiesForm.inputsNames["extraConfiguration"]) {
+        if (this.propertiesForm.inputsNames["extraConfiguration"].el.value != "" &&
+            this.propertiesForm.inputsNames["extraConfiguration"].el.value != this.propertiesForm.inputsNames["extraConfiguration"].options.typeInvite) {
+          parseExtraConfig(this.propertiesForm.inputsNames["extraConfiguration"].el);
+        }  
+      }
+      
       // When loading a template not set readonly
-      if (pipe.name) $("input[name=name]").attr('readonly', true);
+      if (pipe.name && document.getElementById("templateid").value == '') $("input[name=name]").attr('readonly', true);
 
       if (!pipe.working.modules) pipe.working.modules = [];
       if (YAHOO.lang.isArray(pipe.working.modules)) {

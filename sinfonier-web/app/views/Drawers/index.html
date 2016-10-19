@@ -213,6 +213,17 @@
         }, 1001);
       });
     }, 1000);
+    
+    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS}
+      setTimeout(function () {
+        $(".yui-layout-doc").on("change", "textarea[name='extraConfiguration']", function(event) {
+          if ($(this).val()) {
+            parseExtraConfig(this);
+            revalidateRelatedFields();
+          }
+        });
+      }, 1000);
+    #{/if}
   });
   
   function regenerateModulesDD() {
@@ -252,4 +263,5 @@
 
     #{script 'vendor/webhookit/editor/adapter.js'/}
     #{script 'vendor/webhookit/editor/topology_editor.js'/}
+    #{script 'drawer.js'/}
 #{/set}

@@ -64,7 +64,7 @@ public class ParamsValidator {
 
   public boolean validate(String key, Object value) throws SinfonierException {
     if (!hasParams(key)) {
-      return false;
+      return (validateExtraConfKey(key) && validateExtraConfValue(((String) value).trim()));
     }
 
     try {
@@ -101,7 +101,9 @@ public class ParamsValidator {
     Map params = new TreeMap();
     if (IS_ACTIVE_EXTRA_PARAMS && properties.containsKey(FIELD_EXTRA_CONFIGURATION)) {
       try {
-        params.putAll(parseExtraConfig(((String) properties.get(FIELD_EXTRA_CONFIGURATION))));
+        Map extraConfig = parseExtraConfig(((String) properties.get(FIELD_EXTRA_CONFIGURATION)));   
+        params.putAll(extraConfig);
+        config.getProperties().putAll(extraConfig);
       } catch (SinfonierException e) {
         Logger.error(e.getMessage());
         return false;
@@ -140,6 +142,18 @@ public class ParamsValidator {
     return value.length() > 0 && matcher.matches();
   }
 
+  private boolean validateExtraConfKey(String value) {
+    Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+)*$");
+    Matcher matcher = pattern.matcher(value);
+    return value.length() > 0 && matcher.matches();
+  }
+  
+  private boolean validateExtraConfValue(String value) {
+    Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.:/@]+){1,25}+([,][\\s]*([a-zA-Z0-9_\\-\\.:/@]+){1,25}+)*$");
+    Matcher matcher = pattern.matcher(value);
+    return value.length() > 0 && matcher.matches();
+  }
+  
   private boolean validateBoolean(String value) {
     return value.equals("true") || value.equals("false");
   }
@@ -159,13 +173,13 @@ public class ParamsValidator {
 
     String[] rows = config.split("\n");
     for (String row : rows) {
-      if (row.length() == 0) {
+      if (row.trim().length() == 0) {
         continue;
       }
 
       String[] values = row.split("=");
 
-      if (values.length != 2 || values[0].length() == 0 || values[1].length() == 0) {
+      if (values.length != 2 || values[0].trim().length() == 0 || values[1].trim().length() == 0) {
         throw new SinfonierException(SinfonierError.PARSE_EXTRA_PARAMS_EXCEPTION);
       }
       map.put(values[0], values[1]);

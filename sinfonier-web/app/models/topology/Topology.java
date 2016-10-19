@@ -177,10 +177,18 @@ public class Topology implements Cloneable {
     templateTopology.setName(TEMPLATE_NAME);
     Map<String, String> properties = templateTopology.getConfig().getProperties();
     properties.put("templateid", topology.getId());
+    if (!templateTopology.isOwner(user) && properties.get("extraConfiguration") != null) {
+      properties.remove("extraConfiguration");
+    }
     templateTopology.getConfig().setProperties(properties);
     if (!templateTopology.isOwner(user) && templateTopology.getConfig().getModules() != null) {
+      String[] emptyArray = {};
       for (TopologyModule m : templateTopology.getConfig().getModules()) {
-        m.setValues(null);
+        Map provValues = m.getValues();
+        for (Object key : provValues.keySet()) {
+          provValues.put(key, (provValues.get(key).getClass().toString().equals("java.lang.String") ? "" : emptyArray));
+        }
+        m.setValues(provValues);
       }
     }
     return templateTopology;
