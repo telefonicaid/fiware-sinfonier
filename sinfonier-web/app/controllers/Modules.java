@@ -383,13 +383,9 @@ public class Modules extends WebSecurityController {
             JsonObject res = client.uploadModule(module.getId(), moduleVersion.getId());
 
             if (res.get("code") != null && res.get("code").getAsInt() == Client.STATUS_SUCCESS) {
-              // Before to save it we should synchronized the version
-              moduleVersion = ModuleVersion.findById(moduleVersion.getId());
 
               // Recheck module version
               moduleVersion.recheck();
-              module.save();
-
               SinfonierMailer.reviewModule(module, moduleVersion);
             } else if (res.get("code") != null && res.get("code").getAsInt() == Client.STATUS_COMPILATION_FAILS) {
               flash.put(FLASH_KEY_BACKEND_LOG, Messages.get("Modules.recheck.compilation_fails"));
