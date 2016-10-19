@@ -33,3 +33,25 @@ function revalidateRelatedFields() {
     }
   }	
 }
+
+function regenerateModulesDD() {
+  var layerPos = Dom.getXY(webhookit.editor.layer.el);
+  for (var i=0; i<webhookit.editor.layer.containers.length; i++) {
+    webhookit.editor.layer.containers[i].dd = new WireIt.util.DD(webhookit.editor.layer.containers[i].terminals,webhookit.editor.layer.containers[i].el);
+    var containerPos = Dom.getXY(webhookit.editor.layer.containers[i].el);
+    webhookit.editor.layer.containers[i].dd.setXConstraint(containerPos[0] - layerPos[0]);
+    webhookit.editor.layer.containers[i].dd.setYConstraint(containerPos[1] - layerPos[1]);
+    if(webhookit.editor.layer.containers[i].ddHandle) {
+      webhookit.editor.layer.containers[i].dd.setHandleElId(webhookit.editor.layer.containers[i].ddHandle);
+    }
+  }	  
+}
+
+function adviseTopologyNotSaved(event) {
+  if (!webhookit.editor.isSaved()) {
+    if (!confirm("Warning: Your work is not saved yet! Press ok to continue anyway.")) {
+      event.preventDefault();
+      return;
+    }
+  }    
+}
