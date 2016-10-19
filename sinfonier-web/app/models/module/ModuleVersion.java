@@ -1,19 +1,17 @@
 package models.module;
 
-import static models.SinfonierConstants.ModuleVersion.*;
 import static models.SinfonierConstants.ModelCollection.FIELD_ID;
+import static models.SinfonierConstants.Module.STATUS_PENDING;
+import static models.SinfonierConstants.Module.STATUS_DEV;
 import static models.SinfonierConstants.Module.FIELD_ICON;
 import static models.SinfonierConstants.Module.FIELD_AUTHOR_ID;
 import static models.SinfonierConstants.Module.FIELD_AVERAGE_RATE;
+import static models.SinfonierConstants.Module.FIELD_RATINGS;
+import static models.SinfonierConstants.Module.FIELD_COMPLAINS;
 import static models.SinfonierConstants.Module.FIELD_CATEGORY;
 import static models.SinfonierConstants.Module.FIELD_VERSIONS;
-import static models.SinfonierConstants.Module.FIELD_COMPLAINS;
-import static models.SinfonierConstants.Module.FIELD_RATINGS;
-import static models.SinfonierConstants.Module.FIELD_TOPOLOGIES_COUNT;
 import static models.SinfonierConstants.Module.PATH_TO_SAVE;
-import static models.SinfonierConstants.Module.STATUS_DEV;
-import static models.SinfonierConstants.Module.STATUS_DELETED;
-import static models.SinfonierConstants.Module.STATUS_PENDING;
+import static models.SinfonierConstants.ModuleVersion.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -258,7 +256,16 @@ public class ModuleVersion extends ModelCollection {
 
   public void recheck() throws SinfonierException {
     setStatus(STATUS_PENDING);
-    save();
+    DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
+
+    if (this.id == null) {
+      throw new SinfonierException(SinfonierError.MODULE_VERSION_NO_DEFINED);
+    }
+
+    DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(this.id));
+    DBObject toSet = new BasicDBObject(FIELD_STATUS, STATUS_PENDING);
+
+    collection.update(query, new BasicDBObject("$set", toSet), false, false);
   }
 
   public File exportAsJson(Module module) {
@@ -379,7 +386,7 @@ public class ModuleVersion extends ModelCollection {
       return null;
     }
   }
-  
+
   public void setSourceCode(String sourceCode) {
     this.sourceCode = sourceCode;
   }

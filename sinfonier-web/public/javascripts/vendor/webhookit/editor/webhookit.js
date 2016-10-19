@@ -74,22 +74,8 @@ var webhookit = {
       this.editor.alert("Open a topology first.");
       return;
     }
-    var _editor = this.editor;
-    YAHOO.util.Connect.asyncRequest('POST', '/topology/' + prev.id + '/launch', {
-      success: function (o) {
-        var s = o.responseText, r = YAHOO.lang.JSON.parse(s);
-        window.location.pathname = 'topologies/' + r.data.name;
-      },
-      failure: function (o) {
-        if (!o) {
-          console.error('Something was wrong');
-          return;
-        }
 
-        var s = o.responseText, r = YAHOO.lang.JSON.parse(s);
-        _editor.alert("Unable to launch the topology : " + r.data.message);
-      }
-    });
+    window.location.pathname = 'topologies/' + value.name;
   },
   refreshDebug: function (index) {
 
