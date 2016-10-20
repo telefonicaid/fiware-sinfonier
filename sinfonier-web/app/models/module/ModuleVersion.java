@@ -261,7 +261,7 @@ public class ModuleVersion extends ModelCollection {
     save();
   }
 
-	public File exportAsJson(Module module) {
+	public File exportAsJson(Module module) throws SinfonierException {
 		JsonObject res = toJson(module);
 		File dir = FileUtils.getFile(PATH_TO_SAVE);
 
@@ -276,6 +276,7 @@ public class ModuleVersion extends ModelCollection {
 			FileUtils.writeByteArrayToFile(file, res.toString().getBytes("UTF-8"));
 		} catch (IOException e) {
 			Logger.error(e.getMessage());
+			throw new SinfonierException(SinfonierError.ERROR_WRITING_JSON_FILE,e);
 		}
 
 		return file;
