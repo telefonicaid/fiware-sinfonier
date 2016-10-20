@@ -15,14 +15,14 @@ public class Drawers extends WebSecurityController {
     Drawer drawer = new Drawer(getCurrentUser());
     render(drawer);
   }
-  
-  public static void module(@Required(message = "validation.required.drawer.name") String name, 
-                            @Required(message = "validation.required.drawer.versionCode")Integer versionCode) 
-                                throws SinfonierException {
-    
+
+  public static void module(@Required(message = "validation.required.drawer.name") String name,
+                            @Required(message = "validation.required.drawer.versionCode") Integer versionCode)
+      throws SinfonierException {
+
     if (!Validation.hasErrors()) {
       Module module = Module.findByName(name);
-  
+
       if (module != null) {
         ModuleVersion moduleVersion;
         if (versionCode != null) {
@@ -33,7 +33,7 @@ public class Drawers extends WebSecurityController {
             renderJSON(json.toString());
           }
         }
-  
+
         notFound();
       } else {
         notFound();

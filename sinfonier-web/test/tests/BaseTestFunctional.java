@@ -5,7 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Ignore;
 import play.mvc.Http;
-import play.mvc.Scope;
 import play.test.FunctionalTest;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -28,7 +27,7 @@ public class BaseTestFunctional extends FunctionalTest {
   protected static Http.Request doLogin(String user, String password) throws IOException, ParserConfigurationException {
     if (sessionToken == null) {
       Http.Response login = GET(newRequest(), "/login");
-      String authenticityToken = getAuthenticityToken(login);
+      String authenticityToken = getAuthenticityTokenLogin(login);
       Http.Response auth = POST("/login?username=" + user + "&password=" + password + "&authenticityToken=" + authenticityToken);
       sessionToken = auth.cookies.get("SINFONIER_SESSION");
     }
@@ -40,13 +39,22 @@ public class BaseTestFunctional extends FunctionalTest {
   }
 
   protected static void doLogout() {
-    POST("/logout");
+    Http.Response dashboard = GET(newRequest(), "/dashboard");
+    String authenticityToken = getAuthenticityTokenLogout(dashboard);
+    POST("/logout?authenticityToken=" + authenticityToken);
     sessionToken = null;
   }
 
-  private static String getAuthenticityToken(Http.Response res) {
+  private static String getAuthenticityTokenLogin(Http.Response res) {
     Document doc = Jsoup.parse(res.out.toString());
     Element form = doc.getElementsByAttributeValue("action", "/login").get(0);
+    Element input = form.getElementsByAttributeValue("name", "authenticityToken").get(0);
+    return input.val();
+  }
+
+  private static String getAuthenticityTokenLogout(Http.Response res) {
+    Document doc = Jsoup.parse(res.out.toString());
+    Element form = doc.getElementsByAttributeValue("action", "/logout").get(0);
     Element input = form.getElementsByAttributeValue("name", "authenticityToken").get(0);
     return input.val();
   }
