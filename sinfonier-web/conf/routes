@@ -45,6 +45,7 @@ POST /topology/{id}/stop                                        Topologies.stop
 POST /topology/{id}/log                                         Topologies.log
 POST /topology/{id}/privatize                                   Topologies.privatize
 POST /topology/{id}/publish                                     Topologies.publish
+POST /topology/{id}/export                                      Topologies.export
 GET /topologies/{name}                                          Topologies.topology
 
 # Diagnostig

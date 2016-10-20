@@ -148,6 +148,7 @@ Topologies.btn.launch = Lanzar
 Topologies.btn.stop = Detener
 Topologies.btn.edit = Editar
 Topologies.btn.asTemplate = Usar como plantilla
+Topologies.btn.export = Exportar
 
 Topologies.details.delete.title = Eliminar la topología
 Topologies.details.delete.text = Quiere eliminar la topología '%s'?

@@ -15,7 +15,8 @@ public enum SinfonierError {
   MODULE_INVALID_CONSTRUCTION(1003, "Error trying to build a module"),
   MODULE_VERSION_NO_DEFINED(1004, "Any module version has been defined yet."),
 
-  MODULE_LIMIT_PENDING(1004, "The user reached the limit of pending modules"),
+  MODULE_LIMIT_PENDING(1005, "The user reached the limit of pending modules"),
+  ERROR_WRITING_JSON_FILE(1006, "Can not create json file"),
 
   TOPOLOGY_DUPLICATE(2001, "The topology name is already used"),
   TOPOLOGY_INVALID_CONSTRUCTION(2003, "Error trying to build a topology"),
