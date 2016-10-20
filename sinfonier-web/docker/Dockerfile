@@ -1,5 +1,4 @@
 FROM anapsix/alpine-java:8_server-jre
-ARG SOURCE_BRANCH
 
 RUN mkdir -p /app
 
