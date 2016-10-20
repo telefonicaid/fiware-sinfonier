@@ -257,7 +257,7 @@ public class SinfonierConstants extends Constants {
     public static final String FIELD_MODULE_VERSION_ID_ANNOTATION = "module_version_id";
     public static final String FIELD_CONFIG = Play.configuration.getProperty("SinfonierConstants.TopologyModule.config", "config");
     public static final String FIELD_VERSION_CODE = Play.configuration.getProperty("SinfonierConstants.TopologyModule.versionCode", "versionCode");
-    public static final String FIELD_PARALLELISMS = Play.configuration.getProperty("SinfonierConstants.TopologyModule.parallelisms", "parallelisms");
+    public static final String FIELD_PARALLELISMS = Play.configuration.getProperty("SinfonierConstants.TopologyModule.parallelisms", "parallelism");
   }
 
   public static class TopologyConfig {

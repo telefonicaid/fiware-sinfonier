@@ -37,6 +37,12 @@ public enum Codes {
   public void setData(JsonObject data) {
     this.data = data;
   }
+  
+  public void setMessageData(String message) {
+  	JsonObject data = new JsonObject();
+    data.addProperty("message", message);
+    this.data = data;
+}
 
   public JsonObject toGSON() {
     JsonObject object = new JsonObject();
