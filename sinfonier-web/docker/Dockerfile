@@ -48,6 +48,7 @@ RUN git status
 RUN echo $VERSION
 RUN echo $DOCKER_TAG
 RUN echo $SOURCE_BRANCH
+RUN echo $IMAGE_NAME
 
 WORKDIR /app/sinfonier-web
 
