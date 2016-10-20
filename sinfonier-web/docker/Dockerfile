@@ -46,6 +46,8 @@ RUN keytool -noprompt -storepass changeit -keystore ${JAVA_CACERTS} -import -fil
 RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git /app && cd /app && git checkout $SOURCE_BRANCH
 RUN git status
 RUN echo $VERSION
+RUN echo $DOCKER_TAG
+RUN echo $SOURCE_BRANCH
 
 WORKDIR /app/sinfonier-web
 
