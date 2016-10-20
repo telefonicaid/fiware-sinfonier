@@ -42,6 +42,7 @@ ENV JAVA_CACERTS $JAVA_HOME/jre/lib/security/cacerts
 ADD ca.pem /etc/ssl/certs/
 RUN keytool -noprompt -storepass changeit -keystore ${JAVA_CACERTS} -import -file /etc/ssl/certs/ca.pem -alias ELEVENPATH_CA
 
+ARG SOURCE_BRANCH=master
 
 RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git /app && cd /app && git checkout $SOURCE_BRANCH
 RUN git status
