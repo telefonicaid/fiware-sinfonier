@@ -57,6 +57,7 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 COPY settings.xml /root/.m2/settings.xml
 
+ARG SOURCE_BRANCH=master
 #Sinfonier-backend-api
 RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git && cd fiware-sinfonier && git checkout $SOURCE_BRANCH
 

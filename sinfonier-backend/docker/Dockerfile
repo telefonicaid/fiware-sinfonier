@@ -11,6 +11,8 @@ ENV MVN_TARGET_NAME=libs-release
 ENV MVN_TARGET_URL_PATH=artifactory/libs-release
 ENV MVN_TARGET_URL_LOCAL_PATH=artifactory/libs-release-local
 
+ARG SOURCE_BRANCH=master
+
 RUN git clone https://github.com/telefonicaid/fiware-sinfonier.git && cd fiware-sinfonier && git checkout $SOURCE_BRANCH
 WORKDIR /fiware-sinfonier/sinfonier-backend
 RUN mvn compile package
