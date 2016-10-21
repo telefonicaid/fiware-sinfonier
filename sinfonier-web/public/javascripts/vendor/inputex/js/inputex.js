@@ -95,8 +95,8 @@ lang.augmentObject(inputEx, {
     * Associative array containing field messages
     */
 	messages: {
-		required: "This field is required",
-		invalid: "This field is invalid",
+		required: i18n('Drawer.editor.messages.inputex.required'),
+		invalid: i18n('Drawer.editor.messages.inputex.invalid'),
 		valid: "This field is valid",
 		defaultDateFormat: "m/d/Y",
 		months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],

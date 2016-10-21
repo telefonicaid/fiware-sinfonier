@@ -5,8 +5,8 @@ var webhookit = {
   language: {
     languageName: "webhookit",
     propertiesFields: [
-      {"type": "string", inputParams: {"name": "name", label: "Topology Name", typeInvite: "(mandatory)"}},
-      {"type": "text", inputParams: {"name": "description", label: "Description", cols: 30, rows: 3}}
+      {"type": "string", inputParams: {"name": "name", label: i18n('Drawer.editor.properties.label.topologyName'), typeInvite: i18n('Drawer.editor.properties.placeholder.topologyName')}},
+      {"type": "text", inputParams: {"name": "description", label: i18n('Drawer.editor.properties.label.topologyDescription'), cols: 30, rows: 3}}
     ],
     layoutOptions: {
       units: ([{
@@ -51,7 +51,7 @@ var webhookit = {
     var prev = this.editor.pipesByName[value.name];
 
     if (!prev || !prev.id) {
-      this.editor.alert("Open a topology first.");
+      this.editor.alert(i18n('Drawer.editor.messages.openTopology'));
       return;
     }
 
@@ -71,7 +71,7 @@ var webhookit = {
     var prev = this.editor.pipesByName[value.name];
 
     if (!prev || !prev.id) {
-      this.editor.alert("Open a topology first.");
+      this.editor.alert(i18n('Drawer.editor.messages.openTopology'));
       return;
     }
 
@@ -149,7 +149,7 @@ var webhookit = {
   },
   updateInfoPanel: function (index, elem) {
 
-    var text = elem.description || "Sinfonier - Not documented";
+    var text = elem.description || i18n('Drawer.editor.messages.moduleNotDocumented');
     this.editor.accordionView.openPanel(2);
     document.getElementById("description-paragraph").innerHTML = text;
 

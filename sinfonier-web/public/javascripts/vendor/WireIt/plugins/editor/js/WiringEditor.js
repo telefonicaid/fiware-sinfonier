@@ -257,7 +257,7 @@
 
       this.markSaved();
 
-      this.alert("Saved !");
+      this.alert(i18n('Drawer.editor.messages.topologySaved'));
 
       // TODO: call a saveModuleSuccess callback...
     },
@@ -267,7 +267,7 @@
      * @method saveModuleFailure
      */
     saveModuleFailure: function (errorStr) {
-      this.alert("Unable to save the topology: " + errorStr);
+      this.alert(i18n('Drawer.editor.messages.topologySaveFailure',errorStr));
     },
 
     /**
@@ -298,16 +298,16 @@
      * @method onDelete
      */
     onDelete: function () {
-      if (confirm("Are you sure you want to delete this topology ?")) {
+      if (confirm(i18n('Drawer.editor.messages.topologyDeleteConfirm'))) {
 
         var value = this.getValue();
         this.adapter.deleteWiring({name: value.name, language: this.options.languageName}, {
           success: function (result) {
             this.onNew();
-            this.alert("Deleted !");
+            this.alert(i18n('Drawer.editor.messages.topologyDeleted'));
           },
           failure: function (errorStr) {
-            this.alert("Unable to delete topology: " + errorStr);
+            this.alert(i18n('Drawer.editor.messages.topologyUnableDelete') + errorStr);
           },
           scope: this
         });
@@ -327,8 +327,8 @@
           visible: false,
           modal: true
         });
-        this.loadPanel.setHeader("Select the topology to load");
-        this.loadPanel.setBody("Filter: <input type='text' id='loadFilter' /><div id='loadPanelBody'></div>");
+        this.loadPanel.setHeader(i18n('Drawer.editor.loadPanel.title'));
+        this.loadPanel.setBody(i18n('Drawer.editor.loadPanel.filter') + ": <input type='text' id='loadFilter' /><div id='loadPanelBody'></div>");
         this.loadPanel.render(document.getElementById("editorContainer"));
 
         // Listen the keyup event to filter the module list

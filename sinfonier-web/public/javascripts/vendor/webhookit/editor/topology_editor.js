@@ -117,7 +117,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
         this.onLoadSuccess(result);
       },
       failure: function (errorStr) {
-        this.alert("Unable to load the topologies: " + errorStr);
+        this.alert(i18n('Drawer.editor.messages.loadTopologiesError', errorStr));
       },
       scope: this
     });
@@ -145,8 +145,8 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       ul.appendChild(buildPanelElem("Spouts"));
       ul.appendChild(buildPanelElem("Bolts"));
       ul.appendChild(buildPanelElem("Drains"));
-      ul.appendChild(buildPanelElem("Operators"));
-      ul.appendChild(buildPanelElem("Utils"));
+      ul.appendChild(buildPanelElem(i18n('Drawer.editor.modules.panels.operator')));
+      ul.appendChild(buildPanelElem(i18n('Drawer.editor.modules.panels.util')));
     }
 
     this.modulesAccordionView = new YAHOO.widget.AccordionView('modulesAccordionView', this.options.modulesAccordionViewParams);
@@ -224,12 +224,12 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     var value = this.getValue();
 
     if (value.name === "") {
-      this.alert("Please choose a name");
+      this.alert(i18n('Drawer.editor.messages.blankName'));
       return;
     }
 
     if(!/\w+/i.test(value.name)) {
-      this.alert("Please choose a valid name");
+      this.alert(i18n('Drawer.editor.messages.invalidName'));
       return;
     }
 
@@ -238,14 +238,14 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     });
 
     if (!containSpout) {
-      this.alert("The topology must contain at least one Spout");
+      this.alert(i18n('Drawer.editor.messages.spoutNeeded'));
       return;
     }
 
     value.name = _.upperFirst(_.camelCase(_.deburr(value.name)));
 
     if (document.getElementsByClassName("inputEx-invalid").length > 0) {
-      this.alert("Review required fields on modules");
+      this.alert(i18n('Drawer.editor.messages.requiredInvalidFields'));
       return;
     }
 
@@ -303,12 +303,12 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
      editTemplateButton.on("click", webhookit.editTemplateButton, webhookit, true);
      */
     // "Run" button
-    var runButton = new YAHOO.widget.Button({label: "Run", id: "WiringEditor-runButton", container: toolbar});
+    var runButton = new YAHOO.widget.Button({label: i18n('Drawer.editor.toolbar.run'), id: "WiringEditor-runButton", container: toolbar});
     runButton.on("click", webhookit.run, webhookit, true);
-    var zoomInButton = new YAHOO.widget.Button({label: "Zoom in", id: "WiringEditor-zoomInButton", container: toolbar});
+    var zoomInButton = new YAHOO.widget.Button({label: i18n('Drawer.editor.toolbar.zoomIn'), id: "WiringEditor-zoomInButton", container: toolbar});
     zoomInButton.on("click", this.zoomIn, this, true);
     var zoomOutButton = new YAHOO.widget.Button({
-      label: "Zoom out",
+      label: i18n('Drawer.editor.toolbar.zoomOut'),
       id: "WiringEditor-zoomOutButton",
       container: toolbar
     });
@@ -463,7 +463,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
   onNew: function () {
 
     if (!this.isSaved()) {
-      if (!confirm("Warning: Your work is not saved yet ! Press ok to continue anyway.")) {
+      if (!confirm(i18n('Drawer.editor.messages.workNotSaved'))) {
         return;
       }
     }
@@ -489,7 +489,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
   loadPipe: function (name) {
 
     if (!this.isSaved()) {
-      if (!confirm("Warning: Your work is not saved yet ! Press ok to continue anyway.")) {
+      if (!confirm(i18n('Drawer.editor.messages.workNotSaved'))) {
         return;
       }
     }
@@ -501,7 +501,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       var pipe = this.getPipeByName(name);
 
       if (!pipe) {
-        this.alert("The topology '" + name + "' was not found.");
+        this.alert(i18n('Drawer.editor.messages.topologyNotFound',name));
         return;
       }
 
@@ -607,9 +607,9 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
 
   getCategory: function (type) {
     if (type == 'variable' || type == 'comment') {
-      return 'Utils';
+      return i18n('Drawer.editor.modules.panels.util');
     } else {
-      return type.charAt(0).toUpperCase() + type.slice(1) + "s";
+      return i18n('Drawer.editor.modules.panels.'+type);
     }
 
   }
