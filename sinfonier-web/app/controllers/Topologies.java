@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
-import models.module.Module;
 import models.responses.Codes;
 import models.storm.ParamsValidator;
 import models.topology.Topology;
@@ -19,7 +17,6 @@ import models.storm.Client;
 import org.bson.types.ObjectId;
 import play.Logger;
 import play.data.validation.Required;
-import play.data.validation.Validation;
 import play.i18n.Messages;
 import play.mvc.Before;
 import play.mvc.Catch;
@@ -66,7 +63,7 @@ public class Topologies extends WebSecurityController {
       }
       List<Topology> topologies = topologiesContainer.getTopologies();
       int totalTopologies = topologiesContainer.getCountBeforeLimit();
-      render(topologies,page,totalTopologies);
+      render(topologies, page, totalTopologies);
     }
   }
 
@@ -75,11 +72,11 @@ public class Topologies extends WebSecurityController {
       GsonBuilder gsonBuilder = new GsonBuilder();
       gsonBuilder.registerTypeAdapter(Topology.class, new TopologyDeserializer());
       Gson gson = gsonBuilder.create();
-  
+
       ParamsValidator validator = ParamsValidator.getInstance();
       Topology topology = gson.fromJson(request.params.get("body"), Topology.class);
       topology.setAuthorId(getCurrentUser().getId());
-  
+
       if (validator.validate(topology.getConfig())) {
         String topologyId = topology.save();
         renderJSON(new Gson().toJson(Topology.findById(topologyId)));

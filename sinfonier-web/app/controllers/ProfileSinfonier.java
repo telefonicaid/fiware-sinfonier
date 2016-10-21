@@ -1,26 +1,18 @@
 package controllers;
 
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
 import play.Logger;
-import play.data.validation.CheckWith;
 import play.data.validation.Equals;
 import play.data.validation.Required;
 import play.data.validation.Validation;
-import play.i18n.Messages;
 import play.mvc.Catch;
 import play.mvc.Util;
 import models.exception.PasswordConstraintViolationException;
 import models.factory.DarwinFactory;
-import models.module.validations.NameCheck;
 import models.user.User;
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
 import models.user.SinfonierUser;
 import models.validation.Password;
-import static models.SinfonierConstants.SinfonierUser.FORMAT_TIME_ZONE;
 
 public class ProfileSinfonier extends Profile {
 
