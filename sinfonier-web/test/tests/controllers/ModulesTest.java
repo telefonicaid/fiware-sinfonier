@@ -38,7 +38,7 @@ public class ModulesTest extends BaseTestFunctional {
 
   @Test
   public void index_02() {
-    Http.Response response = GET(request, "/modules/2");
+    Http.Response response = GET(request, "/modules/20");
     assertIsOk(response);
     assertContentType("text/html", response);
     assertCharset(play.Play.defaultWebEncoding, response);

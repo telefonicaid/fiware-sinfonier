@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 @Ignore
 public class BaseTestFunctional extends FunctionalTest {
 
-  protected static Http.Cookie sessionToken;
+  private static Http.Cookie sessionToken;
 
   protected static void doMongoImport(String collectionName, String jsonFilePath) throws UnknownHostException, IOException {
     BaseTest.doMongoImport(collectionName, jsonFilePath);

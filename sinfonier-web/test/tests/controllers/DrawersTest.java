@@ -3,6 +3,7 @@ package tests.controllers;
 
 import org.junit.*;
 import play.mvc.Http;
+import play.test.CleanTest;
 import tests.BaseTestFunctional;
 import tests.TestData;
 

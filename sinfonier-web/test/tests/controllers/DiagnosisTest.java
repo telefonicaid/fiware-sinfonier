@@ -8,7 +8,7 @@ import play.mvc.Http;
 import tests.BaseTestFunctional;
 import tests.TestData;
 
-public class DiagnosisTest extends BaseTestFunctional{
+public class DiagnosisTest extends BaseTestFunctional {
 
   private static Http.Request request;
 
