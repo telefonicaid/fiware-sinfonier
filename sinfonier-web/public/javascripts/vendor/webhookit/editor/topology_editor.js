@@ -522,13 +522,18 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       } else {
         document.getElementById("previous").value = '';
       }
+      
+      //Add topology properties to properties form
+      if (pipe.working.topologyProperties['topologyProperties']) {
+        pipe.working.properties['topologyProperties'] = pipe.working.topologyProperties['topologyProperties']; 
+      }
 
       this.propertiesForm.setValue(pipe.working.properties, false); // the false tells inputEx to NOT fire the updatedEvt
-      //Process the extra configuration
-      if (this.propertiesForm.inputsNames["extraConfiguration"]) {
-        if (this.propertiesForm.inputsNames["extraConfiguration"].el.value != "" &&
-            this.propertiesForm.inputsNames["extraConfiguration"].el.value != this.propertiesForm.inputsNames["extraConfiguration"].options.typeInvite) {
-          parseExtraConfig(this.propertiesForm.inputsNames["extraConfiguration"].el);
+      //Process topology configuration
+      if (this.propertiesForm.inputsNames["topologyProperties"]) {
+        if (this.propertiesForm.inputsNames["topologyProperties"].el.value != "" &&
+            this.propertiesForm.inputsNames["topologyProperties"].el.value != this.propertiesForm.inputsNames["topologyProperties"].options.typeInvite) {
+        	parseTopologyConfig(this.propertiesForm.inputsNames["topologyProperties"].el);
         }  
       }
       

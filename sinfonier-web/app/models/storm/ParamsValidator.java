@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import static models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS;
 import static models.SinfonierConstants.TopologyConfig.FIELD_EXTRA_CONFIGURATION;
+import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 
 public class ParamsValidator {
   private static final String KEY_CONFIG_FILE_PATH = "storm.options.file";
@@ -64,7 +65,7 @@ public class ParamsValidator {
 
   public boolean validate(String key, Object value) throws SinfonierException {
     if (!hasParams(key)) {
-      return (validateExtraConfKey(key) && validateExtraConfValue(((String) value).trim()));
+      return false;
     }
 
     try {
@@ -97,13 +98,13 @@ public class ParamsValidator {
   }
 
   public boolean validate(TopologyConfig config) throws SinfonierException {
-    Map properties = config.getProperties();
+    Map properties = config.getStormProperties();
     Map params = new TreeMap();
     if (IS_ACTIVE_EXTRA_PARAMS && properties.containsKey(FIELD_EXTRA_CONFIGURATION)) {
       try {
         Map extraConfig = parseExtraConfig(((String) properties.get(FIELD_EXTRA_CONFIGURATION)));   
         params.putAll(extraConfig);
-        config.getProperties().putAll(extraConfig);
+        config.getStormProperties().putAll(extraConfig);
       } catch (SinfonierException e) {
         Logger.error(e.getMessage());
         return false;
@@ -115,8 +116,29 @@ public class ParamsValidator {
         params.put(o, properties.get(o));
       }
     }
-
-    return validate(((Map<String, Object>) params));
+    
+    boolean validStormProperties = validate(((Map<String, Object>) params)); 
+    
+    //TopologyProperties validation
+    if (config.getTopologyProperties() != null && validStormProperties) {
+      Map topologyProperties = config.getTopologyProperties();
+      Map<String, Object> topologyParams = new TreeMap<String, Object>();
+      try {
+        Map topologyConfig = parseExtraConfig(((String) topologyProperties.get(FIELD_TOPOLOGY_PROPERTIES)));   
+        topologyParams.putAll(topologyConfig);
+        config.getTopologyProperties().putAll(topologyConfig);
+      } catch (SinfonierException e) {
+        Logger.error(e.getMessage());
+        return false;
+      }
+      for (String key : topologyParams.keySet()) {
+        if (!validateTopologyConfKey(key) && !validateTopologyConfValue((String)topologyParams.get(key))) {
+          return false;
+        }
+      }
+    }
+    
+    return (validStormProperties);
   }
 
   private ParamValues getOrigin(String keyParam) {
@@ -142,13 +164,13 @@ public class ParamsValidator {
     return value.length() > 0 && matcher.matches();
   }
 
-  private boolean validateExtraConfKey(String value) {
+  private boolean validateTopologyConfKey(String value) {
     Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+)*$");
     Matcher matcher = pattern.matcher(value);
     return value.length() > 0 && matcher.matches();
   }
   
-  private boolean validateExtraConfValue(String value) {
+  private boolean validateTopologyConfValue(String value) {
     Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.:/@]+){1,25}+([,][\\s]*([a-zA-Z0-9_\\-\\.:/@]+){1,25}+)*$");
     Matcher matcher = pattern.matcher(value);
     return value.length() > 0 && matcher.matches();

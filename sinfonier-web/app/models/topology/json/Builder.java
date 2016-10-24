@@ -45,9 +45,9 @@ public class Builder {
     generateModules(config.getModules());
     generateWires(config.getWires());
 
-    for (String key : config.getProperties().keySet()) {
+    for (String key : config.getStormProperties().keySet()) {
       if (!key.equals(KEY_DESCRIPTION)) {
-        properties.put(key, config.getProperties().get(key));
+        properties.put(key, config.getStormProperties().get(key));
       }
     }
   }

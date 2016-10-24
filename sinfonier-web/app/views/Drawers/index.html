@@ -172,11 +172,19 @@
       webhookit.language.propertiesFields.push({
         "type": "text",
         inputParams: {
-          "name": "extraConfiguration", label: "Extra Configuration", cols: 30, rows: 3,
-          typeInvite: "extra configuration using multiple lines with key=value format"
+          "name": "extraConfiguration", label: "Extra Storm Configuration", cols: 30, rows: 3,
+          typeInvite: "extra Storm configuration using multiple lines with key=value format"
         }
       });
       #{/if}
+      
+      webhookit.language.propertiesFields.push({
+        "type": "text",
+        inputParams: {
+          "name": "topologyProperties", label: "Topology Properties", cols: 30, rows: 4,
+          typeInvite: "topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format."
+        }
+      });
 
   webhookit.language.parentEl = 'editorContainer';
 
@@ -214,16 +222,15 @@
       });
     }, 1000);
     
-    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS}
-      setTimeout(function () {
-        $(".yui-layout-doc").on("change", "textarea[name='extraConfiguration']", function(event) {
-          if ($(this).val()) {
-            parseExtraConfig(this);
-            revalidateRelatedFields();
-          }
-        });
-      }, 1000);
-    #{/if}
+    
+    setTimeout(function () {
+      $(".yui-layout-doc").on("change", "textarea[name='topologyProperties']", function(event) {
+        if ($(this).val()) {
+          parseTopologyConfig(this);
+          revalidateRelatedFields();
+        }
+      });
+    }, 1000);
   });
     
   $("#changeToen,#changeToes").each(function(){

@@ -136,8 +136,8 @@ lang.extend(inputEx.StringField, inputEx.Field, {
       
       if (this.topologyConfKeyRefPattern.test(value)) {
          var referencedKey = value.substring(2, value.length - 1);
-         if (window.extraConf[referencedKey]) {
-            value = window.extraConf[referencedKey];
+         if (window.topologyConf[referencedKey]) {
+            value = window.topologyConf[referencedKey];
          }
       }
       

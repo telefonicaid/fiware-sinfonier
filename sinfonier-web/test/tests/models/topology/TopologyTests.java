@@ -122,7 +122,7 @@ public class TopologyTests extends BaseTest {
     Topology template = Topology.getAsTemplate(origin, adminUser);
 
     assertTrue(template.getName().equals(TEMPLATE_NAME));
-    assertTrue("shuold have the property tempalteid", template.getConfig().getProperties().containsKey("templateid"));
+    assertTrue("should have the property template_id", template.getConfig().getStormProperties().containsKey("templateid"));
   }
 
   @Test
