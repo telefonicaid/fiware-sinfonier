@@ -152,7 +152,7 @@
       "$date": "2016-10-18T09:59:46.191+0000"
     },
     "sharing": false,
-    "authorId": "alejandro.matos@global.11paths.com",
+    "authorId": "test@test.com",
     "config": {
       "wires": [
         {
@@ -225,7 +225,7 @@
       "$date": "2016-10-21T09:04:15.851+0000"
     },
     "sharing": false,
-    "authorId": "alejandro.matos@global.11paths.com",
+    "authorId": "test@test.com",
     "config": {
       "wires": [
         {
