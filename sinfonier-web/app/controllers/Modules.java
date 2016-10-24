@@ -545,7 +545,7 @@ public class Modules extends WebSecurityController {
       String body = request.params.get("body");
       JsonElement root = new JsonParser().parse(body);
       JsonObject jTopologyModule = root.getAsJsonObject().get("module").getAsJsonObject();
-      TopologyModule.checkTopologyModule(jTopologyModule.getAsJsonObject());
+      TopologyModule.checkTopologyModule(jTopologyModule);
       
     } catch (SinfonierException se) {
         Codes c400 = Codes.CODE_400;
