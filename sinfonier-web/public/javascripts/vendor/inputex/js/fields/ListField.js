@@ -446,7 +446,7 @@ inputEx.registerType("list", inputEx.ListField, [
 ]);
 
 
-inputEx.messages.listAddLink = "Add";
-inputEx.messages.listRemoveLink = "remove";
+inputEx.messages.listAddLink = i18n('Drawer.editor.messages.inputex.list.add');
+inputEx.messages.listRemoveLink = i18n('Drawer.editor.messages.inputex.list.remove');
 	
 })();

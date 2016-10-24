@@ -122,10 +122,27 @@ public class Topologies extends WebSecurityController {
     if (topology != null) {
       if (!topology.isRunning()) {
         topology.remove();
-        index(null, null, 1);
+        if (request.isAjax()) {
+          Codes c200 = Codes.CODE_200;
+          JsonObject data = new JsonObject();
+          data.addProperty("name", topology.getName());
+          c200.setData(data);
+          renderJSON(c200.toGSON());
+        } else {
+          index(null, null, 1);
+        }
       } else {
-        flash.put(FLASH_KEY_REMOVING_ERROR, Messages.get("Topologies.msgs.stopBeforeDelete"));
-        topology(topology.getName());
+        if (request.isAjax()) {
+          Codes c400 = Codes.CODE_400;
+          JsonObject data = new JsonObject();
+          data.addProperty("message", Messages.get("Topologies.msgs.stopBeforeDelete"));
+          c400.setData(data);
+          response.status = c400.getCode();
+          renderJSON(c400.toGSON());
+        } else {
+          flash.put(FLASH_KEY_REMOVING_ERROR, Messages.get("Topologies.msgs.stopBeforeDelete"));
+          topology(topology.getName());
+        }
       }
     } else {
       Logger.error("We can't found the topology with id: " + id);

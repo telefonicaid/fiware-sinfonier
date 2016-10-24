@@ -59,7 +59,9 @@
   </div>
 </div>
 
+#{i18n /}
 #{set 'moreScripts'}
+    #{script 'vendor/bootstrap-confirm/bootbox.min.js'/}
 <!-- [id IE] #{script 'vendor/WireIt/lib/excanvas.js'/} -->
 
     #{script 'vendor/yui/utilities/utilities.js'/}
@@ -150,21 +152,21 @@
       #{if models.SinfonierConstants.Drawer.IS_ACTIVE_N_WORKERS}
       webhookit.language.propertiesFields.push({
         "type": "string",
-        inputParams: {"name": "TOPOLOGY_WORKERS", label: "Storm Num. Workers", typeInvite: "1 (default) (${params.getParams().get('TOPOLOGY_WORKERS').getMinRange()} - ${params.getParams().get('TOPOLOGY_WORKERS').getMaxRange()})"}
+        inputParams: {"name": "TOPOLOGY_WORKERS", label: i18n('Drawer.editor.properties.label.stormNumWorkers'), typeInvite: i18n('Drawer.editor.properties.placeholder.stormNumWorkers', ${params.getParams().get('TOPOLOGY_WORKERS').getMinRange()}, ${params.getParams().get('TOPOLOGY_WORKERS').getMaxRange()})}
       });
       #{/if}
 
       #{if models.SinfonierConstants.Drawer.IS_ACTIVE_SPOUT_PENDING}
       webhookit.language.propertiesFields.push({
         "type": "string",
-        inputParams: {"name": "TOPOLOGY_MAX_SPOUT_PENDING", label: "Max Spout Pending", typeInvite: "blank or integer (${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMinRange()} - ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMaxRange()})"}
+        inputParams: {"name": "TOPOLOGY_MAX_SPOUT_PENDING", label: i18n('Drawer.editor.properties.label.maxSpoutsPending'), typeInvite: i18n('Drawer.editor.properties.placeholder.maxSpoutsPending', ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMinRange()}, ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMaxRange()})}
       });
       #{/if}
 
       #{if models.SinfonierConstants.Drawer.IS_ACTIVE_MSG_TIMEOUT}
       webhookit.language.propertiesFields.push({
         "type": "string",
-        inputParams: {"name": "TOPOLOGY_MESSAGE_TIMEOUT_SECS", label: "Topology Message Timeout", typeInvite: "30 (default) (${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMinRange()} - ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMaxRange()})"}
+        inputParams: {"name": "TOPOLOGY_MESSAGE_TIMEOUT_SECS", label: i18n('Drawer.editor.properties.label.topologyMessageTimeout'), typeInvite: i18n('Drawer.editor.properties.placeholder.topologyMessageTimeout', ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMinRange()}, ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMaxRange()})}
       });
       #{/if}
 
@@ -172,8 +174,8 @@
       webhookit.language.propertiesFields.push({
         "type": "text",
         inputParams: {
-          "name": "extraConfiguration", label: "Extra Configuration", cols: 30, rows: 3,
-          typeInvite: "extra configuration using multiple lines with key=value format"
+          "name": "extraConfiguration", label: i18n('Drawer.editor.properties.label.extraConfiguration'), cols: 30, rows: 3,
+          typeInvite: i18n('Drawer.editor.properties.placeholder.extraConfiguration')
         }
       });
       #{/if}
@@ -228,24 +230,45 @@
     }	  
   }
   
-  $("#changeToen,#changeToes").each(function(){
+  $("#changeToen,#changeToes,.form-logout").each(function(){
     $(this).submit(function(event) {
-      adviseTopologyNotSaved(event);
+      adviseTopologyNotSaved(event, this);
     });
   });
   
-  $("a[id^='menu-a'],a[id^='header-a'],#Logout").each(function(){
+  $("a[id^='menu-a'],a[id^='header-a']").each(function(){
     $(this).click(function(event) {
       adviseTopologyNotSaved(event);
     });
   });
   
-  function adviseTopologyNotSaved(event) {
+  function adviseTopologyNotSaved(event, form) {
     if (!webhookit.editor.isSaved()) {
-      if (!confirm("Warning: Your work is not saved yet! Press ok to continue anyway.")) {
-        event.preventDefault();
-        return;
-      }
+      var link = event.target.href || event.target.parentElement.href;
+      event.preventDefault();
+      bootbox.confirm({
+        title: i18n('Modules.form.fieldsChanged.title'),
+        message: i18n('Drawer.editor.messages.workNotSaved'),
+        buttons: {
+          cancel: {
+            label: i18n('Modules.btn.cancel'),
+            className: 'btn btn-default btn-modal'
+          },
+          confirm: {
+            label: i18n('Modules.btn.confirm'),
+            className: 'btn btn-primary btn-modal'
+          }
+        },
+        callback: function (result) {
+          if (result) {
+            if (form) {
+        	    form.submit();  
+            } else {
+              document.location.href = link;
+            }
+          }
+        }
+      });
     }    
   }
 </script>
