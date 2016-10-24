@@ -3,6 +3,7 @@ class Topology:
     FIELD_ID = '_id'
     FIELD_NAME = 'name'
     FIELD_STATUS = 'status'
+    FIELD_CREATED_AT = 'created_at'
     FIELD_UPDATED = 'updated_at'
     FIELD_STARTED = 'started_at'
     FIELD_STOPPED = 'stopped_at'

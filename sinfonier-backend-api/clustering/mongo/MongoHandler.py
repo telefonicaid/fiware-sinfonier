@@ -170,7 +170,7 @@ class MongodbFactory:
 
     @staticmethod
     def get_modules(ids):
-        if reduce(lambda x, y: not x or not y, map(lambda id: ObjectId.is_valid(id), ids)):
+        if not reduce(lambda x, y: x and y, map(lambda id: ObjectId.is_valid(id), ids)):
             raise ModuleInvalidId()
 
         _ids = map(lambda id: ObjectId(id), ids)

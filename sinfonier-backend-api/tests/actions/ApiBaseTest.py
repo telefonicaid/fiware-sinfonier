@@ -11,7 +11,7 @@ from config.Routes import Routes
 from config.environmentConfig.Test import conf
 from error.ErrorHandler import PathException, ParseException
 from logger.Logger import logger
-from utils.SinfonierConstants import Module as ModuleConst, ModuleVersions as ModVersionConst
+from utils.SinfonierConstants import Module as ModuleConst, ModuleVersions as ModVersionConst, Topology as TopologyConst
 
 
 class ApiBaseTestCase(TestCase):
@@ -92,3 +92,26 @@ class ApiBaseTestCase(TestCase):
             raise ParseException('We cannot parse the module\'s version because we probably missing some mandatory field.')
 
         return json_version
+
+    @staticmethod
+    def parse_topology(json_topology):
+        date_format = '%Y-%m-%dT%H:%M:%S'
+
+        if not json_topology:
+            raise ParseException('We cannot parse the topology\' version')
+
+        try:
+            json_topology[TopologyConst.FIELD_ID] = ObjectId(json_topology[TopologyConst.FIELD_ID])
+            json_topology[TopologyConst.FIELD_CREATED_AT] = datetime.strptime(
+                json_topology[TopologyConst.FIELD_CREATED_AT][0:19],
+                date_format
+            )
+            json_topology[TopologyConst.FIELD_UPDATED] = datetime.strptime(
+                json_topology[TopologyConst.FIELD_UPDATED][0:19],
+                date_format
+            )
+        except Exception as Ex:
+            logger.error(Ex.message)
+            raise ParseException('We cannot parse the module\'s version because we probably missing some mandatory field.')
+
+        return json_topology

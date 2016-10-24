@@ -1,140 +1,175 @@
 [
   {
-    "_id": {
-      "$oid": "57becd7cd5c4fa520ae593ae"
-    },
-    "description": "Descripción topología test",
-    "name": "Test",
+    "_id": "5805f292b5aa21915447aaf9",
+    "description": "",
+    "name": "TopologyOne",
     "status": "active",
-    "created_at": {
-      "$date": "2016-08-25T10:50:36.752Z"
-    },
-    "updated_at": {
-      "$date": "2016-08-25T10:50:36.752Z"
-    },
+    "created_at": "2016-10-18T09:59:46.191+0000",
+    "updated_at": "2016-10-18T09:59:46.191+0000",
     "sharing": false,
-    "authorId": "test1@test.com",
+    "authorId": "test@test.com",
     "config": {
       "wires": [
         {
           "xtype": "WireIt.BezierWire",
           "src": {
+            "moduleId": 0,
+            "terminal": "out"
+          },
+          "tgt": {
             "moduleId": 1,
-            "terminal": "out"
-          },
-          "tgt": {
-            "moduleId": 0,
-            "terminal": "param1"
-          }
-        },
-        {
-          "xtype": "WireIt.BezierWire",
-          "src": {
-            "moduleId": 0,
-            "terminal": "out"
-          },
-          "tgt": {
-            "moduleId": 2,
-            "terminal": "in[]"
-          }
-        },
-        {
-          "xtype": "WireIt.BezierWire",
-          "src": {
-            "moduleId": 2,
-            "terminal": "out"
-          },
-          "tgt": {
-            "moduleId": 3,
             "terminal": "in[]"
           }
         }
       ],
       "modules": [
         {
-          "name": "MySpout",
+          "name": "Dummy",
+          "module_id": "57ff8856b5aad378bac5abda",
+          "module_version_id": "57ff8856b5aad378bac5abd9",
           "type": "spout",
-          "module_id": "57ad72bde1c0801a58324248",
-          "module_version_id": "57ad7385e1c0801a58324249",
           "language": "java",
-          "versionCode": 2,
-          "config": {
-            "xtype": "WireIt.FormContainer",
-            "position": [
-              270,
-              91
-            ]
-          },
-          "value": {
-            "param1": null,
-            "param2": [
-              [
-                "param1",
-                "value1"
-              ]
-            ],
-            "parallelism": "2"
-          }
-        },
-        {
-          "name": "Global Variable",
-          "type": "variable",
-          "language": "java",
-          "config": {
-            "xtype": "WireIt.FormContainer",
-            "position": [
-              32,
-              41
-            ]
-          },
-          "value": {
-            "value": "1234"
-          }
-        },
-        {
-          "name": "MyBolt",
-          "type": "bolt",
-          "module_id": "57ad73e8e1c0801a5832424b",
-          "module_version_id": "57ad73e8e1c0801a5832424a",
-          "language": "java",
+          "parallelisms": 1,
           "versionCode": 1,
           "config": {
             "xtype": "WireIt.FormContainer",
             "position": [
-              123,
-              239
+              55,
+              28
+            ]
+          },
+          "value": {
+            "keylist": [
+            ],
+            "valuelist": [
+            ],
+            "frequency": 1,
+            "delay": 1
+          }
+        },
+        {
+          "name": "LogIt",
+          "module_id": "57ffa120b5aa858d1177618b",
+          "module_version_id": "57ffa120b5aa858d1177618a",
+          "type": "drain",
+          "language": "java",
+          "parallelisms": 1,
+          "versionCode": 1,
+          "config": {
+            "xtype": "WireIt.FormContainer",
+            "position": [
+              85,
+              217
+            ]
+          },
+          "value": {
+          }
+        }
+      ],
+      "properties": {
+      }
+    }
+  },
+  {
+    "_id": "5809da0fb5aafbc4b62a4b2b",
+    "description": "",
+    "name": "TopologyTwo",
+    "status": "active",
+    "created_at": "2016-10-21T09:04:15.851+0000",
+    "updated_at": "2016-10-21T09:04:15.851+0000",
+    "sharing": false,
+    "authorId": "test@test.com",
+    "config": {
+      "wires": [
+        {
+          "xtype": "WireIt.BezierWire",
+          "src": {
+            "moduleId": 0,
+            "terminal": "out"
+          },
+          "tgt": {
+            "moduleId": 1,
+            "terminal": "in[]"
+          }
+        },
+        {
+          "xtype": "WireIt.BezierWire",
+          "src": {
+            "moduleId": 2,
+            "terminal": "out"
+          },
+          "tgt": {
+            "moduleId": 0,
+            "terminal": "in[]"
+          }
+        }
+      ],
+      "modules": [
+        {
+          "name": "JavaHTTPGet",
+          "module_id": "57ff9ea7b5aa858d11776189",
+          "module_version_id": "57ff9ea7b5aa858d11776188",
+          "type": "bolt",
+          "language": "java",
+          "parallelisms": 1,
+          "versionCode": 1,
+          "config": {
+            "xtype": "WireIt.FormContainer",
+            "position": [
+              26,
+              267
+            ]
+          },
+          "value": {
+            "urlfield": "\"url\""
+          }
+        },
+        {
+          "name": "LogIt",
+          "module_id": "57ffa120b5aa858d1177618b",
+          "module_version_id": "57ffa120b5aa858d1177618a",
+          "type": "drain",
+          "language": "java",
+          "parallelisms": 1,
+          "versionCode": 1,
+          "config": {
+            "xtype": "WireIt.FormContainer",
+            "position": [
+              198,
+              408
             ]
           },
           "value": {
           }
         },
         {
-          "name": "MyDrain",
-          "type": "drain",
-          "module_id": "57ad752ae1c0801a5832424d",
-          "module_version_id": "57ad752ae1c0801a5832424c",
-          "language": "python",
-          "versionCode": 2,
+          "name": "Dummy",
+          "module_id": "57ff8856b5aad378bac5abda",
+          "module_version_id": "57ff8856b5aad378bac5abd9",
+          "type": "spout",
+          "language": "java",
+          "parallelisms": 1,
+          "versionCode": 1,
           "config": {
             "xtype": "WireIt.FormContainer",
             "position": [
-              322,
-              359
+              156,
+              26
             ]
           },
           "value": {
-            "param1": "",
-            "param2": "",
-            "param3": "",
-            "param4": "",
-            "parallelism": "2"
+            "keylist": [
+              "url"
+            ],
+            "valuelist": [
+              "https://jsonplaceholder.typicode.com/posts/1"
+            ],
+            "frequency": 10,
+            "delay": 5
           }
         }
       ],
       "properties": {
-        "name": "Test",
-        "description": "Descripción topología test",
-        "extraConfiguration": "key1=value1\nkey2=value2"
       }
     }
   }
