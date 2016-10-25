@@ -8,6 +8,7 @@ import models.topology.Topology;
 
 import models.topology.TopologyConfig;
 import models.factory.MongoFactory;
+import models.storm.ParamsValidator;
 import models.user.User;
 import org.bson.types.ObjectId;
 import org.junit.*;
@@ -64,6 +65,11 @@ public class TopologyTests extends BaseTest {
 
     Topology topology = new Topology(dbObject);
 
+    ParamsValidator validator = ParamsValidator.getInstance();
+    assertTrue(validator.validate(topology.getConfig()));
+    assertEquals(topology.getConfig().getStormProperties().size(), 1);
+    assertEquals(topology.getConfig().getTopologyProperties().size(), 3);
+    
     assertNotNull(topology);
     assertEquals(topology.getId(), id);
     assertEquals(topology.getAuthorId(), ID_OWNER);

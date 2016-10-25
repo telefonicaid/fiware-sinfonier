@@ -131,10 +131,11 @@
           }
         }
       ],
-      "properties": {
-        "name": "Test",
-        "description": "Descripción topología test",
-        "extraConfiguration": "key1=value1\nkey2=value2"
+      "stormProperties": {
+        "TOPOLOGY_WORKERS": "2"
+      },
+      "topologyProperties": {
+        "topologyProperties": "key1=value1\nkey2=value2"
       }
     }
   }
