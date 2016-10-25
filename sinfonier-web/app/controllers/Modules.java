@@ -502,6 +502,27 @@ public class Modules extends WebSecurityController {
     }
   }
 
+  public static void decline(String id, Integer versionCode, String message) throws SinfonierException {
+    checkAuthenticity();
+    Module module = Module.findById(id);
+
+    if(module == null) {
+      moduleNotFoundError("Impossible set it to privatize because we can't found the id: ", id);
+    }
+
+    ModuleVersion version = module.getModuleVersion(versionCode);
+
+    if (version == null) {
+      moduleNotFoundError("We can't found the module with versionCode: " + versionCode);
+    }
+
+    version.setStatus(STATUS_DEV);
+    version.save();
+    SinfonierMailer.declineModule(module, version, message);
+
+    module(module.getName(), versionCode);
+  }
+
   @Check("ADMIN")
   public static void loadPredefined() throws SinfonierException {
     Module.loadPredefinedModules();

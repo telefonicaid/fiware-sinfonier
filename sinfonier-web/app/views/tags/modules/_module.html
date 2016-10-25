@@ -54,46 +54,66 @@
                 <br>
                 <small class="text-danger">&{'Modules.build.status'}: &{'Modules.build.status.failure'}</small>
               #{/elseif}
+          </p>
 
+        *{ PUBLISHED, PRIVATIZE AND RECHECK BUTTONS }*
           <div class="row">
-            <div class="col-lg-4">
-                #{if _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
-                && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PUBLISHED)}
+              #{if _size == 'large' && _module?.isOwner(_wc?.getCurrentUser()) && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PUBLISHED)}
+                <div class="col-lg-4">
                     #{form @Modules.privatize(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
                       <button id="module-${_module?.getId()}-button-privatize" type="submit" class="btn btn-primary">
                       &{'Modules.btn.privatize'}</button>
                     #{/form}
-                #{/if}
-                #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
-                && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PRIVATE)}
+                </div>
+              #{/if}
+              #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser()) && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PRIVATE)}
+                <div class="col-lg-4">
                     #{form @Modules.publish(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
                       <button id="module-${_module?.getId()}-button-publish" type="submit" class="btn btn-primary">
                       &{'Modules.btn.publish'}</button>
                     #{/form}
-                #{/elseif}
-                #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser())
-                && _version?.getStatus().equals(models.SinfonierConstants.Module.STATUS_DEV)}
-                  <button type="button" id="module-${_module?.getId()}-button-send-request-petition" class="btn btn-primary"
-                          data-toggle="modal" data-target="#confirmModalForSendRequest">
-                  &{'Modules.btn.sendValidation'}
-                  </button>
-                #{/elseif}
-                #{elseif _size == 'large' && _wc?.getCurrentUser().isAdminUser()
-                && _version?.getStatus().equals(models.SinfonierConstants.Module.STATUS_PENDING)}
+                </div>
+              #{/elseif}
+              #{elseif _size == 'large' && _module?.isOwner(_wc?.getCurrentUser()) && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_DEV)}
+              *{NOTE: if it is from gist I will show the modal if not a will do straight the request}*
+                <div class="col-lg-4">
+                    #{if _version?.isFromGist()}
+                      <button type="button" id="module-${_module?.getId()}-button-send-request-petition" class="btn btn-primary"
+                              data-toggle="modal" data-target="#confirmModalForSendRequest">
+                      &{'Modules.btn.sendValidation'}
+                      </button>
+                    #{/if}
+                    #{else }
+                        #{form @Modules.recheck(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
+                          <button id="module-${_module?.getId()}-button-sendValidation" type="submit" class="btn btn-primary">
+                          &{'Modules.btn.sendValidation'}</button>
+                        #{/form}
+                    #{/else}
+                </div>
+              #{/elseif}
+
+          *{ VALIDATE OR DECLINED BUTTONS }*
+              #{if _size == 'large' && _wc?.getCurrentUser()?.isAdminUser() && _version?.getStatus()?.equals(models.SinfonierConstants.Module.STATUS_PENDING)}
+                <div class="col-lg-4">
+                  <button type="button" id="module-${_module?.getId()}-button-decline-validation" class="btn btn-primary"
+                          data-toggle="modal" data-target="#declineModal">&{'Modules.btn.decline'}</button>
+                </div>
+
+                <div class="col-lg-4">
                     #{form @Modules.validate(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
                         #{if _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_SUCCESS)}
                           <button id="module-${_module?.getId()}-button-validate" type="submit" class="btn btn-primary">
                           &{'Modules.btn.validate'}</button>
                         #{/if}
                         #{else }
-                          <button id="module-${_module?.getId()}-button-validate" type="submit" class="btn btn-primary"
+                          <button id="module-${_module?.getId()}-button-validate-disabled" type="submit" class="btn btn-primary"
                                   disabled>&{'Modules.btn.validate'}</button>
                         #{/else}
                     #{/form}
-                #{/elseif}
-            </div>
+                </div>
+              #{/if}
           </div>
-          </p>
+
           <p id="module-${_module?.getId()}-p-language">
             <span class="bold">&{'Modules.form.language'}:</span> ${_module?.getLanguage()}
           </p>
@@ -428,9 +448,36 @@
           #{form @Modules.recheck(_module?.getId(), _version?.getVersionCode()), class:'form-inline'}
             <button id="module-${_module?.getId()}-button-deleteCancel" type="button" class="btn btn-default btn-modal"
                     data-dismiss="modal">&{'Modules.btn.cancel'}</button>
-            <button id="module-${_module?.getId()}-button-sendValidation" type="submit" class="btn btn-primary btn-modal">
+            <button id="module-${_module?.getId()}-button-modal-sendValidation" type="submit" class="btn btn-primary btn-modal">
             &{'Modules.btn.sendValidation'}</button>
           #{/form}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Decline modal -->
+<div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="declineModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="declineModalTitle">&{'Modules.decline.title'}</h4>
+      </div>
+      <div class="modal-body">
+          #{form @Modules.decline(_module.getId(), _version.getVersionCode()), , method:'POST', id:'decline-form-' + _module.getId()}
+            <div class="form-group">
+              <label for="message">&{'Modules.decline.form.label'}</label>
+              <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+          #{/form}
+      </div>
+      <div class="modal-footer">
+            <button id="module-${_module?.getId()}-button-declineCancel" type="button" class="btn btn-default btn-modal"
+                    data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+            <button id="module-${_module?.getId()}-button-declineOk" form="decline-form-${_module.getId()}" type="submit"
+                    class="btn btn-primary btn-modal">
+            &{'Modules.btn.decline'}</button>
       </div>
     </div>
   </div>

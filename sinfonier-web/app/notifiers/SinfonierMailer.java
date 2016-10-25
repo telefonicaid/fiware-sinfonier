@@ -23,6 +23,7 @@ public class SinfonierMailer extends DarwinMailer {
   protected static final String MAIL_FOLDER = "SinfonierMailer";
   protected static final String ADMIN_EMAILS = "admin.mails";
   protected static final String SUBJECT_REVIEW_CODE = "Mailer.subject.reviewModule";
+  protected static final String SUBJECT_DECLINE_MODULE = "Mailer.subject.declineModule";
   protected static final String SUBJECT_COMPLAIN_MODULE = "Mailer.subject.complainModule";
   protected static final String SUBJECT_NOTIFY_COMPLAIN_MODULE_ADMIN = "Mailer.subject.nofityComplainModuleAdmin";
 
@@ -43,8 +44,7 @@ public class SinfonierMailer extends DarwinMailer {
     String baseUrl = getBaseUrl();
     String appName = Config.getApplicationName();
     Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
-    send(getTemplatePath("complainModule", module.getAuthor().getPreferredLang()), renderArgs, appName, baseUrl,
-        module, inappropriate);
+    send(getTemplatePath("complainModule", module.getAuthor().getPreferredLang()), renderArgs, appName, baseUrl, module, inappropriate);
     Lang.set(actualLang);
   }
 
@@ -56,6 +56,18 @@ public class SinfonierMailer extends DarwinMailer {
     Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
     send(getTemplatePath("notifyComplainModuleAdmin", Lang.get()), renderArgs, appName, baseUrl, module,
         inappropriate);
+  }
+
+  public static void declineModule(Module module, ModuleVersion version, String msg) {
+    String emails = module.getAuthor().getEmail();
+    String actualLang = Lang.get();
+    Lang.set(module.getAuthor().getPreferredLang());
+    configureEmailSettings(emails, SUBJECT_DECLINE_MODULE);
+    String baseUrl = getBaseUrl();
+    String appName = Config.getApplicationName();
+    Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
+    send(getTemplatePath("declineModule", module.getAuthor().getPreferredLang()), renderArgs, appName, baseUrl, module, version, msg);
+    Lang.set(actualLang);
   }
 
   protected static String getTemplatePath(String template, String lang) {
