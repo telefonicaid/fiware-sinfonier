@@ -1,7 +1,8 @@
 package tests.models.storm;
 
 import exceptions.SinfonierException;
-import models.storm.ParamsValidator;
+import models.validators.ParamsValidator;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;

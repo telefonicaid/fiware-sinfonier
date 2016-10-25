@@ -16,6 +16,7 @@ import static models.SinfonierConstants.Topology.STATUS_DELETED;
 import static models.SinfonierConstants.Topology.STATUS_RUNNING;
 import static models.SinfonierConstants.Topology.TEMPLATE_NAME;
 import static models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE;
+import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,12 +176,27 @@ public class Topology implements Cloneable {
       throw new SinfonierException(SinfonierError.TOPOLOGY_INVALID_CONSTRUCTION, ex);
     }
     templateTopology.setName(TEMPLATE_NAME);
-    Map<String, String> properties = templateTopology.getConfig().getProperties();
+    
+    Map<String, String> properties = templateTopology.getConfig().getStormProperties();
+    if (!templateTopology.isOwner(user)) {
+      properties.clear();
+    }
     properties.put("templateid", topology.getId());
-    templateTopology.getConfig().setProperties(properties);
+
+    templateTopology.getConfig().setStormProperties(properties);
+    
+    if (!templateTopology.isOwner(user) && templateTopology.getConfig().getTopologyProperties().get(FIELD_TOPOLOGY_PROPERTIES) != null) {
+      templateTopology.getConfig().getTopologyProperties().remove(FIELD_TOPOLOGY_PROPERTIES);
+    }
+    
     if (!templateTopology.isOwner(user) && templateTopology.getConfig().getModules() != null) {
+      String[] emptyArray = {};
       for (TopologyModule m : templateTopology.getConfig().getModules()) {
-        m.setValues(null);
+        Map provValues = m.getValues();
+        for (Object key : provValues.keySet()) {
+          provValues.put(key, (provValues.get(key).getClass().toString().equals("java.lang.String") ? "" : emptyArray));
+        }
+        m.setValues(provValues);
       }
     }
     return templateTopology;

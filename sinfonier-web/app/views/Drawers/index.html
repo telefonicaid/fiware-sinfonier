@@ -143,7 +143,7 @@
       #{/list}
     	
       %{
-    	  models.storm.ParamsValidator validator = models.storm.ParamsValidator.getInstance();
+    	  models.validators.ParamsValidator validator = models.validators.ParamsValidator.getInstance();
     	  models.storm.Params params = validator.getParams();
       }%
       
@@ -172,11 +172,19 @@
       webhookit.language.propertiesFields.push({
         "type": "text",
         inputParams: {
-          "name": "extraConfiguration", label: "Extra Configuration", cols: 30, rows: 3,
-          typeInvite: "extra configuration using multiple lines with key=value format"
+          "name": "extraConfiguration", label: "Extra Storm Configuration", cols: 30, rows: 3,
+          typeInvite: "extra Storm configuration using multiple lines with key=value format"
         }
       });
       #{/if}
+      
+      webhookit.language.propertiesFields.push({
+        "type": "text",
+        inputParams: {
+          "name": "topologyProperties", label: "Topology Properties", cols: 30, rows: 4,
+          typeInvite: "topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format."
+        }
+      });
 
   webhookit.language.parentEl = 'editorContainer';
 
@@ -213,21 +221,18 @@
         }, 1001);
       });
     }, 1000);
+    
+    
+    setTimeout(function () {
+      $(".yui-layout-doc").on("change", "textarea[name='topologyProperties']", function(event) {
+        if ($(this).val()) {
+          parseTopologyConfig(this);
+          revalidateRelatedFields();
+        }
+      });
+    }, 1000);
   });
-  
-  function regenerateModulesDD() {
-    var layerPos = Dom.getXY(webhookit.editor.layer.el);
-    for (var i=0; i<webhookit.editor.layer.containers.length; i++) {
-      webhookit.editor.layer.containers[i].dd = new WireIt.util.DD(webhookit.editor.layer.containers[i].terminals,webhookit.editor.layer.containers[i].el);
-      var containerPos = Dom.getXY(webhookit.editor.layer.containers[i].el);
-      webhookit.editor.layer.containers[i].dd.setXConstraint(containerPos[0] - layerPos[0]);
-      webhookit.editor.layer.containers[i].dd.setYConstraint(containerPos[1] - layerPos[1]);
-      if(webhookit.editor.layer.containers[i].ddHandle) {
-        webhookit.editor.layer.containers[i].dd.setHandleElId(webhookit.editor.layer.containers[i].ddHandle);
-      }
-    }	  
-  }
-  
+    
   $("#changeToen,#changeToes").each(function(){
     $(this).submit(function(event) {
       adviseTopologyNotSaved(event);
@@ -240,16 +245,9 @@
     });
   });
   
-  function adviseTopologyNotSaved(event) {
-    if (!webhookit.editor.isSaved()) {
-      if (!confirm("Warning: Your work is not saved yet! Press ok to continue anyway.")) {
-        event.preventDefault();
-        return;
-      }
-    }    
-  }
 </script>
 
     #{script 'vendor/webhookit/editor/adapter.js'/}
     #{script 'vendor/webhookit/editor/topology_editor.js'/}
+    #{script 'drawer.js'/}
 #{/set}

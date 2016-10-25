@@ -117,6 +117,9 @@ lang.extend(inputEx.ListField,inputEx.Field, {
          var state = input.getState();
          if( state == inputEx.stateRequired || state == inputEx.stateInvalid ) {
             response = false; // but keep looping on fields to set classes
+         } else if (input.topologyConfKeyRefPattern.test(input.getValue()) &&
+               input.getValueOrReferenced().split(",").length == 0) {
+            response = false;
          }
          if(this.options.unique) {
             var hash = lang.dump(input.getValue());
@@ -173,6 +176,26 @@ lang.extend(inputEx.ListField,inputEx.Field, {
 	   }
 	   return values;
 	},
+
+    /**
+     * Return the array of values (with replaces if there are references to extra configuration)
+     * @return {Array} The array
+     */
+    getValueOrReferenced: function() {
+       var values = [];
+       for(var i = 0 ; i < this.subFields.length ; i++) {
+          if (this.subFields[i].topologyConfKeyRefPattern.test(this.subFields[i].getValue())) {
+             var stringList = this.subFields[i].getValueOrReferenced();
+             var referencedValues = stringList.split(",");
+             if (referencedValues.length > 0) {
+                values.push.apply(values,referencedValues);
+             }
+          } else {  
+             values.push(this.subFields[i].getValue());
+          }
+       }
+       return values;
+    },
 	   
 	/**
 	 * Adds an element

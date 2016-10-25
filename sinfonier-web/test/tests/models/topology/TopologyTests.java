@@ -9,6 +9,8 @@ import models.topology.Topology;
 import models.topology.TopologyConfig;
 import models.factory.MongoFactory;
 import models.user.User;
+import models.validators.ParamsValidator;
+
 import org.bson.types.ObjectId;
 import org.junit.*;
 
@@ -64,6 +66,11 @@ public class TopologyTests extends BaseTest {
 
     Topology topology = new Topology(dbObject);
 
+    ParamsValidator validator = ParamsValidator.getInstance();
+    assertTrue(validator.validate(topology.getConfig(), true));
+    assertEquals(topology.getConfig().getStormProperties().size(), 1);
+    assertEquals(topology.getConfig().getTopologyProperties().size(), 3);
+    
     assertNotNull(topology);
     assertEquals(topology.getId(), id);
     assertEquals(topology.getAuthorId(), ID_OWNER);
@@ -122,7 +129,7 @@ public class TopologyTests extends BaseTest {
     Topology template = Topology.getAsTemplate(origin, adminUser);
 
     assertTrue(template.getName().equals(TEMPLATE_NAME));
-    assertTrue("shuold have the property tempalteid", template.getConfig().getProperties().containsKey("templateid"));
+    assertTrue("should have the property template_id", template.getConfig().getStormProperties().containsKey("templateid"));
   }
 
   @Test
