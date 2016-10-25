@@ -1,8 +1,10 @@
-package models.storm;
+package models.validators;
 
 import com.google.gson.*;
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
+import models.storm.ParamValues;
+import models.storm.Params;
 import models.topology.TopologyConfig;
 import play.Logger;
 import play.Play;
@@ -97,7 +99,7 @@ public class ParamsValidator {
     return true;
   }
 
-  public boolean validate(TopologyConfig config) throws SinfonierException {
+  public boolean validate(TopologyConfig config, boolean validateTopologyConfig) throws SinfonierException {
     Map properties = config.getStormProperties();
     Map params = new TreeMap();
     if (IS_ACTIVE_EXTRA_PARAMS && properties.containsKey(FIELD_EXTRA_CONFIGURATION)) {
@@ -120,7 +122,7 @@ public class ParamsValidator {
     boolean validStormProperties = validate(((Map<String, Object>) params)); 
     
     //TopologyProperties validation
-    if (config.getTopologyProperties() != null && validStormProperties) {
+    if (validStormProperties && validateTopologyConfig && config.getTopologyProperties() != null) {
       Map topologyProperties = config.getTopologyProperties();
       Map<String, Object> topologyParams = new TreeMap<String, Object>();
       try {
@@ -138,7 +140,7 @@ public class ParamsValidator {
       }
     }
     
-    return (validStormProperties);
+    return validStormProperties;
   }
 
   private ParamValues getOrigin(String keyParam) {

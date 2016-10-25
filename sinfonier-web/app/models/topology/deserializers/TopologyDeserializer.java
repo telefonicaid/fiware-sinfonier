@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import org.bson.types.ObjectId;
 
 import static models.SinfonierConstants.Topology.*;
+import static models.SinfonierConstants.TopologyConfig.FIELD_STORM_PROPERTIES;
 import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 
 public class TopologyDeserializer implements JsonDeserializer<Topology> {
@@ -48,17 +49,27 @@ public class TopologyDeserializer implements JsonDeserializer<Topology> {
       wireList.add(gson.fromJson(element, Wire.class));
     }
 
-    final Map<String, String> properties = gson.fromJson(configObject.get("properties").toString(), Map.class);
-
-    if (properties.keySet().contains("name")) properties.remove("name");
-    if (properties.keySet().contains("description")) properties.remove("description");
-    
-    //Topology Configuration
+    Map<String, String> properties = null;
     Map<String, String> topologyProperties = null;
-    if (properties.keySet().contains(FIELD_TOPOLOGY_PROPERTIES)) {
-      topologyProperties = new TreeMap<String, String>();
-      topologyProperties.put(FIELD_TOPOLOGY_PROPERTIES, properties.get(FIELD_TOPOLOGY_PROPERTIES));
-      properties.remove(FIELD_TOPOLOGY_PROPERTIES);    
+    //Deserializing from editor
+    if (configObject.get("properties") != null) {
+      properties = gson.fromJson(configObject.get("properties").toString(), Map.class);
+  
+      if (properties.keySet().contains("name")) properties.remove("name");
+      if (properties.keySet().contains("description")) properties.remove("description");
+      
+      //Topology Configuration
+      if (properties.keySet().contains(FIELD_TOPOLOGY_PROPERTIES)) {
+        topologyProperties = new TreeMap<String, String>();
+        topologyProperties.put(FIELD_TOPOLOGY_PROPERTIES, properties.get(FIELD_TOPOLOGY_PROPERTIES));
+        properties.remove(FIELD_TOPOLOGY_PROPERTIES);    
+      }
+    //Deserializing from exported topology  
+    } else {
+      if (configObject.get(FIELD_STORM_PROPERTIES) != null)
+        properties = gson.fromJson(configObject.get(FIELD_STORM_PROPERTIES).toString(), Map.class);
+      if (configObject.get(FIELD_TOPOLOGY_PROPERTIES) != null)
+        topologyProperties = gson.fromJson(configObject.get(FIELD_TOPOLOGY_PROPERTIES).toString(), Map.class);
     }
 
     final JsonElement templateIdElement = topologyObject.get("template_id");

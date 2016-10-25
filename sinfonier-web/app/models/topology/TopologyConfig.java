@@ -121,7 +121,7 @@ public class TopologyConfig {
   public Map<String, String> getStormProperties() {
     return stormProperties;
   }
-
+  
   public void setStormProperties(Map<String, String> stormProperties) {
     this.stormProperties = stormProperties;
   }
@@ -130,6 +130,20 @@ public class TopologyConfig {
     return topologyProperties;
   }
 
+  public Map<String, String> getTopologyPropertiesToExport() {
+    Map<String, String> exportProperties = new TreeMap<String, String>();;
+    String topologyPropsStr = "";
+    for (String key : topologyProperties.keySet()) {
+      if (!key.equals(FIELD_TOPOLOGY_PROPERTIES)) {
+        topologyPropsStr = topologyPropsStr.concat(key).concat("=\n");
+      }
+    }
+    if (topologyPropsStr.length() > 0)
+      topologyPropsStr = topologyPropsStr.substring(0, topologyPropsStr.length() - 2);
+    exportProperties.put(FIELD_TOPOLOGY_PROPERTIES, topologyPropsStr);
+    return exportProperties;
+  }
+  
   public void setTopologyProperties(Map<String, String> topologyProperties) {
     this.topologyProperties = topologyProperties;
   }

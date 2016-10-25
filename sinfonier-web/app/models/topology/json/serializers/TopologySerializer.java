@@ -4,6 +4,7 @@ import static models.SinfonierConstants.Topology.FIELD_CONFIG;
 import static models.SinfonierConstants.Topology.FIELD_DESCRIPTION;
 import static models.SinfonierConstants.Topology.FIELD_NAME;
 import static models.SinfonierConstants.TopologyConfig.FIELD_STORM_PROPERTIES;
+import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 import static models.SinfonierConstants.TopologyConfig.FIELD_WIRES;
 
 import java.lang.reflect.Type;
@@ -44,6 +45,7 @@ public class TopologySerializer implements JsonSerializer<Topology> {
 		Gson gson = new Gson();
 		jsonConfig.add(FIELD_WIRES, parser.parse(gson.toJson(config.getWires())).getAsJsonArray());
 		jsonConfig.add(FIELD_STORM_PROPERTIES, parser.parse(gson.toJson(config.getStormProperties())).getAsJsonObject());
+		jsonConfig.add(FIELD_TOPOLOGY_PROPERTIES, parser.parse(gson.toJson(config.getTopologyPropertiesToExport())).getAsJsonObject());
 
 		JsonArray modules = new JsonArray();
 		for (TopologyModule topologyModule : config.getModules()) {
