@@ -134,7 +134,7 @@ public class ParamsValidator {
         return false;
       }
       for (String key : topologyParams.keySet()) {
-        if (!validateTopologyConfKey(key) && !validateTopologyConfValue((String)topologyParams.get(key))) {
+        if (!validateTopologyConfKey(key) || !validateTopologyConfValue((String)topologyParams.get(key))) {
           return false;
         }
       }

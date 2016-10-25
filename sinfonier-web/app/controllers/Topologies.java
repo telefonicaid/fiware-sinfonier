@@ -260,7 +260,6 @@ public class Topologies extends WebSecurityController {
     if (topology == null) {
       Logger.error("We can\'t find the topology with id: " + id);
       notFound();
-      renderJSON(Codes.CODE_404.toGSON());
     } else {
     	Codes c200 = Codes.CODE_200;
     	JsonObject data = new JsonObject();
