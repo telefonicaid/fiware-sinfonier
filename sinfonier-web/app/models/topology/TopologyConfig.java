@@ -139,7 +139,7 @@ public class TopologyConfig {
       }
     }
     if (topologyPropsStr.length() > 0)
-      topologyPropsStr = topologyPropsStr.substring(0, topologyPropsStr.length() - 2);
+      topologyPropsStr = topologyPropsStr.substring(0, topologyPropsStr.length() - 1);
     exportProperties.put(FIELD_TOPOLOGY_PROPERTIES, topologyPropsStr);
     return exportProperties;
   }
