@@ -20,7 +20,7 @@ class StormUI:
     @staticmethod
     def getClusterConfiguration():
         url = StormUI.baseurl() + "/api/v1/cluster/configuration"
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
     # /api/v1/cluster/summary (GET)
@@ -30,7 +30,7 @@ class StormUI:
     @staticmethod
     def getClusterSummary():
         url = StormUI.baseurl() + "/api/v1/cluster/summary"
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
     # /api/v1/supervisor/summary (GET)
@@ -40,7 +40,7 @@ class StormUI:
     @staticmethod
     def getSupervisorSummary():
         url = StormUI.baseurl() + "/api/v1/supervisor/summary"
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
     # /api/v1/topology/summary (GET)
@@ -50,7 +50,7 @@ class StormUI:
     @staticmethod
     def getTopologySummary():
         url = StormUI.baseurl() + "/api/v1/topology/summary"
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
     # /api/v1/topology/:id (GET)
@@ -60,7 +60,7 @@ class StormUI:
     @staticmethod
     def getTopology(topologyid):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
     # /api/v1/topology/:id/component/:component (GET)
@@ -70,7 +70,7 @@ class StormUI:
     @staticmethod
     def getTopologyComponent(topologyid, componentid):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/component/" + componentid
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     # POST Operations
 
@@ -98,7 +98,7 @@ class StormUI:
     @staticmethod
     def activateTopology(topologyid):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/activate"
-        return HTTPHandler.postJson(url)
+        return HTTPHandler.post_as_json(url)
 
     ######################################
     # /api/v1/topology/:id/activate (POST)
@@ -107,7 +107,7 @@ class StormUI:
 
     @staticmethod
     def activateTopologyByName(topology_name):
-        id = StormUI.getTopologyIdByName(topology_name)
+        id = StormUI.get_topology_id_by_name(topology_name)
         if id is not None:
             return StormUI.activateTopology(id)
 
@@ -119,7 +119,7 @@ class StormUI:
     @staticmethod
     def deactivateTopology(topologyid):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/deactivate"
-        return HTTPHandler.postJson(url)
+        return HTTPHandler.post_as_json(url)
 
     ######################################
     # /api/v1/topology/:id/deactivate (POST)
@@ -128,7 +128,7 @@ class StormUI:
 
     @staticmethod
     def deactivateTopologyByName(topology_name):
-        id = StormUI.getTopologyIdByName(topology_name)
+        id = StormUI.get_topology_id_by_name(topology_name)
         return StormUI.deactivateTopology(id)
 
     ######################################
@@ -138,10 +138,12 @@ class StormUI:
     ######################################
 
     @staticmethod
-    def rebalanceTopology(topologyid, wait_time, rebalanceOptions={}):
+    def rebalanceTopology(topologyid, wait_time, rebalanced_options=None):
+        if rebalanced_options is None:
+            rebalanced_options = {}
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/rebalance/" + wait_time
         headers = {"Content-Type": "application/json"}
-        return HTTPHandler.postJson(url, data=json.dumps(rebalanceOptions), headers=headers)
+        return HTTPHandler.post_as_json(url, data=json.dumps(rebalanced_options), headers=headers)
 
     ######################################
     # /api/v1/topology/:id/kill/:wait-time (POST)
@@ -151,7 +153,7 @@ class StormUI:
     @staticmethod
     def killTopology(topologyid, wait_time):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/kill/" + str(wait_time)
-        return HTTPHandler.postJson(url)
+        return HTTPHandler.post_as_json(url)
 
     ######################################
     # /api/v1/topology/:id/deactivate (POST)
@@ -160,7 +162,7 @@ class StormUI:
 
     @staticmethod
     def kill_topology_by_name(topology_name, wait_time=0):
-        id = StormUI.getTopologyIdByName(topology_name)
+        id = StormUI.get_topology_id_by_name(topology_name)
         if id is not None:
             return StormUI.killTopology(id, wait_time)
         return None
@@ -173,7 +175,7 @@ class StormUI:
     @staticmethod
     def getTopologyVisualization(topologyid):
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid + "/visualization"
-        return HTTPHandler.getJson(url)
+        return HTTPHandler.get_as_json(url)
 
     ######################################
 
@@ -213,12 +215,12 @@ class StormUI:
     ######################################
 
     @staticmethod
-    def getTopologyIdByName(topology_name):
+    def get_topology_id_by_name(topology_name):
         response = StormUI.getTopologySummary()
         topologies = response["topologies"]
-        for topo in topologies:
-            if topo["name"] == topology_name:
-                return topo["id"]
+        for topology in topologies:
+            if topology["name"] == topology_name:
+                return topology["id"]
         raise TopologyNotInCluster
 
     ######################################

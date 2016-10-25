@@ -10,5 +10,7 @@ elif SINFONIER_API_NAME == EnvConst.PROD_ENVIRONMENT:
     from environmentConfig.Production import *
 elif SINFONIER_API_NAME == EnvConst.DOCKER_ENVIRONMENT:
     from environmentConfig.Docker import *
+elif SINFONIER_API_NAME == EnvConst.TEST_ENVIRONMENT:
+    from environmentConfig.Test import *
 else:
     sys.exit('ERROR: Environment not found: ' + EnvConst.SINFONIER_ENV_KEY)

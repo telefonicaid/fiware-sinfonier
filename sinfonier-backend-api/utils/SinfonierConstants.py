@@ -3,6 +3,7 @@ class Topology:
     FIELD_ID = '_id'
     FIELD_NAME = 'name'
     FIELD_STATUS = 'status'
+    FIELD_CREATED_AT = 'created_at'
     FIELD_UPDATED = 'updated_at'
     FIELD_STARTED = 'started_at'
     FIELD_STOPPED = 'stopped_at'
@@ -19,7 +20,8 @@ class Topology:
 class Module:
     COLLECTION_NAME = 'modules'
     FIELD_ID = '_id'
-    FIELD_UPDATE_AT = 'updated_at'
+    FIELD_CREATED_AT = 'created_at'
+    FIELD_UPDATED_AT = 'updated_at'
     FIELD_NAME = 'name'
     FIELD_LANG = 'language'
     FIELD_TYPE = 'type'
@@ -42,6 +44,8 @@ class ModuleVersions:
     SOURCE_TYPE_GIST = 'gist'
     BUILD_STATUS_SUCCESS = 'success'
     BUILD_STATUS_FAILURE = 'failure'
+    FIELD_CREATED_AT = 'created_at'
+    FIELD_UPDATED_AT = 'updated_at'
 
 
 class Environment:
@@ -49,3 +53,4 @@ class Environment:
     PROD_ENVIRONMENT = 'production'
     DEVELOP_ENVIRONMENT = 'develop'
     DOCKER_ENVIRONMENT = 'docker'
+    TEST_ENVIRONMENT = 'test'

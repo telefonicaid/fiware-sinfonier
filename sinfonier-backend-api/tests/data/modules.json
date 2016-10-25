@@ -1,0 +1,124 @@
+[
+  {
+    "_id": "57ff8856b5aad378bac5abda",
+    "name": "Dummy",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "developing",
+    "language": "java",
+    "created_at": "2016-10-13T13:12:54.500+0000",
+    "updated_at": "2016-10-13T14:21:45.250+0000",
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1",
+        "versionCode": 1,
+        "versionId": "57ff8856b5aad378bac5abd9",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  },
+  {
+    "_id": "57ff98ffb5aa858d11776185",
+    "name": "AddFieldOverwrite",
+    "type": "bolt",
+    "category": "Bolts",
+    "status": "developing",
+    "language": "java",
+    "created_at": "2016-10-13T14:23:59.103+0000",
+    "updated_at": "2016-10-13T14:24:27.458+0000",
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1",
+        "versionCode": 1,
+        "versionId": "57ff98ffb5aa858d11776184",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  },
+  {
+    "_id": "57ff9930b5aa858d11776187",
+    "name": "DummyListSpout",
+    "type": "spout",
+    "category": "Spouts",
+    "status": "developing",
+    "language": "python",
+    "created_at": "2016-10-13T14:24:48.619+0000",
+    "updated_at": "2016-10-13T14:45:22.485+0000",
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1",
+        "versionCode": 1,
+        "versionId": "57ff9930b5aa858d11776186",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  },
+  {
+    "_id": "57ff9ea7b5aa858d11776189",
+    "name": "JavaHTTPGet",
+    "type": "bolt",
+    "category": "Bolts",
+    "status": "developing",
+    "language": "java",
+    "created_at": "2016-10-13T14:48:07.233+0000",
+    "updated_at": "2016-10-13T14:58:18.095+0000",
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1",
+        "versionCode": 1,
+        "versionId": "57ff9ea7b5aa858d11776188",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  },
+  {
+    "_id": "57ffa120b5aa858d1177618b",
+    "name": "LogIt",
+    "type": "drain",
+    "category": "Drains",
+    "status": "developing",
+    "language": "java",
+    "created_at": "2016-10-13T14:58:40.390+0000",
+    "updated_at": "2016-10-14T07:13:40.247+0000",
+    "authorId": "alejandro.matos@global.11paths.com",
+    "average_rate": 0.0,
+    "topologies_count": 0,
+    "icon": "",
+    "versions": [
+      {
+        "versionTag": "1",
+        "versionCode": 1,
+        "versionId": "57ffa120b5aa858d1177618a",
+        "isDeleted": false,
+        "isVisible": false
+      },
+      {
+        "versionTag": "2",
+        "versionCode": 2,
+        "versionId": "5800851aba789ab538a62263",
+        "isDeleted": false,
+        "isVisible": false
+      }
+    ]
+  }
+]

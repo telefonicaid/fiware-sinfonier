@@ -12,20 +12,19 @@ class Config:
     STORM_UI_PORT = "8080"
 
     # Gist Credentials
-    GIST_USERNAME = 'your_gist_user_name'
-    GIST_TOKEN = 'your_gist_user_token'
+    GIST_USERNAME = 'communitysinfonier'
+    GIST_TOKEN = '7cd03355ffe31e9216941fdb966b6dab9e781df3'
 
     # Mongodb's Config
     MONGO_HOST = 'localhost'
     MONGO_PORT = 27017
-    MONGO_DATABASE = 'sinfonier'
+    MONGO_DATABASE = 'sinfonier-test'
     MONGO_AUTH = False
     MONGO_USER = 'sinfonier'
     MONGO_PASSWORD = 'sinfonier'
     MONGO_MAX_TIME_OUT = 100
     MONGO_MAX_ATTEMPT_CONNECTION = 4
 
-    STORM_HOST = 'localhost'
     if os.environ.__contains__('STORM_HOME'):
         STORM_BINARY = os.path.normpath(os.path.join(os.environ['STORM_HOME'], 'bin/storm'))
     else:
@@ -69,12 +68,18 @@ class Config:
     INTERNAL_MVN_REPOSITORY = True
 
     if os.environ.__contains__('MAVEN_HOME'):
-        MAVEN_BINARY = os.path.normpath(os.path.join(os.environ['MAVEN_HOME'], 'bin/mvn'))
+        STORM_BINARY = os.path.normpath(os.path.join(os.environ['MAVEN_HOME'], 'bin/mvn'))
     else:
         MAVEN_BINARY = 'mvn'
 
     MVN_REPOSITORY_ID = 'central'
-    MVN_REPOSITORY_URL = 'http://yourhost:8081/artifactory/libs-release-local'
+    MVN_REPOSITORY_URL = 'http://localhost:8081/artifactory/libs-release-local'
 
+    # Data to insert to db to be able to do the test
+    _dname = os.path.dirname(os.path.abspath(__file__))
+    _root = os.path.join(_dname, '../..')
+    MODULE_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/modules.json'))
+    MODULE_VERSION_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/moduleVersions.json'))
+    TOPOLOGIES_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/topologies.json'))
 
 conf = Config()

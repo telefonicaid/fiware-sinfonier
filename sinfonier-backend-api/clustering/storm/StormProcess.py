@@ -8,7 +8,8 @@ from utils.CommandExecutor import CommandExecutor
 class StormProcess:
     @staticmethod
     def launch_topology_cmd(topology_name, topology_jar):
-        cmd_launch = [conf.STORM_BINARY,"-c","nimbus.host="+conf.STORM_HOST, " jar ", topology_jar, " com.sinfonier.DynamicTopology ",
+        cmd_launch = [conf.STORM_BINARY, "-c", "nimbus.host=" + conf.STORM_HOST, " jar ", topology_jar,
+                      " com.sinfonier.DynamicTopology ",
                       str(topology_name)]
         return CommandExecutor.execute(cmd_launch, capture_out=True)
 
