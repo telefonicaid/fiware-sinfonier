@@ -126,6 +126,7 @@ Modules.form.warning.gistCode = Verifique que el nombre de clase especificado en
 Topologies.index.title = Topologías
 Topologies.index.btn.my = Mis Topologías
 Topologies.index.btn.new = Nueva Topología
+Topologies.index.btn.import = Importar Topología
 Topology.btn.privatize = Privatizar
 Topology.btn.publish = Publicar
 Topology.index.create_by = Creada por <a href="/profile/%s">%s (%s)</a> el %s, última actualización el %s.
@@ -149,6 +150,7 @@ Topologies.btn.stop = Detener
 Topologies.btn.edit = Editar
 Topologies.btn.asTemplate = Usar como plantilla
 Topologies.btn.export = Exportar
+Topologies.btn.import = Importar
 
 Topologies.details.delete.title = Eliminar la topología
 Topologies.details.delete.text = Quiere eliminar la topología '%s'?
@@ -209,6 +211,7 @@ validation.required.drawer.versionCode = "El versionCode del módulo es requerid
 validation.requiere.email = "El email es requerido para esta operación"
 validation.requiere.name = "El nombre de usuario es obligatorio"
 validation.topology.params = "Algunos parámetros son incorrectos o no están permitidos."
+validation.topology.exists = "Already exists a topology with this name"
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
 
 ## Password policy

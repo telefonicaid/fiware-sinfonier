@@ -18,6 +18,7 @@ GET /modules/loadPredefined                                     Modules.loadPred
 GET /modules/{name}/versions/{versionCode}/edit                 Modules.edit
 GET /modules/{name}/versions/{versionCode}                      Modules.module
 GET /modules/{name}                                             Modules.module
+POST /modules/check                                             Modules.check
 POST /modules/save                                              Modules.save
 POST /modules/vote                                              Modules.vote
 POST /modules/{id}/versions/{versionCode}/remove                Modules.remove
@@ -37,6 +38,7 @@ GET /topologies/{<-?[0-9]+>page}                                Topologies.index
 GET /topologies/search/?                                        Topologies.search(page:'1')
 GET /topologies/search/0                                        Topologies.search(page:'1')
 GET /topologies/search/{<-?[0-9]+>page}                         Topologies.search
+GET /topologies/import                                          Topologies.importTopology
 POST /topology/save                                             Topologies.save
 POST /topologies/{id}/save                                      Topologies.save
 POST /topology/{id}/remove                                      Topologies.remove
@@ -46,6 +48,7 @@ POST /topology/{id}/log                                         Topologies.log
 POST /topology/{id}/privatize                                   Topologies.privatize
 POST /topology/{id}/publish                                     Topologies.publish
 POST /topology/{id}/export                                      Topologies.export
+POST /topologies/import                                         Topologies.doImport
 GET /topologies/{name}                                          Topologies.topology
 
 # Diagnostig

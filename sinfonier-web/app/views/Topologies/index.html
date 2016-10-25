@@ -6,7 +6,7 @@
 #{/set}
 
 <div class="row form-group">
-  <div class="col-md-offset-4 col-md-4">
+  <div class="col-md-4">
   #{if request.querystring.contains("indexMode=" + controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES)}
     <a id="topologies-a-list" href="@{Topologies.index(null, null, 0)}" class="btn-tab btn btn-default width-100">&{'Topologies.index.title'}</a>
   #{/if}
@@ -17,6 +17,9 @@
   </div>
   <div class="col-md-4">
     <a id="topologies-a-add" href="@{Drawers.index()}" class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.new'}</a>
+  </div>
+  <div class="col-md-4">
+    <a id="topologies-a-import" href="@{Topologies.importTopology()}" class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.import'}</a>
   </div>
 </div>
 

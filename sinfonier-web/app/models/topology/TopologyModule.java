@@ -1,13 +1,30 @@
 package models.topology;
 
+import static models.SinfonierConstants.ModuleVersion.FIELD_VERSION_CODE;
+import static models.SinfonierConstants.TopologyModule.FIELD_CONFIG;
+import static models.SinfonierConstants.TopologyModule.FIELD_LANGUAGE;
+import static models.SinfonierConstants.TopologyModule.FIELD_MODULE_ID_ANNOTATION;
+import static models.SinfonierConstants.TopologyModule.FIELD_MODULE_VERSION_ID_ANNOTATION;
+import static models.SinfonierConstants.TopologyModule.FIELD_NAME;
+import static models.SinfonierConstants.TopologyModule.FIELD_PARALLELISMS;
+import static models.SinfonierConstants.TopologyModule.FIELD_TYPE;
+import static models.SinfonierConstants.TopologyModule.FIELD_VALUES;
+import static models.SinfonierConstants.TopologyModule.FIELD_VALUES_ANNOTATION;
+
+import java.util.Map;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import static models.SinfonierConstants.ModuleVersion.FIELD_VERSION_CODE;
-import static models.SinfonierConstants.TopologyModule.*;
-
-import java.util.Map;
+import exceptions.SinfonierError;
+import exceptions.SinfonierException;
+import models.module.Module;
+import models.module.ModuleVersion;
+import models.module.Version;
 
 public class TopologyModule {
   private static final int DEFAULT_PARALLELISMS_VALUE = 1;
@@ -189,4 +206,38 @@ public class TopologyModule {
       return true;
     return false;
   }
+  
+	public static ModuleVersion checkTopologyModule(JsonObject jTopologyModule) throws SinfonierException {
+		Integer version = jTopologyModule.get("versionCode").getAsInt();
+		//Operators have version == 0. Don't check
+		if (version == 0)
+			return null;
+		JsonObject jModule= jTopologyModule.get("module").getAsJsonObject();
+		String moduleName = jModule.get("name").getAsString();
+		Module module = Module.findByName(moduleName);
+		if (module == null)
+		{
+			throw new SinfonierException(SinfonierError.MODULE_NOT_FOUND);
+		}
+		boolean found = false;
+		for (Version includedVersion : module.getVersions().getVersions()) {
+			if (includedVersion.getVersionCode() == version) {
+				ModuleVersion moduleVersion = ModuleVersion.findById(includedVersion.getModuleVersionId());
+				if (moduleVersion != null)
+				{
+					found = true;
+					String actualCode = StringEscapeUtils.unescapeJava(moduleVersion.getSourceCode());
+					String importedCode = jModule.get("sourceCode").getAsString();
+					
+					if (moduleVersion.getSourceCode() == null || !actualCode.equals(importedCode))
+					{
+						throw new SinfonierException(SinfonierError.MODULE_CODE_NOT_MATCH);				
+					}
+					return moduleVersion;
+				}
+			}
+		}
+		throw new SinfonierException(SinfonierError.MODULE_VERSION_NOT_FOUND);
+	}
+
 }

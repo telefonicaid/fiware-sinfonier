@@ -92,8 +92,11 @@ var drawModule = function (ctxt, module, hRatio, vRatio, style) {
   ctxt.font = " " + fontSize + "px Helvetica";
   var textWidth = 0;
 
-  if (typeof(ctxt.measureText) != 'undefined') textWidth = ctxt.measureText(module.name).width;
-
+  var module_name = module.name;
+  if (module.versionTag)
+    module_name = module_name +" ("+module.versionTag+")";
+  if (typeof(ctxt.measureText) != 'undefined') textWidth = ctxt.measureText(module_name).width;
+  
   var fontWidth = textWidth + 4;
   var width = Math.max(boxWidth * hRatio, fontWidth), height = boxHeight * vRatio;
 
@@ -107,7 +110,7 @@ var drawModule = function (ctxt, module, hRatio, vRatio, style) {
   ctxt.fillRect(x * hRatio + 1, y * vRatio + 1, width - 2, fontSize);
   ctxt.fillStyle = "black";
 
-  if (typeof(ctxt.fillText) != 'undefined') ctxt.fillText(module.name, x * hRatio + 2, y * vRatio + fontSize);
+  if (typeof(ctxt.fillText) != 'undefined') ctxt.fillText(module_name, x * hRatio + 2, y * vRatio + fontSize);
 
   ctxt.strokeStyle = style;
   ctxt.fillStyle = style;

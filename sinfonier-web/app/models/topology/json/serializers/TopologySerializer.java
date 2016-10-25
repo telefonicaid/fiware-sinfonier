@@ -27,7 +27,7 @@ import models.topology.TopologyModule;
 
 public class TopologySerializer implements JsonSerializer<Topology> {
 
-	private static final String FIELD_MODULE = "module";
+  private static final String FIELD_MODULE = "module";
 
 	@Override
 	public JsonElement serialize(Topology topology, Type type, JsonSerializationContext jsonSerializationContext) {
@@ -50,19 +50,22 @@ public class TopologySerializer implements JsonSerializer<Topology> {
 			JsonObject jsonModule = new JsonObject();
 			jsonModule.addProperty(FIELD_NAME, topologyModule.getName());
 			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_VERSION_CODE,
-					topologyModule.getVersionCode());
-			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_TYPE, topologyModule.getVersionCode());
-			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_LANGUAGE, topologyModule.getVersionCode());
-			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_PARALLELISMS,
-					topologyModule.getVersionCode());
+			    topologyModule.getVersionCode());
+			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_TYPE, topologyModule.getType());
+			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_LANGUAGE, topologyModule.getLanguage());
+			jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_PARALLELISMS,topologyModule.getParallelism());
 			jsonModule.add(models.SinfonierConstants.TopologyModule.FIELD_VALUES,
-					parser.parse(gson.toJson(topologyModule.getValues())).getAsJsonObject());
+			    parser.parse(gson.toJson(topologyModule.getValues())).getAsJsonObject());
 			jsonModule.add(models.SinfonierConstants.TopologyModule.FIELD_CONFIG,
-					parser.parse(gson.toJson(topologyModule.getConfig())).getAsJsonObject());
+			    parser.parse(gson.toJson(topologyModule.getConfig())).getAsJsonObject());
+			
 			try {
-				Module module = Module.findById(topologyModule.getModuleId());
-				ModuleVersion moduleVersion = ModuleVersion.findById(topologyModule.getModuleVersionId());
-				jsonModule.add(FIELD_MODULE, moduleVersion.toJson(module));
+				if (topologyModule.getModuleId() != null) {
+					Module module = Module.findById(topologyModule.getModuleId());
+					ModuleVersion moduleVersion = ModuleVersion.findById(topologyModule.getModuleVersionId());
+					jsonModule.add(FIELD_MODULE, moduleVersion.toJson(module));
+					jsonModule.addProperty(models.SinfonierConstants.Version.FIELD_VERSION_TAG, moduleVersion.getVersionTag());
+				}
 			} catch (SinfonierException e) {
 				throw new JsonException(e.getMessage(), e.getCause());
 			}
