@@ -506,14 +506,14 @@ public class Modules extends WebSecurityController {
     checkAuthenticity();
     Module module = Module.findById(id);
 
-    if(module == null) {
-      moduleNotFoundError("Impossible set it to privatize because we can't found the id: ", id);
+    if (module == null) {
+      moduleNotFoundError("We can not found the module: ", id);
     }
 
     ModuleVersion version = module.getModuleVersion(versionCode);
 
     if (version == null) {
-      moduleNotFoundError("We can't found the module with versionCode: " + versionCode);
+      moduleNotFoundError("We can not found the module with versionCode: " + versionCode);
     }
 
     version.setStatus(STATUS_DEV);
