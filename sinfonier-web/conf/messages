@@ -91,13 +91,16 @@ Modules.details.delete.text = Do you want to delete the module '%s (%s)'?
 Modules.details.versions = Versions
 Modules.sendValidation.title = Send validation request confirmation
 Modules.sendValidation.text = Are you sure that you want to validate this module: <strong>'%s (%s)'</strong>? If so, please be sure that the code that you want be checked be available before to send this request.
+Modules.decline.title = Decline user's module
+Modules.decline.form.label = Please, bring to the user why their module are declined.
 
 Modules.btn.import = Import
 Modules.btn.add = Add
 Modules.btn.create = Create
 Modules.btn.update = Update
 Modules.btn.sendValidation = Send Validation Request
-Modules.btn.validate = Validate
+Modules.btn.validate = Validate module
+Modules.btn.decline = Decline validation request
 Modules.btn.search = Search
 Modules.btn.source = Source Code
 Modules.btn.addTools = Add to my tools
@@ -270,6 +273,7 @@ validation.passwordPolicy.2=The password must contain at least of one lowercase 
 validation.passwordPolicy=Invalid password. &{%2$s}.
 
 Mailer.subject.reviewModule = New code review
+Mailer.subject.declineModule = Your module has been declined
 Mailer.subject.complainModule = Your module has been reported
 Mailer.subject.nofityComplainModuleAdmin = Module inappropriate
 

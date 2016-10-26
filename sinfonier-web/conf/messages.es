@@ -91,13 +91,16 @@ Modules.details.delete.text = ¿Desea eliminar el módulo '%s (%s)'?
 Modules.details.versions = Versiones
 Modules.sendValidation.title = Enviar petición de validación
 Modules.sendValidation.text = ¿Está seguro que desea enviar el modulo: <strong>'%s (%s)'</strong> para validación? En caso de ser así, por favor asegúrese de que la versión del código que quiere que sea validada este disponible antes de enviar esta petición.
+Modules.decline.title = Rechazar módulo del usuario
+Modules.decline.form.label = Por favor, indeque el motivo por el módulo ha sido rechazado.
 
 Modules.btn.import = Importar
 Modules.btn.add = Añadir
 Modules.btn.create = Crear
 Modules.btn.update = Actualizar
 Modules.btn.sendValidation = Enviar solicitud validación
-Modules.btn.validate = Validar
+Modules.btn.validate = Validar módulo
+Modules.btn.decline = Denegar petición de validación
 Modules.btn.search = Buscar
 Modules.btn.source = Código Fuente
 Modules.btn.addTools = Añadir a mis herramientas
@@ -270,6 +273,7 @@ validation.passwordPolicy.2=La contraseña tendrá al menos una minúscula, una 
 validation.passwordPolicy=Contraseña inválida. &{%2$s}.
 
 Mailer.subject.reviewModule = Nueva revisión de código
+Mailer.subject.declineModule = Su módulo ha sido rechazado
 Mailer.subject.complainModule = Su módulo ha sido denunciado
 Mailer.subject.nofityComplainModuleAdmin = Módulo inapropiado
 
