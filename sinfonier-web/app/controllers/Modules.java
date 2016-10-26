@@ -413,6 +413,7 @@ public class Modules extends WebSecurityController {
     }
   }
 
+  @Check("ADMIN")
   public static void validate(String id, Integer versionCode) throws SinfonierException {
     checkAuthenticity();
     Module module = Module.findById(id);
@@ -502,6 +503,7 @@ public class Modules extends WebSecurityController {
     }
   }
 
+  @Check("ADMIN")
   public static void decline(String id, Integer versionCode, String message) throws SinfonierException {
     checkAuthenticity();
     Module module = Module.findById(id);
