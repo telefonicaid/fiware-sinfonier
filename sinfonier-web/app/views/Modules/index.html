@@ -22,7 +22,7 @@
   #{/if}
   #{else }
     <a id="module-a-top" href="@{Modules.index(controllers.Modules.INDEX_MODE_TOP_MODULES,0)}"
-       class="btn btn-tab btn-blue width-100">&{'Modules.index.btn.top'}</a>
+       class="btn btn-blue">&{'Modules.index.btn.top'}</a>
   #{/else}
   </div>
   <div class="col-md-4">
@@ -31,7 +31,7 @@
   #{/if}
   #{else }
     <a id="module-a-my" href="@{Modules.index(controllers.Modules.INDEX_MODE_MY_MODULES,0)}"
-       class="btn btn-tab btn-blue width-100">&{'Modules.index.btn.my'}</a>
+       class="btn btn-blue">&{'Modules.index.btn.my'}</a>
   #{/else}
 
   </div>
@@ -43,7 +43,8 @@
 #{if modules.size() > 0 || flash.get("searching")}
 <div id="form-search" class="row non-h-padding">
   <div class="col-lg-12">
-    <div class="well">
+     <div class="panel panel-default">
+      <div class="panel-body">
         #{form @Modules.search(), method:'GET', id:'search-modules', class:'form-horizontal'}
           <div class="form-group">
             <!-- MODULE'S NAME -->
@@ -73,13 +74,13 @@
 
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-              <button id="module-button-search" type="submit" class="btn btn-primary pull-right">&{'Modules.btn.search'}</button>
+              <button id="module-button-search" type="submit" class="btn btn-blue pull-right">&{'Modules.btn.search'}</button>
             </div>
           </div>
         #{/form}
     </div>
   </div>
-</div>
+  </div>
 #{/if}
 
 %{
