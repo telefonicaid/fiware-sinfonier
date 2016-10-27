@@ -23,7 +23,6 @@ import models.module.Module;
 import models.module.ModuleVersion;
 import models.responses.Codes;
 import models.storm.Client;
-import models.storm.ParamsValidator;
 import models.topology.TopologiesContainer;
 import models.topology.Topology;
 import models.topology.TopologyModule;
