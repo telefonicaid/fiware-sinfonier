@@ -43,7 +43,8 @@
 #{if modules.size() > 0 || flash.get("searching")}
 <div id="form-search" class="row non-h-padding">
   <div class="col-lg-12">
-    <div class="well">
+     <div class="panel panel-default">
+      <div class="panel-body">
         #{form @Modules.search(), method:'GET', id:'search-modules', class:'form-horizontal'}
           <div class="form-group">
             <!-- MODULE'S NAME -->
@@ -73,7 +74,7 @@
 
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-              <button id="module-button-search" type="submit" class="btn btn-primary pull-right">&{'Modules.btn.search'}</button>
+              <button id="module-button-search" type="submit" class="btn btn-blue pull-right">&{'Modules.btn.search'}</button>
             </div>
           </div>
         #{/form}
@@ -90,7 +91,7 @@
     }
   }
 }%
-#{common.pagination url: request.action, params: params, currentPage: page, total: totalModules, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+#{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
 
 <div id="modules" class="row">
   <div class="col-lg-6 col-xs-12 non-h-padding">
@@ -108,4 +109,4 @@
   #{/list}
   </div>
 </div>
-#{common.pagination url: request.action, params: params, currentPage: page, total: totalModules, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+#{utils.pagination url: (request.url.contains('search') ? 'Modules.search' : 'Modules.index'), params:params, currentPage: page, total: totalModules /}
