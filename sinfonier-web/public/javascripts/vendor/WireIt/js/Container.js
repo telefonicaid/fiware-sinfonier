@@ -91,7 +91,12 @@ WireIt.Container = function(options, layer) {
 	   if(this.resizable) {
 			// Make resizeable   
 			this.ddResize = new WireIt.util.DDResize(this);
-			this.ddResize.eventResize.subscribe(this.onResize, this, true);
+			this.ddResize.eventResize.subscribe(this.onResize, this, true);			
+			//Container may be resized, but only until a minimum height and width for container and fields correct visualization 
+			this.ddResize.myConf.minHeight = this.el.offsetHeight;
+			//+1 is a trick for IExplorer 
+			this.ddResize.myConf.minWidth = (this.el.offsetWidth + 1);
+
 	   }
 	   
 	   // Use the drag'n drop utility to make the container draggable
@@ -298,8 +303,11 @@ WireIt.Container.prototype = {
    onResize: function(event, args) {
      var size = args[0];
      if (args.length == 1) {
-     // TODO: do not hardcode those sizes !!
-     WireIt.sn(this.bodyEl, null, {width: (size[0] - 14) + "px", height: (size[1] - ( this.ddHandle ? 44 : 14) ) + "px"});
+     // TODO: do not hardcode those sizes !!     
+       WireIt.sn(this.bodyEl, null, {width: size[0] + "px", height: (size[1] - ( this.ddHandle ? this.ddHandle.offsetHeight : 0) ) + "px"});
+       $(this.bodyEl).find(".WireIt-InputExTerminal").css("position","absolute");
+       var leftPos = $(this.bodyEl).offset().left;
+       $(this.bodyEl).find(".WireIt-Terminal").offset({left: leftPos - 15});
      }
    },
 
