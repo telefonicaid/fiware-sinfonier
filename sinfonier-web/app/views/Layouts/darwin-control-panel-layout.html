@@ -7,13 +7,13 @@
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap/css/bootstrap.min.css'}"/>
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/font-awesome/css/font-awesome.min.css'}"/>
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/plugins/bootstrap-select/dist/css/bootstrap-select.css'}"/>
-  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/font.css'}"/>
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/darwin-control-panel.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/font.css'}"/>
   <link rel="shortcut icon" type="image/png" href="/public/images/favicon.ico">
-  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sinfonier-control-panel-layout.css'}"/>
 #{stylesheet 'basic.css' /}
 #{stylesheet 'main.css' /}
 #{get 'moreStyles'/}
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sinfonier-control-panel-layout.css'}"/>
 </head>
 <body class="control-panel">
 
@@ -38,16 +38,6 @@
 
 #{changelog.alert /}
 
-#{get 'moreScripts'/}
-<script type="text/javascript" language="javascript" src="/public/plugins/radiocheck.js"></script>
-
-<script>
-  $(document).ready(function () {
-    $('[data-toggle="popover"]').popover();
-  });
-</script>
-
-</body>
 <div class="footer">
   <div class="row">
     <div class="col-xs-3">
@@ -61,4 +51,21 @@
     </div>
   </div>
 </div>
+
+#{get 'moreScripts'/}
+<script type="text/javascript" language="javascript" src="/public/plugins/radiocheck.js"></script>
+<script>
+  function calcMenuHeight() {
+    var menuHeight = $('.menu').height(),
+        crtlPanelHeight = $('.control-panel-page').height();
+    if (menuHeight > crtlPanelHeight) {
+      $('.control-panel-page').css('min-height', menuHeight + 50);
+    }
+  }
+  $(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+    calcMenuHeight();
+  });
+</script>
+</body>
 </html>

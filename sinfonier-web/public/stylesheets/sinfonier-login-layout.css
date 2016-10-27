@@ -1,6 +1,13 @@
 html, body {
-  background: #1F74BA none;
+  background: url('../images/sinfonier-background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'TelefonicaWebRegular' !important;
 }
+
+
 
 .login .content {
   margin: 10px auto !important;
@@ -25,12 +32,9 @@ html, body {
   margin-left: -30px;
 }
 
-.login .footer {
-  transition: padding 1s;
-  padding-left: 210px;
-}
 
-.login .footer {
+
+.login-bg .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -42,22 +46,22 @@ html, body {
   font-family: "TelefonicaWebLight";
 }
 
-.login .footer {
+.login-bg .footer {
   padding: 20px 40px;
-  max-width: inherit;
+  max-width: 100%;
 }
 
-.login .footer .logo1 {
+.login-bg .footer .logo1 {
   width: 155px;
   opacity: .35;
 }
 
-.login .footer .logo2 {
+.login-bg .footer .logo2 {
   opacity: .35;
   width: 200px;
 }
 
-.login .footer .copy {
+.login-bg .footer .copy {
   display: block;
   color: #fff;
   padding-top: 5px;

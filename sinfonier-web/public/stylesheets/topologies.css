@@ -67,7 +67,7 @@ form.topologies input, form.topologies select {
 }
 
 .topology-over-panel {
-  background-color: #000;
+  background-color: #1F74BA;
   filter: alpha(opacity=80);
   opacity: .7;
   width: 100%;
@@ -75,7 +75,7 @@ form.topologies input, form.topologies select {
   top: 0;
   left: 0;
   z-index: 100;
-  display: none
+  display: none;
 }
 
 .topology-over-panel .img-loading {
@@ -83,4 +83,8 @@ form.topologies input, form.topologies select {
   text-align: center;
   opacity: 1;
   color: #FFF;
+}
+
+.img-loading i {
+  font-size: 60px;
 }
