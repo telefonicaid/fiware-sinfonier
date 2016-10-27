@@ -1,4 +1,7 @@
 import re
+
+from requests import HTTPError
+
 from clustering.storm.StormUI import StormUI
 from bs4 import BeautifulSoup
 
@@ -8,29 +11,58 @@ from logger.Logger import logger
 class LogViewer:
 
     @staticmethod
-    def get_log(topology_name, num_lines=10):
+    def get_log(topology_name, start=0, length=1000):
         filenames = StormUI.getWorkersByTopologyName(topology_name)
-        lines = ""
+        logs = []
         if filenames:
             logger.debug("Filenames for topology " + topology_name + " -> " + str(filenames))
-            for filename in filenames:
+            for idx, filename in enumerate(filenames):
                 logger.info("Topology :" + topology_name + " - LogFilename: " + filename)
                 # get log file from storm cluster
-                n_lines = int(num_lines) * 100
-                content = StormUI.getFile(filename, n_lines)
                 try:
+
+                    start_param = start[idx] if type(start) in (tuple, list) else start
+                    length_param = length[idx] if type(length) in (tuple, list) else length
+
+                    content = StormUI.getFile(filename, start_param, length_param)
                     # Remove HTML tags from Storm Log 8000 port
-                    logcontent = BeautifulSoup(content, "lxml").find("pre", {"id": "logContent"})
+                    soup = BeautifulSoup(content, "lxml")
+
+                    logcontent = soup.find("pre", {"id": "logContent"})
                     if logcontent:
-                        lines += "\n###################################################\n"
-                        (hostname, port, name) = LogViewer.parse_worker_info(filename)
-                        lines += "Log from worker: " + hostname + " - " + name + "\n"
-                        lines += "###################################################\n"
-                        lines += logcontent.getText()
-                        logger.debug("Getting " + str(len(lines.splitlines())) + " lines.")
+                        logs.append(logcontent.getText())
+                    else:
+                        logs.append('');
+                except HTTPError as ex:
+                        logger.error(ex.message)
+                        logs.append('')
+                except Exception as e:
+                    logs.append("Error parsing data from Storm UI:" + str(e))
+        return logs
+
+    @staticmethod
+    def get_log_sizes(topology_name, length=1000):
+        filenames = StormUI.getWorkersByTopologyName(topology_name)
+        sizes = []
+        start_pattern = re.compile("(\?|\&)start\=([^&]+)")
+        length_pattern = re.compile("(\?|\&)length\=([^&]+)")
+        if filenames:
+            for filename in filenames:
+                content = StormUI.getFile(filename, -1, length)
+                try:
+                    soup = BeautifulSoup(content, "lxml")
+                    for link in soup.find_all('a'):
+                        if link.get_text() == 'Next':
+                            info = {
+                                'filename': filename,
+                                'start': start_pattern.search(link.get('href')).groups()[1],
+                                'length': length_pattern.search(link.get('href')).groups()[1]
+                            }
+                            sizes.append(info)
+                            break
                 except Exception as e:
                     return "Error parsing data from Storm UI:" + str(e)
-        return lines
+        return sizes
 
     @staticmethod
     def parse_worker_info(filename):

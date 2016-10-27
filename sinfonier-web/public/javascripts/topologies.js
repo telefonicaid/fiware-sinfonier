@@ -451,3 +451,41 @@ $(function () {
     });
 
 });
+
+//Log pooling
+$(function(){
+
+  if (!window.intervalPolling)
+    window.intervalPolling = parseInt('${play.Play.configuration.getProperty("storm.log.frequency")}', 10) || 3000;
+  if (!window.intervals) window.intervals = {};
+  if (!window.errors) window.errors = {};
+  var topology_init = {}
+  $('.topology-log').each(function(){
+	  var id = $(this).data("id");
+	  var url = $(this).data("log-url");
+	  var $collapse = $(this).find('.collapse');
+	  topology_init[id] = '?start=-1';
+	  window.intervals[id] = setInterval(function () {
+		    if ($collapse.hasClass('in')) {
+		      $.ajax(url+topology_init[id], {method: 'POST'})
+		          .done(function (res) {
+		        	  topology_init[id] = ''
+		        	  var str = res.data.msg;
+		        	  var logPre = $collapse.find('.log-expanded');
+		        	  logPre.append(str);
+		        	  logPre.scrollTop(logPre.prop("scrollHeight"));
+		          })
+		          .fail(function (err) {
+		        	  topology_init[id] = ''
+		            //clearInterval(window.intervals['${_topology.getId()}']);
+		            $collapse.find('.log-expanded')
+		                .append(new Date() + ' | [ERROR] Something was wrong with the connexion.\n');
+		          });
+		    } else {
+		    	topology_init[id]  = '?start=-1'
+		    	var logPre = $collapse.find('.log-expanded');
+		    	logPre.html('');
+		    }
+		  }, window.intervalPolling);
+  });
+});

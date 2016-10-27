@@ -8,7 +8,7 @@ from error.ErrorHandler import TopologyInvalidId, MissingMandatoryFields, Error
 from logger.Logger import logger
 from utils.SinfonierConstants import Topology as TopologyConst
 from requests.exceptions import HTTPError
-class GetTopologyLog(ApiBase):
+class GetTopologyLogSizes(ApiBase):
     @falcon.before(ApiBase.validate_params)
     def on_get(self, req, resp, id):
         topology_id = self.validated_params['id']
@@ -16,15 +16,13 @@ class GetTopologyLog(ApiBase):
             topology = MongodbFactory.get_topology(topology_id)
             if topology is None:
                 return ResponsesHandler.handle_404(resp, 'Topology not found')
-            start = self.validated_params['start']
-            length = self.validated_params['length']
-            texts = LogViewer.get_log(topology[TopologyConst.FIELD_NAME],start=start,length=length)
+            results = LogViewer.get_log_sizes(topology[TopologyConst.FIELD_NAME])
 
-            return ResponsesHandler.handle_200(resp, {'id': topology_id, 'log': texts})
+            return ResponsesHandler.handle_200(resp, {'id': topology_id, 'sizes': results})
         except HTTPError as ex:
             logger.error(ex.message)
             if ex.response.status_code == 400:
-                return ResponsesHandler.handle_200(resp, {'id': topology_id, 'log': ''})
+                return ResponsesHandler.handle_200(resp, {'id': topology_id, 'sizes': []})
             else:
                 return ResponsesHandler.handle_500(resp)
         except TopologyInvalidId as Ex:

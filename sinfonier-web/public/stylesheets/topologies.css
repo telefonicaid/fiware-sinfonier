@@ -51,6 +51,7 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  white-space: pre-wrap;
 }
 
 .control-panel.menu-closed form.topologies input#query {

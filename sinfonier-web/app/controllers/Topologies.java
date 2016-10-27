@@ -2,9 +2,12 @@ package controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
@@ -13,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
@@ -25,6 +29,7 @@ import models.topology.TopologiesContainer;
 import models.topology.Topology;
 import models.topology.TopologyModule;
 import models.topology.deserializers.TopologyDeserializer;
+import models.topology.json.LogData;
 import play.Logger;
 import play.data.validation.Required;
 import play.i18n.Messages;
@@ -203,8 +208,74 @@ public class Topologies extends WebSecurityController {
   public static void log(@Required String id) {
     try {
       Codes code200 = Codes.CODE_200;
+      Gson gson = new Gson();
       JsonObject data = new JsonObject();
-      data.addProperty("msg", client.getTopologyLog(id));
+      String logDataKey = id+"_logdata";
+      String startParam = request.params.get("start");
+      boolean loadedLogData = false;
+      String  logData = session.get(logDataKey);
+      List<LogData> logDatas;
+      if (logData != null){
+      	logDatas = gson.fromJson(logData, new TypeToken<ArrayList<LogData>>() {}.getType());
+      }
+      else
+      {
+      	logDatas = client.getTopologyLogSizes(id);
+      	loadedLogData = true;
+      }
+      
+      if (startParam != null)
+      {
+      	String[] starts = startParam.split(",");
+      	
+      	for (int i= 0;i< starts.length;i++)
+      	{
+      		String start = starts[i];
+	      	if (start.matches("^[\\+|\\-]?\\d+$"))
+	      	{
+	      		long lStart = Long.parseLong(start);
+	      		if (lStart  < 0L )
+	      		{
+	      			if (!loadedLogData)
+	      			{
+	      				logDatas = client.getTopologyLogSizes(id);
+	      				loadedLogData = true;
+	      			}
+	      		}
+	      		else
+	      		{
+	      			while (logDatas.size() <= i)
+	      			{
+	      				logDatas.add(new LogData(String.valueOf(i),0L,52100L));
+	      			}
+	      			logDatas.get(i).setStart(lStart);
+	      		}	      		
+	      	}
+      	}
+      }
+      
+      List<String> logs = client.getTopologyLog(id,logDatas);
+      
+      List<String> escapedLogs = new ArrayList<String>(logs.size());
+      
+      for(String log: logs){
+      	escapedLogs.add(StringEscapeUtils.escapeHtml(log));
+      }
+            
+      for( int i=0;i< logs.size();i++)
+      {
+      	while (logDatas.size() <= i)
+  			{
+  				logDatas.add(new LogData(String.valueOf(i),0L,52100L));
+  			}
+      	LogData current = logDatas.get(i);
+      	current.setStart(current.getStart()+logs.get(i).length());
+      }
+      
+      session.put(logDataKey, gson.toJson(logDatas));
+      
+      JsonElement el = gson.toJsonTree(escapedLogs, new TypeToken<List<String>>() {}.getType());
+      data.add("msg", el);
       code200.setData(data);
 
       renderJSON(Codes.CODE_200.toGSON());
