@@ -406,6 +406,16 @@
     #{/form}
     </div>
   </div>
+
+#{if _size == "large"}
+  <div id="module-data" style="display: none" data-id="${_module.getId()}"></div>
+  <div id="panel-${_module.getId()}" class="module-over-panel">
+    <div class="col-xs-12 img-loading">
+      <img src="@{'/public/images/loading.gif'}" alt="Sinfonier loading">
+    </div>
+  </div>
+#{/if}
+
 </div>
 
 #{if _size == "large"}
@@ -473,11 +483,11 @@
           #{/form}
       </div>
       <div class="modal-footer">
-            <button id="module-${_module?.getId()}-button-declineCancel" type="button" class="btn btn-default btn-modal"
-                    data-dismiss="modal">&{'Modules.btn.cancel'}</button>
-            <button id="module-${_module?.getId()}-button-declineOk" form="decline-form-${_module.getId()}" type="submit"
-                    class="btn btn-primary btn-modal">
-            &{'Modules.btn.decline'}</button>
+        <button id="module-${_module?.getId()}-button-declineCancel" type="button" class="btn btn-default btn-modal"
+                data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+        <button id="module-${_module?.getId()}-button-declineOk" form="decline-form-${_module.getId()}" type="submit"
+                class="btn btn-primary btn-modal">
+        &{'Modules.btn.decline'}</button>
       </div>
     </div>
   </div>
