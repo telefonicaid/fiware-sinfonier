@@ -131,6 +131,7 @@ Topology.btn.privatize = Privatizar
 Topology.btn.publish = Publicar
 Topology.index.create_by = Creada por <a href="/profile/%s">%s (%s)</a> el %s, última actualización el %s.
 Topology.index.create_by_text = Creada por %s el %s, última actualización el %s.
+Topologies.import.title = Importar Topología
 
 Topologies.form.description = Descripción
 Topologies.form.sharing = Compartida

@@ -170,6 +170,14 @@ inputEx.Field.prototype = {
     // override me
   },
 
+  /**
+   * Return the value of the input or the reference to extra config
+   * @return {Any} value of the field
+   */
+  getValueOrReferenced: function() { 
+   // override me
+  },
+  
    /**
     * Function to set the value
     * @param {Any} value The new value
@@ -207,9 +215,7 @@ inputEx.Field.prototype = {
         Dom.addClass(this.divEl, className );
     }
 
-    if(this.options.showMsg || state != 'empty' ) {
-      this.displayMessage( this.getStateString(state) );
-    }
+    this.displayMessage( this.getStateString(state) );
 
     this.previousState = state;
   },

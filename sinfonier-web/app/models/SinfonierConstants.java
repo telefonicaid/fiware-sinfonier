@@ -263,7 +263,8 @@ public class SinfonierConstants extends Constants {
   public static class TopologyConfig {
     public static final String FIELD_WIRES = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.wires", "wires");
     public static final String FIELD_MODULES = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.modules", "modules");
-    public static final String FIELD_PROPERTIES = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.properties", "properties");
+    public static final String FIELD_STORM_PROPERTIES = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.stormProperties", "stormProperties");
+    public static final String FIELD_TOPOLOGY_PROPERTIES = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.topologyProperties", "topologyProperties");
     public static final String FIELD_EXTRA_CONFIGURATION = Play.configuration.getProperty("SinfonierConstants.TopologyConfig.extraConfiguration", "extraConfiguration");
   }
 

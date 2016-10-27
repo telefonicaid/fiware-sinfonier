@@ -1,5 +1,6 @@
 package models.topology;
 
+import com.google.gson.annotations.SerializedName;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -14,18 +15,22 @@ import java.util.TreeMap;
 public class TopologyConfig {
   private List<Wire> wires;
   private List<TopologyModule> modules;
-  private Map<String, String> properties;
+  @SerializedName("properties")
+  private Map<String, String> stormProperties;
+  private Map<String, String> topologyProperties;
 
   public TopologyConfig() {
     this.wires = new ArrayList<Wire>();
     this.modules = new ArrayList<TopologyModule>();
-    this.properties = new TreeMap<String, String>();
+    this.stormProperties = new TreeMap<String, String>();
+    this.topologyProperties = new TreeMap<String, String>();
   }
 
-  public TopologyConfig(List<Wire> wires, List<TopologyModule> modules, Map<String, String> properties) {
+  public TopologyConfig(List<Wire> wires, List<TopologyModule> modules, Map<String, String> stormProperties, Map<String, String> topologyProperties) {
     this.wires = wires;
     this.modules = modules;
-    this.properties = properties;
+    this.stormProperties = stormProperties;
+    this.topologyProperties = topologyProperties;
   }
 
   public TopologyConfig(DBObject o) {
@@ -45,8 +50,12 @@ public class TopologyConfig {
       }
     }
 
-    if (o != null && o.get(FIELD_PROPERTIES) != null) {
-      properties.putAll(((DBObject) o.get(FIELD_PROPERTIES)).toMap());
+    if (o != null && o.get(FIELD_STORM_PROPERTIES) != null) {
+      stormProperties.putAll(((DBObject) o.get(FIELD_STORM_PROPERTIES)).toMap());
+    }
+    
+    if (o != null && o.get(FIELD_TOPOLOGY_PROPERTIES) != null) {
+      topologyProperties.putAll(((DBObject) o.get(FIELD_TOPOLOGY_PROPERTIES)).toMap());
     }
   }
 
@@ -54,7 +63,8 @@ public class TopologyConfig {
     DBObject object = new BasicDBObject();
     BasicDBList wiresDbList = new BasicDBList();
     BasicDBList modulesDbList = new BasicDBList();
-    DBObject propertiesDbObject = new BasicDBObject();
+    DBObject stormPropertiesDbObject = new BasicDBObject();
+    DBObject topologyPropertiesDbObject = new BasicDBObject();
 
     if (wires != null) {
       for (Wire w : wires) {
@@ -68,17 +78,26 @@ public class TopologyConfig {
       }
     }
 
-    if (properties != null) {
-      for (String key : properties.keySet()) {
-        if (properties.get(key).trim().length() > 0) {
-          propertiesDbObject.put(key, properties.get(key));
+    if (stormProperties != null) {
+      for (String key : stormProperties.keySet()) {
+        if (stormProperties.get(key).trim().length() > 0) {
+          stormPropertiesDbObject.put(key, stormProperties.get(key));
         }
       }
     }
 
+    if (topologyProperties != null) {
+      for (String key : topologyProperties.keySet()) {
+        if (topologyProperties.get(key).trim().length() > 0) {
+          topologyPropertiesDbObject.put(key, topologyProperties.get(key));
+        }
+      }
+    }
+    
     object.put(FIELD_WIRES, wiresDbList);
     object.put(FIELD_MODULES, modulesDbList);
-    object.put(FIELD_PROPERTIES, propertiesDbObject);
+    object.put(FIELD_STORM_PROPERTIES, stormPropertiesDbObject);
+    object.put(FIELD_TOPOLOGY_PROPERTIES, topologyPropertiesDbObject);
 
     return object;
   }
@@ -99,14 +118,36 @@ public class TopologyConfig {
     this.modules = modules;
   }
 
-  public Map<String, String> getProperties() {
-    return properties;
+  public Map<String, String> getStormProperties() {
+    return stormProperties;
+  }
+  
+  public void setStormProperties(Map<String, String> stormProperties) {
+    this.stormProperties = stormProperties;
   }
 
-  public void setProperties(Map<String, String> properties) {
-    this.properties = properties;
+  public Map<String, String> getTopologyProperties() {
+    return topologyProperties;
   }
 
+  public Map<String, String> getTopologyPropertiesToExport() {
+    Map<String, String> exportProperties = new TreeMap<String, String>();;
+    String topologyPropsStr = "";
+    for (String key : topologyProperties.keySet()) {
+      if (!key.equals(FIELD_TOPOLOGY_PROPERTIES)) {
+        topologyPropsStr = topologyPropsStr.concat(key).concat("=\n");
+      }
+    }
+    if (topologyPropsStr.length() > 0)
+      topologyPropsStr = topologyPropsStr.substring(0, topologyPropsStr.length() - 1);
+    exportProperties.put(FIELD_TOPOLOGY_PROPERTIES, topologyPropsStr);
+    return exportProperties;
+  }
+  
+  public void setTopologyProperties(Map<String, String> topologyProperties) {
+    this.topologyProperties = topologyProperties;
+  }
+  
   @Override
   public String toString() {
     return toDBObject().toString();

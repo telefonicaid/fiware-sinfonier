@@ -28,11 +28,34 @@ YAHOO.lang.extend(inputEx.NumberField, inputEx.StringField, {
     * @return {Number} The parsed float
     */
    getValue: function() {
-	
+      var topologyConfKeyRefPattern = /^\[\$([a-zA-Z0-9]+)\]*$/i;
       var str_value;
       
       // StringField getValue (handles typeInvite and trim options)
       str_value = inputEx.NumberField.superclass.getValue.call(this);
+      
+      // don't return NaN if empty field
+      if (str_value === '') {
+         return '';
+      }
+      
+      if (topologyConfKeyRefPattern.test(str_value)) {
+         return str_value;  
+      } else {
+         return parseFloat(str_value);
+      }
+   },
+   
+   /**
+    * Return a parsed float (the float field value or the reference to extra config) (javascript type number)
+    * @return {Number} The parsed float
+    */
+   getValueOrReferenced: function() {
+	
+      var str_value;
+      
+      // StringField getValueOrReferenced (handles typeInvite and trim options)
+      str_value = inputEx.NumberField.superclass.getValueOrReferenced.call(this);
       
       // don't return NaN if empty field
       if (str_value === '') {
@@ -47,7 +70,7 @@ YAHOO.lang.extend(inputEx.NumberField, inputEx.StringField, {
     */
    validate: function() { 
       
-      var v = this.getValue(), str_value = inputEx.NumberField.superclass.getValue.call(this);
+      var v = this.getValueOrReferenced(), str_value = inputEx.NumberField.superclass.getValueOrReferenced.call(this);
       
       // empty field
       if (v === '') {
