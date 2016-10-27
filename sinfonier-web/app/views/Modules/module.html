@@ -99,25 +99,4 @@
     #{script 'util/code.js'/}
     #{script 'modules.js'/}
 
-<script !src="">
-  function _show() {
-    var _size = $('#module-${module?.getId()}').height() + 'px';
-    $('#panel-${module.getId()}')
-        .find('.img-loading')
-        .css('margin-top', Math.round(parseInt(_size.substr(0, _size.length - 2), 10) / 2) - 35);
-
-    $('#panel-${module.getId()}')
-        .height(_size)
-        .show();
-  }
-
-  $(function () {
-    var _id_request = '#module-${module?.getId()}-button-sendValidation';
-    var _id_request_modal = '#module-${module?.getId()}-button-modal-sendValidation';
-    var _id_validation = '#module-${module?.getId()}-button-validate';
-    $(_id_request).click(_show);
-    $(_id_request_modal).click(_show);
-    $(_id_validation).click(_show);
-  });
-</script>
 #{/set}
