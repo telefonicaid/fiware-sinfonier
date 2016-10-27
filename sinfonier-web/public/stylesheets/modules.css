@@ -74,7 +74,7 @@
 }
 
 .module-over-panel {
-  background-color: #000;
+  background-color: #1F74BA;
   filter: alpha(opacity=80);
   opacity: .7;
   width: 100%;
@@ -82,7 +82,7 @@
   top: 0;
   left: 0;
   z-index: 100;
-  display: none
+  display: none;
 }
 
 .module-over-panel .img-loading {
@@ -90,4 +90,8 @@
   text-align: center;
   opacity: 1;
   color: #FFF;
+}
+
+.img-loading i {
+  font-size: 60px;
 }
