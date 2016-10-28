@@ -136,11 +136,11 @@ class TopologyBuilder(object):
 
         backend_json = dict()
 
-        if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "stormProperties")):
+        if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "properties")):
 
-            backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["stormProperties"])
+            backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["properties"])
 
-            modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"]["topologyProperties"])
+            modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"]["properties"])
             modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
 
             backend_json["builderConfig"] = dict()
