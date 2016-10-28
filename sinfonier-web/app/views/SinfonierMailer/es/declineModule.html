@@ -1,0 +1,13 @@
+#{extends 'DarwinMailer/mailLayout.html' /}
+#{set 'subject'}Módulo denegado#{/set}
+
+<h3>Hola ${module.getAuthor().getName()},</h3>
+<p>La version '${version.getVersionTag()}' de tu módulo '${module.getName()}' ha sido denegada.
+  Por favor, comprueba tu módulo y los comentarios.
+<p>
+<ul>
+  <li>Módulo: <a href="@@{Modules.module(module?.getName(), null)}" target="_blank" style="text-align:center;">${module.getName()}</a></li>
+  <li>Comentario: ${msg}</li>
+</ul>
+<br/>
+<p>Greetings.<br/>The team ${appName}.</p>

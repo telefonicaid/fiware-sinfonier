@@ -97,12 +97,6 @@ YAHOO.extend(WireIt.util.DDResize, YAHOO.util.DragDrop, {
       if (newWidth === this.myConf.minWidth || newHeight === this.myConf.minHeight)
       {
         var self = this;
-        var panel = this.getEl();
-        panel.style.width = null;
-        panel.style.height = null;
-        panel.childNodes[1].style.width = null;
-        panel.childNodes[1].style.height = null;
-        panel.childNodes[1].style.overflow = null;
         // Fire the resize event preventing to fix the width
         setTimeout(function(){
           var panel = self.getEl();

@@ -100,14 +100,14 @@ public class TopologyTests extends BaseTest {
     List<Topology> listByName = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(null, name, null, adminUser, null).getTopologies();
     List<Topology> listByAuthor = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(null, author, null, adminUser, null).getTopologies();
 
-    assertTrue(listByStatus.size() == TOPOLOGIES_SIZE_FOR_OWNER && listByName.size() == TOPOLOGIES_SIZE_FOR_OWNER);
+    assertTrue(listByStatus.size() == 3 && listByName.size() == 3);
     assertTrue(listByAuthor.size() == 0);
   }
 
   @Test
   public void getTopologiesTest() throws SinfonierException {
     List<Topology> list = Topology.getTopologies(adminUser, null).getTopologies();
-    assertTrue(list.size() == TOPOLOGIES_SIZE_FOR_OWNER);
+    assertTrue(list.size() == 3);
 
     list = Topology.getTopologies(lostUser, false, false, null).getTopologies();
     assertTrue(list.size() == 0);

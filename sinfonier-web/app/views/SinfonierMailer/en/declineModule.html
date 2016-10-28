@@ -1,0 +1,13 @@
+#{extends 'DarwinMailer/mailLayout.html' /}
+#{set 'subject'}Declined module#{/set}
+
+<h3>Hello ${module.getAuthor().getName()},</h3>
+<p>The version '${version.getVersionTag()}' of your module '${module.getName()}' has been decline.
+  Please, check your module and the comments.
+<p>
+<ul>
+  <li>Module: <a href="@@{Modules.module(module?.getName(), null)}" target="_blank" style="text-align:center;">${module.getName()}</a></li>
+  <li>Comment: ${msg}</li>
+</ul>
+<br/>
+<p>Greetings.<br/>The team ${appName}.</p>

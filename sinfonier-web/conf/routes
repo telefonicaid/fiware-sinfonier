@@ -26,6 +26,7 @@ POST /modules/{id}/versions/{versionCode}/export                Modules.export
 POST /modules/{id}/versions/{versionCode}/add-to-my-tools       Modules.addToMyTools
 POST /modules/{id}/versions/{versionCode}/remove-to-my-tools    Modules.removeToMyTools
 POST /modules/{id}/versions/{versionCode}/recheck               Modules.recheck
+POST /modules/{id}/versions/{versionCode}/decline               Modules.decline
 POST /modules/{id}/versions/{versionCode}/validate              Modules.validate
 POST /modules/{id}/versions/{versionCode}/privatize             Modules.privatize
 POST /modules/{id}/versions/{versionCode}/publish               Modules.publish

@@ -28,7 +28,3 @@ class CodeTestCase(unittest.TestCase):
         self.assertEqual(c500.get('status'), 'error', 'The status is not success')
         self.assertIsNone(c500.get('data'), 'Data should will be None')
         self.assertEqual(c500.get('message'), 'INTERNAL SERVER ERROR', 'invalid message')
-
-
-if __name__ == '__main__':
-    unittest.main()

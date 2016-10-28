@@ -21,7 +21,7 @@ function ImportModuleProcesses(e) {
   };
 
   this.initFields = function (fields) {
-	$('#field-forms').html('');
+    $('#field-forms').html('');
     if (!fields || fields.length === 0) {
       return;
     }
@@ -44,7 +44,7 @@ function ImportModuleProcesses(e) {
     return 0;
   };
   this.initLibraries = function (libraries) {
-	$('#library-forms').html('');
+    $('#library-forms').html('');
     if (!libraries || libraries.length === 0) {
       return;
     }
@@ -65,25 +65,25 @@ function ImportModuleProcesses(e) {
     $('form#module-form input#name').val(input.name);
     $('form#module-form select#type').val(input.type);
     if (input.sourceCodeUrl != null) {
-      $('form#module-form input#code-url').val(input.sourceCodeUrl);	
+      $('form#module-form input#code-url').val(input.sourceCodeUrl);
     } else {
-      $('form#module-form input#code-url').val(input.codeURL);	
+      $('form#module-form input#code-url').val(input.codeURL);
     }
-    
+
     $('form#module-form textarea#description').val(input.description);
     if (input.language) {
       $('form#module-form select#language').val(input.language.toLowerCase());
     }
     $('form#module-form textarea#code').val(input.sourceCode);
-    
+
     if (input.sourceType) {
       input.sourceType = input.sourceType.toLowerCase() == "local" ? "template" : input.sourceType;
       $('form#module-form select#source-type').val(input.sourceType.toLowerCase());
     }
-    
-    window.ModuleInit.code = { code: input.sourceCode };
+
+    window.ModuleInit.code = {code: input.sourceCode};
     $('form#module-form select#source-type').trigger('change');
-    
+
     $('form#module-form input#singleton').prop('checked',
       Boolean(input.singleton instanceof String ? !Boolean(input.singleton) : input.singleton) ? false : 'checked');
 
@@ -136,7 +136,7 @@ function ImportModuleProcesses(e) {
 
 function changeVersion(name) {
   var selected = $('#version').val();
-  window.location = $('#version option[value="'+selected+'"').attr('data-url');
+  window.location = $('#version option[value="' + selected + '"').attr('data-url');
 }
 
 function handleFileSelect(file) {
@@ -207,17 +207,17 @@ function handleAddLibrary() {
 
 function handleIconModule(file) {
   var basePath = '/public/images/modules/';
-  
+
   if (file != null) {
     // Read icon file
-	  var fReader = new FileReader();
-	  file = $(file)[0]['files'][0];
-	  fReader.onload = function(e) {
-	    $('form#module-form #icon-preview img').attr('src', e.target.result);
-	  }
-	  fReader.readAsDataURL(file);
+    var fReader = new FileReader();
+    file = $(file)[0]['files'][0];
+    fReader.onload = function (e) {
+      $('form#module-form #icon-preview img').attr('src', e.target.result);
+    }
+    fReader.readAsDataURL(file);
   } else if ($('form#module-form #icon-preview img').size() > 0 &&
-      $('form#module-form #icon-preview img').attr('src').match("^"+basePath)) {
+    $('form#module-form #icon-preview img').attr('src').match("^" + basePath)) {
     // Set example icon
     switch ($('form#module-form select#type').val()) {
       case 'drain':
@@ -234,12 +234,12 @@ function handleIconModule(file) {
 
 function setStarVote(rate, color) {
   var stars = $('li[data-value] i');
-  for (i=0; i < stars.length; i++) {
-    if ((i+1) <= rate) {
+  for (i = 0; i < stars.length; i++) {
+    if ((i + 1) <= rate) {
       $(stars[i]).html('star');
       if (color) $(stars[i]).addClass('star-vote-color');
       else $(stars[i]).removeClass('star-vote-color');
-    } else if ((i+0.5) <= rate) {
+    } else if ((i + 0.5) <= rate) {
       $(stars[i]).html('star_half');
       if (color) $(stars[i]).addClass('star-vote-color');
       else $(stars[i]).removeClass('star-vote-color');
@@ -259,7 +259,7 @@ function handleVote(elem, rate) {
     $(elem).parent().attr('data-orig', orig);
   }
   $(elem).parent().attr('data-value', rate);
-  
+
   // Mark all stars that have a value less and equal than current rate.
   setStarVote(rate, true);
 
@@ -290,37 +290,38 @@ function cancelComplain() {
 
 function handleModuleTemplate(elem, name, language, type, isReadOnly, code) {
   var id = $(elem).data('target');
-  
+
   if (!this.editor) {
-    initCodeMirror($('#code')[0]);  
+    initCodeMirror($('#code')[0]);
   }
-  
+
   this.editor.setOption('readOnly', isReadOnly);
 
-  if(!name) name = $('form#module-form input#name').val();
-  if(!type) type = $('form#module-form select#type').val();
-  if(!language) language = $('form#module-form select#language').val();
-  if(!name || !type || !language) return;
+  if (!name) name = $('form#module-form input#name').val();
+  if (!type) type = $('form#module-form select#type').val();
+  if (!language) language = $('form#module-form select#language').val();
+  if (!name || !type || !language) return;
 
   try {
     if (window.ModuleInit.code.code && $('#module-form select#source-type').val() == 'template') {
       code = window.ModuleInit.code.code;
-    }  
-  } catch (e) {}
-  
+    }
+  } catch (e) {
+  }
+
   if (!code) {
     _template = new TemplateCode(name, language, type, code);
     code = _template.code;
     $('form#module-form input#name').val(_.upperFirst(_.camelCase(name)));
   } else {
     var decodedSourceCode = window.atob(code);
-    code = decodedSourceCode;  
+    code = decodedSourceCode;
   }
   this.editor.setValue(code);
   var that = this;
-  setTimeout(function() {
+  setTimeout(function () {
     that.editor.refresh();
-  },1);
+  }, 1);
 }
 
 function handleSourceCode() {
@@ -333,7 +334,7 @@ function handleSourceCode() {
     $('#collapseCode').collapse('show');
     $('#module-form').find(selector).show();
     $('#module-form #source-external-code').hide();
-   
+
     $('#module-form #code-url').prop('required', '');
     $('#module-form #code-url').val('');
   } else {
@@ -342,25 +343,25 @@ function handleSourceCode() {
     $('#collapseCode').collapse('hide');
     $('#module-form #button-template-edit').hide();
     $('#module-form').find(selector).show();
-    
+
     $('#module-form #code-url').prop('required', 'required');
     $('#module-form #code').prop('required', '');
     $('#module-form #code').val('');
     if (this.editor) {
       this.editor.setValue('');
       var that = this;
-      setTimeout(function() {
+      setTimeout(function () {
         that.editor.refresh();
-      },1);
+      }, 1);
     }
   }
-  
+
   //Init CodeMirror
   if ($('#code') && $('#code').is(':visible') && !this.editor) {
-    initCodeMirror($('#code')[0]);  
+    initCodeMirror($('#code')[0]);
   }
   if (source === 'template') {
-    handleModuleTemplate(selector + ' button', undefined, undefined, undefined, !isEdit);	  
+    handleModuleTemplate(selector + ' button', undefined, undefined, undefined, !isEdit);
   }
 }
 
@@ -383,9 +384,9 @@ function initCodeMirror(field) {
     mode: "javascript"
   });
   var that = this;
-  setTimeout(function() {
+  setTimeout(function () {
     that.editor.refresh();
-  },1);	
+  }, 1);
 }
 
 /**
@@ -399,24 +400,24 @@ function initCodeMirror(field) {
       }
       if ($('#language').attr('disabled')) {
         $('#language').removeAttr('disabled');
-      }	
-      
+      }
+
       // Recalculate fields ids
-      $('#field-forms>div').each(function(index) {
-        $(this).attr('id', 'field-'+index);
-        $(this).find('#name-field').attr('name','version.fields.fields['+index+'].name');
-        $(this).find('#label-field').attr('name','version.fields.fields['+index+'].label');
-        $(this).find('#type-field').attr('name','version.fields.fields['+index+'].type');
-        $(this).find('#required-field').attr('name','version.fields.fields['+index+'].required');
-        $(this).find('#var-field').attr('name','version.fields.fields['+index+'].wirable');
-        $(this).find('#elementType-field').attr('name','version.fields.fields['+index+'].elementTypeEnum');
+      $('#field-forms>div').each(function (index) {
+        $(this).attr('id', 'field-' + index);
+        $(this).find('#name-field').attr('name', 'version.fields.fields[' + index + '].name');
+        $(this).find('#label-field').attr('name', 'version.fields.fields[' + index + '].label');
+        $(this).find('#type-field').attr('name', 'version.fields.fields[' + index + '].type');
+        $(this).find('#required-field').attr('name', 'version.fields.fields[' + index + '].required');
+        $(this).find('#var-field').attr('name', 'version.fields.fields[' + index + '].wirable');
+        $(this).find('#elementType-field').attr('name', 'version.fields.fields[' + index + '].elementTypeEnum');
       });
-      
+
       // Recalculate library ids
-      $('#library-forms>div').each(function(index) {
-        $(this).attr('id', 'library-'+index);
-        $(this).find('#name-library').attr('name','version.libraries.libraries['+index+'].name');
-        $(this).find('#url-library').attr('name','version.libraries.libraries['+index+'].url');
+      $('#library-forms>div').each(function (index) {
+        $(this).attr('id', 'library-' + index);
+        $(this).find('#name-library').attr('name', 'version.libraries.libraries[' + index + '].name');
+        $(this).find('#url-library').attr('name', 'version.libraries.libraries[' + index + '].url');
       });
 
       var f = new FormTools(this);
@@ -424,7 +425,7 @@ function initCodeMirror(field) {
       if (!f.validate()) {
         e.preventDefault();
         e.stopPropagation();
-      } 
+      }
     });
 
     /**
@@ -440,11 +441,11 @@ function initCodeMirror(field) {
     $('#module-form input#name, #module-form select#type, #module-form select#language').focus(function () {
       this.oldValue = this.value;
     });
-    
+
     $('#module-form input#name, #module-form select#type, #module-form select#language').change(function () {
       verifyPreviousSourceCode(this);
     });
-    
+
     /**
      * TickTuple
      */
@@ -455,7 +456,7 @@ function initCodeMirror(field) {
     $('#ticktuple-collapse').on('hide.bs.collapse', function () {
       $('#ticktuple-form input#label-tuple').val('');
     });
-    
+
     /**
      * NOTE: This is very important. Here the module would be init. This have a special importance when
      * module is edited!!!
@@ -468,38 +469,58 @@ function initCodeMirror(field) {
       moduleProcessor.initFields(ModuleInit.fields || []);
       moduleProcessor.initLibraries(ModuleInit.libraries || []);
     }
-    
+
     /**
      * Vote star
      */
     $('.star-vote').hover(
-        function(evt) {
-          var index = $(evt.target).parent().attr('data-value');
-          var stars = $('li[data-value] i');
-          for (i=0; i < stars.length; i++) {
-            if ((i+1) <= index) {
-              $(stars[i]).html('star');
-            }
+      function (evt) {
+        var index = $(evt.target).parent().attr('data-value');
+        var stars = $('li[data-value] i');
+        for (i = 0; i < stars.length; i++) {
+          if ((i + 1) <= index) {
+            $(stars[i]).html('star');
           }
-        },
-        function(evt) {
-          var rate = $(evt.target).parent().parent().attr('data-value');
-          var orig = $(evt.target).parent().parent().attr('data-orig');
-          setStarVote(rate, orig != null);
         }
+      },
+      function (evt) {
+        var rate = $(evt.target).parent().parent().attr('data-value');
+        var orig = $(evt.target).parent().parent().attr('data-orig');
+        setStarVote(rate, orig != null);
+      }
     );
     setStarVote($('.vote-section ul').attr('data-value'), false);
-    
+
     // Disable inputs in form
-    $('#language').ready(function() {
+    $('#language').ready(function () {
       if ($('#name').attr('readonly')) {
         $('#language').attr('disabled', 'disabled');
       }
     });
-    $('#type').ready(function() {
+    $('#type').ready(function () {
       if ($('#name').attr('readonly')) {
         $('#type').attr('disabled', 'disabled');
       }
-    })
+    });
+
+
+    var _id = $('#module-data').data('id');
+    var _show = function () {
+      var _size = $('#module-' + _id).height() + 'px';
+      $('#panel-' +_id)
+        .find('.img-loading')
+        .css('margin-top', Math.round(parseInt(_size.substr(0, _size.length - 2), 10) / 2) - 35);
+
+      $('#panel-' + _id)
+        .height(_size)
+        .show();
+    };
+
+    var _id_request = '#module-' + _id + '-button-sendValidation';
+    var _id_request_modal = '#module-' + _id + '-button-modal-sendValidation';
+    var _id_validation = '#module-' + _id + '-button-validate';
+    $(_id_request).click(_show);
+    $(_id_request_modal).click(_show);
+    $(_id_validation).click(_show);
   });
 })();
