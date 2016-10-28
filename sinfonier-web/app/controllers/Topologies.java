@@ -204,87 +204,73 @@ public class Topologies extends WebSecurityController {
     render("Topologies/index.html", topologies, page, totalTopologies);
   }
 
-  public static void log(@Required String id) {
-    try {
-      Codes code200 = Codes.CODE_200;
-      Gson gson = new Gson();
-      JsonObject data = new JsonObject();
-      String logDataKey = id+"_logdata";
-      String startParam = request.params.get("start");
-      boolean loadedLogData = false;
-      String  logData = session.get(logDataKey);
-      List<LogData> logDatas;
-      if (logData != null){
-      	logDatas = gson.fromJson(logData, new TypeToken<ArrayList<LogData>>() {}.getType());
-      }
-      else
-      {
-      	logDatas = client.getTopologyLogSizes(id);
-      	loadedLogData = true;
-      }
+	public static void log(@Required String id, String start) {
+		try {
+			Codes code200 = Codes.CODE_200;
+			Gson gson = new Gson();
+			JsonObject data = new JsonObject();
+			String logDataKey = id + "_logdata";
+			boolean loadedLogData = false;
+			String logData = session.get(logDataKey);
+			List<LogData> logDatas;
+			if (logData != null) {
+				logDatas = gson.fromJson(logData, new TypeToken<ArrayList<LogData>>() {}.getType());
+			} else {
+				logDatas = client.getTopologyLogSizes(id);
+				loadedLogData = true;
+			}
+			if (start != null) {
+				String[] starts = start.split(",");
 
-      if (startParam != null)
-      {
-      	String[] starts = startParam.split(",");
+				for (int i = 0; i < starts.length; i++) {
+					String startValue = starts[i];
+					if (startValue.matches("^[\\+|\\-]?\\d+$")) {
+						long lStart = Long.parseLong(startValue);
+						if (lStart < 0L) {
+							if (!loadedLogData) {
+								logDatas = client.getTopologyLogSizes(id);
+								loadedLogData = true;
+							}
+						} else {
+							while (logDatas.size() <= i) {
+								logDatas.add(new LogData(String.valueOf(i), 0L, 52100L));
+							}
+							logDatas.get(i).setStart(lStart);
+						}
+					}
+				}
+			}
 
-      	for (int i= 0;i< starts.length;i++)
-      	{
-      		String start = starts[i];
-	      	if (start.matches("^[\\+|\\-]?\\d+$"))
-	      	{
-	      		long lStart = Long.parseLong(start);
-	      		if (lStart  < 0L )
-	      		{
-	      			if (!loadedLogData)
-	      			{
-	      				logDatas = client.getTopologyLogSizes(id);
-	      				loadedLogData = true;
-	      			}
-	      		}
-	      		else
-	      		{
-	      			while (logDatas.size() <= i)
-	      			{
-	      				logDatas.add(new LogData(String.valueOf(i),0L,52100L));
-	      			}
-	      			logDatas.get(i).setStart(lStart);
-	      		}
-	      	}
-      	}
-      }
+			List<String> logs = client.getTopologyLog(id, logDatas);
 
-      List<String> logs = client.getTopologyLog(id,logDatas);
+			List<String> escapedLogs = new ArrayList<String>(logs.size());
 
-      List<String> escapedLogs = new ArrayList<String>(logs.size());
+			for (String log : logs) {
+				escapedLogs.add(StringEscapeUtils.escapeHtml(log));
+			}
 
-      for(String log: logs){
-      	escapedLogs.add(StringEscapeUtils.escapeHtml(log));
-      }
+			for (int i = 0; i < logs.size(); i++) {
+				while (logDatas.size() <= i) {
+					logDatas.add(new LogData(String.valueOf(i), 0L, 52100L));
+				}
+				LogData current = logDatas.get(i);
+				current.setStart(current.getStart() + logs.get(i).length());
+			}
 
-      for( int i=0;i< logs.size();i++)
-      {
-      	while (logDatas.size() <= i)
-  			{
-  				logDatas.add(new LogData(String.valueOf(i),0L,52100L));
-  			}
-      	LogData current = logDatas.get(i);
-      	current.setStart(current.getStart()+logs.get(i).length());
-      }
+			session.put(logDataKey, gson.toJson(logDatas));
 
-      session.put(logDataKey, gson.toJson(logDatas));
+			JsonElement el = gson.toJsonTree(escapedLogs, new TypeToken<List<String>>() {}.getType());
+			data.add("msg", el);
+			code200.setData(data);
 
-      JsonElement el = gson.toJsonTree(escapedLogs, new TypeToken<List<String>>() {}.getType());
-      data.add("msg", el);
-      code200.setData(data);
+			renderJSON(Codes.CODE_200.toGSON());
+		} catch (SinfonierException e) {
+			Logger.error(e.getMessage());
+			response.status = Codes.CODE_500.getCode();
+			renderJSON(Codes.CODE_500.toGSON());
+		}
 
-      renderJSON(Codes.CODE_200.toGSON());
-    } catch (SinfonierException e) {
-      Logger.error(e.getMessage());
-      response.status = Codes.CODE_500.getCode();
-      renderJSON(Codes.CODE_500.toGSON());
-    }
-
-  }
+	}
 
   public static void publish(@Required String id) throws SinfonierException {
     checkAuthenticity();

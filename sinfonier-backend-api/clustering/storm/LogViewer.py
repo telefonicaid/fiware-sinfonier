@@ -21,8 +21,8 @@ class LogViewer:
                 # get log file from storm cluster
                 try:
 
-                    start_param = start[idx] if type(start) in (tuple, list) else start
-                    length_param = length[idx] if type(length) in (tuple, list) else length
+                    start_param = start[idx] if isinstance(start,(tuple, list)) else start
+                    length_param = length[idx] if isinstance(length, (tuple, list)) else length
 
                     content = StormUI.getFile(filename, start_param, length_param)
                     # Remove HTML tags from Storm Log 8000 port

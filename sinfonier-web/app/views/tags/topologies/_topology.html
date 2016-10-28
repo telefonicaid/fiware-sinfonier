@@ -31,7 +31,7 @@
         </div>
       #{/if}
 
-      <div class="col-lg-12 topology-log" id="log"  data-id="${_topology.getId()}" data-log-url="@{Topologies.log(_topology.getId())}" >
+      <div class="col-lg-12 topology-log" id="log_${_topology.getId()}"  data-id="${_topology.getId()}" data-log-url="@{Topologies.log(_topology.getId())}" >
         <div class="collapse" id="collapseLog-${_topology.getId()}">
           <div class="well">
             <pre id="topology-${_topology.getId()}-pre-log" class="log-expanded" style="max-height: 200px"></pre>

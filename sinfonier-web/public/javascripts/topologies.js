@@ -479,7 +479,7 @@ $(function(){
 		        	  topology_init[id] = ''
 		            //clearInterval(window.intervals['${_topology.getId()}']);
 		            $collapse.find('.log-expanded')
-		                .append(new Date() + ' | [ERROR] Something was wrong with the connexion.\n');
+		                .append(new Date() + ' | [ERROR] Something was wrong with the connection.\n');
 		          });
 		    } else {
 		    	topology_init[id]  = '?start=-1'
