@@ -209,7 +209,7 @@
           "value": {}
         }
       ],
-      "properties": {}
+      "stormProperties": {}
     }
   },
   {
@@ -316,7 +316,7 @@
           }
         }
       ],
-      "properties": {}
+      "stormProperties": {}
     }
   }
 ]
