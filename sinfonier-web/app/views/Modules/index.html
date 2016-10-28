@@ -90,7 +90,7 @@
     }
   }
 }%
-#{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalModules, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
 
 <div id="modules" class="row">
   <div class="col-lg-6 col-xs-12 non-h-padding">
@@ -108,4 +108,4 @@
   #{/list}
   </div>
 </div>
-#{utils.pagination url: (request.url.contains('search') ? 'Modules.search' : 'Modules.index'), params:params, currentPage: page, total: totalModules /}
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalModules, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
