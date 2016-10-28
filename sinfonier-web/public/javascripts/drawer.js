@@ -58,11 +58,31 @@ function regenerateModulesDD() {
   }	  
 }
 
-function adviseTopologyNotSaved(event) {
-  if (!webhookit.editor.isSaved()) {
-    if (!confirm("Warning: Your work is not saved yet! Press ok to continue anyway.")) {
+function adviseTopologyNotSaved(event, form) {
+    if (!webhookit.editor.isSaved()) {
+      var link = event.target.href || event.target.parentElement.href;
       event.preventDefault();
-      return;
-    }
-  }    
-}
+      bootbox.confirm({
+        title: i18n('Modules.form.fieldsChanged.title'),
+        message: i18n('Drawer.editor.messages.workNotSaved'),
+        buttons: {
+          cancel: {
+            label: i18n('Modules.btn.cancel'),
+            className: 'btn btn-default btn-modal'
+          },
+          confirm: {
+            label: i18n('Modules.btn.confirm'),
+            className: 'btn btn-primary btn-modal'
+          }
+        },
+        callback: function (result) {
+          if (result) {
+            if (form) {
+        	    form.submit();
+            } else {
+              document.location.href = link;
+            }
+          }
+        }
+      });
+    }    

@@ -41,12 +41,14 @@ Drawer.editor.properties.label.topologyDescription = Descripción
 Drawer.editor.properties.label.stormNumWorkers = Num. de Workers de<br/> Storm
 Drawer.editor.properties.label.maxSpoutsPending = Max. Spouts Pendientes
 Drawer.editor.properties.label.topologyMessageTimeout = Timeout de Mensaje<br/> de la Topología
-Drawer.editor.properties.label.extraConfiguration = Configuración Extra
+Drawer.editor.properties.label.stormConfiguration = Configuración de Storm
+Drawer.editor.properties.label.topologyConfiguration = Configuración de topología
 Drawer.editor.properties.placeholder.topologyName = (obligatorio)
 Drawer.editor.properties.placeholder.stormNumWorkers = 1 (por defecto) (%s - %s)
 Drawer.editor.properties.placeholder.maxSpoutsPending = en blanco o entero (%s - %s)
 Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (%s - %s)
-Drawer.editor.properties.placeholder.extraConfiguration = configuración extra usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.stormConfiguration = configuración de storm usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.topologyConfiguration = configuración de topología usando múltiples líneas con el formato clave=valor
 
 Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje

@@ -22,7 +22,6 @@ import exceptions.SinfonierError;
 import exceptions.SinfonierException;
 import models.module.Container;
 import models.module.Module;
-import models.module.ModulesContainer;
 import models.module.ModuleSearch;
 import models.module.ModuleVersion;
 import models.module.ModulesContainer;
