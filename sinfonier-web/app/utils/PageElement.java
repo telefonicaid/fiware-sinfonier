@@ -5,7 +5,6 @@ public class PageElement {
   private String pageLinkText;
   
   public PageElement(int pageNumber, String pageLinkText) {
-    super();
     this.pageNumber = pageNumber;
     this.pageLinkText = pageLinkText;
   }
