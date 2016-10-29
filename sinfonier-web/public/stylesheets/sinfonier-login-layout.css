@@ -10,55 +10,56 @@ html, body {
 
 
 .login .content {
-  margin: 10px auto !important;
+    margin: 10px auto !important;
 }
 
-.btn-bezel.btn-primary, .btn-primary {
-  background-color: #1F74BA;
-  background-image: none !important;
-  transition: background 1s;
+.btn-bezel.btn-primary,
+.btn-primary {
+    background-color: #1F74BA;
+    background-image: none !important;
+    transition: background 1s;
 }
 
-.btn-bezel.btn-primary:hover, .btn-primary:hover {
-  background: #3F96DE;
-  transition: background 1s;
+.btn-bezel.btn-primary:hover,
+.btn-primary:hover {
+    background: #3F96DE;
+    transition: background 1s;
 }
 
-.btn-bezel span, .btn-bezel i.material-icons {
-  line-height: 1;
+.btn-bezel span,
+.btn-bezel i.material-icons {
+    line-height: 1;
 }
 
 .login .logo {
-  margin-left: -30px;
-}
-
-
-
-.login-bg .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  max-width: 100%;
-  padding-right: 40px;
-  padding-bottom: 10px;
-  vertical-align: middle;
-  opacity: .4;
-  font-family: "TelefonicaWebLight";
+    margin-left: -30px;
 }
 
 .login-bg .footer {
-  padding: 20px 40px;
-  max-width: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    opacity: .4;
+    font-family: "TelefonicaWebLight";
+}
+
+.login-bg .footer {
+    padding: 20px 40px;
+    max-width: 100%;
 }
 
 .login-bg .footer .logo1 {
-  width: 155px;
-  opacity: .35;
+    width: 155px;
+    opacity: .35;
 }
 
 .login-bg .footer .logo2 {
-  opacity: .35;
-  width: 200px;
+    opacity: .35;
+    width: 200px;
 }
 
 .login-bg .footer .copy {
