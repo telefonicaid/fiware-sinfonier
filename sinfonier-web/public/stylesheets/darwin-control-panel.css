@@ -315,16 +315,7 @@
     border-radius: 2px;
 }
 
-.control-panel table.darwin-table tbody tr {
-    background: #fff;
-    width: 100%;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06), 0 2px 5px 0 rgba(0,0,0,0.2);
-    border-radius: 2px;
-}
 
-.control-panel table.darwin-table  td {
-    padding: 15px !important;
-}
 
 .control-panel table.darwin-table  th {
     padding: 0px 15px !important;
