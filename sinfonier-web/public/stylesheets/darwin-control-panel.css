@@ -387,9 +387,6 @@
 
 /* ROLES */
 
-.role .form-container {
-   padding-right: 100px;
-}
 
 .role .form-container input, .role .form-container .check-tag {
     margin: 0 8px 5px 0;
