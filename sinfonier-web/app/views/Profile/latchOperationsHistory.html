@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        ${operation.getName()}
+        <div class="pull-right">
+            #{form @Profile.changeLatch()}
+            <input type="hidden" name="email" value="${user.getEmail()}"/>
+            <input type="hidden" name="operationId" value="${operation.getId()}"/>
+            <div class="onoffswitch">
+                <input type="checkbox" class="onoffswitch-checkbox" id="${operation.getId()}" name="status" onchange="this.form.submit()" #{if operation.getStatus().equals("off")} checked #{/if}>
+                <label class="onoffswitch-label" for="${operation.getId()}">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch latch"></span>
+                </label>
+            </div>
+            #{/form}
+        </div>
+    </div>
+    #{if !operation.getOperations().isEmpty()}
+        <div class="panel-body">
+            #{list items:operation.getOperations(), as:'operation'}
+                #{include 'Profile/latchOperationsHistory.html' /}
+            #{/list}
+        </div>
+    #{/if}
+</div>

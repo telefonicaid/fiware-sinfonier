@@ -1,0 +1,11 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Profile'} #{/set}
+
+#{set 'moreScripts'}
+    <script>
+           $('.selectpicker').selectpicker({
+                size: 4
+           });
+    </script>
+#{/set}
+#{include 'Profile/Template/index.html' /}
