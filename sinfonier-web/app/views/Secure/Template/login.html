@@ -1,0 +1,55 @@
+#{stylesheet 'basic.css' /}
+<h2>&{'Public.login.title'}</h2>
+#{if (flash.get("adminActivationUser"))}
+    <div class="text-info">
+        <label class="control-label">&{'Public.activate.adminActivationUser'}</label>
+    </div>
+#{/if}
+
+#{form @authenticate()}
+    #{if flash.error}
+        <p class="error">
+            &{flash.error}
+        </p>
+    #{/if}
+    #{if flash.success}
+        <p class="success">
+            &{flash.success}
+        </p>
+    #{/if}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="input-icon">
+                <i class="fa fa-envelope"></i>
+                <input class="form-control" type="text" value="${flash.username}" placeholder="&{'Public.login.email'}" id="username" name="username">
+            </div>
+
+            <div class="input-icon">
+                <i class="fa fa-lock"></i>
+                <input class="form-control" type="password" placeholder="&{'Public.login.password'}" id="password" name="password">
+            </div>
+
+            <div class="form-actions">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember" id="remember" value="true" ${flash.remember ? 'checked="true"' : ''} /> &{'Public.login.rememberMe'}
+                    </label>
+                </div>
+                <button type="submit" class="btn-bezel btn-primary pull-right" value="&{'Public.login.signIn'}">
+                    <span>&{'Public.login.signIn'}</span> <i class="material-icons">forward</i>
+                </button>
+            </div>
+        </div>
+    </div>
+#{/form}
+#{include 'Secure/loginWithMobileConnect.html' /}
+<hr/>
+<h2>&{'Public.login.forgot.title'}</h2>
+<p>&{'Public.login.forgot.description1'} <a href="@{PublicContentBase.requestPasswordReset()}">&{'Public.login.forgot.link'}</a> &{'Public.login.forgot.description2'}</p>
+#{if !models.user.ActivationType.INVITATION.equals(models.Config.getUserActivationType()) }
+    <div class="create-account">
+        <p>
+            &{'Public.login.create.description'}&nbsp; <a href="@{PublicContentBase.register()}">&{'Public.login.create.link'} <i class="fa fa-arrow-circle-o-right"></i></a>
+        </p>
+    </div>
+#{/if}
