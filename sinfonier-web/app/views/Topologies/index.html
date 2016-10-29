@@ -73,16 +73,17 @@
     }
   }
 }%
-#{common.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
-
+#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+</div>
 <div id="topologies" class="row">
 #{list items:topologies, as:'topology'}
     #{topologies._topology topology:topology, wc:controllers.WebController/}
   #{/list}
 </div>
 
-#{common.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
-
+<div class="sinf-pagination">
+#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+</div>
 #{set 'moreScripts'}
 <script type="text/javascript" src="/public/javascripts/vendor/moment/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="/public/javascripts/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
