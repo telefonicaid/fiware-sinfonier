@@ -292,3 +292,6 @@ Error.1001.msg = El nombre del módulo '%s' ya está siendo utilizado.
 Error.1002.msg = El módulo '%s' no esta disponible.
 Error.1004.msg = El usuario llegó al limite de módulos pendientes.
 Error.3001.msg = La contraseña no cumple con la política de seguridad.
+
+Utils.pagination.first = Primera
+Utils.pagination.last = Última

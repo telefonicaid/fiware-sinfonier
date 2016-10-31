@@ -293,3 +293,6 @@ Error.1001.msg = The module name '%s' is already used
 Error.1002.msg = The module '%s' is not available.
 Error.1004.msg = The user reached the limit of pending modules.
 Error.3001.msg = The password doesn't meet the security policy.
+
+Utils.pagination.first = First
+Utils.pagination.last = Last
