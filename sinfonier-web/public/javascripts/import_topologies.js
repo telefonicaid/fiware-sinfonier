@@ -82,23 +82,30 @@ function prepareTopology(file) {
 	}
 
 $(function(){
-	$("button#topology-do-import").click(function(){
-		if (topology)	{
-		  topology.description = $("#description").val();
-		  topology.name = $("#name").val();
-		  $("#topology-div-error").fadeOut();
-      $.ajax("/topologies/import", {
-		    data : JSON.stringify({topology:topology}),
-			  contentType : 'application/json',
-			  type : 'POST'
-			}).done(function(data){
-			  window.location.href = '/topologies/'+ data["name"];
-			}).fail(function(jqXHR){
-			  $("#topology-div-error").removeClass('hide');
-	          $("#topology-div-error").fadeIn();
-			  $("#topology-div-error").empty();
-			  $("#topology-div-error").append(jqXHR.responseJSON.data.message)
-			});
-		}
-	})
+  $("button#topology-do-import").click(function(){
+    if (topology)	{
+      topology.description = $("#description").val();
+      topology.name = $("#name").val();
+      $("#topology-div-error").fadeOut();
+      if ($("#name")[0].checkValidity()) {
+        $.ajax("/topologies/import", {
+          data : JSON.stringify({topology:topology}),
+            contentType : 'application/json',
+            type : 'POST'
+          }).done(function(data){
+            window.location.href = '/topologies/'+ data["name"];
+          }).fail(function(jqXHR){
+            $("#topology-div-error").removeClass('hide');
+            $("#topology-div-error").fadeIn();
+            $("#topology-div-error").empty();
+            $("#topology-div-error").append(jqXHR.responseJSON.data.message);
+          });
+      } else {
+        $("#topology-div-error").removeClass('hide');
+        $("#topology-div-error").fadeIn();
+        $("#topology-div-error").empty();
+        $("#topology-div-error").append(i18n('Topologies.error.import.name'));  
+      }
+    }
+  });
 });
