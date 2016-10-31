@@ -12,8 +12,8 @@ class Config:
     STORM_UI_PORT = "8080"
 
     # Gist Credentials
-    GIST_USERNAME = 'communitysinfonier'
-    GIST_TOKEN = '7cd03355ffe31e9216941fdb966b6dab9e781df3'
+    GIST_USERNAME = os.getenv('GIST_USERNAME', '')
+    GIST_TOKEN = os.getenv('GIST_TOKEN', '')
 
     # Mongodb's Config
     MONGO_HOST = 'localhost'
