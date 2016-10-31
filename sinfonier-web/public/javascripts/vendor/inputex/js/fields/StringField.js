@@ -300,7 +300,7 @@ lang.extend(inputEx.StringField, inputEx.Field, {
 
 
 inputEx.messages.stringTooShort = ["This field should contain at least "," numbers or characters"];
-inputEx.messages.invalidConfigReference = "Invalid configuration reference";
+inputEx.messages.invalidConfigReference = i18n('Drawer.editor.messages.inputex.string.invalidConfigReference');
 
 // Register this class as "string" type
 inputEx.registerType("string", inputEx.StringField, [

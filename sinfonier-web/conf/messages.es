@@ -41,14 +41,14 @@ Drawer.editor.properties.label.topologyDescription = Descripción
 Drawer.editor.properties.label.stormNumWorkers = Num. de Workers de<br/> Storm
 Drawer.editor.properties.label.maxSpoutsPending = Max. Spouts Pendientes
 Drawer.editor.properties.label.topologyMessageTimeout = Timeout de Mensaje<br/> de la Topología
-Drawer.editor.properties.label.stormConfiguration = Configuración de Storm
+Drawer.editor.properties.label.stormConfiguration = Configuración Extra<br/> de Storm
 Drawer.editor.properties.label.topologyConfiguration = Configuración de topología
 Drawer.editor.properties.placeholder.topologyName = (obligatorio)
 Drawer.editor.properties.placeholder.stormNumWorkers = 1 (por defecto) (%s - %s)
 Drawer.editor.properties.placeholder.maxSpoutsPending = en blanco o entero (%s - %s)
 Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (%s - %s)
-Drawer.editor.properties.placeholder.stormConfiguration = configuración de storm usando múltiples líneas con el formato clave=valor
-Drawer.editor.properties.placeholder.topologyConfiguration = configuración de topología usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.stormConfiguration = configuración extra de Storm usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.topologyConfiguration = config. de topología, varias líneas con formato clave=valor.\nPuede ser referenciada desde los campos de módulos con el formato '[$clave]'.
 
 Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje
@@ -74,6 +74,7 @@ Drawer.editor.messages.inputex.invalid = Este campo no es válido
 Drawer.editor.messages.inputex.url.invalid = URL no válida, ej.: http://www.test.com
 Drawer.editor.messages.inputex.list.add = Añadir
 Drawer.editor.messages.inputex.list.remove = Borrar
+Drawer.editor.messages.inputex.string.invalidConfigReference = Referencia a configuración no válida
 
 Modules.index.title = Módulos
 Modules.index.btn.top = Módulos Top
@@ -94,7 +95,7 @@ Modules.details.versions = Versiones
 Modules.sendValidation.title = Enviar petición de validación
 Modules.sendValidation.text = ¿Está seguro que desea enviar el modulo: <strong>'%s (%s)'</strong> para validación? En caso de ser así, por favor asegúrese de que la versión del código que quiere que sea validada este disponible antes de enviar esta petición.
 Modules.decline.title = Rechazar módulo del usuario
-Modules.decline.form.label = Por favor, indeque el motivo por el módulo ha sido rechazado.
+Modules.decline.form.label = Por favor, indique el motivo por el módulo ha sido rechazado.
 
 Modules.btn.import = Importar
 Modules.btn.add = Añadir

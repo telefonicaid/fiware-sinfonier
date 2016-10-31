@@ -175,7 +175,7 @@
         "type": "text",
         inputParams: {
           "name": "extraConfiguration", label: i18n('Drawer.editor.properties.label.stormConfiguration'), cols: 30, rows: 3,
-          typeInvite: i18n('Drawer.editor.properties.placeholder.extraConfiguration')
+          typeInvite: i18n('Drawer.editor.properties.placeholder.stormConfiguration')
         }
       });
       #{/if}
@@ -183,8 +183,8 @@
       webhookit.language.propertiesFields.push({
         "type": "text",
         inputParams: {
-          "name": "topologyProperties", label: i18n('Drawer.editor.properties.label.topologyConfiguration'), cols: 30, rows: 4,
-          typeInvite: "topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format."
+          "name": "topologyProperties", label: i18n('Drawer.editor.properties.label.topologyConfiguration'), cols: 30, rows: 5,
+          typeInvite: i18n('Drawer.editor.properties.placeholder.topologyConfiguration')
         }
       });
 
@@ -247,7 +247,6 @@
     });
   });
   
-  }
 </script>
 
     #{script 'vendor/webhookit/editor/adapter.js'/}
