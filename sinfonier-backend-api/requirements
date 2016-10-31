@@ -6,4 +6,4 @@ bs4==0.0.1
 lxml==3.5.0
 simplegist==1.0.0
 requests==2.10.0
-
+mock==2.0.0

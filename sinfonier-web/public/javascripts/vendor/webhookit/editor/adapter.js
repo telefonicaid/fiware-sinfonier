@@ -15,7 +15,7 @@ webhookit.language.adapter = {
       if (val.prev != val.name) {
         var newName = webhookit.editor.pipesByName[val.name];
         if (newName) {
-          callbacks.failure.call(callbacks.scope, "Topology with that name already exists");
+          callbacks.failure.call(callbacks.scope, i18n('Drawer.editor.messages.topologyExists'));
           return
         }
       }
@@ -65,15 +65,21 @@ webhookit.language.adapter = {
   deleteWiring: function (val, callbacks) {
     var topology = webhookit.editor.pipesByName[val.name];
     if (!topology) {
-      callbacks.failure.call(callbacks.scope, "Topology not saved yet!");
+      callbacks.failure.call(callbacks.scope, i18n('Drawer.editor.messages.topologyNotSaved'));
     }
-    var url = '/topologies/' + topology.id + '.json';
-    YAHOO.util.Connect.asyncRequest('DELETE', url, {
+    var url = '/topology/' + topology.id + '/remove';
+    YAHOO.util.Connect.asyncRequest('POST', url, {
       success: function (o) {
         callbacks.success.call(callbacks.scope, {});
       },
       failure: function (o) {
-        var error = o.status + " " + o.statusText;
+        var error;
+        if (o.responseText) {
+          var r = YAHOO.lang.JSON.parse(o.responseText);
+          error = r.data.message;
+        } else {
+          error = o.status + " " + o.statusText;
+        }    
         callbacks.failure.call(callbacks.scope, error);
       }
     });
@@ -100,7 +106,13 @@ webhookit.language.adapter = {
         callbacks.success.call(callbacks.scope, p);
       },
       failure: function (o) {
-        var error = o.status + " " + o.statusText;
+        var error;
+        if (o.responseText) {
+          var r = YAHOO.lang.JSON.parse(o.responseText);
+          error = r.data.message;
+        } else {
+          error = o.status + " " + o.statusText;
+        }
         callbacks.failure.call(callbacks.scope, error);
       }
     });
@@ -120,7 +132,7 @@ webhookit.language.adapter = {
         deferred.resolve();
       })
       .fail(function () {
-        alert("failed");
+        webhookit.editor.alert(i18n('Drawer.editor.messages.moduleNotFound', moduleName));
         deferred.reject(moduleName);
       });
 

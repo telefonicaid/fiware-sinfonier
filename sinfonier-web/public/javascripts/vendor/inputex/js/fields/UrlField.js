@@ -92,7 +92,7 @@ lang.extend(inputEx.UrlField, inputEx.StringField, {
 
 });
 
-inputEx.messages.invalidUrl = "Invalid URL, ex: http://www.test.com";
+inputEx.messages.invalidUrl = i18n('Drawer.editor.messages.inputex.url.invalid');
 
 
 // Register this class as "url" type

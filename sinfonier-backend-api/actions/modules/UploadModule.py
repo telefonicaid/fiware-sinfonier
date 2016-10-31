@@ -30,6 +30,10 @@ class UploadModule(ApiBase):
 
             if module_version[ModuleVersionConst.FIELD_SOURCE_TYPE].strip().lower() == ModuleVersionConst.SOURCE_TYPE_GIST:
                 code = GistHandler.get_code_from_url(module_version[ModuleVersionConst.FIELD_SOURCE_CODE_URL])
+
+                if not code:
+                    raise ModuleException('The module\'s code is mandatory.')
+
                 result = MongodbFactory.save_module_source(module_version_id, code)
                 if result.matched_count == 0:
                     return ResponsesHandler.handle_404(res, 'Module not found')

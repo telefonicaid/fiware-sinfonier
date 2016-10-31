@@ -2,6 +2,8 @@ package models.module;
 
 import static models.SinfonierConstants.ModuleVersion.*;
 import static models.SinfonierConstants.ModelCollection.FIELD_ID;
+import static models.SinfonierConstants.Module.STATUS_PENDING;
+import static models.SinfonierConstants.Module.STATUS_DEV;
 import static models.SinfonierConstants.Module.FIELD_ICON;
 import static models.SinfonierConstants.Module.FIELD_AUTHOR_ID;
 import static models.SinfonierConstants.Module.FIELD_AVERAGE_RATE;
@@ -258,7 +260,16 @@ public class ModuleVersion extends ModelCollection {
 
   public void recheck() throws SinfonierException {
     setStatus(STATUS_PENDING);
-    save();
+    DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
+
+    if (this.id == null) {
+      throw new SinfonierException(SinfonierError.MODULE_VERSION_NO_DEFINED);
+    }
+
+    DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(this.id));
+    DBObject toSet = new BasicDBObject(FIELD_STATUS, STATUS_PENDING);
+
+    collection.update(query, new BasicDBObject("$set", toSet), false, false);
   }
 
 	public File exportAsJson(Module module) throws SinfonierException {
@@ -304,7 +315,7 @@ public class ModuleVersion extends ModelCollection {
 		JsonObject res = Mongo2gson.getAsJsonObject(obj);
 		return res;
 	}
-	
+
   public void addToMyTools(MyTool tool) {
     DBObject toSet = new BasicDBObject();
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
@@ -385,7 +396,7 @@ public class ModuleVersion extends ModelCollection {
       return null;
     }
   }
-  
+
   public void setSourceCode(String sourceCode) {
     this.sourceCode = sourceCode;
   }

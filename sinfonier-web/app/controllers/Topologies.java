@@ -79,7 +79,7 @@ public class Topologies extends WebSecurityController {
       }
       List<Topology> topologies = topologiesContainer.getTopologies();
       int totalTopologies = topologiesContainer.getCountBeforeLimit();
-      render(topologies,page,totalTopologies);
+      render(topologies, page, totalTopologies);
     }
   }
 
@@ -88,7 +88,7 @@ public class Topologies extends WebSecurityController {
       GsonBuilder gsonBuilder = new GsonBuilder();
       gsonBuilder.registerTypeAdapter(Topology.class, new TopologyDeserializer());
       Gson gson = gsonBuilder.create();
-  
+
       ParamsValidator validator = ParamsValidator.getInstance();
       Topology topology = gson.fromJson(request.params.get("body"), Topology.class);
       topology.setAuthorId(getCurrentUser().getId());
@@ -135,10 +135,27 @@ public class Topologies extends WebSecurityController {
     if (topology != null) {
       if (!topology.isRunning()) {
         topology.remove();
-        index(null, null, 1);
+        if (request.isAjax()) {
+          Codes c200 = Codes.CODE_200;
+          JsonObject data = new JsonObject();
+          data.addProperty("name", topology.getName());
+          c200.setData(data);
+          renderJSON(c200.toGSON());
+        } else {
+          index(null, null, 1);
+        }
       } else {
-        flash.put(FLASH_KEY_REMOVING_ERROR, Messages.get("Topologies.msgs.stopBeforeDelete"));
-        topology(topology.getName());
+        if (request.isAjax()) {
+          Codes c400 = Codes.CODE_400;
+          JsonObject data = new JsonObject();
+          data.addProperty("message", Messages.get("Topologies.msgs.stopBeforeDelete"));
+          c400.setData(data);
+          response.status = c400.getCode();
+          renderJSON(c400.toGSON());
+        } else {
+          flash.put(FLASH_KEY_REMOVING_ERROR, Messages.get("Topologies.msgs.stopBeforeDelete"));
+          topology(topology.getName());
+        }
       }
     } else {
       Logger.error("We can't found the topology with id: " + id);
@@ -308,7 +325,7 @@ public class Topologies extends WebSecurityController {
     Object[] args = e.getArgs();
     render("errors/error.html", error, args);
   }
-  
+
   public static void export(@Required String id) throws SinfonierException, UnsupportedEncodingException {
     checkAuthenticity();
     Topology topology = Topology.findById(id);
@@ -327,11 +344,11 @@ public class Topologies extends WebSecurityController {
       renderBinary(new ByteArrayInputStream(jobject.toString().getBytes("UTF-8")),topology.getName()+".json");
     }
   }
-  
+
   public static void importTopology() throws SinfonierException {
     render();
   }
-	
+
   public static void doImport() throws SinfonierException {
     try {
       GsonBuilder gsonBuilder = new GsonBuilder();

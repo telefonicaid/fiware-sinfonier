@@ -154,6 +154,14 @@ class GistHandlerIdInvalid(Error):
         super(GistHandlerIdInvalid, self).__init__(self._CODE, message)
 
 
+class GistException(Error):
+    _CODE = 3002
+    _DEFAULT_MSG = 'For some reason we cannot get the code.'
+
+    def __init__(self, message=_DEFAULT_MSG):
+        super(GistException, self).__init__(self._CODE, message)
+
+
 class TemplateNotFound(Error):
     _CODE = 4000
     _DEFAULT_MSG = 'Template not found'
@@ -202,11 +210,17 @@ class MissingMandatoryFields(Error):
         super(MissingMandatoryFields, self).__init__(self._CODE, message)
 
 
+class ParseException(Error):
+    _CODE = 6001
+    _DEFAULT_MSG = 'We cannot parsed the object'
+
+    def __init__(self, message=_DEFAULT_MSG):
+        super(ParseException, self).__init__(self._CODE, message)
+
+
 '''
 HTTP Sinfonier errors
 '''
-
-
 class HTTPErrorsSinfonier(HTTPError):
     def __init__(self, status, code, message=None, params=None):
         super(HTTPErrorsSinfonier, self).__init__(status=status, code=code)

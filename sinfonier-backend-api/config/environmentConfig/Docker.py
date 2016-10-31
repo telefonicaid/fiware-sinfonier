@@ -31,7 +31,7 @@ class Config:
     SINFONIER_LAST_JAR = 'Base.jar'
     STORM_TOPOLOGY_PATH = '/tmp/topology'
     STORM_TOPOLOGY_CONFIG_PATH = '/tmp/topology/config'
-    STORM_VERSION = '0.10.1'
+    STORM_VERSION = '0.10.0'
 
     MAVEN_BINARY = os.getenv('MAVEN_BINARY', '/usr/bin/mvn')
 

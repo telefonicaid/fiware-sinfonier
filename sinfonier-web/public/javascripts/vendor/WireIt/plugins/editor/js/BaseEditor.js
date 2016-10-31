@@ -36,7 +36,7 @@ WireIt.BaseEditor.defaultOptions = {
 	 	units: [
 	   	{ position: 'top', height: 30, body: 'top'},
 	      { position: 'left', width: 200, resize: true, body: 'left', gutter: '5px', collapse: true, 
-	        collapseSize: 25, header: 'Modules', scroll: true, animate: true },
+	        collapseSize: 25, header: i18n('Drawer.editor.modules.header'), scroll: true, animate: true },
 	      { position: 'center', body: 'center', gutter: '5px' },
 	      { position: 'right', width: 320, resize: true, body: 'right', gutter: '5px', collapse: true, 
 	        collapseSize: 25, /*header: 'Properties', scroll: true,*/ animate: true }
@@ -145,7 +145,7 @@ WireIt.BaseEditor.prototype = {
          visible: false,
          modal: true
       });
-      this.alertPanel.setHeader("Message");
+      this.alertPanel.setHeader(i18n('Drawer.editor.messages.header'));
       this.alertPanel.setBody("<div id='alertPanelBody'></div><button id='alertPanelButton'>Ok</button>");
       this.alertPanel.render(document.getElementById("editorContainer"));
 		Event.addListener('alertPanelButton','click', function() {
@@ -160,19 +160,19 @@ WireIt.BaseEditor.prototype = {
 	 renderButtons: function() {
 	    var toolbar = Dom.get('toolbar');
 	    // Buttons :
-	    var newButton = new widget.Button({ label:"New", id:"WiringEditor-newButton", container: toolbar });
+	    var newButton = new widget.Button({ label: i18n('Drawer.editor.toolbar.new'), id:"WiringEditor-newButton", container: toolbar });
 	    newButton.on("click", this.onNew, this, true);
 
-	    var loadButton = new widget.Button({ label:"Load", id:"WiringEditor-loadButton", container: toolbar });
+	    var loadButton = new widget.Button({ label :i18n('Drawer.editor.toolbar.load'), id:"WiringEditor-loadButton", container: toolbar });
 	    loadButton.on("click", this.load, this, true);
 
-	    var saveButton = new widget.Button({ label:"Save", id:"WiringEditor-saveButton", container: toolbar });
+	    var saveButton = new widget.Button({ label: i18n('Drawer.editor.toolbar.save'), id:"WiringEditor-saveButton", container: toolbar });
 	    saveButton.on("click", this.onSave, this, true);
 
-	    var deleteButton = new widget.Button({ label:"Delete", id:"WiringEditor-deleteButton", container: toolbar });
+	    var deleteButton = new widget.Button({ label: i18n('Drawer.editor.toolbar.delete'), id:"WiringEditor-deleteButton", container: toolbar });
 	    deleteButton.on("click", this.onDelete, this, true);
 
-	    var helpButton = new widget.Button({ label:"Help", id:"WiringEditor-helpButton", container: toolbar });
+	    var helpButton = new widget.Button({ label: i18n('Drawer.editor.toolbar.help'), id:"WiringEditor-helpButton", container: toolbar });
 	    helpButton.on("click", this.onHelp, this, true);
 	 },
 
@@ -181,7 +181,7 @@ WireIt.BaseEditor.prototype = {
 	 * @method renderSavedStatus
 	 */
 	renderSavedStatus: function() {
-		this.savedStatusEl = WireIt.cn('div', {className: 'savedStatus', title: 'Not saved'}, {display: 'none'}, "*");
+		this.savedStatusEl = WireIt.cn('div', {className: 'savedStatus', title: i18n('Drawer.editor.messages.topologyNotSavedTitle')}, {display: 'none'}, "*");
 		Dom.get('toolbar').appendChild(this.savedStatusEl);
 	},
 

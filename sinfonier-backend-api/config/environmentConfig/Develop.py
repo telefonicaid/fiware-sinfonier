@@ -22,6 +22,8 @@ class Config:
     MONGO_AUTH = False
     MONGO_USER = 'sinfonier'
     MONGO_PASSWORD = 'sinfonier'
+    MONGO_MAX_TIME_OUT = 100
+    MONGO_MAX_ATTEMPT_CONNECTION = 4
 
     STORM_HOST = 'localhost'
     if os.environ.__contains__('STORM_HOME'):
@@ -67,7 +69,7 @@ class Config:
     INTERNAL_MVN_REPOSITORY = True
 
     if os.environ.__contains__('MAVEN_HOME'):
-        STORM_BINARY = os.path.normpath(os.path.join(os.environ['MAVEN_HOME'], 'bin/mvn'))
+        MAVEN_BINARY = os.path.normpath(os.path.join(os.environ['MAVEN_HOME'], 'bin/mvn'))
     else:
         MAVEN_BINARY = 'mvn'
 

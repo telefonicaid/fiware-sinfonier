@@ -394,9 +394,9 @@ public class Modules extends WebSecurityController {
             JsonObject res = client.uploadModule(module.getId(), moduleVersion.getId());
 
             if (res.get("code") != null && res.get("code").getAsInt() == Client.STATUS_SUCCESS) {
+
               // Recheck module version
               moduleVersion.recheck();
-              module.save();
               SinfonierMailer.reviewModule(module, moduleVersion);
             } else if (res.get("code") != null && res.get("code").getAsInt() == Client.STATUS_COMPILATION_FAILS) {
               flash.put(FLASH_KEY_BACKEND_LOG, Messages.get("Modules.recheck.compilation_fails"));
@@ -424,6 +424,7 @@ public class Modules extends WebSecurityController {
     }
   }
 
+  @Check("ADMIN")
   public static void validate(String id, Integer versionCode) throws SinfonierException {
     checkAuthenticity();
     Module module = Module.findById(id);
@@ -514,6 +515,28 @@ public class Modules extends WebSecurityController {
   }
 
   @Check("ADMIN")
+  public static void decline(String id, Integer versionCode, String message) throws SinfonierException {
+    checkAuthenticity();
+    Module module = Module.findById(id);
+
+    if (module == null) {
+      moduleNotFoundError("We can not found the module: ", id);
+    }
+
+    ModuleVersion version = module.getModuleVersion(versionCode);
+
+    if (version == null) {
+      moduleNotFoundError("We can not found the module with versionCode: " + versionCode);
+    }
+
+    version.setStatus(STATUS_DEV);
+    version.save();
+    SinfonierMailer.declineModule(module, version, message);
+
+    module(module.getName(), versionCode);
+  }
+
+  @Check("ADMIN")
   public static void loadPredefined() throws SinfonierException {
     Module.loadPredefinedModules();
     index(null, 1);
@@ -536,7 +559,7 @@ public class Modules extends WebSecurityController {
     Object[] args = e.getArgs();
     render("errors/error.html", error, args);
   }
-  
+
   public static void check() throws SinfonierException {
     try {
       GsonBuilder gsonBuilder = new GsonBuilder();
@@ -546,7 +569,7 @@ public class Modules extends WebSecurityController {
       JsonElement root = new JsonParser().parse(body);
       JsonObject jTopologyModule = root.getAsJsonObject().get("module").getAsJsonObject();
       TopologyModule.checkTopologyModule(jTopologyModule);
-      
+
     } catch (SinfonierException se) {
         Codes c400 = Codes.CODE_400;
         c400.setMessageData(se.getMessage());
