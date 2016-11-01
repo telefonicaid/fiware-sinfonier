@@ -263,10 +263,9 @@ p.limitations {
 
 .control-panel-content .control-panel-page h1 {
     font-family: 'TelefonicaWebLight';
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 3.6rem;
-    color: #42434F;
+    font-size: 2.6rem;
+    margin: 0 0 15px;
+    color: #1F74BA;
 }
 
 .control-panel-content .control-panel-page h2 {
@@ -2572,7 +2571,6 @@ div.ranges div.range_inputs button.applyBtn.btn.btn-sm.btn-ok {
     font-family: "TelefonicaWebRegular";
 }
 
-
 .login .form-group {
     position: relative;
 }
@@ -2622,6 +2620,7 @@ div.ranges div.range_inputs button.applyBtn.btn.btn-sm.btn-ok {
 .login .content {
     margin: 10px auto !important;
 }
+
 
 /*end login*/
 
@@ -2676,9 +2675,11 @@ div.ranges div.range_inputs button.applyBtn.btn.btn-sm.btn-ok {
     max-width: 175px;
 }
 
-.latch .latch-image{
-  margin-bottom: 20px;;
+.latch .latch-image {
+    margin-bottom: 20px;
+    ;
 }
+
 
 /*end latch*/
 
@@ -2694,7 +2695,6 @@ h2.title.inline a {
     text-overflow: ellipsis;
     text-align: left;
 }
-
 
 .icon:before {
     font-family: "Material Icons";
@@ -2996,18 +2996,52 @@ button.btn-bezel>.material-icons {
     font-size: 18px;
 }
 
-.panel-default.latch-set{
-    width:80%;
+.panel-default.latch-set {
+    width: 80%;
 }
 
-.panel-default.latch-set>.panel-heading{
-  height:auto;
-  background-color: transparent;
-  padding: 9px;
-  background: #f1f1f1;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.1), 0 1px 2px #FFFFFF inset;
-  text-shadow: 0;
-  color: #777777;
+.panel-default.latch-set>.panel-heading {
+    height: auto;
+    background-color: transparent;
+    padding: 9px;
+    background: #f1f1f1;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 9px rgba(0, 0, 0, 0.1), 0 1px 2px #FFFFFF inset;
+    text-shadow: 0;
+    color: #777777;
+}
+.sinf-pagination .btn-bezel, .sinf-pagination .btn-bezel:hover{
+  text-shadow: none;
+  box-shadow: none;
+  padding:10px;
+  border:none;
+  text-decoration: none;
+}
+.sinf-pagination .btn-bezel:hover{
+  background: #c8c8c8;
+  background: -moz-linear-gradient(top, #c8c8c8 1%, #c8c8c8 100%);
+  background: -webkit-linear-gradient(top, #c8c8c8 1%, #c8c8c8 100%);
+  background: linear-gradient(to bottom, #c8c8c8 1%, #c8c8c8 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#c8c8c8', endColorstr='#c8c8c8', GradientType=0);
+}
+.sinf-pagination .btn-bezel, .sinf-pagination .btn-bezel:active, .sinf-pagination .btn-bezel:visited{
+  background: #e4e4e4;
+  background: -moz-linear-gradient(top, #e4e4e4 1%, #c8c8c8 100%);
+  background: -webkit-linear-gradient(top, #e4e4e4 1%, #c8c8c8 100%);
+  background: linear-gradient(to bottom, #e4e4e4 1%, #c8c8c8 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#e4e4e4', endColorstr='#c8c8c8', GradientType=0);
+  color: #131313;
+}
+.sinf-pagination .btn-bezel.active {
+  background: #1F74BA;
+   background: -moz-linear-gradient(top, #1F74BA 0%, #185b92 100%);
+   background: -ms-linear-gradient(top, #1F74BA 0%, #185b92 100%);
+   background: -o-linear-gradient(top, #1F74BA 0%, #185b92 100%);
+   background: -webkit-gradient(left top, left bottom, color-stop(0%, #1F74BA), color-stop(100%, #185b92));
+   background: -webkit-linear-gradient(top, #1F74BA 0%, #185b92 100%);
+   background: linear-gradient(to bottom, #1F74BA 0%, #185b92 100%);
+   color: #FFFFFF;
+   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#1F74BA', endColorstr='#185b92', GradientType=0);
+   cursor: default;
 }
