@@ -1,5 +1,4 @@
 .control-panel {
-    /*font-family: 'TelefonicaWebThin';*/
     background-color: #E4E4E4;
 }
 
@@ -16,7 +15,8 @@
     margin-bottom: 0;
 }
 
-.control-panel .white-box input, .control-panel .white-box textarea {
+.control-panel .white-box input,
+.control-panel .white-box textarea {
     background: #F1F1F1;
 }
 
@@ -26,7 +26,6 @@
 
 .control-panel .btn-bezel,
 .control-panel .submit {
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06),0 2px 5px 0 rgba(0,0,0,.2);
     text-decoration: none;
     font-size: 13px;
     padding: 6px 7px;
@@ -34,7 +33,7 @@
     color: white;
     border-radius: 3px;
     text-shadow: 0px -1px 0px #1b8bc3;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
     background: #1ad1b8;
     background: -webkit-linear-gradient(#1ad1b8, #28a7e7);
     background: -o-linear-gradient(#1ad1b8, #28a7e7);
@@ -60,8 +59,8 @@
 .control-panel .btn-bezel:hover {
     cursor: pointer;
     border: none;
-    text-shadow: 0px 1px 0px #1b8bc3;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,.06) inset,0 2px 5px 0 rgba(0,0,0,.2) inset;
+    text-shadow: 0 1px 0 #1b8bc3;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06) inset, 0 2px 5px 0 rgba(0, 0, 0, .2) inset;
 }
 
 .control-panel a i.material-icons,
@@ -89,8 +88,8 @@
 .control-panel .control-panel-content .menu {
     max-width: 330px;
     width: 100%;
-    display:block;
-    position:absolute;
+    display: block;
+    position: absolute;
     z-index: 1;
     -webkit-transition: max-width 1s;
     -moz-transition: max-width 1s;
@@ -104,7 +103,7 @@
 
 .control-panel.menu-closed header .logo-area,
 .control-panel.menu-closed .control-panel-content .menu {
-   max-width: 100px;
+    max-width: 100px;
 }
 
 .control-panel .control-panel-content .menu ul li a span,
@@ -114,12 +113,12 @@
     -o-transition: opacity 1s;
     transition: opacity 1s;
     position: absolute;
-    opacity:1;
+    opacity: 1;
 }
 
 .control-panel.menu-closed .control-panel-content .menu ul li a span,
 .control-panel.menu-closed .control-panel-content .menu ul li button span {
-    opacity:0;
+    opacity: 0;
     -webkit-transition: opacity 0.5s;
     -moz-transition: opacity 0.5s;
     -o-transition: opacity 0.5s;
@@ -142,13 +141,13 @@
 }
 
 .control-panel.menu-closed header .logo-area i {
-     margin-right: 0;
+    margin-right: 0;
 }
 
 .control-panel header .logo-area img {
     max-width: 200px;
     width: 100%;
-    margin: 0px 5px 20px 30px;
+    margin: 0 5px 20px 30px;
     position: absolute;
 }
 
@@ -159,14 +158,13 @@
 
 .control-panel.menu-closed header .logo-area img.big-logo,
 .control-panel header .logo-area img.small-logo {
-    display:none;
+    display: none;
 }
 
 .control-panel header .logo-area img.big-logo,
 .control-panel.menu-closed header .logo-area img.small-logo {
-    display:inline-block;
+    display: inline-block;
 }
-
 
 .control-panel header .nav-area,
 .control-panel .control-panel-content .control-panel-page {
@@ -198,7 +196,6 @@
     padding-left: 100px;
 }
 
-
 .control-panel .control-panel-content .control-panel-page {
     padding-top: 30px;
     max-width: 1600px;
@@ -210,22 +207,21 @@
 }
 
 .control-panel .right-nav {
-   display: inline-block;
-   float: right;
-   margin-top: 0 px;
-   margin-right: 30px;
-   vertical-align: middle;
+    float: right;
+    margin-top: 0;
+    margin-right: 30px;
+    vertical-align: middle;
 }
 
 .control-panel .nav-lang {
-   position:relative;
-   display: inline-block;
-   margin-right: 20px;
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
 }
 
 .control-panel .user-name {
-    display:inline-block;
-    vertical-align:middle;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .control-panel .shadow {
@@ -248,6 +244,7 @@
 .control-panel .control-panel-content .menu > .row {
     margin-right: 0;
 }
+
 .control-panel .control-panel-content .menu ul {
     padding-top: 0;
     padding-left: 0;
@@ -264,7 +261,7 @@
 .control-panel .control-panel-content .menu ul li a,
 .control-panel .control-panel-content .menu ul li button {
     color: #2D0038;
-    display:block;
+    display: block;
     padding: 15px 20px 15px 30px;
     background: none;
     border: none;
@@ -278,8 +275,8 @@
     background: -moz-linear-gradient(#1ad1b8, #28a7e7);
     background: linear-gradient(#1ad1b8, #28a7e7);
     border-radius: 0 2px 2px 0;
-    box-shadow: 0 0 1px rgba(0,0,0,0.3);
-    cursor:pointer;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .control-panel .control-panel-content .menu ul li:hover a,
@@ -310,15 +307,13 @@
     background: #fff;
     width: 100%;
     margin: 15px 0;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.06),0 2px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
     padding: 15px 15px 10px 15px;
     border-radius: 2px;
 }
 
-
-
 .control-panel table.darwin-table  th {
-    padding: 0px 15px !important;
+    padding: 0 15px !important;
     position: relative;
     bottom: -6px;
 }
@@ -330,7 +325,7 @@
 
 .control-panel table.darwin-table thead tr th {
     border: none;
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 
 .control-panel .input-icon i {
@@ -341,15 +336,13 @@
 .control-panel .white-box .selectpicker,
 .control-panel .white-box .bootstrap-select .dropdown-menu,
 .control-panel table.darwin-table .selectpicker,
-.control-panel table.darwin-table .bootstrap-select .dropdown-menu{
+.control-panel table.darwin-table .bootstrap-select .dropdown-menu {
     background: #F1F1F1;
 }
 
-
 /* API CLIENTS */
-
 .api-client .form-container {
-   padding-right: 130px;
+    padding-right: 130px;
 }
 
 .api-client .form-container input {
@@ -362,7 +355,7 @@
     padding: 7px 10px;
     height: 33px;
     vertical-align: top;
-    display:inline-block;
+    display: inline-block;
 }
 
 .api-client .form-group h5 + h5 {
@@ -371,11 +364,12 @@
 
 @media(max-width:1236px) {
     .api-client .form-group h5 {
-        display:block;
+        display: block;
         border: none;
         padding: 0;
         height: auto;
     }
+
 }
 
 .api-client .form-actions {
@@ -386,9 +380,8 @@
 }
 
 /* ROLES */
-
-
-.role .form-container input, .role .form-container .check-tag {
+.role .form-container input,
+.role .form-container .check-tag {
     margin: 0 8px 5px 0;
 }
 
@@ -400,14 +393,12 @@
 }
 
 /* CHANGELOG */
-
 .changelog .changelog-title,
 .changelog .changelog-title a,
 .changelog .changelog-title a:hover,
 .changelog .changelog-title a:focus {
     color: #2D0038;
     text-decoration: none;
-    margin: 0;
     width: 100%;
     overflow: hidden;
     display: block;

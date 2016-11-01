@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-6">
-        <h1>Roles</h1>
+        <h1>&{'Nav.admin.roles'}</h1>
     </div>
     <div class="col-xs-6">
         <a class="submit pull-right" data-toggle="collapse" href="#newRoleCollapse" aria-expanded="false" aria-controls="newRoleCollapse">
@@ -46,7 +46,7 @@
                         #{/form}
                     </div>
                 </div>
-                
+
         	</div>
         </div>
     </div>
@@ -73,7 +73,7 @@
                         <input id="${role.id + permission + permission_index}" type="checkbox" name="permissions" value="${permission}" #{if role.hasPermission(permission)} checked #{/if}/>
                         <label for="${role.id + permission + permission_index}">${permission}</label>
                     </div>
-                    #{/list}   
+                    #{/list}
                     </div>
                     <div class="col-xs-2">
                     <input type="hidden" name="roleId" value="${role.getId()}">
