@@ -82,16 +82,18 @@
   </div>
 </div>
 #{/if}
-
-%{
-  Map<String, String[]> params = new HashMap<String, String[]>();
-  for (Map.Entry<String, String[]> param : request.params.all()) {
-    if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
-      params.put(param.getKey(), param.getValue());
+<div class="sinf-pagination">
+  %{
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    for (Map.Entry<String, String[]> param : request.params.all()) {
+      if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
+        params.put(param.getKey(), param.getValue());
+      }
     }
-  }
-}%
-#{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
+  }%
+  #{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
+</div>
+
 
 <div id="modules" class="row">
   <div class="col-lg-6 col-xs-12 non-h-padding">
@@ -109,4 +111,6 @@
   #{/list}
   </div>
 </div>
+<div class="sinf-pagination">
 #{utils.pagination url: (request.url.contains('search') ? 'Modules.search' : 'Modules.index'), params:params, currentPage: page, total: totalModules /}
+</div>
