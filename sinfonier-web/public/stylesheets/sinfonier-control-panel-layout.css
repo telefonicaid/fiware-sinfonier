@@ -3127,3 +3127,19 @@ button.btn-bezel>.material-icons {
   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#1F74BA', endColorstr='#185b92', GradientType=0);
   cursor: default;
 }
+
+.panel-default.latch-set{
+    width:80%;
+}
+
+.panel-default.latch-set>.panel-heading{
+  height:auto;
+  background-color: transparent;
+  padding: 9px;
+  background: #f1f1f1;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 9px rgba(0, 0, 0, 0.1), 0 1px 2px #FFFFFF inset;
+  text-shadow: 0;
+  color: #777777;
+}
