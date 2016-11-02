@@ -31,5 +31,3 @@ eclipse/*
 .project
 .classpath
 .settings
-/conf/application.conf
-/conf/darwin.conf
