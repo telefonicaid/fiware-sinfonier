@@ -186,7 +186,7 @@ header .caret {
 }
 
 .control-panel .control-panel-content .control-panel-page {
-  padding: 50px 70px 50px 245px;
+  padding: 50px 15px 50px 245px;
   box-sizing: border-box;
   min-height: 100%;
   position: relative !important;
