@@ -24,13 +24,13 @@
     margin-right: 10px;
 }
 
-/*.control-panel .btn-bezel,
+.control-panel .btn-bezel,
 .control-panel .submit {
     text-decoration: none;
     font-size: 13px;
     padding: 6px 7px;
     text-align: center;
-    color: white;
+    color: #FFFFFF;
     border-radius: 3px;
     text-shadow: 0px -1px 0px #1b8bc3;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
@@ -61,7 +61,7 @@
     border: none;
     text-shadow: 0 1px 0 #1b8bc3;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06) inset, 0 2px 5px 0 rgba(0, 0, 0, .2) inset;
-}*/
+}
 
 .control-panel a i.material-icons,
 .control-panel button i.material-icons {
