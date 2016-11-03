@@ -58,10 +58,10 @@
           <!-- PREVIEW -->
           <div id="icon-preview" class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
               #{if _module?.getIcon() != null}
-                <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" alt="icono" style="width: 140px;"/>
+                <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" alt="icono" style="width: 100px;"/>
               #{/if}
               #{else}
-                <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}" alt="icono" style="width: 140px;"/>
+                <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}" alt="icono" style="width: 100px;"/>
               #{/else}
           </div>
         </div>

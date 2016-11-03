@@ -14,7 +14,6 @@
     #{stylesheet 'drawer/editor.css' /}
     #{stylesheet 'drawer/editor-sinfonier.css' /}
 #{/set}
-
 <div class="yui-skin-sam">
   <div id="editorContainer">
     <div id="app" class="display-none">
@@ -143,12 +142,12 @@
           webhookit.language.modules.push(JSON.parse('${module.toString().escapeJavaScript().raw()}'));
           #{/if}
       #{/list}
-    	
+
       %{
     	  models.storm.ParamsValidator validator = models.storm.ParamsValidator.getInstance();
     	  models.storm.Params params = validator.getParams();
       }%
-      
+
       #{if models.SinfonierConstants.Drawer.IS_ACTIVE_N_WORKERS}
       webhookit.language.propertiesFields.push({
         "type": "string",
@@ -200,10 +199,10 @@
       setTimeout(function () {
         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
         layout.resize();
-        regenerateModulesDD(); 
+        regenerateModulesDD();
       }, 1001);
     });
-    window.addEventListener('resize', function(event){      
+    window.addEventListener('resize', function(event){
       var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
       layout.resize();
       regenerateModulesDD();
@@ -211,12 +210,12 @@
     setTimeout(function () {
       $(".yui-layout-doc").on("click", ".yui-layout-unit-left .collapse, .yui-layout-clip-left .collapse", function(event) {
         setTimeout(function () {
-          regenerateModulesDD(); 
+          regenerateModulesDD();
         }, 1001);
       });
     }, 1000);
   });
-  
+
   function regenerateModulesDD() {
     var layerPos = Dom.getXY(webhookit.editor.layer.el);
     for (var i=0; i<webhookit.editor.layer.containers.length; i++) {
@@ -227,21 +226,21 @@
       if(webhookit.editor.layer.containers[i].ddHandle) {
         webhookit.editor.layer.containers[i].dd.setHandleElId(webhookit.editor.layer.containers[i].ddHandle);
       }
-    }	  
+    }
   }
-  
+
   $("#changeToen,#changeToes,.form-logout").each(function(){
     $(this).submit(function(event) {
       adviseTopologyNotSaved(event, this);
     });
   });
-  
+
   $("a[id^='menu-a'],a[id^='header-a']").each(function(){
     $(this).click(function(event) {
       adviseTopologyNotSaved(event);
     });
   });
-  
+
   function adviseTopologyNotSaved(event, form) {
     if (!webhookit.editor.isSaved()) {
       var link = event.target.href || event.target.parentElement.href;
@@ -262,14 +261,14 @@
         callback: function (result) {
           if (result) {
             if (form) {
-        	    form.submit();  
+        	    form.submit();
             } else {
               document.location.href = link;
             }
           }
         }
       });
-    }    
+    }
   }
 </script>
 

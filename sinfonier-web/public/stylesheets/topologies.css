@@ -58,9 +58,6 @@ form.topologies input, form.topologies select {
   margin-right: 15px;
 }
 
-.text-center {
-  margin-bottom: 20px;
-}
 
 .btn-danger[disabled] {
   pointer-events: auto;
