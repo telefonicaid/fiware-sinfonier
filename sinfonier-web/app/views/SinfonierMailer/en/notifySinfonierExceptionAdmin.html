@@ -1,0 +1,10 @@
+#{extends 'DarwinMailer/mailLayout.html' /}
+#{set 'subject'}An exception has been logged#{/set}
+
+<h3>Hello administrator,</h3>
+<p>
+  The following error has been caught: <br>
+${exception.toHtmlString().raw()}
+<p>
+  <br/>
+<p>Greetings.<br/>The team ${appName}.</p>

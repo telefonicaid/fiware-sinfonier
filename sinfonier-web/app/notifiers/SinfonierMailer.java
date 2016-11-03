@@ -1,8 +1,8 @@
 package notifiers;
 
+import exceptions.SinfonierException;
 import models.Config;
 import models.factory.DarwinFactory;
-import models.factory.MongoFactory;
 import models.module.Module;
 import models.module.ModuleVersion;
 import models.notifiers.TranslatedTemplatePathResolver;
@@ -26,6 +26,7 @@ public class SinfonierMailer extends DarwinMailer {
   protected static final String SUBJECT_DECLINE_MODULE = "Mailer.subject.declineModule";
   protected static final String SUBJECT_COMPLAIN_MODULE = "Mailer.subject.complainModule";
   protected static final String SUBJECT_NOTIFY_COMPLAIN_MODULE_ADMIN = "Mailer.subject.nofityComplainModuleAdmin";
+  protected static final String SUBJECT_NOTIFY_SINFONIER_EXCEPTION_ADMIN = "Mailer.subject.notifySinfonierExceptionAdmin";
 
   public static void reviewModule(Module module, ModuleVersion version) {
     List<String> emails = getEmails();
@@ -56,6 +57,18 @@ public class SinfonierMailer extends DarwinMailer {
     Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
     send(getTemplatePath("notifyComplainModuleAdmin", Lang.get()), renderArgs, appName, baseUrl, module,
         inappropriate);
+  }
+
+  public static void notifySinfonierExceptionAdmin(SinfonierException exception) {
+    String currentLang = Lang.get();
+    Lang.set(DEFAULT_LANG);
+    List<String> emails = getEmails();
+    configureEmailSettings(emails, SUBJECT_NOTIFY_SINFONIER_EXCEPTION_ADMIN);
+    String baseUrl = getBaseUrl();
+    String appName = Config.getApplicationName();
+    Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
+    send(getTemplatePath("notifySinfonierExceptionAdmin", null), renderArgs, appName, baseUrl, exception);
+    Lang.set(currentLang);
   }
 
   public static void declineModule(Module module, ModuleVersion version, String msg) {
