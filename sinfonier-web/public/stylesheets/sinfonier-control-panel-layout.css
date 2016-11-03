@@ -122,9 +122,6 @@ header .caret {
   cursor: pointer;
 }
 
-.control-panel header .nav-area h1 {
-  margin-top: 3px;
-}
 
 .control-panel .shadow img {
   height: 25px;
@@ -1725,7 +1722,7 @@ input.search {
   padding-left: 40px;
   padding-right: 35px;
   padding-top: 8px;
-  background-color: background: #EDF2F5;
+  background-color: #EDF2F5;
   width: 99%;
   color: #1A1AA6;
 }
