@@ -416,179 +416,6 @@ p.limitations {
   font-family: "TelefonicaWebBold";
 }
 
-.accordion {
-  margin-right: 0;
-  max-width: 1170px;
-}
-
-.accordion .panel-group .panel-heading+.panel-collapse>.list-group {
-  border-top: none;
-  border: none;
-}
-
-.accordion .panel-group .panel-heading+.panel-collapse>.panel-body {
-  border-top: none;
-  border: none;
-}
-
-.accordion .panel-heading {
-  padding: 0;
-}
-
-.accordion .panel-heading a {
-  padding: 10px 11px;
-  text-decoration: none;
-  background: #FFFFFF;
-  display: block;
-  padding: 20px 22px;
-  border-radius: 3px;
-  color: #003245;
-  font-size: 17px;
-}
-
-.accordion .panel-heading a:before {
-  content: "\E316";
-  font-family: "Material Icons";
-  vertical-align: middle;
-  font-size: 22px;
-  margin-right: 15px;
-}
-
-.accordion .panel-heading a.collapsed:before {
-  content: "\E313";
-  font-family: "Material Icons";
-  vertical-align: middle;
-  font-size: 22px;
-  margin-right: 15px;
-}
-
-.accordion h4.panel-title a {
-  font-weight: bold;
-  font-size: 1.4rem;
-}
-
-.accordion h4.panel-title a:hover {
-  text-decoration: none;
-}
-
-.accordion .panel-body {
-  padding: 5px 60px 30px 60px;
-}
-
-.accordion .white-panel .panel {
-  margin-bottom: 10px;
-  border: 0 solid transparent;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 9px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 9px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-.accordion .white-panel .panel-default>.panel-heading {
-  color: #003245;
-  background-color: white;
-  border-color: transparent;
-  border-radius: 3px;
-}
-
-.accordion .white-panel .panel-heading a {
-  background: #FFFFFF;
-  display: block;
-  border-radius: 3px;
-  color: #003245;
-  font-family: "TelefonicaWebRegular";
-  font-size: 17px;
-}
-
-.accordion .white-panel .panel-heading a.collapsed {
-  background: #ffffff;
-  background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 72%, #f4f4f4 100%);
-  background: -webkit-gradient(left top, left bottom, color-stop(0%, #ffffff), color-stop(72%, #f6f6f6), color-stop(100%, #f4f4f4));
-  background: -webkit-linear-gradient(top, #ffffff 0%, #f6f6f6 72%, #f4f4f4 100%);
-  background: -o-linear-gradient(top, #ffffff 0%, #f6f6f6 72%, #f4f4f4 100%);
-  background: -ms-linear-gradient(top, #ffffff 0%, #f6f6f6 72%, #f4f4f4 100%);
-  background: linear-gradient(to bottom, #ffffff 0%, #f6f6f6 72%, #f4f4f4 100%);
-  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f4f4f4', GradientType=0);
-  font-family: "TelefonicaWebLight";
-  color: #666;
-}
-
-.accordion ul.limitations {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 0;
-}
-
-.accordion ul.limitations li {
-  color: #B6B6B8;
-}
-
-.accordion div.checkbox:hover input[type="checkbox"]:checked+.mk-icon:before {
-  content: "\E834";
-  color: #003245;
-}
-
-.accordion div.checkbox:hover div.checkbox:hover input[type="checkbox"]:checked+.icon:before {
-  content: "\E834";
-  color: #003245;
-}
-
-.accordion .search-bar {
-  display: block;
-  margin-bottom: 3rem;
-}
-
-.accordion .search-bar input {
-  width: 80%;
-  display: inline-block;
-  height: 36px;
-}
-
-.accordion .search-bar button {
-  width: 18%;
-  display: inline-block;
-  height: 35px;
-  vertical-align: initial;
-  float: right;
-}
-
-.accordion .search-result {
-  font-size: 2.4rem;
-  color: #436F8E;
-  margin-bottom: 3rem;
-  height: 2.4rem;
-}
-
-.accordion .search-result i.material-icons {
-  font-size: 2.4rem;
-  margin-right: 1rem;
-}
-
-.accordion .search-result span {
-  display: inline-block;
-  height: 1em;
-  line-height: 1;
-  vertical-align: text-top;
-}
-
-.accordion .search-result button {
-  display: inline-block;
-  float: right;
-  max-width: 240px;
-  margin-top: -11px;
-}
-
-.accordion .search-result button i {
-  margin-top: -1px;
-}
-
-.accordion .disable {
-  color: #B6B6B8;
-  cursor: default;
-}
-
-.accordion label {
-  white-space: nowrap;
-}
 
 #collapse4 .panel-body .row [class^="col-"]:first-child {
   padding-left: 0;
@@ -600,45 +427,6 @@ p.limitations {
 
 input.url {
   background-color: #EDF2F5;
-}
-
-table.default {
-  background-color: #FFFFFF;
-  border-spacing: 0;
-  width: 100%;
-  color: #436f8e;
-}
-
-table.default .img-app {
-  width: 45px;
-  display: inline-block;
-  margin-right: 15px;
-  height: 100%;
-}
-
-table.default .text-app {
-  display: inline-block;
-  vertical-align: top;
-  max-width: 60%;
-  font-family: 'TelefonicaWebRegular';
-}
-
-table.default .text-app-no-image {
-  font-family: 'TelefonicaWebLight';
-}
-
-table.default .material-icons {
-  color: #7297A5;
-  font-size: 22px;
-}
-
-table.default .delete-i {
-  color: #CF1317;
-}
-
-table.default thead {
-  background-color: #585E71;
-  color: #FFF;
 }
 
 .table-bordered>tbody>tr>td {
@@ -732,74 +520,6 @@ table.default .disable td .sub-text {
 
 table.default.grey {
   background-color: #f4f4f4 !important;
-}
-
-.pseudo-head .panel-heading a {
-  background-color: #585E71;
-  color: #FFF;
-}
-
-.pseudo-head .panel-heading a:before {
-  content: "";
-  margin-right: 37px;
-}
-
-.pseudo-head h4.panel-title>a {
-  text-decoration: none;
-}
-
-.pseudo-head h4.panel-title span {
-  display: inline-block;
-}
-
-.pseudo-head h4.panel-title span:first-child {
-  width: 25%;
-}
-
-.pseudo-head h4.panel-title span:nth-child(2) {
-  width: 10%;
-}
-
-.pseudo-head h4.panel-title span:nth-child(3) {
-  width: 10%;
-}
-
-.pseudo-head h4.panel-title span:nth-child(4) {
-  width: 10%;
-  text-align: center;
-}
-
-.pseudo-head h4.panel-title span:nth-child(5) {
-  width: 32%;
-  text-align: right;
-}
-
-.pseudo-head .panel {
-  margin-bottom: 0;
-}
-
-.pseudo-head .panel-title a {
-  padding: 10px 22px;
-}
-
-.pseudo-head .order-up:after {
-  content: "\E316";
-  font-family: 'Material Icons';
-  vertical-align: middle;
-  font-size: 22px;
-  margin-left: 5px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.pseudo-head .order-down:after {
-  content: "\E313";
-  font-family: 'Material Icons';
-  vertical-align: middle;
-  font-size: 22px;
-  margin-left: 5px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
 .table-footer {
@@ -1982,61 +1702,6 @@ div.checkbox.checkbox-right input[type="checkbox"]+.mk-icon:before {
   border-radius: 10px;
 }
 
-#accordion_response h4.panel-title>a {
-  text-decoration: none;
-}
-
-#accordion_response h4.panel-title span {
-  display: inline-block;
-}
-
-#accordion_response h4.panel-title span:first-child {
-  width: 25%;
-}
-
-#accordion_response h4.panel-title span:nth-child(2) {
-  width: 10%;
-}
-
-#accordion_response h4.panel-title span:nth-child(3) {
-  width: 10%;
-}
-
-#accordion_response h4.panel-title span:nth-child(4) {
-  width: 10%;
-  text-align: center;
-}
-
-#accordion_response h4.panel-title span:nth-child(5) {
-  width: 32%;
-  text-align: right;
-}
-
-#accordion_response .panel+.panel {
-  margin-top: 3px;
-}
-
-#accordion_response p a {
-  color: #1F74BA;
-}
-
-#accordion_response ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-#accordion_response ul li {
-  color: #E20613;
-}
-
-#accordion_response .panel-heading a {
-  padding: 10px 22px;
-}
-
-#accordion_response .panel-group .panel+.panel {
-  margin-top: 5px;
-}
-
 .img-left-table {
   width: 45px;
   max-width: 45px;
@@ -2138,46 +1803,6 @@ img.width22 {
   background-color: transparent;
 }
 
-.tab-content>.active {
-  font-size: 17px;
-  line-height: 1.72222;
-  margin: 0 0 15px;
-  color: #666666;
-  line-height: 20px;
-  padding: 50px 60px 30px 60px;
-  background: white;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  border-radius: 3px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 99999;
-}
-
-.tab-pane.detail h4 {
-  margin-bottom: 5px;
-  font-size: 16px;
-}
-
-.tab-pane.detail .status_indicator {
-  float: inherit;
-  width: auto;
-}
-
-.tab-pane.detail .icon_status {
-  margin-right: 5px;
-}
-
-.tab-pane.detail .title {
-  font-weight: 800;
-  line-height: 1.6;
-}
-
-.tab-pane.detail h3 {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
 .m-b-0 {
   margin-bottom: 0;
 }
@@ -2227,19 +1852,6 @@ img.width22 {
   top: auto;
 }
 
-.daterangepicker .input-mini.active {
-  border: 1px solid #1F74BA !important;
-  border-radius: 1px !important;
-}
-
-.daterangepicker td.active {
-  background-color: #1F74BA !important;
-}
-
-.daterangepicker td.active:hover {
-  background-color: #1F74BA !important;
-}
-
 td.in-range {
   background-color: #f7f7f7 !important;
 }
@@ -2258,68 +1870,6 @@ td.in-range {
 
 .state.low-bg {
   background-color: #87BC3A;
-}
-
-.dash-tag {
-  padding: 10px !important;
-  color: white;
-  border-radius: 2px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
-  line-height: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  font-size: 13px;
-}
-
-.dash-tag span {
-  font-size: 55px;
-  clear: both;
-  display: block;
-}
-
-.dash-tag.total {
-  background-color: #436e8e;
-}
-
-.dash-tag.new {
-  background-color: #60ab82;
-}
-
-.dash-tag.critical {
-  background-color: #d96663;
-}
-
-.dash-tag.events {
-  background-color: #f0d186;
-}
-
-.dash-tag.riskiest {
-  background-color: #4abdd2;
-}
-
-h3.dash-module-title {
-  font-size: 2.5rem;
-  color: #42434f;
-  font-family: 'TelefonicaWebLight' !important;
-  margin: 10px 0 15px 0;
-}
-
-h3.dash-module-title i {
-  vertical-align: middle;
-  margin: 0 10px 5px 25px;
-}
-
-h4.dash-module-title {
-  font-size: 17px;
-  color: #436f8e;
-  font-family: 'TelefonicaWebLight' !important;
-  margin: 30px 0 20px 0;
-}
-
-h4.dash-module-title i {
-  vertical-align: middle;
-  margin: 0 5px 3px 0;
-  font-size: 1.7rem;
 }
 
 .slct-inline {
@@ -2342,16 +1892,6 @@ h4.dash-module-title i {
   padding-bottom: 50px;
 }
 
-.actionsButton {
-  border: none;
-  height: 50px;
-  padding: 10px 9px 10px 13px;
-}
-
-.actionsButton>.material-icons {
-  margin: 0 5px 0 0;
-  font-size: 24px;
-}
 
 ul.bar {
   list-style-type: none;
@@ -2455,39 +1995,10 @@ h3.dash-module-title.mt50 {
   margin-top: 50px;
 }
 
-.cont-scroll {
-  max-height: 200px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.cont-scroll>.row {
-  margin-bottom: 20px;
-}
-
-.cont-scroll>.row>div:first-child {
-  width: 60px;
-  margin-right: 10px;
-}
-
-.cont-scroll .AppActionsButton {
-  margin-right: 0;
-}
-
-.cont-scroll .col-xs-10 {
-  max-width: 510px;
-}
-
-.cont-scroll img {
-  max-width: 60px;
-}
 
 div.ranges div.range_inputs button.applyBtn.btn.btn-sm.btn-ok {
   margin-bottom: 5px;
 }
-
 
 /*login*/
 
