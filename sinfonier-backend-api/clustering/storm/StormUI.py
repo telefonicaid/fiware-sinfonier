@@ -320,6 +320,9 @@ class StormUI:
         return {}
 
     @staticmethod
-    def getFile(file_name, num_lines):
-        url = file_name + "&tail=" + str(num_lines)
+    def getFile(file_name, start = 0, length=5000):
+        if start == -1:
+            url = file_name + "&tail="  + str(length)
+        else:
+            url = file_name + "&start="+str(start)+"&length=" + str(length)
         return HTTPHandler.get(url)

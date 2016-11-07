@@ -1,12 +1,22 @@
 package models.storm;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
-import exceptions.SinfonierError;
-import exceptions.SinfonierException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import exceptions.SinfonierError;
+import exceptions.SinfonierException;
+import models.topology.json.LogData;
 import play.Logger;
 import play.Play;
 import play.libs.WS;
@@ -71,18 +81,47 @@ public class Client {
     }
   }
 
-  public String getTopologyLog(String id) throws SinfonierException {
+  public List<String> getTopologyLog(String id, List<LogData> logDatas) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.log");
-    WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id));
-
+    WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );
+    
+    List<String> starts = new ArrayList<String>(logDatas.size());
+    List<String> lengths = new ArrayList<String>(logDatas.size());
+    
+    for (LogData logData: logDatas)
+    {
+    	starts.add(logData.getStart().toString());
+    	lengths.add(logData.getLength().toString());
+    }
+    
+    request.setParameter("start",String.join(",",starts));
+    request.setParameter("length",String.join(",",lengths));
+    
+    JsonObject res = doRequest(request, Methods.GET);
+		try {
+			JsonArray logs = res.get("data").getAsJsonObject().get("log").getAsJsonArray();
+			Gson gson = new Gson();
+			return gson.fromJson(logs, new TypeToken<ArrayList<String>>() {}.getType());
+		} catch (RuntimeException e) {
+			Logger.error(e.getMessage());
+			throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
+		}
+  }
+  
+  public List<LogData> getTopologyLogSizes(String id) throws SinfonierException {
+    String path = Play.configuration.getProperty("storm.route.topologies.logsizes");
+    WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );
     JsonObject res = doRequest(request, Methods.GET);
     try {
-      return sanitise(res.get("data").getAsJsonObject().get("log").getAsString());
+      JsonArray arrLogData =  res.get("data").getAsJsonObject().get("sizes").getAsJsonArray();
+      Gson gson = new Gson();
+      return gson.fromJson(arrLogData, new TypeToken<ArrayList<LogData>>() {}.getType());
     } catch (RuntimeException e) {
       Logger.error(e.getMessage());
       throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
     }
   }
+
 
   public JsonObject topologyLaunch(String id) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.launch");

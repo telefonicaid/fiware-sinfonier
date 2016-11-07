@@ -1,11 +1,20 @@
 package controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.StringEscapeUtils;
+import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
 import models.responses.Codes;
@@ -13,8 +22,9 @@ import models.storm.ParamsValidator;
 import models.topology.Topology;
 import models.topology.TopologiesContainer;
 import models.topology.deserializers.TopologyDeserializer;
-import models.storm.Client;
-import org.bson.types.ObjectId;
+import models.validators.ParamsValidator;
+import models.topology.json.LogData;
+
 import play.Logger;
 import play.data.validation.Required;
 import play.i18n.Messages;
@@ -205,21 +215,73 @@ public class Topologies extends WebSecurityController {
     render("Topologies/index.html", topologies, page, totalTopologies);
   }
 
-  public static void log(@Required String id) {
-    try {
-      Codes code200 = Codes.CODE_200;
-      JsonObject data = new JsonObject();
-      data.addProperty("msg", client.getTopologyLog(id));
-      code200.setData(data);
+	public static void log(@Required String id, String start) {
+		try {
+			Codes code200 = Codes.CODE_200;
+			Gson gson = new Gson();
+			JsonObject data = new JsonObject();
+			String logDataKey = id + "_logdata";
+			boolean loadedLogData = false;
+			String logData = session.get(logDataKey);
+			List<LogData> logDatas;
+			if (logData != null) {
+				logDatas = gson.fromJson(logData, new TypeToken<ArrayList<LogData>>() {}.getType());
+			} else {
+				logDatas = client.getTopologyLogSizes(id);
+				loadedLogData = true;
+			}
+			if (start != null) {
+				String[] starts = start.split(",");
 
-      renderJSON(Codes.CODE_200.toGSON());
-    } catch (SinfonierException e) {
-      Logger.error(e.getMessage());
-      response.status = Codes.CODE_500.getCode();
-      renderJSON(Codes.CODE_500.toGSON());
-    }
+				for (int i = 0; i < starts.length; i++) {
+					String startValue = starts[i];
+					if (startValue.matches("^[\\+|\\-]?\\d+$")) {
+						long lStart = Long.parseLong(startValue);
+						if (lStart < 0L) {
+							if (!loadedLogData) {
+								logDatas = client.getTopologyLogSizes(id);
+								loadedLogData = true;
+							}
+						} else {
+							while (logDatas.size() <= i) {
+								logDatas.add(new LogData(String.valueOf(i), 0L, 52100L));
+							}
+							logDatas.get(i).setStart(lStart);
+						}
+					}
+				}
+			}
 
-  }
+			List<String> logs = client.getTopologyLog(id, logDatas);
+
+			List<String> escapedLogs = new ArrayList<String>(logs.size());
+
+			for (String log : logs) {
+				escapedLogs.add(StringEscapeUtils.escapeHtml(log));
+			}
+
+			for (int i = 0; i < logs.size(); i++) {
+				while (logDatas.size() <= i) {
+					logDatas.add(new LogData(String.valueOf(i), 0L, 52100L));
+				}
+				LogData current = logDatas.get(i);
+				current.setStart(current.getStart() + logs.get(i).length());
+			}
+
+			session.put(logDataKey, gson.toJson(logDatas));
+
+			JsonElement el = gson.toJsonTree(escapedLogs, new TypeToken<List<String>>() {}.getType());
+			data.add("msg", el);
+			code200.setData(data);
+
+			renderJSON(Codes.CODE_200.toGSON());
+		} catch (SinfonierException e) {
+			Logger.error(e.getMessage());
+			response.status = Codes.CODE_500.getCode();
+			renderJSON(Codes.CODE_500.toGSON());
+		}
+
+	}
 
   public static void publish(@Required String id) throws SinfonierException {
     checkAuthenticity();
@@ -256,5 +318,80 @@ public class Topologies extends WebSecurityController {
     SinfonierError error = e.getError();
     Object[] args = e.getArgs();
     render("errors/error.html", error, args);
+  }
+  
+  public static void export(@Required String id) throws SinfonierException, UnsupportedEncodingException {
+    checkAuthenticity();
+    Topology topology = Topology.findById(id);
+
+    if (topology == null) {
+      Logger.error("We can\'t find the topology with id: " + id);
+      notFound();
+    } else {
+    	Codes c200 = Codes.CODE_200;
+    	JsonObject data = new JsonObject();
+    	JsonElement jelement = new JsonParser().parse(topology.export());
+      JsonObject  jobject = jelement.getAsJsonObject();
+      data.add("topology", jobject);
+      c200.setData(data);
+
+      renderBinary(new ByteArrayInputStream(jobject.toString().getBytes("UTF-8")),topology.getName()+".json");
+    }
+  }
+  
+  public static void importTopology() throws SinfonierException {
+    render();
+  }
+	
+  public static void doImport() throws SinfonierException {
+    try {
+      GsonBuilder gsonBuilder = new GsonBuilder();
+      gsonBuilder.registerTypeAdapter(Topology.class, new TopologyDeserializer());
+      Gson gson = gsonBuilder.create();
+      String body = request.params.get("body");
+      ParamsValidator validator = ParamsValidator.getInstance();
+      Topology topology = gson.fromJson(body, Topology.class);
+      topology.setAuthorId(getCurrentUser().getId());
+      Topology old = Topology.findByName(topology.getName());
+      if (old != null) {
+      	throw new SinfonierException(SinfonierError.TOPOLOGY_DUPLICATE);
+      }
+      JsonElement root = new JsonParser().parse(body);
+      JsonObject jTopology = root.getAsJsonObject().get("topology").getAsJsonObject();
+      JsonArray jModules = jTopology.getAsJsonObject().get("config").getAsJsonObject().get("modules").getAsJsonArray();
+      for (JsonElement jTopologyModule: jModules)
+      {
+        ModuleVersion moduleVersion = TopologyModule.checkTopologyModule(jTopologyModule.getAsJsonObject());
+
+        Integer version = jTopologyModule.getAsJsonObject().get("versionCode").getAsInt();
+        if (version != 0) {
+          JsonObject jModule = jTopologyModule.getAsJsonObject().get("module").getAsJsonObject();
+          String moduleName = jModule.get("name").getAsString();
+          for (TopologyModule topologyModule : topology.getConfig().getModules()) {
+
+            if (topologyModule.getName().equals(moduleName) && topologyModule.getVersionCode() == version) {
+              Module module = Module.findByName(moduleName);
+              topologyModule.setModuleVersionId(moduleVersion.getId());
+              topologyModule.setModuleId(module.getId());
+            }
+          }
+        }
+      }
+
+      if (validator.validate(topology.getConfig(), false)) {
+        String topologyId = topology.save();
+        renderJSON(new Gson().toJson(Topology.findById(topologyId)));
+      } else {
+        Codes c400 = Codes.CODE_400;
+        c400.setMessageData(Messages.get("validation.topology.params"));
+        response.status = c400.getCode();
+        renderJSON(c400.toGSON());
+      }
+    } catch (SinfonierException se) {
+      Codes c400 = Codes.CODE_400;
+      c400.setMessageData(se.getMessage());
+      response.status = c400.getCode();
+      renderJSON(c400.toGSON());
+    }
   }
 }
