@@ -78,22 +78,22 @@
             </div>
           </div>
         #{/form}
+      </div>
     </div>
   </div>
-</div>
-#{/if}
-<div class="sinf-pagination">
-  %{
-    Map<String, String[]> params = new HashMap<String, String[]>();
-    for (Map.Entry<String, String[]> param : request.params.all()) {
-      if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
-        params.put(param.getKey(), param.getValue());
+  #{/if}
+  <div class="sinf-pagination">
+    %{
+      Map<String, String[]> params = new HashMap<String, String[]>();
+      for (Map.Entry<String, String[]> param : request.params.all()) {
+        if (!Arrays.asList(controllers.Modules.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
+          params.put(param.getKey(), param.getValue());
+        }
       }
-    }
-  }%
-  #{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
-</div>
-
+    }%
+    #{utils.pagination url: request.action, params:params, currentPage: page, total: totalModules /}
+  </div>
+</div> <!--  end row -->
 
 <div id="modules" class="row">
   <div class="col-lg-6 col-xs-12 non-h-padding">
