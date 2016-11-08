@@ -1,0 +1,9 @@
+general :
+  country :
+    spain :
+      es  : España
+
+  language :
+    spanish :
+      es  : Español
+

@@ -1,3 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 .idea/
+sinfonier-web/test/tests/testsQA/SinfonierQA/_output/
+*.log
+*.pyc
+sinfonier-web/test/tests/testsQA/SinfonierQA/add_features_to_testlink.py

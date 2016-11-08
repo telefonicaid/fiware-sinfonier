@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+login:
+  error_message:
+    invalid_credential:
+      en: Oops, unknown username or password.
+      es: Usuario o contraseña incorrectos.
+
+change_password:
+  error_message:
+    empty_email:
+      en: Please enter the account you want to reset the password for
+      es: Introduce la cuenta para la que deseas cambiar la contraseña
+    invalid_email:
+      en: Invalid email format
+      es: Formato de correo electrónico inválido
+
+
+
+latch:
+  error_message:
+    empty_token:
+      en: You should introduce a pairing code.
+      es: Debes introducir un código de pareado.
+    invalid_token:
+      en: This token is not valid or has expired. Try it again.
+      es: El token no es inválido o a caducado. Vuelve a intentarlo.
+
+
+create_account:
+  error_message:
+    name_empty:
+      en: Please enter a display name we can use to address you
+      es: Debes introducir un nombre
+    email_empty:
+      en: An email is required to activate your account
+      es: El correo electrónico es necesario para activar tu cuenta
+    password_empty:
+      en: Invalid password. The password must contain at least of 8 characters.
+      es: Contraseña invalida. La contraseña debe tener al menos 8 caracteres..
+    password_check_empty:
+      en: Please confirm your password
+      es: Confirma la contraseña
+    password_incorrect:
+      en: Invalid password. The password must contain at least of one lowercase character, one uppercase character, one digit and one special symbols in the list (&!"#'()*+,-./:;<=>?@[]^{|}).
+      es: Contraseña invalida. La contraseña tendrá al menos una minuscula, una mayuscula, un digito y un carácter especial de esta lista (&!"#'()*+,-./:;<=>?@[]^{|}).
+    email_format_error:
+      en: Invalid email format
+      es: Formato de correo electrónico inválido
+    password_short:
+      en: Invalid password. The password must contain at least of 8 characters.
+      es: Contraseña invalida. La contraseña debe tener al menos 8 caracteres..
+    password_confirm_password_error:
+      en: Your passwords do not match
+      es: Las contraseñas no coinciden
+    account_exist:
+      en: This account is already registered. Forgot your password?
+      es: Esta cuenta ya existe. ¿Olvidaste tu contraseña?
+
