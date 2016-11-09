@@ -2651,24 +2651,11 @@ button.btn-bezel>.material-icons {
   text-shadow: 0;
   color: #777777;
 }
-/* Drawer */
-/*.yui-skin-sam > .yui-layout > .yui-layout-doc{
-
-}*/
-.yui-skin-sam .yui-button {
-  border:none;
+.pad-10px{
+  padding:10px !important;
 }
-.yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-bd {
-  background-color: #fff;
-  border:0;
-
-}
-.yui-skin-sam .yui-button .first-child, .yui-skin-sam .yui-button .first-child{
-  border: none;
-}
-#WiringEditor-zoomOutButton button {
-  margin-right: 5px;
-}
-.yui-skin-sam .yui-layout .yui-layout-hd, .yui-skin-sam .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle{
-  background-image: none;
+#full-screen{
+  font-size: 12px;
+  height: 18px;
+  padding: 0;
 }

@@ -14,6 +14,8 @@
     #{stylesheet 'drawer/editor.css' /}
     #{stylesheet 'drawer/editor-sinfonier.css' /}
 #{/set}
+<h1>&{'Drawer.index.title'}</h1>
+<button id="full-screen" class="btn btn-blue pull-right"><i class="material-icons">fullscreen</i><span> Full screen</span></button>
 <div class="yui-skin-sam">
   <div id="editorContainer">
     <div id="app" class="display-none">
@@ -194,6 +196,7 @@
           }
         });
   });
+
   $(document).ready(function () {
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {
@@ -214,6 +217,22 @@
         }, 1001);
       });
     }, 1000);
+			$('#full-screen').on('click',  function(){
+				$('header').toggle();
+				$('.menu').toggle();
+				$('.control-panel').toggleClass('menu-closed');
+				$('.control-panel .control-panel-content .control-panel-page').toggleClass('pad-10px');
+				$('h1').toggle();
+				var text = $(this).children('span').text();
+				console.log(text);
+				if (text == ' Full screen'){
+					$(this).children('span').text('Show menu');
+				} else {
+					$(this).children('span').text(' Full screen');
+				}
+
+
+			});
   });
 
   function regenerateModulesDD() {
