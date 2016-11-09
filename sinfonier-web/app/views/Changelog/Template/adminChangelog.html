@@ -62,16 +62,20 @@
 <div class="row">
     <div class="col-xs-12">
         #{list items:changelog, as:'changelogPoint'}
-            <div class="white-box changelog">
+        <div class="panel panel-default">
+            <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-8">
                         <h3 class="changelog-title">
                             <a role="button" data-toggle="collapse" href="#${changelogPoint.id}" aria-expanded="true" aria-controls="collapseOne">
                                 v${changelogPoint.version} - ${changelogPoint.getTitle(lang)}
                             </a>
                         </h3>
+                      </div>
+                        <div class="col-xs-4">
                         <div class="form-actions">
                             <a class="btn-bezel danger pull-right m-b-0" data-toggle="modal" href="#${changelogPoint.id}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}"><i class="material-icons">clear</i></a>
+                        </div>
                         </div>
                         <div id="${changelogPoint.id}" class="collapse m-t-10">
                             #{form @Changelog.upsert()}
@@ -113,7 +117,7 @@
                         </div>
                     </div>
                 </div>
-
+              </div>
             </div>
             <!-- BEGIN REMOVE MODAL -->
             <div class="modal fade" id="${changelogPoint.id}RemoveModal" tabindex="-1" aria-hidden="false">

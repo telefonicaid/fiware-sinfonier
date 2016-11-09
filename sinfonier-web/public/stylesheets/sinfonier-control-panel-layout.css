@@ -2659,3 +2659,6 @@ button.btn-bezel>.material-icons {
   height: 18px;
   padding: 0;
 }
+.changelog-title{
+  margin:0;
+}
