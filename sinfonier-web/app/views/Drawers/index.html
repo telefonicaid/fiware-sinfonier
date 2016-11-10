@@ -196,8 +196,21 @@
           }
         });
   });
-
+	function fullScreen(){
+		$('header, .menu, h1').toggle();
+		$('.control-panel').toggleClass('menu-closed');
+		$('.control-panel .control-panel-content .control-panel-page').toggleClass('pad-10px');
+		var text = $(this).children('span').text();
+		if (text == ' Full screen'){
+			$(this).children('span').text(' Show menu');
+		} else {
+			$(this).children('span').text(' Full screen');
+		}
+	}
   $(document).ready(function () {
+		$('#full-screen').on('click', function(){
+			fullScreen()
+		});
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {
         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
@@ -217,22 +230,6 @@
         }, 1001);
       });
     }, 1000);
-			$('#full-screen').on('click',  function(){
-				$('header').toggle();
-				$('.menu').toggle();
-				$('.control-panel').toggleClass('menu-closed');
-				$('.control-panel .control-panel-content .control-panel-page').toggleClass('pad-10px');
-				$('h1').toggle();
-				var text = $(this).children('span').text();
-				console.log(text);
-				if (text == ' Full screen'){
-					$(this).children('span').text('Show menu');
-				} else {
-					$(this).children('span').text(' Full screen');
-				}
-
-
-			});
   });
 
   function regenerateModulesDD() {
