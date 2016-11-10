@@ -95,9 +95,9 @@ public class Topologies extends BaseController {
       ParamsValidator validator = ParamsValidator.getInstance();
       Topology topology = gson.fromJson(request.params.get("body"), Topology.class);
       topology.setAuthorId(getCurrentUser().getId());
-      
+
       if (validator.validate(topology.getConfig(), true)) {
-      	
+
         String topologyId = topology.save();
         Project project = getCurrentProject();
         if ("true".equals(Play.configuration.get("projects")) && project != null) {
