@@ -2662,3 +2662,8 @@ button.btn-bezel>.material-icons {
 .changelog-title{
   margin:0;
 }
+.mask {
+  background: #1F74BA !important;
+  z-index: 2 !important;
+  opacity: .6;
+}
