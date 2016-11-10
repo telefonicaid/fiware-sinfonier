@@ -221,13 +221,16 @@ function handleIconModule(file) {
     // Set example icon
     switch ($('form#module-form select#type').val()) {
       case 'drain':
-        $('form#module-form #icon-preview img').attr('src', basePath + 'drain-big.png');
+      <i class="material-icons pull-right big-icon">group_work</i>
+        // $('form#module-form #icon-preview img').attr('src', basePath + 'drain-big.png');
         break;
       case 'bolt':
-        $('form#module-form #icon-preview img').attr('src', basePath + 'bolt-big.png');
+       <i class="material-icons pull-right big-icon">flash_on</i>
+        // $('form#module-form #icon-preview img').attr('src', basePath + 'bolt-big.png');
         break;
       default:
-        $('form#module-form #icon-preview img').attr('src', basePath + 'spout-big.png');
+       <i class="material-icons pull-right big-icon">invert_colors</i>
+        // $('form#module-form #icon-preview img').attr('src', basePath + 'spout-big.png');
     }
   }
 }
