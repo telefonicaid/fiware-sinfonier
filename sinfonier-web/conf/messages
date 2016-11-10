@@ -191,7 +191,7 @@ Topology.btn.publish = Publish
 Topology.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s, last update %s.
 Topology.index.create_by_text = Created by %s at %s, last update %s.
 Topologies.import.title = Import Topology
-Topologies.import.instructions = Select the JSON file to import and click "Import"
+Topologies.import.instructions = Select the JSON file to be imported and click the "Import" button
 
 Topologies.form.name = Name
 Topologies.form.description = Description
