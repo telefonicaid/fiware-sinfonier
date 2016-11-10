@@ -2667,3 +2667,10 @@ button.btn-bezel>.material-icons {
   z-index: 2 !important;
   opacity: .6;
 }
+.panel-body:hover {
+  background: #f7f7f7;
+}
+.big-icon{
+  font-size: 80px;
+  color: #1F74BA;
+}

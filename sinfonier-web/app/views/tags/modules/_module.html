@@ -125,16 +125,19 @@
             #{/if}
             #{else}
                 #{if _module?.getType() == "spout"}
-                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                  <!-- <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/> -->
+                       <i class="material-icons pull-right big-icon">invert_colors</i>
                 #{/if}
                 #{elseif _module?.getType() == "bolt"}
-                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/bolt-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                  <!-- <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/bolt-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/> -->
+                       <i class="material-icons pull-right big-icon">flash_on</i>
                 #{/elseif}
                 #{elseif _module?.getType() == "drain"}
-                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/drain-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                  <!-- <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/drain-big.png'}"
+                       alt="${_module?.getName()}" class="module-icon"/> -->
+                       <i class="material-icons pull-right big-icon">group_work</i>
                 #{/elseif}
             #{/else}
         </div>
