@@ -199,7 +199,7 @@
 	function fullScreen(){
 		$('header, .menu, h1').toggle();
 		$('.control-panel').toggleClass('menu-closed');
-		$('.control-panel .control-panel-content .control-panel-page').toggleClass('pad-10px');
+		$('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').toggleClass('full-size');
 		var text = $('#full-screen').children('span').text();
 		if (text == ' Full screen'){
 			$('#full-screen').children('span').text(' Show menu');
@@ -292,7 +292,6 @@
     }
   }
 </script>
-
     #{script 'vendor/webhookit/editor/adapter.js'/}
     #{script 'vendor/webhookit/editor/topology_editor.js'/}
 #{/set}
