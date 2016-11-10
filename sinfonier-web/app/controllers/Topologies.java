@@ -108,7 +108,7 @@ public class Topologies extends WebSecurityController {
       if (se.getError().getCode() == SinfonierError.TOPOLOGY_DUPLICATE.getCode()) {
         Codes c410 = Codes.CODE_400;
         JsonObject data = new JsonObject();
-        data.addProperty("message", se.getMessage());
+        data.addProperty("message", se.getError().getMessagei18n());
         c410.setData(data);
         response.status = c410.getCode();
         renderJSON(c410.toGSON());
@@ -395,7 +395,11 @@ public class Topologies extends WebSecurityController {
       }
     } catch (SinfonierException se) {
       Codes c400 = Codes.CODE_400;
-      c400.setMessageData(se.getMessage());
+      if (se.getError().getCode() == SinfonierError.TOPOLOGY_DUPLICATE.getCode()) {
+        c400.setMessageData(se.getError().getMessagei18n());
+      } else {
+        c400.setMessageData(se.getMessage());
+      }
       response.status = c400.getCode();
       renderJSON(c400.toGSON());
     }

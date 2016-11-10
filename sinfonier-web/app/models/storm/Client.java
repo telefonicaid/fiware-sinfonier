@@ -2,7 +2,6 @@ package models.storm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -94,8 +93,8 @@ public class Client {
     	lengths.add(logData.getLength().toString());
     }
     
-    request.setParameter("start",String.join(",",starts));
-    request.setParameter("length",String.join(",",lengths));
+    request.setParameter("start",StringUtils.join(starts, ","));
+    request.setParameter("length",StringUtils.join(lengths, ","));
     
     JsonObject res = doRequest(request, Methods.GET);
 		try {

@@ -191,7 +191,9 @@ Topology.btn.publish = Publicar
 Topology.index.create_by = Creada por <a href="/profile/%s">%s (%s)</a> el %s, última actualización el %s.
 Topology.index.create_by_text = Creada por %s el %s, última actualización el %s.
 Topologies.import.title = Importar Topología
+Topologies.import.instructions = Seleccione el fichero JSON a importar y haga click en "Importar"
 
+Topologies.form.name = Nombre
 Topologies.form.description = Descripción
 Topologies.form.sharing = Compartida
 Topologies.form.status = Estado
@@ -218,6 +220,7 @@ Topologies.details.delete.text = Quiere eliminar la topología '%s'?
 Topologies.topology = Topología
 Topologies.error.launching = Error intentando lanzar la topología
 Topologies.error.stopping = Error intentando parar la topología
+Topologies.error.import.name = El nombre de la topología está vacío o no tiene el formato correcto
 Topologies.msgs.stopBeforeDelete = Debe detener la topología antes de poder borrarla
 
 Profile.editAccount = Editar perfil
@@ -291,6 +294,7 @@ Error.500.msg = Esta excepción ha sido registrada. Reporte al administrador sob
 Error.1001.msg = El nombre del módulo '%s' ya está siendo utilizado.
 Error.1002.msg = El módulo '%s' no esta disponible.
 Error.1004.msg = El usuario llegó al limite de módulos pendientes.
+Error.2001.msg = El nombre de la topología ya está en uso.
 Error.3001.msg = La contraseña no cumple con la política de seguridad.
 
 Utils.pagination.first = Primera

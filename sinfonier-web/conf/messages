@@ -191,7 +191,9 @@ Topology.btn.publish = Publish
 Topology.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s, last update %s.
 Topology.index.create_by_text = Created by %s at %s, last update %s.
 Topologies.import.title = Import Topology
+Topologies.import.instructions = Select the JSON file to be imported and click the "Import" button
 
+Topologies.form.name = Name
 Topologies.form.description = Description
 Topologies.form.sharing = Sharing
 Topologies.form.status = Status
@@ -218,6 +220,7 @@ Topologies.details.delete.text = Do you want to delete the topology '%s'?
 Topologies.topology = Topology
 Topologies.error.launching = Error trying to launching the topology
 Topologies.error.stopping = Error trying to stopping the topology
+Topologies.error.import.name = The topology name is empty or does not have the correct format
 Topologies.msgs.stopBeforeDelete = You must stop the topology before delete it
 
 Profile.editAccount = Edit profile
@@ -292,6 +295,7 @@ Error.500.msg = This exception has been logged. Report to the administrator abou
 Error.1001.msg = The module name '%s' is already used
 Error.1002.msg = The module '%s' is not available.
 Error.1004.msg = The user reached the limit of pending modules.
+Error.2001.msg = The topology name is already used.
 Error.3001.msg = The password doesn't meet the security policy.
 
 Utils.pagination.first = First
