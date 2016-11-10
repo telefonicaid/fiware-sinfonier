@@ -85,3 +85,7 @@ form.topologies input, form.topologies select {
 .img-loading i {
   font-size: 60px;
 }
+
+.text-center {
+  margin-bottom: 20px;
+}

@@ -200,16 +200,21 @@
 		$('header, .menu, h1').toggle();
 		$('.control-panel').toggleClass('menu-closed');
 		$('.control-panel .control-panel-content .control-panel-page').toggleClass('pad-10px');
-		var text = $(this).children('span').text();
+		var text = $('#full-screen').children('span').text();
 		if (text == ' Full screen'){
-			$(this).children('span').text(' Show menu');
+			$('#full-screen').children('span').text(' Show menu');
 		} else {
-			$(this).children('span').text(' Full screen');
+			$('#full-screen').children('span').text(' Full screen');
 		}
 	}
   $(document).ready(function () {
 		$('#full-screen').on('click', function(){
-			fullScreen()
+			fullScreen();
+      setTimeout(function () {
+        var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
+        layout.resize();
+        regenerateModulesDD();
+      }, 1001);
 		});
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {

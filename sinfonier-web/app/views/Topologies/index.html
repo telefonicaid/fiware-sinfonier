@@ -73,7 +73,7 @@
     }
   }
 }%
-#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
 </div>
 <div id="topologies" class="row">
 #{list items:topologies, as:'topology'}
@@ -82,7 +82,7 @@
 </div>
 
 <div class="sinf-pagination">
-#{topologies.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalTopologies, pageSize: models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE /}
 </div>
 #{set 'moreScripts'}
 <script type="text/javascript" src="/public/javascripts/vendor/moment/moment-with-locales.min.js"></script>
