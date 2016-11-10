@@ -288,3 +288,5 @@ Error.3001.msg = La contraseña no cumple con la política de seguridad.
 
 Utils.pagination.first = Primera
 Utils.pagination.last = Última
+
+Users.index.modal.deleteUser=Eliminar Usuario

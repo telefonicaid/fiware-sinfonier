@@ -288,3 +288,5 @@ Error.3001.msg = The password doesn't meet the security policy.
 
 Utils.pagination.first = First
 Utils.pagination.last = Last
+
+Users.index.modal.deleteUser=Delete user
