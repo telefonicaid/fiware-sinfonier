@@ -41,9 +41,11 @@ import models.factory.DarwinFactory;
 import models.factory.MongoFactory;
 import models.module.Module;
 import models.module.ModuleVersion;
+import models.project.Project;
 import models.topology.json.serializers.TopologySerializer;
 import models.user.User;
 import play.Logger;
+import play.Play;
 import utils.Utils;
 
 public class Topology implements Cloneable {
@@ -92,7 +94,7 @@ public class Topology implements Cloneable {
     if (description != null && description.length() > 0) {
       andQuery.add(new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE)));
     }
-    
+
     if (andQuery.size() > 0) {
       query.put("$and", andQuery);
     }
@@ -100,23 +102,29 @@ public class Topology implements Cloneable {
     return find(query, page);
   }
   
-  public static TopologiesContainer getTopologies(User user, Integer page) throws SinfonierException {
-    return getTopologies(user, true, true, page);
+  public static TopologiesContainer getTopologies(User user, Project project, Integer page) throws SinfonierException {
+    return getTopologies(user, project, true, true, page);
   }
 
-  public static TopologiesContainer getTopologies(User user, boolean includeExternalSharing, boolean usePagination, Integer page) throws SinfonierException {
+  public static TopologiesContainer getTopologies(User user, Project project, boolean includeExternalSharing, boolean usePagination, Integer page) throws SinfonierException {
     TopologiesContainer topologies;
 
     DBObject sortByName = new BasicDBObject(FIELD_NAME, 1);
     BasicDBObject not_deleted = new BasicDBObject(FIELD_STATUS, new BasicDBObject("$ne", STATUS_DELETED));
 
     BasicDBList notDeletedAndAuthor = new BasicDBList();
+    BasicDBObject projectCondition = null;
     notDeletedAndAuthor.add(not_deleted);
     notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
 
+    if ("true".equals(Play.configuration.get("projects")) && project != null )
+    {
+    	projectCondition = new BasicDBObject("_id",new BasicDBObject("$in", project.getArrTopologyIds()));
+    	notDeletedAndAuthor.add(projectCondition);
+    }
 
     if (user.isAdminUser() && includeExternalSharing) {
-      topologies = find(null, sortByName, usePagination, page);
+      topologies = find(projectCondition, sortByName, usePagination, page);
     } else if (includeExternalSharing) {
       BasicDBList notDeletedAndSharing = new BasicDBList();
       notDeletedAndSharing.add(not_deleted);
@@ -125,6 +133,7 @@ public class Topology implements Cloneable {
       BasicDBList list = new BasicDBList();
       list.add(new BasicDBObject("$and", notDeletedAndSharing));
       list.add(new BasicDBObject("$and", notDeletedAndAuthor));
+
 
       topologies = find(new BasicDBObject("$or", list), sortByName, usePagination, page);
     } else {

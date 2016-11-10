@@ -228,6 +228,24 @@ public class SinfonierConstants extends Constants {
     public static final int TOPOLOGY_MAX_RESULTS_PAGE = Integer.parseInt(Play.configuration.getProperty("SinfonierConstants.Topology.pagination.maxResults", "5"));
   }
 
+  public static class Project {
+    public static final String COLLECTION_NAME = Play.configuration.getProperty("SinfonierConstants.Project.collectionName", "projects");
+
+    public static final String FIELD_ID = Play.configuration.getProperty("SinfonierConstants.Project.fieldId", "_id");
+    public static final String FIELD_NAME = Play.configuration.getProperty("SinfonierConstants.Project.fieldName", "name");
+    public static final String FIELD_STATUS = Play.configuration.getProperty("SinfonierConstants.Project.fieldStatus", "status");
+    public static final String FIELD_SHARING = Play.configuration.getProperty("SinfonierConstants.Project.fieldSharing", "sharing");
+    public static final String FIELD_DESCRIPTION = Play.configuration.getProperty("SinfonierConstants.Project.fieldDescription", "description");
+    public static final String FIELD_CREATED = Play.configuration.getProperty("SinfonierConstants.Project.fieldCreatedAt", "created_at");
+    public static final String FIELD_UPDATED = Play.configuration.getProperty("SinfonierConstants.Project.fieldUpdateAt", "updated_at");
+    public static final String STATUS_ACTIVE = Play.configuration.getProperty("SinfonierConstants.Project.status.active", "active");
+    public static final String STATUS_DELETED = Play.configuration.getProperty("SinfonierConstants.Project.status.deleted", "deleted");
+    public static final String FIELD_AUTHOR_ID = Play.configuration.getProperty("SinfonierConstants.Project.fieldAuthorId", "authorId");
+    public static final String FIELD_TOPOLOGY_IDS = Play.configuration.getProperty("SinfonierConstants.Project.fieldTopologies", "topologies");
+    
+    public static final int PROJECT_MAX_RESULTS_PAGE = Integer.parseInt(Play.configuration.getProperty("SinfonierConstants.Project.pagination.maxResults", "5"));
+  }
+  
   public static class ModuleConfig {
     public static final String FIELD_POSITION = Play.configuration.getProperty("SinfonierConstants.ModuleConfig.position", "position");
     public static final String FIELD_XTYPE = Play.configuration.getProperty("SinfonierConstants.ModuleConfig.xtype", "xtype");

@@ -47,7 +47,7 @@ import play.i18n.Messages;
 import play.mvc.Catch;
 import play.mvc.Util;
 
-public class Modules extends WebSecurityController {
+public class Modules extends BaseController {
 
   public static final String INDEX_MODE_TOP_MODULES = "topModules";
   public static final String INDEX_MODE_MY_MODULES = "myModules";

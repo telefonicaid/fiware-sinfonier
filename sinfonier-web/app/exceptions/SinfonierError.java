@@ -24,7 +24,9 @@ public enum SinfonierError {
   TOPOLOGY_INVALID_CONSTRUCTION(2003, "Error trying to build a topology"),
 
   TOPOLOGY_BUILDER_TYPE(2101, "The topology or some property required is not found it."), 
-  
+
+  PROJECT_INVALID_CONSTRUCTION(2201, "Error trying to build a project"),
+
   PASSWORD_CONSTRAINS(3001, "The password doesn't meet the security policy.");
 
   private static final String DEFAULT_KEY_MSG = "Error.500.msg";

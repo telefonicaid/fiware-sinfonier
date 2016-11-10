@@ -1,0 +1,70 @@
+<div id="project-${_project.getId()}" data-id="${_project.getId()}"
+     class="#{if _size == "small"} col-lg-6 col-md-6 col-sm-6 col-xs-12 #{/if} #{else } col-lg-12 #{/else} project project">
+  <div class="panel panel-default">
+
+
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+          <h2 class="title inline pull-left">
+          #{if _size == "small"}
+            <img id="project-${_project?.getId()}-img-type" class="icon-xs"
+                 src="/public/images/icons/${_project?.getType()}.png" alt="Project icon by type">
+          #{/if}
+            <a id="project-${_project?.getId()}-a-title" href="@{Projects.show(_project?.getName())}" class="btn btn-link"
+               style="font-size: 20px;">${_project?.getName()}</a>
+          #{if _size != "small" }
+            <i class="fa fa-rocket" aria-hidden="true"></i>
+          #{/if}
+          </h2>         
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+          <a id="project-${_project?.getId()}-button-use" data-id="${_project?.getId()}" href="#" class="btn btn-success btn-inline js-project-use">               
+           &{'Projects.btn.use'}
+          </a>
+        </div>
+      </div>
+
+    #{if _size != "small"}
+      <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+          <p id="project-${_project?.getId()}-p-status"><span class="bold">&{'Projects.form.status'}:</span> ${_project?.getStatus()}
+          </p>
+        </div>
+      </div>
+    #{/if}
+
+
+      <!-- DESCRIPTION -->
+      <div class="row">
+        <div class="col-lg-12">
+          <span class="bold">&{'Projects.form.description'}:</span>
+          <p id="project-${_project?.getId()}-p-description">${_project.getDescription()}</p>
+        </div>
+      </div>
+
+      <!-- BUTTONS -->
+    #{if _size == "large"}
+      <div class="row">
+          #{if _project.hasWritePermission(_wc?.getCurrentUser())}
+            <!-- DELETE -->
+              #{if _project.getStatus().equals(models.SinfonierConstants.Project.STATUS_ACTIVE)}
+                <div class="col-xs-2">
+                  <button id="project-${_project?.getId()}-button-delete" class="btn btn-danger btn-inline" type="button"
+                          data-toggle="modal" data-target="#confirmModal">
+                  &{'Projects.btn.delete'}
+                  </button>
+                </div>
+              #{/if}
+            <!-- EDIT -->
+            <div class="col-xs-2">
+              <a id="project-${_project?.getId()}-button-edit" href="@{Projects.edit(_project?.getName())}" class="btn btn-success btn-inline">	              
+	             &{'Projects.btn.edit'}
+              </a>
+            </div>
+          #{/if}
+      </div>
+    #{/if}
+    </div>
+  </div>
+</div>

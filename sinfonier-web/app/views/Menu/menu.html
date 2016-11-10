@@ -2,6 +2,11 @@
   <li class="#{if request.url.contains('dashboard')} active #{/if}">
     <a id="menu-a-dashboards" href="@{controllers.Dashboards.index()}"><i class="material-icons">developer_board</i><span>&{'Dashboard.index.title'}</span></a>
   </li>
+  #{if "true".equals(play.configuration['projects'])}
+    <li class="#{if request.url.contains('projects')} active #{/if}">
+      <a id="menu-a-projects" href="@{controllers.Projects.index(null,0)}"><i class="fa fa-rocket" aria-hidden="true"></i><span>&{'Projects.index.title'}</span></a>
+    </li>
+  #{/if}
   <li class="#{if request.url.contains('modules')} active #{/if}">
     <a id="menu-a-modules" href="@{controllers.Modules.index(null,0)}">
       <i class="fa fa-cube" aria-hidden="true"></i><span>&{'Modules.index.title'}</span></a>
