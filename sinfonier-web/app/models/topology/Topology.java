@@ -134,7 +134,6 @@ public class Topology implements Cloneable {
       list.add(new BasicDBObject("$and", notDeletedAndSharing));
       list.add(new BasicDBObject("$and", notDeletedAndAuthor));
 
-
       topologies = find(new BasicDBObject("$or", list), sortByName, usePagination, page);
     } else {
       topologies = find(new BasicDBObject("$and", notDeletedAndAuthor), sortByName, usePagination, page);
