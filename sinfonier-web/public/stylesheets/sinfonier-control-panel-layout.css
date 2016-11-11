@@ -2736,3 +2736,12 @@ div.WireIt-Container div.body{
 div.inputEx-fieldWrapper div.inputEx-Field{
   padding-bottom: 1px;
 }
+.yui-skin-sam .yui-button {
+  background-image: none;
+  background-color: #f1f1f1;
+  transition: .8s background;
+}
+.yui-skin-sam .yui-button:hover{
+  background-color: #fff;
+  transition: .8s background;
+}
