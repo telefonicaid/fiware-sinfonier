@@ -2684,8 +2684,8 @@ button.btn-bezel>.material-icons {
   padding: 2px;
   color:#131313;
 }
-#editorContainer #yui-gen7 input[type="text"],
-#editorContainer #yui-gen7 textarea{
+#editorContainer .yui-layout-unit.yui-layout-unit-right.yui-layout-noscroll.yui-resize input[type="text"],
+#editorContainer .yui-layout-unit.yui-layout-unit-right.yui-layout-noscroll.yui-resize textarea{
     min-width: 190px;
 }
 #editorContainer label, .inputEx-fieldWrapper.inputEx-empty.inputEx-label {
@@ -2727,8 +2727,8 @@ button.btn-bezel>.material-icons {
   color: #1F74BA;
 }
 
-div.WireIt-Container div.body{
-  padding:15px;
+div.WireIt-Container div.body label{
+  min-width:50px !important;
 }
 #editorContainer button {
   background-color: none;
