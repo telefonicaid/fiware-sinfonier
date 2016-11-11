@@ -2679,17 +2679,21 @@ button.btn-bezel>.material-icons {
 }
 
 #editorContainer input[type="text"],
-#editorContainer textarea {
-  background-color: #fff;
+#editorContainer textarea{
+  background-color: #EDF2F5;
   padding: 2px;
-  min-width: 190px;
+  color:#131313;
 }
-
-#editorContainer label {
+#editorContainer #yui-gen7 input[type="text"],
+#editorContainer #yui-gen7 textarea{
+    min-width: 190px;
+}
+#editorContainer label, .inputEx-fieldWrapper.inputEx-empty.inputEx-label {
   white-space: normal;
   vertical-align: middle;
   min-width: 100px;
   color: #1F74BA;
+  font-weight: bold;
 }
 
 #editorContainer .inputEx-label {
@@ -2728,4 +2732,7 @@ div.WireIt-Container div.body{
 }
 #editorContainer button {
   background-color: none;
+}
+div.inputEx-fieldWrapper div.inputEx-Field{
+  padding-bottom: 1px;
 }
