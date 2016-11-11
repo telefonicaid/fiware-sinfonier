@@ -2728,7 +2728,7 @@ button.btn-bezel>.material-icons {
 }
 
 div.WireIt-Container div.body label{
-  min-width:50px !important;
+  min-width:auto !important;
 }
 #editorContainer button {
   background-color: none;

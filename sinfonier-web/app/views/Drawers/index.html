@@ -206,16 +206,15 @@
 		} else {
 			$('#full-screen').children('span').text(' Full screen');
 		}
-		$('body').one('webkitTransitionEnd otransitionend msTransitionEnd transitionend',
-	    function(e) {
-				var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
-	      layout.resize();
-	      regenerateModulesDD();
-	    });
 	}
   $(document).ready(function () {
 		$('#full-screen').on('click', function(){
 			fullScreen();
+			setTimeout(function () {
+         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
+        layout.resize();
+        regenerateModulesDD();
+      }, 1001);
 		});
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {
