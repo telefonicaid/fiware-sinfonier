@@ -28,6 +28,7 @@ Drawer.editor.toolbar.run = Ejecutar
 Drawer.editor.toolbar.save = Guardar
 Drawer.editor.toolbar.zoomIn = Zoom dentro
 Drawer.editor.toolbar.zoomOut = Zoom fuera
+Drawer.editor.toolbar.fullScreen = Pantalla completa
 Drawer.editor.loadPanel.title = Seleccione la topología a cargar
 Drawer.editor.loadPanel.filter = Filtro
 Drawer.editor.modules.header = Módulos

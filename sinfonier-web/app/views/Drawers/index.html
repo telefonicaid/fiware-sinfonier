@@ -15,7 +15,6 @@
     #{stylesheet 'drawer/editor-sinfonier.css' /}
 #{/set}
 <h1>&{'Drawer.index.title'}</h1>
-<button id="full-screen" class="btn btn-blue pull-right"><i class="material-icons">fullscreen</i><span> Full screen</span></button>
 <div class="yui-skin-sam">
   <div id="editorContainer">
     <div id="app" class="display-none">
@@ -196,26 +195,9 @@
           }
         });
   });
-	function fullScreen(){
-		$('header, .menu, h1').toggle();
-		$('.control-panel').toggleClass('menu-closed');
-		$('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').toggleClass('full-size');
-		var text = $('#full-screen').children('span').text();
-		if (text == ' Full screen'){
-			$('#full-screen').children('span').text(' Show menu');
-		} else {
-			$('#full-screen').children('span').text(' Full screen');
-		}
-	}
+
   $(document).ready(function () {
-		$('#full-screen').on('click', function(){
-			fullScreen();
-			setTimeout(function () {
-         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
-        layout.resize();
-        regenerateModulesDD();
-      }, 1001);
-		});
+
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {
         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
