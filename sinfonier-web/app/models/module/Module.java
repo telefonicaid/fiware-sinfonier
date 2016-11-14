@@ -276,10 +276,7 @@ public class Module extends ModelCollection {
     }
     
     if (search.getDescription() != null && search.getDescription().length() > 0) {
-      BasicDBList list = new BasicDBList();
-      list.add(new BasicDBObject(FIELD_VERSIONS+"."+FIELD_VERSION_ID, new BasicDBObject("$in", getModuleVersionIdsByDescription(search.getDescription()))));
-      list.add(new BasicDBObject(FIELD_VERSIONS+"."+FIELD_VERSION_ID, new BasicDBObject("$in", getModuleVersionObjectIdsByDescription(search.getDescription()))));
-      query.add(new BasicDBObject("$or", list));
+      query.add(new BasicDBObject(FIELD_VERSIONS+"."+FIELD_VERSION_ID, new BasicDBObject("$in", getModuleVersionIdsByDescription(search.getDescription()))));
     }
 
     return find(new BasicDBObject("$and", query), page);
@@ -396,15 +393,6 @@ public class Module extends ModelCollection {
     List<ModuleVersion> versions = ModuleVersion.findByDescription(description);
     for (ModuleVersion version : versions) {
       versionIds.add(version.getId());
-    }
-    return versionIds;
-  }
-
-  private static List<ObjectId> getModuleVersionObjectIdsByDescription(String description) throws SinfonierException{
-    List<ObjectId> versionIds = new ArrayList<ObjectId>();
-    List<ModuleVersion> versions = ModuleVersion.findByDescription(description);
-    for (ModuleVersion version : versions) {
-      versionIds.add(new ObjectId(version.getId()));
     }
     return versionIds;
   }
