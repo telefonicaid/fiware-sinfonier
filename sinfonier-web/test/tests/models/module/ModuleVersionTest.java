@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import models.factory.MongoFactory;
 import models.module.Container;
@@ -102,12 +103,13 @@ public class ModuleVersionTest extends BaseTest {
   private static final String VERSION_TAG = "1.1";
   private static final String JSON_PATH = new File("tmp/module/ModuloSpout.json").getPath();
 
-  private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @BeforeClass
   public static void setUp() throws Exception {
     doMongoImport(TestData.MODULE_VERSIONS_COLLECTION, TestData.MODULE_VERSIONS_JSON_FILE);
     doMongoImport(TestData.MODULES_COLLECTION, TestData.MODULES_JSON_FILE);
+    formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
   
   @Test
@@ -137,7 +139,7 @@ public class ModuleVersionTest extends BaseTest {
     assertNotNull(result);
     assertEquals("success", result.getBuildStatus());
     assertEquals("WireIt.FormContainer", result.getContainer().getXType());
-    assertEquals("2016-08-12 08:54:53", formatter.format(result.getCreatedAt()));
+    assertEquals("2016-08-12 06:54:53", formatter.format(result.getCreatedAt()));
     assertEquals("Descripción del módulo MySpout. Versión 1.0", result.getDescription());
     assertEquals(0, result.getFields().size());
     assertEquals(0, result.getLibraries().size());
@@ -148,7 +150,7 @@ public class ModuleVersionTest extends BaseTest {
     assertEquals("private", result.getStatus());
     assertNull(result.getTickTuple());
     assertEquals(1, result.getTopologiesCount());
-    assertEquals("2016-08-12 08:56:43", formatter.format(result.getUpdatedAt()));
+    assertEquals("2016-08-12 06:56:43", formatter.format(result.getUpdatedAt()));
     assertEquals(1, result.getVersionCode());
     assertEquals("1.0", result.getVersionTag());
   }
@@ -171,8 +173,8 @@ public class ModuleVersionTest extends BaseTest {
     assertTrue(((String) result.get(FIELD_SOURCE_CODE)).startsWith("/**The MIT License (MIT) "));
     assertEquals("", result.get(FIELD_SOURCE_CODE_URL));
     assertEquals("Descripción del módulo MySpout. Versión 1.0", result.get(FIELD_DESCRIPTION));
-    assertEquals("2016-08-12 08:54:53", formatter.format(result.get(FIELD_CREATED)));
-    assertEquals("2016-08-12 08:56:43", formatter.format(result.get(FIELD_UPDATED)));
+    assertEquals("2016-08-12 06:54:53", formatter.format(result.get(FIELD_CREATED)));
+    assertEquals("2016-08-12 06:56:43", formatter.format(result.get(FIELD_UPDATED)));
     assertEquals(false, result.get(FIELD_SINGLETON));
     assertEquals(1, result.get(FIELD_TOPOLOGIES_COUNT));
     assertNull(result.get(FIELD_TICK_TUPLE));

@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import models.factory.DarwinFactory;
 import models.factory.MongoFactory;
@@ -81,17 +82,18 @@ public class ModuleTest extends BaseTest {
   private static final String VERSION_ID1 = "57ad72bde1c0801a58324247";
   private static final String VERSION_ID2 = "57ad7aaae1c0801a5832424f";
   
-  private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   @BeforeClass
   public static void setUp() throws Exception {
     doMongoImport(TestData.USERS_COLLECTION, TestData.USERS_JSON_FILE);
     doMongoImport(TestData.MODULE_VERSIONS_COLLECTION, TestData.MODULE_VERSIONS_JSON_FILE);
     doMongoImport(TestData.MODULES_COLLECTION, TestData.MODULES_JSON_FILE);
+    formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
   
   @Test
-  public void test01NewModuleWithDBObject() throws SinfonierException {
+  public void test01NewModuleWithDBObject() throws SinfonierException, ParseException {
     // Prepare inputs
     DBCollection collection = MongoFactory.getDB().getCollection(TestData.MODULES_COLLECTION);
     DBObject query = new BasicDBObject(FIELD_ID, new ObjectId("57ad73e8e1c0801a5832424b"));
@@ -107,7 +109,7 @@ public class ModuleTest extends BaseTest {
     assertEquals("test1@test.com", result.getAuthorId());
     assertEquals("Bolts", result.getCategory());
     assertEquals(0, result.getComplains().size());
-    assertEquals("2016-08-12 08:59:52", formatter.format(result.getCreatedAt()));
+    assertEquals("2016-08-12 06:59:52", formatter.format(result.getCreatedAt()));
     assertNull(result.getIcon());
     assertEquals("java", result.getLanguage());
     assertEquals("MyBolt", result.getName());
@@ -115,7 +117,7 @@ public class ModuleTest extends BaseTest {
     assertEquals("published", result.getStatus());
     assertEquals(9, result.getTopologiesCount());
     assertEquals("bolt", result.getType());
-    assertEquals("2016-08-12 09:01:51", formatter.format(result.getUpdatedAt()));
+    assertEquals("2016-08-12 07:01:51", formatter.format(result.getUpdatedAt()));
     assertEquals(1, result.getVersions().size());
   }
   
@@ -716,8 +718,8 @@ public class ModuleTest extends BaseTest {
     assertEquals("Bolts", result.get(FIELD_CATEGORY));
     assertEquals("published", result.get(FIELD_STATUS));
     assertEquals("java", result.get(FIELD_LANGUAGE));
-    assertEquals("2016-08-12 08:59:52", formatter.format(result.get(FIELD_CREATED)));
-    assertEquals("2016-08-12 09:01:51", formatter.format(result.get(FIELD_UPDATED)));
+    assertEquals("2016-08-12 06:59:52", formatter.format(result.get(FIELD_CREATED)));
+    assertEquals("2016-08-12 07:01:51", formatter.format(result.get(FIELD_UPDATED)));
     assertEquals("test1@test.com", result.get(FIELD_AUTHOR_ID));
     // Calculated in a previous test
     assertEquals(3.3333, (Double) result.get(FIELD_AVERAGE_RATE), TestData.OFFSET_DOUBLE);
