@@ -2683,6 +2683,8 @@ button.btn-bezel>.material-icons {
   background-color: #EDF2F5;
   padding: 2px;
   color:#131313;
+  font-size: 10px !important;
+  font-family: Arial;
 }
 #editorContainer .yui-layout-unit.yui-layout-unit-right.yui-layout-noscroll.yui-resize input[type="text"],
 #editorContainer .yui-layout-unit.yui-layout-unit-right.yui-layout-noscroll.yui-resize textarea{
