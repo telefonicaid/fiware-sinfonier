@@ -212,8 +212,8 @@ public class Topologies extends WebSecurityController {
     }
   }
 
-  public static void search(String status, String query, Date updated, int page) throws SinfonierException {
-    TopologiesContainer topologiesContainer = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(status, query, updated, getCurrentUser(), page);
+  public static void search(String status, String query, Date updated, String description, int page) throws SinfonierException {
+    TopologiesContainer topologiesContainer = Topology.findByCriteria(status, query, updated, description, getCurrentUser(), page);
     flash("searching", true);
     params.flash();
     List<Topology> topologies = topologiesContainer.getTopologies();

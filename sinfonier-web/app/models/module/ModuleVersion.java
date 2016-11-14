@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -31,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import exceptions.SinfonierError;
@@ -217,6 +219,19 @@ public class ModuleVersion extends ModelCollection {
     }
 
     return null;
+  }
+  
+  public static List<ModuleVersion> findByDescription(String description) throws SinfonierException {
+    DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
+    List<ModuleVersion> list = new ArrayList<ModuleVersion>();
+    if (description != null && description.trim().length() > 0) {
+      DBObject query = new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE));
+      DBCursor cursor = collection.find(query);
+      for (DBObject dbObject : cursor) {
+        list.add(new ModuleVersion(dbObject));
+      }
+    }
+    return list;
   }
 
   public void save() throws SinfonierException {

@@ -60,7 +60,7 @@ public class Topology implements Cloneable {
   private TopologyConfig config;
   private ObjectId templateId;
 
-  public static TopologiesContainer findByStatusOrNameOrAuthorOrUpdatedDate(String status, String q, Date updated, User user, Integer page) throws SinfonierException {
+  public static TopologiesContainer findByCriteria(String status, String q, Date updated, String description, User user, Integer page) throws SinfonierException {
     DBObject query = new BasicDBObject();
     BasicDBList andQuery = new BasicDBList();
 
@@ -89,6 +89,10 @@ public class Topology implements Cloneable {
       andQuery.add(new BasicDBObject(FIELD_UPDATED, new BasicDBObject("$gt", updated)));
     }
 
+    if (description != null && description.length() > 0) {
+      andQuery.add(new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE)));
+    }
+    
     if (andQuery.size() > 0) {
       query.put("$and", andQuery);
     }

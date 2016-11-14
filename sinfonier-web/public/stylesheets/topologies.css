@@ -92,3 +92,7 @@ form.topologies input, form.topologies select {
   opacity: 1;
   color: #FFF;
 }
+
+.input-group[class*=col-] {
+  float: left;
+}    
