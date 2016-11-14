@@ -625,11 +625,12 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     $('header, .menu, h1').toggle();
     $('.control-panel').toggleClass('menu-closed');
     $('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').toggleClass('full-size');
-    var text = $('#full-screen').children('span').text();
-    if (text == ' Full screen') {
-      $('#full-screen').children('span').text(' Show menu');
+    if ($('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').hasClass('full-size')) {
+      $('#WiringEditor-fullScreenButton-button')
+        .html('<i class="material-icons">fullscreen</i>' + i18n('Drawer.editor.toolbar.showMenu'));
     } else {
-      $('#full-screen').children('span').text(' Full screen');
+      $('#WiringEditor-fullScreenButton-button')
+        .html('<i class="material-icons">fullscreen</i>' + i18n('Drawer.editor.toolbar.fullScreen'));
     }
 
     setTimeout(function () {
