@@ -182,6 +182,7 @@ Modules.form.err.versionTagUsed = Version tag already used in this module
 Modules.form.warning.versions.moreDeveloping = There are more developing versions of this module. Consider continue working in some of them before adding a new version
 Modules.form.warning.gistCode = Verify that the class name specified in your Gist matches the module name used
 
+Projects.current.label = Project in use:
 Projects.index.title = Projects
 Projects.new.title = New Project
 Projects.edit.title = Edit Project
@@ -192,6 +193,7 @@ Projects.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s
 Projects.index.create_by_short = Created by <a href="/profile/%s">%s</a> at %s
 Projects.index.create_by_text = Created by %s at %s
 
+Projects.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
 Projects.form.name = Name
 Projects.form.owner = Owner
 Projects.form.owner.placeholder = Name or email
@@ -203,11 +205,11 @@ Projects.btn.search = Search
 Projects.btn.edit = Edit
 Projects.btn.delete = Delete
 Projects.btn.update = Update
-Projects.btn.use = Work
+Projects.btn.use = Use Project
 Projects.btn.deactivate = Do not use any project
 
 Projects.details.title = Project
-Projects.details.title = New project
+Projects.new.title = New project
 
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies

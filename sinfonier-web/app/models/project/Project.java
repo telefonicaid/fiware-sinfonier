@@ -52,29 +52,26 @@ public class Project implements Cloneable {
   private String description;
   private List<String> topologyIds;
 
-	public Project() {
+  public Project() {
     List<String> ids = new ArrayList<String>();
     this.setStatus(STATUS_ACTIVE);
     this.setTopologyIds(ids);
   }
-  
+
   public List<String> getTopologyIds() {
-		return topologyIds;
-	}
-
-
-	public void setTopologyIds(List<String> topologyIds) {
-		this.topologyIds = topologyIds;
-	}
-
-
-
-  
-  public static ProjectsContainer getProjects(User user, Integer page) throws SinfonierException {
-    return getProjects(user, true, true, page);
+    return topologyIds;
   }
 
-  public static ProjectsContainer getProjects(User user, boolean includeExternalSharing, boolean usePagination, Integer page) throws SinfonierException {
+  public void setTopologyIds(List<String> topologyIds) {
+    this.topologyIds = topologyIds;
+  }
+
+  public static ProjectsContainer getProjects(User user, Integer page) throws SinfonierException {
+    return getProjects(user,  true, page);
+  }
+
+  public static ProjectsContainer getProjects(User user,  boolean usePagination,
+      Integer page) throws SinfonierException {
     ProjectsContainer projects;
 
     DBObject sortByName = new BasicDBObject(FIELD_NAME, 1);
@@ -84,19 +81,8 @@ public class Project implements Cloneable {
     notDeletedAndAuthor.add(not_deleted);
     notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
 
-
-    if (user.isAdminUser() && includeExternalSharing) {
+    if (user.isAdminUser() ) {
       projects = find(null, sortByName, usePagination, page);
-    } else if (includeExternalSharing) {
-      BasicDBList notDeletedAndSharing = new BasicDBList();
-      notDeletedAndSharing.add(not_deleted);
-      notDeletedAndSharing.add(new BasicDBObject(FIELD_SHARING, true));
-
-      BasicDBList list = new BasicDBList();
-      list.add(new BasicDBObject("$and", notDeletedAndSharing));
-      list.add(new BasicDBObject("$and", notDeletedAndAuthor));
-
-      projects = find(new BasicDBObject("$or", list), sortByName, usePagination, page);
     } else {
       projects = find(new BasicDBObject("$and", notDeletedAndAuthor), sortByName, usePagination, page);
     }
@@ -142,11 +128,11 @@ public class Project implements Cloneable {
     return count(query);
   }
 
-
   public Project(String name, User author, Boolean sharing, String description, List<String> topologyIds) {
     this.name = name;
     this.author = author;
-    if (author != null) this.authorId = author.getId();
+    if (author != null)
+      this.authorId = author.getId();
     this.description = description;
     this.topologyIds = topologyIds;
     this.createdAt = new Date();
@@ -165,11 +151,10 @@ public class Project implements Cloneable {
       updatedAt = ((Date) o.get(FIELD_UPDATED));
       List<ObjectId> objIds = (List<ObjectId>) o.get(FIELD_TOPOLOGY_IDS);
       topologyIds = new ArrayList<String>(objIds.size());
-    	for (ObjectId id: objIds) {
-    		topologyIds.add(id.toString());
-    	}
-     
-      
+      for (ObjectId id : objIds) {
+        topologyIds.add(id.toString());
+      }
+
     } catch (Exception e) {
       name = null;
       Logger.error("Exception in Project construct trying to build an object from DBObject. " + e.getMessage());
@@ -180,7 +165,7 @@ public class Project implements Cloneable {
   public String save() throws SinfonierException {
     try {
       DBCollection collection = MongoFactory.getDB().getCollection(getCollectionName());
-  
+
       if (id == null) {
         Logger.info("New Project");
         Date now = new Date();
@@ -193,16 +178,16 @@ public class Project implements Cloneable {
         Logger.info("Editing project id:" + this.getId());
         DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(this.getId()));
         DBObject toSet = this.toDBObject();
-  
+
         this.setUpdated(new Date());
         // Remove fields's unmodified
         toSet.removeField(FIELD_ID);
         toSet.removeField(FIELD_CREATED);
         toSet.removeField(FIELD_AUTHOR_ID);
-  
+
         // Update field's update
         toSet.put(FIELD_UPDATED, new Date());
-  
+
         collection.update(query, new BasicDBObject("$set", toSet), true, false);
       }
       return this.getId();
@@ -219,7 +204,7 @@ public class Project implements Cloneable {
     collection.update(query, new BasicDBObject("$set", toSet));
   }
 
-  public Boolean isRunning() {
+  public Boolean isActive() {
     return status.equals(STATUS_ACTIVE);
   }
 
@@ -263,8 +248,6 @@ public class Project implements Cloneable {
 
     return object;
   }
-
-
 
   public String getId() {
     return id;
@@ -330,7 +313,6 @@ public class Project implements Cloneable {
     this.description = description;
   }
 
-
   @Override
   public String toString() {
     return toDBObject().toString();
@@ -358,9 +340,10 @@ public class Project implements Cloneable {
       BasicDBList notDeletedAndAuthor = new BasicDBList();
       notDeletedAndAuthor.add(new BasicDBObject(FIELD_STATUS, new BasicDBObject("$ne", STATUS_DELETED)));
       notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
-      
+
       BasicDBList list = new BasicDBList();
-      list.add(new BasicDBObject(FIELD_STATUS, new BasicDBObject("$in", new ArrayList(Arrays.asList(STATUS_PUBLISHED,STATUS_PREDEFINED)))));
+      list.add(new BasicDBObject(FIELD_STATUS,
+          new BasicDBObject("$in", new ArrayList(Arrays.asList(STATUS_PUBLISHED, STATUS_PREDEFINED)))));
       list.add(new BasicDBObject("$and", notDeletedAndAuthor));
       query.add(new BasicDBObject("$or", list));
     }
@@ -372,37 +355,40 @@ public class Project implements Cloneable {
     if (search.getOwner() != null && search.getOwner().length() > 0) {
       BasicDBList list = new BasicDBList();
       list.add(new BasicDBObject(FIELD_AUTHOR_ID, Pattern.compile(search.getOwner(), Pattern.CASE_INSENSITIVE)));
-      list.add(new BasicDBObject(FIELD_AUTHOR_ID, new BasicDBObject("$in", Utils.getUsersEmailsByName(search.getOwner()))));
+      list.add(
+          new BasicDBObject(FIELD_AUTHOR_ID, new BasicDBObject("$in", Utils.getUsersEmailsByName(search.getOwner()))));
       query.add(new BasicDBObject("$or", list));
     }
 
     return find(new BasicDBObject("$and", query), page);
   }
 
-  private static ProjectsContainer find(DBObject query, DBObject sortBy, boolean usePagination, Integer page) throws SinfonierException {
+  private static ProjectsContainer find(DBObject query, DBObject sortBy, boolean usePagination, Integer page)
+      throws SinfonierException {
     if (usePagination)
       return find(query, sortBy, PROJECT_MAX_RESULTS_PAGE, page);
     else
       return find(query, sortBy, null, page);
   }
 
-  private static ProjectsContainer find(DBObject query, DBObject orderBy, Integer limit, Integer page) throws SinfonierException {
+  private static ProjectsContainer find(DBObject query, DBObject orderBy, Integer limit, Integer page)
+      throws SinfonierException {
     DBCollection collection = MongoFactory.getDB().getCollection(getCollectionName());
     List<Project> list = new ArrayList<Project>();
     DBCursor cursor;
 
     if (limit != null) {
-      page = (page != null && page > 0) ? ((page-1)*limit) : 0;
+      page = (page != null && page > 0) ? ((page - 1) * limit) : 0;
     } else {
       page = null;
     }
-    
+
     if (query == null) {
       cursor = collection.find();
     } else {
       cursor = collection.find(query);
     }
-    
+
     int totalTopologies = cursor.count();
 
     if (orderBy != null) {
@@ -412,7 +398,7 @@ public class Project implements Cloneable {
     if (page != null && page > 0) {
       cursor.skip(page);
     }
-    
+
     if (limit != null) {
       cursor = cursor.limit(limit);
     }
@@ -432,42 +418,38 @@ public class Project implements Cloneable {
   private static String getCollectionName() {
     return COLLECTION_NAME;
   }
-  
+
   public static Project fromJson(String json) {
-  	Gson gson = new Gson();
-  	return gson.fromJson(json, Project.class);
+    Gson gson = new Gson();
+    return gson.fromJson(json, Project.class);
   }
 
   public String toJson() {
-  	Gson gson = new Gson();
-  	return gson.toJson(this);
+    Gson gson = new Gson();
+    return gson.toJson(this);
   }
-  
-  public boolean hasTopologyId(String topologyId)
-  {
-  	ObjectId id = new ObjectId(topologyId);
-  	return this.topologyIds.contains(id);
+
+  public boolean hasTopologyId(String topologyId) {
+    ObjectId id = new ObjectId(topologyId);
+    return this.topologyIds.contains(id);
   }
 
   public void addTopology(String topologyId) {
-  	ObjectId id = new ObjectId(topologyId);
-  	DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(getId()));
-    DBObject toPush = new BasicDBObject(FIELD_TOPOLOGY_IDS,id);
+    ObjectId id = new ObjectId(topologyId);
+    DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(getId()));
+    DBObject toPush = new BasicDBObject(FIELD_TOPOLOGY_IDS, id);
     DBCollection collection = MongoFactory.getDB().getCollection(COLLECTION_NAME);
     collection.update(query, new BasicDBObject("$push", toPush));
     topologyIds.add(topologyId);
   }
-  
-  
-  public ObjectId[] getArrTopologyIds()
-  {
-  	ObjectId[] ids = new ObjectId[topologyIds.size()];
-  
-  	for (int i = 0;i<topologyIds.size();i++)
-  	{
-  		ids[i] = new ObjectId(topologyIds.get(i));
-  	}
-  	
-  	return ids;
+
+  public ObjectId[] getArrTopologyIds() {
+    ObjectId[] ids = new ObjectId[topologyIds.size()];
+
+    for (int i = 0; i < topologyIds.size(); i++) {
+      ids[i] = new ObjectId(topologyIds.get(i));
+    }
+
+    return ids;
   }
 }

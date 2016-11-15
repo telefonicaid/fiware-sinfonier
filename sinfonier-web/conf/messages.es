@@ -182,6 +182,7 @@ Modules.form.err.versionTagUsed = Etiqueta de versión previamente usada en este
 Modules.form.warning.versions.moreDeveloping = Existen más versiones en desarrollo de este módulo. Considere continuar trabajando en alguna de ellas antes de añadir una nueva versión
 Modules.form.warning.gistCode = Verifique que el nombre de clase especificado en su Gist coincide con el nombre de módulo utilizado
 
+Projects.current.label = Proyecto en uso:
 Projects.index.title = Proyectos
 Projects.add.title = Nuevo proyecto
 Projects.edit.title = Editar proyecto
@@ -192,6 +193,7 @@ Projects.index.create_by = Creado por <a href="/profile/%s">%s (%s)</a> at %s
 Projects.index.create_by_short = Creado por <a href="/profile/%s">%s</a> at %s
 Projects.index.create_by_text = Creado por %s at %s
 
+Projects.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
 Projects.form.name = Nombre
 Projects.form.owner = Creador
 Projects.form.owner.placeholder = Nombre o email
@@ -203,7 +205,7 @@ Projects.btn.search = Buscar
 Projects.btn.edit = Editar
 Projects.btn.delete = Borrar
 Projects.btn.update = Actualizar
-Projects.btn.use = Trabajar
+Projects.btn.use = Usar proyecto
 Projects.btn.deactivate = No usar ningún proyecto
 
 Projects.details.title = Proyecto

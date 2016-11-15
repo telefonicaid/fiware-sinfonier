@@ -76,7 +76,7 @@ public class Projects extends BaseController {
 	
 	public static void index(String indexMode, int page) throws SinfonierException {
 		if (request.isAjax()) {
-			ProjectsContainer projectsContainer = Project.getProjects(getCurrentUser(), false, false, page);
+			ProjectsContainer projectsContainer = Project.getProjects(getCurrentUser(), false, page);
 			List<Project> projects = projectsContainer.getProjects();
 
 			renderJSON(new Gson().toJson(projects));
@@ -112,26 +112,26 @@ public class Projects extends BaseController {
     }
   }
 
-	public static void save(Project project) throws SinfonierException {
-		try {
-			project.setAuthorId(getCurrentUser().getId());
-			project.save();
-			
-			index(INDEX_MODE_MY_PROJECTS, 1);
-			
-		} catch (SinfonierException se) {
-			if (se.getError().getCode() == SinfonierError.TOPOLOGY_DUPLICATE.getCode()) {
-				Codes c410 = Codes.CODE_400;
-				JsonObject data = new JsonObject();
-				data.addProperty("message", se.getMessage());
-				c410.setData(data);
-				response.status = c410.getCode();
-				renderJSON(c410.toGSON());
-			} else {
-				throw se;
-			}
-		}
-	}
+  public static void save(Project project) throws SinfonierException {
+    try {
+      project.setAuthorId(getCurrentUser().getId());
+      project.save();
+
+      index(INDEX_MODE_MY_PROJECTS, 1);
+
+    } catch (SinfonierException se) {
+      if (se.getError().getCode() == SinfonierError.TOPOLOGY_DUPLICATE.getCode()) {
+        Codes c410 = Codes.CODE_400;
+        JsonObject data = new JsonObject();
+        data.addProperty("message", se.getMessage());
+        c410.setData(data);
+        response.status = c410.getCode();
+        renderJSON(c410.toGSON());
+      } else {
+        throw se;
+      }
+    }
+  }
 
 	public static void show(String name) throws SinfonierException {
 		Project project = Project.findByName(name);
