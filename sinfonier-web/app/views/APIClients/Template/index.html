@@ -1,0 +1,105 @@
+<h1> &{'Nav.apiClients'}</h1>
+<div class="row">
+    <div class="col-xs-12">
+        #{form @APIClients.create(), class:'form-inline'}
+            <div class="form-group pull-left #{ifError 'name'} has-error #{/ifError}">
+                <div class="input-icon">
+                    <i class="fa fa-tag"></i>
+                    <input class="form-control" type="text" placeholder="&{'APIClients.index.newAPIClient.name'}" id="name" name="name">
+                </div>
+                #{ifError 'name'}
+                <label class="control-label" for="name">#{error 'name' /}</label>
+                #{/ifError}
+            </div>
+            <button type="submit" class="btn-bezel submit inline pull-left">
+                <i class="material-icons">add</i>
+            </button>
+        #{/form}
+    </div>
+</div>
+<div class="spacer"></div>
+<div class="row">
+	<div class="col-xs-12">
+        #{list items:apiClientList, as:'client'}
+
+                <div class="row">
+                	<div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                #{form @APIClients.editApiClientName(), id:'editApiClientName', class:'form-inline'}
+                                <input type="hidden" name="id" value="${client.getClientId()}">
+                                <div class="form-container">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <div class="form-group">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-tag"></i>
+                                                    <input class="form-control name-input" type="text" placeholder="&{'APIClients.index.newAPIClient.name'}" value="${client.getName()}" name="name">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <div class="form-group">
+                                                <h5><span class="bold">&{'APIClients.index.APIClientList.clientId'}</span> ${client.getClientId()}</h5>
+                                                <h5><span class="bold">&{'APIClients.index.APIClientList.secret'}</span> ${client.getSecret()}</h5>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="form-actions">
+                                                    <button type="submit" class="btn-bezel primary"><i class="material-icons">edit</i></button>
+                                                    <a class="btn-bezel primary" data-toggle="modal" href="#${client.getClientId()}RenewSecretModal" title="&{'APIClients.index.APIClientList.renewSecret'}"><i class="material-icons">refresh</i></a>
+                                                    <a class="btn-bezel danger" data-toggle="modal" href="#${client.getClientId()}RemoveModal" title="&{'APIClients.index.APIClientList.delete'}"><i class="material-icons">clear</i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                 </div>
+                                #{/form}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- BEGIN REMOVE  MODAL -->
+            <div class="modal fade" id="${client.getClientId()}RemoveModal" tabindex="-1" aria-hidden="false" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">&{'APIClients.index.modal.deleteAPIClient'}</h3>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            #{form @APIClients.remove()}
+                            <h5 class="overflow-hidden">&{'APIClients.index.modal.deleteConfirmation'} <em>"${client.getClientId()}"</em>?</h5>
+                            <button type="submit" class="submit">&{'APIClients.index.modal.deleteConfirm'}</button>
+                            <input type="hidden" name="id" value="${client.getClientId()}">
+                            #{/form}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END REMOVE  MODAL -->
+            <!-- BEGIN RENEW SECRET  MODAL -->
+            <div class="modal fade" id="${client.getClientId()}RenewSecretModal" tabindex="-1" aria-hidden="false" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">&{'APIClients.index.modal.renewAPIClient'}</h3>
+                        </div>
+                        <div class="modal-body" style="text-align: center">
+                            #{form @APIClients.renewSecret()}
+                            <h5 class="overflow-hidden">&{'APIClients.index.modal.renewConfirmation'} <em>'${client.getClientId()}'</em>?</h5>
+                            <button type="submit" class="submit">&{'APIClients.index.modal.renewConfirm'}</button>
+                            <input type="hidden" name="id" value="${client.getClientId()}">
+                            #{/form}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END RENEW SECRET  MODAL -->
+        #{/list}
+	</div>
+</div>

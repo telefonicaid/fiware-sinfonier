@@ -1,10 +1,10 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
 #{set 'title'} &{'Profile'} #{/set}
-<h2 class="page-title">&{'Profile'}</h2>
+<h1 class="page-title">&{'Profile'}</h1>
 
 #{ifErrors }
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-xs-12">
     #{errors }
       <div id="profile-div-error" class="alert alert-danger alert-dismissible" role="alert">
         <button id="profile-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -14,27 +14,26 @@
   </div>
 </div>
 #{/ifErrors}
-
-#{form @ProfileSinfonier.save(user.getEmail()), class:"form-horizontal"}
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="form-group">
-        <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.name'} *</label>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-          <input id="name" name="name" type="text" class="form-control" value="${user.getName()}" required/>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+      #{form @ProfileSinfonier.save(user.getEmail()), class:"form-horizontal"}
+        <div class="form-group">
+          <label for="name" class="col-sm-2 control-label">&{'Profile.name'}*</label>
+          <div class="col-sm-10">
+            <input id="name" name="name" type="text" class="form-control" value="${user.getName()}" required/>
+          </div>
         </div>
-  	  </div>
-    
-      <div class="form-group">
-          <label for="email" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.email'}</label>
-          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+        <div class="form-group">
+          <label for="email" class="control-label col-sm-2">&{'Profile.email'}</label>
+          <div class="col-sm-10">
             <input id="email" name="email" type="text" class="form-control" value="${user.getEmail()}" readonly/>
           </div>
-      </div>
-
-      <div class="form-group">
-          <label for="preferredLang" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.preferredLang'}</label>
-          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">          
+        </div>
+        <div class="form-group">
+          <label for="preferredLang" class="control-label col-sm-2">&{'Profile.preferredLang'}</label>
+          <div class="col-sm-10">
             #{select 'preferredLang', id:'preferredLang', class:'form-control'}
               #{list controllers.WebController.getSupportedLanguages(), as:'supportedLang'}
                 <option value="${supportedLang}" #{if user.getPreferredLang().equals(supportedLang)}selected#{/if} >
@@ -42,46 +41,43 @@
               #{/list}
             #{/select}
           </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="twitter" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.twitter'}</label>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-          <input id="twitter" name="twitter" type="text" class="form-control" pattern="^@?(\w){1,15}$"  value="${user.getImplementation().getTwitter()}" />
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="organization" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.organization'}</label>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-          <input id="organization" name="organization" type="text" class="form-control" value="${user.getImplementation().getOrganization()}" />
+        <div class="form-group">
+          <label for="twitter" class="col-sm-2 control-label">&{'Profile.twitter'}</label>
+          <div class="col-sm-10">
+            <input id="twitter" name="twitter" type="text" class="form-control" pattern="^@?(\w){1,15}$"  value="${user.getImplementation().getTwitter()}" />
+          </div>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <label for="timeZone" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.timeZone'}</label>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-          #{select 'timeZone', id:'timeZone', class:'form-control'}
+        <div class="form-group">
+          <label for="organization" class="col-sm-2 control-label">&{'Profile.organization'}</label>
+          <div class="col-sm-10">
+            <input id="organization" name="organization" type="text" class="form-control" value="${user.getImplementation().getOrganization()}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="timeZone" class="col-sm-2 control-label">&{'Profile.timeZone'}</label>
+          <div class="col-sm-10">
+            #{select 'timeZone', id:'timeZone', class:'form-control'}
               #{list TimeZone.getAvailableIDs(), as:'timeZone'}
                 <option value="${timeZone}" #{if user.getImplementation().getTimeZoneID()?.equals(timeZone)}selected#{/if} >
                 ${utils.Utils.displayTimeZone(timeZone, user.getPreferredLang())}</option>
               #{/list}
             #{/select}
+          </div>
         </div>
+        <div class="form-group">
+          <label for="web" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.web'}</label>
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+            <input id="web" name="web" type="url" class="form-control" pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" value="${user.getImplementation().getWeb()}" placeholder="http://www.yourweb.com"/>
+          </div>
+        </div>
+        <div class="col-xs-6 col-xs-offset-6 col-lg-3 col-lg-offset-9">
+          <div class="form-group">
+            <button id="profile-button-save" class="btn btn-ok" type="submit">&{'Profile.saveAccount'}</button>
+          </div>
+        </div>
+      #{/form}
       </div>
-      
-      <div class="form-group">
-        <label for="web" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.web'}</label>
-        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-          <input id="web" name="web" type="url" class="form-control" pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" value="${user.getImplementation().getWeb()}" />
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="col-lg-12">
-          <button id="profile-button-save" class="btn-bezel danger" type="submit">&{'Profile.saveAccount'}</button>
-        </div>
-  	</div>    
     </div>
   </div>
-#{/form}
+</div>

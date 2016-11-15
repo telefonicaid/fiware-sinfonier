@@ -1,0 +1,41 @@
+#{set 'moreScripts'}
+<script>
+    $('#ignore-changelog-check').change(function () {
+        if ($(this).is(":checked")) {
+            $.post("@{Changelog.changelogRead(true)}", {authenticityToken:"${session.getAuthenticityToken()}"});
+        } else {
+            $.post("@{Changelog.changelogRead(false)}", {authenticityToken:"${session.getAuthenticityToken()}"});
+        }
+    });
+</script>
+#{/set}
+<div class="row">
+	<div class="col-xs-12 ">
+        <h1 class="page-title pull-left">&{'changelog.userIndex'}</h1>
+        #{form @Changelog.changelogRead(), class:'pull-right m-t-10'}
+            <div class="onoffswitch">
+                <input type="checkbox" class="onoffswitch-checkbox" id="ignore-changelog-check" name="ignore" #{if ignoreChangelog}checked #{/if}>
+                <label class="onoffswitch-label" for="ignore-changelog-check">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        #{/form}
+    </div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+        %{ version = "" }%
+        #{list items:changelog, as:'point'}
+            #{if version.isEmpty() || !point.version.equals(version)}
+                %{ version = point.version }%
+                <h3 class="page-title">&{'changelog.version', version}</h3>
+            #{/if}
+            <ul>
+                <li>
+                    <p><span class="bold">${point.message.get('title').get(lang)}:</span> ${point.message.get('content').get(lang)}</p>
+                </li>
+            </ul>
+        #{/list}
+    </div>
+</div>

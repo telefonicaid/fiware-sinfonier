@@ -1,0 +1,32 @@
+#{if models.Config.isLatchModeAlert()
+    && !request.url.contains("latch")
+    && models.user.User.isEnabledLatchAlertMessage(session.username)
+}
+    <div class="modal fade" id="pair-latch-account-alert">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">&{'latch.pair.modal.title'}</h4>
+                </div>
+                <div class="modal-body latch-modal-body">
+                    <p>&{'latch.pair.modal.info'}</p>
+                    <p>&{'latch.pair.info.description.three'} <a href=" https://latch.elevenpaths.com/www/how.html" target="_blank">&{'latch.pair.info.description.how'}</a>.</p>
+                    <div class="form-actions m-t-20">
+                        #{form @Latch.disableAlert()}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="disableAlert" id="disableAlert" value="true" onchange="this.form.submit()" /> &{'latch.pair.modal.check'}
+                                </label>
+                            </div>
+                        #{/form}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-bezel danger" data-dismiss="modal">&{'latch.pair.modal.back'}</button>
+                    <a href="@{Latch.checkLatch()}" type="button" class="btn-bezel primary">&{'latch.pair.modal.ok'}</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+#{/if}

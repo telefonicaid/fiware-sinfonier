@@ -1,0 +1,85 @@
+<h1> &{'Nav.users'}</h1>
+#{utils.userFinder action:@Users.index(finder, 0), fieldsAllowed:models.finder.UserFinder.getFieldsAllowed(), model:finder /}
+<div class="spacer"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive" style="overflow-x:initial;">
+            <table class="table sinfonier table-bordered">
+                <thead>
+                    <tr>
+                        <th>&{'Users.index.table.name'}</th>
+                        <th>&{'Users.index.table.email'}</th>
+                        <th>&{'Users.index.table.role'}</th>
+                        <th>&{'Users.index.table.active'}</th>
+                        <th>&{'Users.index.table.actions'}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    #{list items:users, as:'user'}
+                        <tr>
+                            <td><span class="bold">${user.getName()}</span></td>
+                            <td>${user.getEmail()}</td>
+                            <td>
+                                #{form @Users.setRole()}
+                                    <div class="form-group m-b-0">
+                                        <select class="selectpicker" name="roleId" onchange="this.form.submit()" #{if user.getEmail().equals(session.get('username'))} disabled #{/if}>
+                                            #{list items:roles, as:'role'}
+                                                <option value="&{role.getId()}" #{if user.getRoleId().equals(role.getId())} selected #{/if}>&{role.getName()}</option>
+                                            #{/list}
+                                        </select>
+                                        <input type="hidden" name="id" value="${user.getId()}"/>
+                                    </div>
+                                #{/form}
+                            </td>
+                            <td>
+                                #{form @Users.toggleActivationStatus()}
+                                    <input type="hidden" name="id" value="${user.getId()}"/>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" class="onoffswitch-checkbox" id="${user.getEmail().hash()}-Deactivated" onchange="this.form.submit()" #{if user.isActive()} checked #{/if}>
+                                        <label class="onoffswitch-label" for="${user.getEmail().hash()}-Deactivated">
+                                            <span class="onoffswitch-inner"></span>
+                                            <span class="onoffswitch-switch"></span>
+                                        </label>
+                                    </div>
+                                #{/form}
+                            </td>
+                            <td class="">
+                                #{secure.check "USER_READ_PROFILES"}
+                                <a class="btn-bezel primary" data-toggle="modal" href="@{Profile.showUserProfile(user.getId())}" title="&{'Users.index.table.profile'}"><i class="material-icons">assignment_ind</i></a>
+                                #{/secure.check}
+                                <a class="btn-bezel danger" data-toggle="modal" href="#${user.getEmail().hash()}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}"><i class="material-icons">clear</i></a>
+                            </td>
+                        </tr>
+                    <!-- BEGIN REMOVE  MODAL -->
+                    <div class="modal fade" id="${user.getEmail().hash()}RemoveModal" tabindex="-1" aria-hidden="false">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title">&{'Users.index.modal.deleteUser'}</h3>
+                                </div>
+                                <div class="modal-body text-center">
+                                    #{form @Users.deleteUser()}
+                                        <h5 class="overflow-hidden">&{'Users.index..modal.deleteConfirmation'} <em>"${user.getEmail()}"</em>?</h5>
+                                        <input type="hidden" name="id" value="${user.getId()}">
+                                        <button type="submit" class="submit">&{'Users.index..modal.deleteConfirm'}</button>
+                                    #{/form}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END REMOVE  MODAL -->
+                    #{/list}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+%{
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    Map<String, String[]> finderParams = request.params.sub("finder");
+    for (Map.Entry<String, String[]> param : finderParams) {
+        params.put("finder." + param.getKey(), param.getValue());
+    }
+}%
+#{utils.pagination url: 'Users.index', params:params, currentPage: page, total: totalUsers /}

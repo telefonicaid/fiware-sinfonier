@@ -27,7 +27,7 @@
 
 @-moz-document url-prefix() {
   .form-control {
-    height: auto;	
+    height: auto;
   }
 }
 
@@ -38,7 +38,7 @@
 .control-panel .control-panel-content .menu ul li a span,
 .control-panel .control-panel-content .menu ul li button span {
   width: auto;
-}	
+}
 
 .control-panel.menu-closed .control-panel-content .menu ul li a span,
 .control-panel.menu-closed .control-panel-content .menu ul li button span {
@@ -60,11 +60,11 @@
 }
 
 input[type="text"],input[type="text"]:focus,input[type="text"]:hover {
-  background: #FFF !important;
+  background: #FFF;
 }
 
 div.checkbox input[type="checkbox"] {
-  display: block;  
+  display: block;
 }
 
 div.checkbox label {

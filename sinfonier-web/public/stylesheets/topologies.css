@@ -58,16 +58,13 @@ form.topologies input, form.topologies select {
   margin-right: 15px;
 }
 
-.text-center {
-  margin-bottom: 20px;
-}
 
 .btn-danger[disabled] {
   pointer-events: auto;
 }
 
 .topology-over-panel {
-  background-color: #000;
+  background-color: #1F74BA;
   filter: alpha(opacity=80);
   opacity: .7;
   width: 100%;
@@ -75,7 +72,7 @@ form.topologies input, form.topologies select {
   top: 0;
   left: 0;
   z-index: 100;
-  display: none
+  display: none;
 }
 
 .topology-over-panel .img-loading {
@@ -83,4 +80,12 @@ form.topologies input, form.topologies select {
   text-align: center;
   opacity: 1;
   color: #FFF;
+}
+
+.img-loading i {
+  font-size: 60px;
+}
+
+.text-center {
+  margin-bottom: 20px;
 }

@@ -1,0 +1,21 @@
+#{stylesheet 'basic.css' /}
+<h2 class="page-title">&{'latch.unpair.unpairAccount'}</h2>
+#{if (flash.get("userPaired"))}
+    <div class="form-group has-successful">
+        <label class="control-label">&{'latch.pair.successful'}</label>
+    </div>
+#{/if}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        #{if flash.unpairingLocked}
+            <div class="form-group has-error">
+                <label class="control-label">&{'latch.locked.operation'}</label>
+            </div>
+        #{/if}
+        #{form @Latch.unpairAccount()}
+            <button type="submit" class="submit pull-left" name="Send" id="Send">
+                <i class="fa fa-unlock"></i> &{'latch.unpair.unpairAccount'}
+            </button>
+        #{/form}
+    </div>
+</div>
