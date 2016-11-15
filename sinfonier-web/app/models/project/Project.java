@@ -176,6 +176,11 @@ public class Project implements Cloneable {
         this.id = dbObj.get(FIELD_ID).toString();
       } else {
         Logger.info("Editing project id:" + this.getId());
+        
+        //Recover previous project information not shared in form
+        Project previousProjectInfo = findById(this.getId());
+        this.setTopologyIds(previousProjectInfo.getTopologyIds());
+        
         DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(this.getId()));
         DBObject toSet = this.toDBObject();
 
@@ -243,7 +248,11 @@ public class Project implements Cloneable {
       object.put(FIELD_CREATED, createdAt);
       object.put(FIELD_UPDATED, updatedAt);
       object.put(FIELD_AUTHOR_ID, authorId);
-      object.put(FIELD_TOPOLOGY_IDS, topologyIds);
+      List<ObjectId> objIds = new ArrayList<ObjectId>(topologyIds.size()); 
+      for (String id : topologyIds) {
+        objIds.add(new ObjectId(id));
+      }
+      object.put(FIELD_TOPOLOGY_IDS, objIds);
     }
 
     return object;
@@ -304,7 +313,7 @@ public class Project implements Cloneable {
   public void setStatus(String status) {
     this.status = status;
   }
-
+  
   public String getDescription() {
     return description;
   }
@@ -320,10 +329,10 @@ public class Project implements Cloneable {
 
   private static Project findOne(DBObject query) throws SinfonierException {
     DBCollection collection = MongoFactory.getDB().getCollection(getCollectionName());
-    DBObject topology = collection.findOne(query);
+    DBObject project = collection.findOne(query);
 
-    if (topology != null) {
-      return new Project(topology);
+    if (project != null) {
+      return new Project(project);
     }
     return null;
   }

@@ -193,7 +193,7 @@ Projects.index.create_by = Creado por <a href="/profile/%s">%s (%s)</a> at %s
 Projects.index.create_by_short = Creado por <a href="/profile/%s">%s</a> at %s
 Projects.index.create_by_text = Creado por %s at %s
 
-Projects.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
+Projects.form.err.pattern.name = Formato de nombre incorrecto. Debe ser UpperCamelCase
 Projects.form.name = Nombre
 Projects.form.owner = Creador
 Projects.form.owner.placeholder = Nombre o email
