@@ -303,7 +303,8 @@ validation.required.drawer.versionCode = "El versionCode del módulo es requerid
 validation.requiere.email = "El email es requerido para esta operación"
 validation.requiere.name = "El nombre de usuario es obligatorio"
 validation.topology.params = "Algunos parámetros son incorrectos o no están permitidos."
-validation.topology.exists = "Already exists a topology with this name"
+validation.topology.exists = "Ya exite una topología con este nombre"
+validation.topology.module.unexistent = "Módulo inexistente "
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
 
 ## Password policy
