@@ -415,5 +415,21 @@ public class Topologies extends BaseController {
       renderJSON(c400.toGSON());
     }
   }
+  
+	public static void info(@Required String id) throws SinfonierException {
+		try {
+			JsonObject info = client.getTopologyInfo(id);
+
+			Codes code200 = Codes.CODE_200;
+			code200.setData(info);
+
+			renderJSON(code200.toGSON());
+		} catch (SinfonierException e) {
+			Logger.error(e.getMessage());
+			response.status = Codes.CODE_500.getCode();
+			renderJSON(Codes.CODE_500.toGSON());
+		}
+
+	}
 
 }

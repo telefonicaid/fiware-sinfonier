@@ -1,1 +1,1 @@
-__all__ = ['LaunchTopology', 'StopTopology', 'GetTopologyLog', 'GetTopologyLogSizes']
+__all__ = ['LaunchTopology', 'StopTopology', 'GetTopologyLog', 'GetTopologyLogSizes','GetTopologyInfo']

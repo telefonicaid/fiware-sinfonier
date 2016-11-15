@@ -488,4 +488,91 @@ $(function(){
 		    }
 		  }, window.intervalPolling);
   });
+  
+  
+  var infoDataTable = function($table,columns,data){
+	  if ( !$.fn.dataTable.isDataTable( $table ) ) {
+    	  $table = $table.dataTable({
+    		  ordering:false,
+    		  paging: false,
+              info: false,
+              searching: false,
+    		  columns:columns
+    	  });
+	  } else {
+		  $table.dataTable().fnClearTable();
+	  }
+	  $table.fnAddData(data);
+  };
+  
+  
+  var showInfo = function($target){
+	  var url = $target.closest('.topology-info').data("info-url");
+	  $.get(url).done(function (res) {
+    	  if ($target.is(':visible'))
+    	  {
+	    	  $target.find('.info-expanded').hide();
+	    	  var $general = $target.find('.general');
+	    	  infoDataTable($general,[{"title":"Status","data":"status"},
+	        		              {"title":"Uptime","data":"uptime"},
+	        		              {"title":"Num Workers","data":"workersTotal"},
+	        		              {"title":"Num Executors","data":"executorsTotal"},
+	        		              {"title":"Num Tasks","data":"tasksTotal"}],[res.data]); 
+	    	  var $stats = $target.find('.stats');
+	    	  infoDataTable($stats,[{"title":"Window","data":"windowPretty"},
+		        		              {"title":"Emitted","data":"emitted"},
+		        		              {"title":"Transferred","data":"transferred"},
+		        		              {"title":"Complete latency (ms)","data":"completeLatency"},
+		        		              {"title":"Acked","data":"acked"},
+		        		              {"title":"Failed","data":"failed"}]
+	    	  				,res.data.topologyStats);
+	    	  var $spouts = $target.find('.spouts');
+	    	  infoDataTable($spouts,[{"title":"Id","data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
+		        		              {"title":"Executors","data":"executors","type":"number"},
+		        		              {"title":"Tasks","data":"tasks"},
+		        		              {"title":"Emitted","data":"emitted"},
+		        		              {"title":"Transferred","data":"transferred"},
+		        		              {"title":"Complete latency (ms)","data":"completeLatency"},
+		        		              {"title":"Acked","data":"acked"},
+		        		              {"title":"Failed","data":"failed"},
+		        		              {"title":"Error Host","data":"errorHost"},
+		        		              {"title":"Error Port","data": "errorPort"},
+		        		              {"title":"Last Error","data": "lastError"}]
+	    	  				,res.data.spouts);
+	    	  var $bolts = $target.find('.bolts');
+	    	  infoDataTable($bolts,[{"title":"Id","data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
+		        		              {"title":"Executors","data":"executors"},
+		        		              {"title":"Tasks","data":"tasks"},
+		        		              {"title":"Emitted","data":"emitted"},
+		        		              {"title":"Transferred","data":"transferred"},
+		        		              {"title":"Capacity (last 10m)","data":"capacity"},
+		        		              {"title":"Execute latency (ms)","data":"executeLatency"},
+		        		              {"title":"Executed","data":"executed"},
+		        		              {"title":"Process latency (ms)","data":"processLatency"},
+		        		              {"title":"Acked","data":"acked"},
+		        		              {"title":"Failed","data":"failed"},
+		        		              {"title":"Error Host","data":"errorHost"},
+		        		              {"title":"Error Port","data": "errorPort"},
+		        		              {"title":"Last Error","data": "lastError"}]
+	    	  				,res.data.bolts);
+	    	  setTimeout(showInfo,10000,$target);
+    		 }
+
+      })
+      .fail(function (err) {
+    	  $target.find('.info-expanded').html(new Date() + ' | [ERROR] Something was wrong with the connection.\n').show();          
+      });
+  };
+  //Info
+  $('.collapse-info').click(function(){
+	  var target = $(this).attr('href');
+	  var $target = $(target);
+	  var $info_div = $target.find('.info-expanded');
+	  $info_div.html(''); 
+	  if (!$target.is(':visible'))
+	  {
+		  showInfo($target);
+	  };
+  });
+  
 });

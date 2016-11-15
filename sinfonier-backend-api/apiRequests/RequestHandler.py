@@ -9,6 +9,10 @@ class Error(dict):
 
 class RequestHandler:
     @staticmethod
+    def get_topology_info(req, params):
+        return RequestHandler._topology_id(params)
+
+    @staticmethod
     def get_topology_log(req, params):
         return RequestHandler._topology_id_start_length(req, params)
 
