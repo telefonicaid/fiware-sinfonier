@@ -100,13 +100,11 @@ public class Topologies extends BaseController {
       	
         String topologyId = topology.save();
         Project project = getCurrentProject();
-      	if ("true".equals(Play.configuration.get("projects")) && project != null )
-        {
-      		if (!project.hasTopologyId(topologyId))
-      		{
-      			project.addTopology(topologyId);
-      			setCurrentProject(project);
-      		}
+        if ("true".equals(Play.configuration.get("projects")) && project != null) {
+          if (!project.hasTopologyId(topologyId)) {
+            project.addTopology(topologyId);
+            setCurrentProject(project);
+          }
         }
         renderJSON(new Gson().toJson(Topology.findById(topologyId)));
       } else {
