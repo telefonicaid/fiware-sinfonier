@@ -181,7 +181,7 @@ public class Project implements Cloneable {
         //Recover previous project information not shared in form
         Project previousProjectInfo = findById(this.getId());
         this.setTopologyIds(previousProjectInfo.getTopologyIds());
-        
+
         DBObject query = new BasicDBObject(FIELD_ID, new ObjectId(this.getId()));
         DBObject toSet = this.toDBObject();
 
