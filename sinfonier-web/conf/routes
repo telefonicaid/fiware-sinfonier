@@ -59,6 +59,8 @@ GET /diagnosis                                                  Diagnosis.index
 GET /drawer                                                     Drawers.index
 GET /drawer/modules/{name}/versions/{versionCode}/json          Drawers.module
 
+# New Editor
+GET /newEditor                                                  NodeRedEditor.index
 
 # Index
 GET /                                                           Dashboards.index
