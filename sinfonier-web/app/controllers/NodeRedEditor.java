@@ -9,7 +9,7 @@ import models.drawer.DrawerModule;
 import models.module.Module;
 import models.module.ModuleVersion;
 
-public class NodeRedEditor extends BaseController {
+public class NodeRedEditor extends WebSecurityController {
 
   public static void index() throws SinfonierException {
     render();

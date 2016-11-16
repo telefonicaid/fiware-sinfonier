@@ -243,8 +243,10 @@ var RED = (function() {
         RED.keyboard.add("workspace", /* ? */ 191,{shift:true},function() {RED.keyboard.showHelp();d3.event.preventDefault();});
         //RED.comms.connect();
 
-        $("#main-container").show();
-        $(".header-toolbar").show();
+        $("#main-container").removeClass("hide");
+        $(".header-toolbar").removeClass("hide");
+        $("#palette-search").removeClass("hide");
+        $("#palette-container").removeClass("hide");
 
         loadNodeList();
     }
@@ -9183,13 +9185,14 @@ RED.sidebar = (function() {
 RED.palette = (function() {
 
     var exclusion = ['config','unknown','deprecated'];
-    var coreCategories = ['subflows', 'input', 'output', 'function', 'social', 'mobile', 'storage', 'analysis', 'advanced'];
+    //var coreCategories = ['subflows', 'input', 'output', 'function', 'social', 'mobile', 'storage', 'analysis', 'advanced'];
+    var coreCategories = ['spout', 'bolt', 'drain', 'operator', 'util'];
 
     var categoryContainers = {};
 
     function createCategoryContainer(category, label){
         label = label || category.replace("_", " ");
-        var catDiv = $('<div id="palette-container-'+category+'" class="palette-category palette-close hide">'+
+        var catDiv = $('<div id="palette-container-'+category+'" class="palette-category palette-close">'+
             '<div id="palette-header-'+category+'" class="palette-header"><i class="expanded fa fa-angle-down"></i><span>'+label+'</span></div>'+
             '<div class="palette-content" id="palette-base-category-'+category+'">'+
             '<div id="palette-'+category+'-input"></div>'+
