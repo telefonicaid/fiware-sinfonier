@@ -299,3 +299,25 @@ Error.3001.msg = La contraseña no cumple con la política de seguridad.
 
 Utils.pagination.first = Primera
 Utils.pagination.last = Última
+
+Nodered.common.label.cancel = Cancelar
+Nodered.common.label.done = Confirmar
+Nodered.common.label.delete = Borrar
+
+Nodered.menu.label.add = Añadir 
+Nodered.menu.label.delete = Borrar
+Nodered.menu.label.flows = Topologías
+Nodered.menu.label.rename = Renombrar
+Nodered.menu.label.search = Buscar topologías
+Nodered.menu.label.sidebar.show = Mostrar barra lateral
+Nodered.menu.label.view = Ver
+Nodered.menu.label.view.info = Info. de módulos
+Nodered.menu.label.view.properties = Propiedades de la topología
+Nodered.menu.label.view.showGrid = Mostrar cuadrícula
+
+Nodered.sidebar.properties.label.stormNumWorkers = Num. de Workers de Storm
+Nodered.sidebar.properties.label.topologyMessageTimeout = Timeout de Mensaje de la Topología
+Nodered.sidebar.properties.label.stormConfiguration = Configuración Extra de Storm
+
+Nodered.workspace.defaultName = *
+Nodered.workspace.editTopology = Editar topología: %s

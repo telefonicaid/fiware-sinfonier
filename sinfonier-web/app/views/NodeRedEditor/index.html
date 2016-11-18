@@ -2,11 +2,10 @@
 #{set 'title'} Sinfonier - &{'Drawer.index.title'} #{/set}
 #{set 'moreStyles'}
   <link href="@{'public/stylesheets/newEditor/jquery-ui-1.10.3.custom.min.css'}" rel="stylesheet" media="screen">
-
   <link rel="stylesheet" href="@{'public/stylesheets/newEditor/vendor.css'}">
   <link rel="stylesheet" href="@{'public/stylesheets/newEditor/style.min.css'}">
   #{stylesheet 'drawer.css' /}
-
+  #{stylesheet 'newEditor/newEditor.css' /}
 #{/set}
 
 <div id="header">
@@ -132,9 +131,62 @@
     <div class="form-row form-tips" id="subflow-dialog-user-count"></div>
 </script>
 
+#{i18n /}
 #{set 'moreScripts'}
+  <script type="text/javascript">
+    %{
+      models.validators.ParamsValidator validator = models.validators.ParamsValidator.getInstance();
+      models.storm.Params params = validator.getParams();
+    }%
+    var propertiesForm = '<div class="editor-tray-body-wrapper"><div class="editor-tray-body"><form id="properties-form" class="form-horizontal">'+
+      '<div class="form-group">'+
+           '<label for="properties-name"><span>'+i18n('Drawer.editor.properties.label.topologyName')+'</span></label>'+
+           '<input id="properties-name" type="text" name="name" placeholder="'+ i18n('Drawer.editor.properties.placeholder.topologyName')+'">'+
+      '</div>'+
+      '<div class="form-group">'+
+          '<label for="properties-description"><span>'+i18n('Drawer.editor.properties.label.topologyDescription')+'</span></label>'+
+          '<textarea id="properties-description" rows="2" cols="30" name="description"></textarea>'+
+      '</div>';
+    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_N_WORKERS}
+      propertiesForm = propertiesForm + '<div class="form-group">'+
+        '<label for="properties-topology-workers"><span>'+i18n('Nodered.sidebar.properties.label.stormNumWorkers')+'</span></label>'+
+        '<input id="properties-topology-workers" type="text" name="TOPOLOGY_WORKERS" placeholder="'+ i18n('Drawer.editor.properties.placeholder.stormNumWorkers', ${params.getParams().get('TOPOLOGY_WORKERS').getMinRange()}, ${params.getParams().get('TOPOLOGY_WORKERS').getMaxRange()})+'">'+
+        '</div>';
+    #{/if}
+    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_SPOUT_PENDING}
+      propertiesForm = propertiesForm + '<div class="form-group">'+
+        '<label for="properties-name"><span>'+i18n('Drawer.editor.properties.label.maxSpoutsPending')+'</span></label>'+
+        '<input id="properties-topology-max-spout-pending" type="text" name="TOPOLOGY_MAX_SPOUT_PENDING" placeholder="'+ i18n('Drawer.editor.properties.placeholder.maxSpoutsPending', ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMinRange()}, ${params.getParams().get('TOPOLOGY_MAX_SPOUT_PENDING').getMaxRange()})+'">'+
+        '</div>';
+    #{/if}
+    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_MSG_TIMEOUT}
+      propertiesForm = propertiesForm + '<div class="form-group">'+
+        '<label for="properties-name"><span>'+i18n('Nodered.sidebar.properties.label.topologyMessageTimeout')+'</span></label>'+
+        '<input id="properties-topology-message-timeout-secs" type="text" name="TOPOLOGY_MESSAGE_TIMEOUT_SECS" placeholder="'+ i18n('Drawer.editor.properties.placeholder.topologyMessageTimeout', ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMinRange()}, ${params.getParams().get('TOPOLOGY_MESSAGE_TIMEOUT_SECS').getMaxRange()})+'">'+
+        '</div>';
+    #{/if}
+    #{if models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS}
+      propertiesForm = propertiesForm +'<div class="form-group">'+
+        '<label for="properties-description"><span>'+i18n('Nodered.sidebar.properties.label.stormConfiguration')+'</span></label>'+
+        '<textarea id="properties-extra-configuration" rows="2" cols="30" name="extraConfiguration" placeholder="'+ i18n('Drawer.editor.properties.placeholder.stormConfiguration')+'"></textarea>'+
+        '</div>';    
+    #{/if}
+
+    propertiesForm = propertiesForm +'<div class="form-group">'+
+      '<label for="properties-topology-properties"><span>'+i18n('Drawer.editor.properties.label.topologyConfiguration')+'</span></label>'+
+      '<textarea id="properties-topology-properties" rows="4" cols="30" name="topologyProperties" placeholder="'+ i18n('Drawer.editor.properties.placeholder.topologyConfiguration') +'"></textarea>'+
+      '</div>'+
+      '</form></div></div>';
+
+  </script>
     #{script 'newEditor/vendor.js'/}
     #{script 'newEditor/ace.js'/}
     #{script 'newEditor/ext-language_tools.js'/}
     #{script 'newEditor/red.js'/}
+    #{script 'newEditor.js'/}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btn-sidemenu').dropdown();
+        });
+   </script>
 #{/set}    

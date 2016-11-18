@@ -2274,12 +2274,6 @@ h4.dash-module-title i {
   color: #436f8e;
 }
 
-.divider {
-  border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 10px;
-  padding-bottom: 50px;
-}
-
 .actionsButton {
   border: none;
   height: 50px;

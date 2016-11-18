@@ -300,3 +300,25 @@ Error.3001.msg = The password doesn't meet the security policy.
 
 Utils.pagination.first = First
 Utils.pagination.last = Last
+
+Nodered.common.label.cancel = Cancel
+Nodered.common.label.done = Done
+Nodered.common.label.delete = Delete
+
+Nodered.menu.label.add = Add 
+Nodered.menu.label.delete = Delete
+Nodered.menu.label.flows = Topologies
+Nodered.menu.label.rename = Rename
+Nodered.menu.label.search = Search topologies
+Nodered.menu.label.sidebar.show = Show sidebar
+Nodered.menu.label.view = View
+Nodered.menu.label.view.info = Modules info
+Nodered.menu.label.view.properties = Topology properties
+Nodered.menu.label.view.showGrid = Show grid
+
+Nodered.sidebar.properties.label.stormNumWorkers = Storm Num. Workers
+Nodered.sidebar.properties.label.topologyMessageTimeout = Topology Message Timeout
+Nodered.sidebar.properties.label.stormConfiguration = Storm Extra Configuration
+
+Nodered.workspace.defaultName = *
+Nodered.workspace.editTopology = Edit topology: %s

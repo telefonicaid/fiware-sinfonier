@@ -114,7 +114,7 @@ var RED = (function() {
                         }
                         if (addedTypes.length) {
                             typeList = "<ul><li>"+addedTypes.join("</li><li>")+"</li></ul>";
-                            RED.notify(RED._("palette.event.nodeAdded", {count:addedTypes.length})+typeList,"success");
+                            RED.notify(i18n("palette.event.nodeAdded", {count:addedTypes.length})+typeList,"success");
                         }
                     } else if (topic == "node/removed") {
                         for (i=0;i<msg.length;i++) {
@@ -122,7 +122,7 @@ var RED = (function() {
                             info = RED.nodes.removeNodeSet(m.id);
                             if (info.added) {
                                 typeList = "<ul><li>"+m.types.join("</li><li>")+"</li></ul>";
-                                RED.notify(RED._("palette.event.nodeRemoved", {count:m.types.length})+typeList,"success");
+                                RED.notify(i18n("palette.event.nodeRemoved", {count:m.types.length})+typeList,"success");
                             }
                         }
                     } else if (topic == "node/enabled") {
@@ -131,12 +131,12 @@ var RED = (function() {
                             if (info.added) {
                                 RED.nodes.enableNodeSet(msg.id);
                                 typeList = "<ul><li>"+msg.types.join("</li><li>")+"</li></ul>";
-                                RED.notify(RED._("palette.event.nodeEnabled", {count:msg.types.length})+typeList,"success");
+                                RED.notify(i18n("palette.event.nodeEnabled", {count:msg.types.length})+typeList,"success");
                             } else {
                                 $.get('nodes/'+msg.id, function(data) {
                                     $("body").append(data);
                                     typeList = "<ul><li>"+msg.types.join("</li><li>")+"</li></ul>";
-                                    RED.notify(RED._("palette.event.nodeAdded", {count:msg.types.length})+typeList,"success");
+                                    RED.notify(i18n("palette.event.nodeAdded", {count:msg.types.length})+typeList,"success");
                                 });
                             }
                         }
@@ -144,7 +144,7 @@ var RED = (function() {
                         if (msg.types) {
                             RED.nodes.disableNodeSet(msg.id);
                             typeList = "<ul><li>"+msg.types.join("</li><li>")+"</li></ul>";
-                            RED.notify(RED._("palette.event.nodeDisabled", {count:msg.types.length})+typeList,"success");
+                            RED.notify(i18n("palette.event.nodeDisabled", {count:msg.types.length})+typeList,"success");
                         }
                     }
                     // Refresh flow library to ensure any examples are updated
@@ -174,50 +174,50 @@ var RED = (function() {
     function loadEditor() {
 
         var menuOptions = [];
-        menuOptions.push({id:"menu-item-view-menu",label:RED._("menu.label.view.view"),options:[
-            {id:"menu-item-view-show-grid",label:RED._("menu.label.view.showGrid"),toggle:true,onselect:RED.view.toggleShowGrid},
-            {id:"menu-item-view-snap-grid",label:RED._("menu.label.view.snapGrid"),toggle:true,onselect:RED.view.toggleSnapGrid},
-            {id:"menu-item-status",label:RED._("menu.label.displayStatus"),toggle:true,onselect:toggleStatus, selected: true},
+        menuOptions.push({id:"menu-item-view-menu",label:i18n("Nodered.menu.label.view"),options:[
+            {id:"menu-item-view-show-grid",label:i18n("Nodered.menu.label.view.showGrid"),toggle:true,onselect:RED.view.toggleShowGrid},
+            {id:"menu-item-view-snap-grid",label:i18n("menu.label.view.snapGrid"),toggle:true,onselect:RED.view.toggleSnapGrid},
+            {id:"menu-item-status",label:i18n("menu.label.displayStatus"),toggle:true,onselect:toggleStatus, selected: true},
             null,
-            // {id:"menu-item-bidi",label:RED._("menu.label.view.textDir"),options:[
-            //     {id:"menu-item-bidi-default",toggle:"text-direction",label:RED._("menu.label.view.defaultDir"),selected: true, onselect:function(s) { if(s){RED.text.bidi.setTextDirection("")}}},
-            //     {id:"menu-item-bidi-ltr",toggle:"text-direction",label:RED._("menu.label.view.ltr"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("ltr")}}},
-            //     {id:"menu-item-bidi-rtl",toggle:"text-direction",label:RED._("menu.label.view.rtl"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("rtl")}}},
-            //     {id:"menu-item-bidi-auto",toggle:"text-direction",label:RED._("menu.label.view.auto"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("auto")}}}
+            // {id:"menu-item-bidi",label:i18n("menu.label.view.textDir"),options:[
+            //     {id:"menu-item-bidi-default",toggle:"text-direction",label:i18n("menu.label.view.defaultDir"),selected: true, onselect:function(s) { if(s){RED.text.bidi.setTextDirection("")}}},
+            //     {id:"menu-item-bidi-ltr",toggle:"text-direction",label:i18n("menu.label.view.ltr"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("ltr")}}},
+            //     {id:"menu-item-bidi-rtl",toggle:"text-direction",label:i18n("menu.label.view.rtl"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("rtl")}}},
+            //     {id:"menu-item-bidi-auto",toggle:"text-direction",label:i18n("menu.label.view.auto"), onselect:function(s) { if(s){RED.text.bidi.setTextDirection("auto")}}}
             // ]},
             // null,
-            {id:"menu-item-sidebar",label:RED._("menu.label.sidebar.show"),toggle:true,onselect:RED.sidebar.toggleSidebar, selected: true}
+            {id:"menu-item-sidebar",label:i18n("Nodered.menu.label.sidebar.show"),toggle:true,onselect:RED.sidebar.toggleSidebar, selected: true}
         ]});
         menuOptions.push(null);
-        menuOptions.push({id:"menu-item-import",label:RED._("menu.label.import"),options:[
-            {id:"menu-item-import-clipboard",label:RED._("menu.label.clipboard"),onselect:RED.clipboard.import},
-            {id:"menu-item-import-library",label:RED._("menu.label.library"),options:[]}
+        menuOptions.push({id:"menu-item-import",label:i18n("menu.label.import"),options:[
+            {id:"menu-item-import-clipboard",label:i18n("menu.label.clipboard"),onselect:RED.clipboard.import},
+            {id:"menu-item-import-library",label:i18n("menu.label.library"),options:[]}
         ]});
-        menuOptions.push({id:"menu-item-export",label:RED._("menu.label.export"),disabled:true,options:[
-            {id:"menu-item-export-clipboard",label:RED._("menu.label.clipboard"),disabled:true,onselect:RED.clipboard.export},
-            {id:"menu-item-export-library",label:RED._("menu.label.library"),disabled:true,onselect:RED.library.export}
+        menuOptions.push({id:"menu-item-export",label:i18n("menu.label.export"),disabled:true,options:[
+            {id:"menu-item-export-clipboard",label:i18n("menu.label.clipboard"),disabled:true,onselect:RED.clipboard.export},
+            {id:"menu-item-export-library",label:i18n("menu.label.library"),disabled:true,onselect:RED.library.export}
         ]});
         menuOptions.push(null);
-        menuOptions.push({id:"menu-item-search",label:RED._("menu.label.search"),onselect:RED.search.show});
+        menuOptions.push({id:"menu-item-search",label:i18n("Nodered.menu.label.search"),onselect:RED.search.show});
         menuOptions.push(null);
-        menuOptions.push({id:"menu-item-config-nodes",label:RED._("menu.label.displayConfig"),onselect:function() {}});
-        menuOptions.push({id:"menu-item-workspace",label:RED._("menu.label.flows"),options:[
-            {id:"menu-item-workspace-add",label:RED._("menu.label.add"),onselect:RED.workspaces.add},
-            {id:"menu-item-workspace-edit",label:RED._("menu.label.rename"),onselect:RED.workspaces.edit},
-            {id:"menu-item-workspace-delete",label:RED._("menu.label.delete"),onselect:RED.workspaces.remove}
+        menuOptions.push({id:"menu-item-config-nodes",label:i18n("menu.label.displayConfig"),onselect:function() {}});
+        menuOptions.push({id:"menu-item-workspace",label:i18n("Nodered.menu.label.flows"),options:[
+            {id:"menu-item-workspace-add",label:i18n("Nodered.menu.label.add"),onselect:RED.workspaces.add},
+            {id:"menu-item-workspace-edit",label:i18n("Nodered.menu.label.rename"),onselect:RED.workspaces.edit},
+            {id:"menu-item-workspace-delete",label:i18n("Nodered.menu.label.delete"),onselect:RED.workspaces.remove}
         ]});
-        menuOptions.push({id:"menu-item-subflow",label:RED._("menu.label.subflows"), options: [
-            {id:"menu-item-subflow-create",label:RED._("menu.label.createSubflow"),onselect:RED.subflow.createSubflow},
-            {id:"menu-item-subflow-convert",label:RED._("menu.label.selectionToSubflow"),disabled:true,onselect:RED.subflow.convertToSubflow},
+        menuOptions.push({id:"menu-item-subflow",label:i18n("menu.label.subflows"), options: [
+            {id:"menu-item-subflow-create",label:i18n("menu.label.createSubflow"),onselect:RED.subflow.createSubflow},
+            {id:"menu-item-subflow-convert",label:i18n("menu.label.selectionToSubflow"),disabled:true,onselect:RED.subflow.convertToSubflow},
         ]});
         menuOptions.push(null);
         if (RED.settings.theme('palette.editable') !== false) {
             RED.palette.editor.init();
-            menuOptions.push({id:"menu-item-edit-palette",label:RED._("menu.label.editPalette"),onselect:RED.palette.editor.show});
+            menuOptions.push({id:"menu-item-edit-palette",label:i18n("menu.label.editPalette"),onselect:RED.palette.editor.show});
             menuOptions.push(null);
         }
 
-        menuOptions.push({id:"menu-item-keyboard-shortcuts",label:RED._("menu.label.keyboardShortcuts"),onselect:RED.keyboard.showHelp});
+        menuOptions.push({id:"menu-item-keyboard-shortcuts",label:i18n("menu.label.keyboardShortcuts"),onselect:RED.keyboard.showHelp});
         menuOptions.push({id:"menu-item-help",
             label: RED.settings.theme("menu.menu-item-help.label","Node-RED website"),
             href: RED.settings.theme("menu.menu-item-help.url","http://nodered.org/docs")
@@ -238,7 +238,7 @@ var RED = (function() {
         RED.view.init();
         RED.editor.init();
 
-        RED.deploy.init(RED.settings.theme("deployButton",null));
+        //RED.deploy.init(RED.settings.theme("deployButton",null));
 
         RED.keyboard.add("workspace", /* ? */ 191,{shift:true},function() {RED.keyboard.showHelp();d3.event.preventDefault();});
         //RED.comms.connect();
@@ -248,6 +248,7 @@ var RED = (function() {
         $("#palette-search").removeClass("hide");
         $("#palette-container").removeClass("hide");
 
+        loadFlows();
         loadNodeList();
     }
 
@@ -259,9 +260,9 @@ var RED = (function() {
 
         ace.require("ace/ext/language_tools");
 
-        RED.i18n.init(function() {
+        //RED.i18n.init(function() {
             RED.settings.init(loadEditor);
-        })
+        //})
     });
 
 
@@ -591,9 +592,9 @@ RED.user = (function() {
                         }
                         row.appendTo("#node-dialog-login-fields");
                     }
-                    $('<div class="form-row" style="text-align: right; margin-top: 10px;"><span id="node-dialog-login-failed" style="line-height: 2em;float:left;" class="hide">'+RED._("user.loginFailed")+'</span><img src="red/images/spin.svg" style="height: 30px; margin-right: 10px; " class="login-spinner hide"/>'+
-                        (opts.cancelable?'<a href="#" id="node-dialog-login-cancel" style="margin-right: 20px;" tabIndex="'+(i+1)+'">'+RED._("common.label.cancel")+'</a>':'')+
-                        '<input type="submit" id="node-dialog-login-submit" style="width: auto;" tabIndex="'+(i+2)+'" value="'+RED._("user.login")+'"></div>').appendTo("#node-dialog-login-fields");
+                    $('<div class="form-row" style="text-align: right; margin-top: 10px;"><span id="node-dialog-login-failed" style="line-height: 2em;float:left;" class="hide">'+i18n("user.loginFailed")+'</span><img src="red/images/spin.svg" style="height: 30px; margin-right: 10px; " class="login-spinner hide"/>'+
+                        (opts.cancelable?'<a href="#" id="node-dialog-login-cancel" style="margin-right: 20px;" tabIndex="'+(i+1)+'">'+i18n("common.label.cancel")+'</a>':'')+
+                        '<input type="submit" id="node-dialog-login-submit" style="width: auto;" tabIndex="'+(i+2)+'" value="'+i18n("user.login")+'"></div>').appendTo("#node-dialog-login-fields");
 
 
                     $("#node-dialog-login-submit").button();
@@ -659,11 +660,11 @@ RED.user = (function() {
         if (RED.settings.user.anonymous) {
             RED.menu.addItem("btn-usermenu",{
                 id:"usermenu-item-login",
-                label:RED._("menu.label.login"),
+                label:i18n("menu.label.login"),
                 onselect: function() {
                     RED.user.login({cancelable:true},function() {
                         RED.settings.load(function() {
-                            RED.notify(RED._("user.loggedInAs",{name:RED.settings.user.username}),"success");
+                            RED.notify(i18n("user.loggedInAs",{name:RED.settings.user.username}),"success");
                             updateUserMenu();
                         });
                     });
@@ -676,7 +677,7 @@ RED.user = (function() {
             });
             RED.menu.addItem("btn-usermenu",{
                 id:"usermenu-item-logout",
-                label:RED._("menu.label.logout"),
+                label:i18n("menu.label.logout"),
                 onselect: function() {
                     RED.user.logout();
                 }
@@ -813,7 +814,7 @@ RED.comms = (function() {
             if (reconnectAttempts < 10) {
                 setTimeout(connectWS,1000);
                 if (reconnectAttempts > 5 && errornotification == null) {
-                    errornotification = RED.notify(RED._("notification.errors.lostConnection"),"error",true);
+                    errornotification = RED.notify(i18n("notification.errors.lostConnection"),"error",true);
                 }
             } else if (reconnectAttempts < 20) {
                 setTimeout(connectWS,2000);
@@ -822,15 +823,15 @@ RED.comms = (function() {
                 connectCountdownTimer = setInterval(function() {
                     connectCountdown--;
                     if (connectCountdown === 0) {
-                        errornotification.update(RED._("notification.errors.lostConnection"));
+                        errornotification.update(i18n("notification.errors.lostConnection"));
                         clearInterval(connectCountdownTimer);
                         connectWS();
                     } else {
-                        var msg = RED._("notification.errors.lostConnectionReconnect",{time: connectCountdown})+' <a href="#">'+ RED._("notification.errors.lostConnectionTry")+'</a>';
+                        var msg = i18n("notification.errors.lostConnectionReconnect",{time: connectCountdown})+' <a href="#">'+ i18n("notification.errors.lostConnectionTry")+'</a>';
                         errornotification.update(msg);
                         $(errornotification).find("a").click(function(e) {
                             e.preventDefault();
-                            errornotification.update(RED._("notification.errors.lostConnection"));
+                            errornotification.update(i18n("notification.errors.lostConnection"));
                             clearInterval(connectCountdownTimer);
                             connectWS();
                         })
@@ -3042,7 +3043,7 @@ RED.nodes = (function() {
             try {
                 newNodes = JSON.parse(newNodesObj);
             } catch(err) {
-                var e = new Error(RED._("clipboard.invalidFlow",{message:err.message}));
+                var e = new Error(i18n("clipboard.invalidFlow",{message:err.message}));
                 e.code = "NODE_RED";
                 throw e;
             }
@@ -3074,7 +3075,7 @@ RED.nodes = (function() {
         if (unknownTypes.length > 0) {
             var typeList = "<ul><li>"+unknownTypes.join("</li><li>")+"</li></ul>";
             var type = "type"+(unknownTypes.length > 1?"s":"");
-            RED.notify("<strong>"+RED._("clipboard.importUnrecognised",{count:unknownTypes.length})+"</strong>"+typeList,"error",false,10000);
+            RED.notify("<strong>"+i18n("clipboard.importUnrecognised",{count:unknownTypes.length})+"</strong>"+typeList,"error",false,10000);
         }
 
         var activeWorkspace = RED.workspaces.active();
@@ -3086,10 +3087,10 @@ RED.nodes = (function() {
                     var subflowId = m[1];
                     var err;
                     if (subflowId === activeSubflow.id) {
-                        err = new Error(RED._("notification.errors.cannotAddSubflowToItself"));
+                        err = new Error(i18n("notification.errors.cannotAddSubflowToItself"));
                     }
                     if (subflowContains(m[1],activeSubflow.id)) {
-                        err = new Error(RED._("notification.errors.cannotAddCircularReference"));
+                        err = new Error(i18n("notification.errors.cannotAddCircularReference"));
                     }
                     if (err) {
                         // TODO: standardise error codes
@@ -3166,7 +3167,7 @@ RED.nodes = (function() {
 
         // Add a tab if there isn't one there already
         if (defaultWorkspace == null) {
-            defaultWorkspace = { type:"tab", id:getID(), label:RED._('workspace.defaultName',{number:1})};
+            defaultWorkspace = { type:"tab", id:getID(), label:i18n('Nodered.workspace.defaultName')};
             addWorkspace(defaultWorkspace);
             RED.workspaces.add(defaultWorkspace);
             new_workspaces.push(defaultWorkspace);
@@ -3978,7 +3979,7 @@ RED.validators = {
                     addLabel = this.options.addButton
                 } else {
                     if (RED && RED._) {
-                        addLabel = RED._("editableList.add");
+                        addLabel = i18n("editableList.add");
                     } else {
                         addLabel = 'add';
                     }
@@ -5110,7 +5111,7 @@ RED.tabs = (function() {
             if (!nlsd && RED && RED._) {
                 for (var i in allOptions) {
                     if (allOptions.hasOwnProperty(i)) {
-                        allOptions[i].label = RED._("typedInput.type."+i,{defaultValue:allOptions[i].label});
+                        allOptions[i].label = i18n("typedInput.type."+i,{defaultValue:allOptions[i].label});
                     }
                 }
             }
@@ -5477,7 +5478,7 @@ RED.deploy = (function() {
               '<a id="btn-deploy" class="deploy-button disabled" href="#">'+
                 '<span class="deploy-button-content">'+
                  '<img id="btn-deploy-icon" src="red/images/deploy-full-o.png"> '+
-                 '<span>'+RED._("deploy.deploy")+'</span>'+
+                 '<span>'+i18n("deploy.deploy")+'</span>'+
                 '</span>'+
                 '<span class="deploy-button-spinner hide">'+
                  '<img src="red/images/spin.svg"/>'+
@@ -5487,13 +5488,13 @@ RED.deploy = (function() {
               '</span></li>').prependTo(".header-toolbar");
               RED.menu.init({id:"btn-deploy-options",
                   options: [
-                      {id:"deploymenu-item-full",toggle:"deploy-type",icon:"red/images/deploy-full.png",label:RED._("deploy.full"),sublabel:RED._("deploy.fullDesc"),selected: true, onselect:function(s) { if(s){changeDeploymentType("full")}}},
-                      {id:"deploymenu-item-flow",toggle:"deploy-type",icon:"red/images/deploy-flows.png",label:RED._("deploy.modifiedFlows"),sublabel:RED._("deploy.modifiedFlowsDesc"), onselect:function(s) {if(s){changeDeploymentType("flows")}}},
-                      {id:"deploymenu-item-node",toggle:"deploy-type",icon:"red/images/deploy-nodes.png",label:RED._("deploy.modifiedNodes"),sublabel:RED._("deploy.modifiedNodesDesc"),onselect:function(s) { if(s){changeDeploymentType("nodes")}}}
+                      {id:"deploymenu-item-full",toggle:"deploy-type",icon:"red/images/deploy-full.png",label:i18n("deploy.full"),sublabel:i18n("deploy.fullDesc"),selected: true, onselect:function(s) { if(s){changeDeploymentType("full")}}},
+                      {id:"deploymenu-item-flow",toggle:"deploy-type",icon:"red/images/deploy-flows.png",label:i18n("deploy.modifiedFlows"),sublabel:i18n("deploy.modifiedFlowsDesc"), onselect:function(s) {if(s){changeDeploymentType("flows")}}},
+                      {id:"deploymenu-item-node",toggle:"deploy-type",icon:"red/images/deploy-nodes.png",label:i18n("deploy.modifiedNodes"),sublabel:i18n("deploy.modifiedNodesDesc"),onselect:function(s) { if(s){changeDeploymentType("nodes")}}}
                   ]
               });
         } else if (type == "simple") {
-            var label = options.label || RED._("deploy.deploy");
+            var label = options.label || i18n("deploy.deploy");
             var icon = 'red/images/deploy-full-o.png';
             if (options.hasOwnProperty('icon')) {
                 icon = options.icon;
@@ -5515,21 +5516,21 @@ RED.deploy = (function() {
         $('#btn-deploy').click(function() { save(); });
 
         $( "#node-dialog-confirm-deploy" ).dialog({
-                title: RED._('deploy.confirm.button.confirm'),
+                title: i18n('deploy.confirm.button.confirm'),
                 modal: true,
                 autoOpen: false,
                 width: 550,
                 height: "auto",
                 buttons: [
                     {
-                        text: RED._("deploy.confirm.button.cancel"),
+                        text: i18n("deploy.confirm.button.cancel"),
                         click: function() {
                             $( this ).dialog( "close" );
                         }
                     },
                     // {
                     //     id: "node-dialog-confirm-deploy-review",
-                    //     text: RED._("deploy.confirm.button.review"),
+                    //     text: i18n("deploy.confirm.button.review"),
                     //     class: "primary",
                     //     click: function() {
                     //         showDiff();
@@ -5537,7 +5538,7 @@ RED.deploy = (function() {
                     //     }
                     // },
                     {
-                        text: RED._("deploy.confirm.button.confirm"),
+                        text: i18n("deploy.confirm.button.confirm"),
                         class: "primary",
                         click: function() {
 
@@ -5572,7 +5573,7 @@ RED.deploy = (function() {
         RED.events.on('nodes:change',function(state) {
             if (state.dirty) {
                 window.onbeforeunload = function() {
-                    return RED._("deploy.confirm.undeployedChanges");
+                    return i18n("deploy.confirm.undeployedChanges");
                 }
                 $("#btn-deploy").removeClass("disabled");
             } else {
@@ -5582,18 +5583,18 @@ RED.deploy = (function() {
         });
 
         // $("#node-dialog-view-diff").dialog({
-        //     title: RED._('deploy.confirm.button.review'),
+        //     title: i18n('deploy.confirm.button.review'),
         //     modal: true,
         //     autoOpen: false,
         //     buttons: [
         //         {
-        //             text: RED._("deploy.confirm.button.cancel"),
+        //             text: i18n("deploy.confirm.button.cancel"),
         //             click: function() {
         //                 $( this ).dialog( "close" );
         //             }
         //         },
         //         {
-        //             text: RED._("deploy.confirm.button.merge"),
+        //             text: i18n("deploy.confirm.button.merge"),
         //             class: "primary",
         //             click: function() {
         //                 $( this ).dialog( "close" );
@@ -6050,10 +6051,10 @@ RED.deploy = (function() {
                 RED.nodes.version(data.rev);
                 if (hasUnusedConfig) {
                     RED.notify(
-                    '<p>'+RED._("deploy.successfulDeploy")+'</p>'+
-                    '<p>'+RED._("deploy.unusedConfigNodes")+' <a href="#" onclick="RED.sidebar.config.show(true); return false;">'+RED._("deploy.unusedConfigNodesLink")+'</a></p>',"success",false,6000);
+                    '<p>'+i18n("deploy.successfulDeploy")+'</p>'+
+                    '<p>'+i18n("deploy.unusedConfigNodes")+' <a href="#" onclick="RED.sidebar.config.show(true); return false;">'+i18n("deploy.unusedConfigNodesLink")+'</a></p>',"success",false,6000);
                 } else {
-                    RED.notify(RED._("deploy.successfulDeploy"),"success");
+                    RED.notify(i18n("deploy.successfulDeploy"),"success");
                 }
                 RED.nodes.eachNode(function(node) {
                     if (node.changed) {
@@ -6081,13 +6082,13 @@ RED.deploy = (function() {
                 RED.nodes.dirty(true);
                 $("#btn-deploy").removeClass("disabled");
                 if (xhr.status === 401) {
-                    RED.notify(RED._("deploy.deployFailed",{message:RED._("user.notAuthorized")}),"error");
+                    RED.notify(i18n("deploy.deployFailed",{message:i18n("user.notAuthorized")}),"error");
                 } else if (xhr.status === 409) {
                     resolveConflict(nns);
                 } else if (xhr.responseText) {
-                    RED.notify(RED._("deploy.deployFailed",{message:xhr.responseText}),"error");
+                    RED.notify(i18n("deploy.deployFailed",{message:xhr.responseText}),"error");
                 } else {
-                    RED.notify(RED._("deploy.deployFailed",{message:RED._("deploy.errors.noResponse")}),"error");
+                    RED.notify(i18n("deploy.deployFailed",{message:i18n("deploy.errors.noResponse")}),"error");
                 }
             }).always(function() {
                 var delta = Math.max(0,300-(Date.now()-startTime));
@@ -6211,15 +6212,15 @@ RED.keyboard = (function() {
             dialog = $('<div id="keyboard-help-dialog" class="hide">'+
                 '<div style="vertical-align: top;display:inline-block; box-sizing: border-box; width:50%; padding: 10px;">'+
                     '<table class="keyboard-shortcuts">'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">a</span></td><td>'+RED._("keyboard.selectAll")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Shift</span> + <span class="help-key">Click</span></td><td>'+RED._("keyboard.selectAllConnected")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Click</span></td><td>'+RED._("keyboard.addRemoveNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">a</span></td><td>'+i18n("keyboard.selectAll")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Shift</span> + <span class="help-key">Click</span></td><td>'+i18n("keyboard.selectAllConnected")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Click</span></td><td>'+i18n("keyboard.addRemoveNode")+'</td></tr>'+
                         '<tr><td>&nbsp;</td><td></td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">i</span></td><td>'+RED._("keyboard.importNode")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">e</span></td><td>'+RED._("keyboard.exportNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">i</span></td><td>'+i18n("keyboard.importNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">e</span></td><td>'+i18n("keyboard.exportNode")+'</td></tr>'+
                         '<tr><td>&nbsp;</td><td></td></tr>'+
-                        '<tr><td><span class="help-key"> &#x2190; </span> <span class="help-key"> &#x2191; </span> <span class="help-key"> &#x2192; </span> <span class="help-key"> &#x2193; </span></td><td>'+RED._("keyboard.nudgeNode")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Shift</span> + <span class="help-key"> &#x2190; </span></td><td rowspan="4">'+RED._("keyboard.moveNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key"> &#x2190; </span> <span class="help-key"> &#x2191; </span> <span class="help-key"> &#x2192; </span> <span class="help-key"> &#x2193; </span></td><td>'+i18n("keyboard.nudgeNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Shift</span> + <span class="help-key"> &#x2190; </span></td><td rowspan="4">'+i18n("keyboard.moveNode")+'</td></tr>'+
                         '<tr><td><span class="help-key">Shift</span> + <span class="help-key"> &#x2191; </span></td></tr>'+
                         '<tr><td><span class="help-key">Shift</span> + <span class="help-key"> &#x2192; </span></td></tr>'+
                         '<tr><td><span class="help-key">Shift</span> + <span class="help-key"> &#x2193; </span></td></tr>'+
@@ -6227,17 +6228,17 @@ RED.keyboard = (function() {
                 '</div>'+
                 '<div style="vertical-align: top;display:inline-block; box-sizing: border-box; width:50%; padding: 10px;">'+
                     '<table class="keyboard-shortcuts">'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Space</span></td><td>'+RED._("keyboard.toggleSidebar")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">.</span></td><td>'+RED._("keyboard.searchBox")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Shift</span> + <span class="help-key">p</span></td><td>'+RED._("keyboard.managePalette")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Space</span></td><td>'+i18n("keyboard.toggleSidebar")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">.</span></td><td>'+i18n("keyboard.searchBox")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">Shift</span> + <span class="help-key">p</span></td><td>'+i18n("keyboard.managePalette")+'</td></tr>'+
                         '<tr><td></td><td></td></tr>'+
-                        '<tr><td><span class="help-key">Delete</span></td><td rowspan="2">'+RED._("keyboard.deleteSelected")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Delete</span></td><td rowspan="2">'+i18n("keyboard.deleteSelected")+'</td></tr>'+
                         '<tr><td><span class="help-key">Backspace</span></td></tr>'+
                         '<tr><td></td><td></td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">c</span></td><td>'+RED._("keyboard.copyNode")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">x</span></td><td>'+RED._("keyboard.cutNode")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">v</span></td><td>'+RED._("keyboard.pasteNode")+'</td></tr>'+
-                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">z</span></td><td>'+RED._("keyboard.undoChange")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">c</span></td><td>'+i18n("keyboard.copyNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">x</span></td><td>'+i18n("keyboard.cutNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">v</span></td><td>'+i18n("keyboard.pasteNode")+'</td></tr>'+
+                        '<tr><td><span class="help-key">Ctrl/&#8984;</span> + <span class="help-key">z</span></td><td>'+i18n("keyboard.undoChange")+'</td></tr>'+
                     '</table>'+
                 '</div>'+
                 '</div>')
@@ -6291,9 +6292,9 @@ RED.workspaces = (function() {
             var tabId = RED.nodes.id();
             do {
                 workspaceIndex += 1;
-            } while($("#workspace-tabs a[title='"+RED._('workspace.defaultName',{number:workspaceIndex})+"']").size() !== 0);
+            } while($("#workspace-tabs a[title='"+i18n('Nodered.workspace.defaultName')+"']").size() !== 0);
 
-            ws = {type:"tab",id:tabId,label:RED._('workspace.defaultName',{number:workspaceIndex})};
+            ws = {type:"tab",id:tabId,label:i18n('Nodered.workspace.defaultName')};
             RED.nodes.addWorkspace(ws);
             workspace_tabs.addTab(ws);
             workspace_tabs.activateTab(tabId);
@@ -6319,15 +6320,18 @@ RED.workspaces = (function() {
     }
 
     function showRenameWorkspaceDialog(id) {
+    	if (!id) {
+            return;
+    	}
         var workspace = RED.nodes.workspace(id);
         RED.view.state(RED.state.EDITING);
         var trayOptions = {
-            title: RED._("workspace.editFlow",{name:workspace.label}),
+            title: i18n("Nodered.workspace.editTopology", workspace.label),
             buttons: [
                 {
                     id: "node-dialog-delete",
                     class: 'leftButton'+((workspace_tabs.count() == 1)?" disabled":""),
-                    text: RED._("common.label.delete"), //'<i class="fa fa-trash"></i>',
+                    text: i18n("Nodered.common.label.delete"), //'<i class="fa fa-trash"></i>',
                     click: function() {
                         deleteWorkspace(workspace);
                         RED.tray.close();
@@ -6335,7 +6339,7 @@ RED.workspaces = (function() {
                 },
                 {
                     id: "node-dialog-cancel",
-                    text: RED._("common.label.cancel"),
+                    text: i18n("Nodered.common.label.cancel"),
                     click: function() {
                         RED.tray.close();
                     }
@@ -6343,7 +6347,7 @@ RED.workspaces = (function() {
                 {
                     id: "node-dialog-ok",
                     class: "primary",
-                    text: RED._("common.label.done"),
+                    text: i18n("Nodered.common.label.done"),
                     click: function() {
                         var label = $( "#node-input-name" ).val();
                         if (workspace.label != label) {
@@ -6359,6 +6363,7 @@ RED.workspaces = (function() {
                             workspace.changed = true;
                             RED.history.push(historyEvent);
                             workspace_tabs.renameTab(workspace.id,label);
+                            $("#properties-form #properties-name").val(label);
                             RED.nodes.dirty(true);
                             RED.sidebar.config.refresh();
                         }
@@ -6370,14 +6375,14 @@ RED.workspaces = (function() {
                 var trayBody = tray.find('.editor-tray-body');
                 var dialogForm = $('<form id="dialog-form" class="form-horizontal"></form>').appendTo(trayBody);
                 $('<div class="form-row">'+
-                    '<label for="node-input-name" data-i18n="[append]editor:common.label.name"><i class="fa fa-tag"></i> </label>'+
+                    '<label for="node-input-name">'+ i18n("Drawer.editor.properties.label.topologyName") +'</label>'+
                     '<input type="text" id="node-input-name">'+
                 '</div>').appendTo(dialogForm);
                 $('<input type="text" style="display: none;" />').prependTo(dialogForm);
                 dialogForm.submit(function(e) { e.preventDefault();});
                 $("#node-input-name").val(workspace.label);
                 RED.text.bidi.prepareInput($("#node-input-name"))
-                dialogForm.i18n();
+                //dialogForm.i18n();
             },
             close: function() {
                 if (RED.view.state() != RED.state.IMPORT_DRAGGING) {
@@ -6831,11 +6836,11 @@ RED.view = (function() {
                 if (activeSubflow && m) {
                     var subflowId = m[1];
                     if (subflowId === activeSubflow.id) {
-                        RED.notify(RED._("notification.error",{message: RED._("notification.errors.cannotAddSubflowToItself")}),"error");
+                        RED.notify(i18n("notification.error",{message: i18n("notification.errors.cannotAddSubflowToItself")}),"error");
                         return;
                     }
                     if (RED.nodes.subflowContains(m[1],activeSubflow.id)) {
-                        RED.notify(RED._("notification.error",{message: RED._("notification.errors.cannotAddCircularReference")}),"error");
+                        RED.notify(i18n("notification.error",{message: i18n("notification.errors.cannotAddCircularReference")}),"error");
                         return;
                     }
                 }
@@ -7639,7 +7644,7 @@ RED.view = (function() {
                 }
             }
             clipboard = JSON.stringify(nns);
-            RED.notify(RED._("clipboard.nodeCopied",{count:nns.length}));
+            RED.notify(i18n("clipboard.nodeCopied",{count:nns.length}));
         }
     }
 
@@ -7888,9 +7893,9 @@ RED.view = (function() {
                 redraw();
             }
         } else if (d.changed) {
-            RED.notify(RED._("notification.warning", {message:RED._("notification.warnings.undeployedChanges")}),"warning");
+            RED.notify(i18n("notification.warning", {message:i18n("notification.warnings.undeployedChanges")}),"warning");
         } else {
-            RED.notify(RED._("notification.warning", {message:RED._("notification.warnings.nodeActionDisabled")}),"warning");
+            RED.notify(i18n("notification.warning", {message:i18n("notification.warnings.nodeActionDisabled")}),"warning");
         }
         d3.event.preventDefault();
     }
@@ -8815,9 +8820,9 @@ RED.view = (function() {
         } catch(error) {
             if (error.code != "NODE_RED") {
                 console.log(error.stack);
-                RED.notify(RED._("notification.error",{message:error.toString()}),"error");
+                RED.notify(i18n("notification.error",{message:error.toString()}),"error");
             } else {
-                RED.notify(RED._("notification.error",{message:error.message}),"error");
+                RED.notify(i18n("notification.error",{message:error.message}),"error");
             }
         }
     }
@@ -9270,7 +9275,7 @@ RED.palette = (function() {
             if (label != type) {
                 l = "<p><b>"+RED.text.bidi.enforceTextDirectionWithUCC(label)+"</b><br/><i>"+type+"</i></p>";
             }
-            popOverContent = $(l+(info?info:$("script[data-help-name$='"+type+"']").html()||"<p>"+RED._("palette.noInfo")+"</p>").trim())
+            popOverContent = $(l+(info?info:$("script[data-help-name$='"+type+"']").html()||"<p>"+i18n("palette.noInfo")+"</p>").trim())
                                 .filter(function(n) {
                                     return (this.nodeType == 1 && this.nodeName == "P") || (this.nodeType == 3 && this.textContent.trim().length > 0)
                                 }).slice(0,2);
@@ -9279,7 +9284,7 @@ RED.palette = (function() {
             // NON-NLS: internal debug
             console.log("Error generating pop-over label for ",type);
             console.log(err.toString());
-            popOverContent = "<p><b>"+label+"</b></p><p>"+RED._("palette.noInfo")+"</p>";
+            popOverContent = "<p><b>"+label+"</b></p><p>"+i18n("palette.noInfo")+"</p>";
         }
 
         el.data('popover').setContent(popOverContent);
@@ -9344,10 +9349,10 @@ RED.palette = (function() {
 
             if ($("#palette-base-category-"+rootCategory).length === 0) {
                 if(coreCategories.indexOf(rootCategory) !== -1){
-                    createCategoryContainer(rootCategory, RED._("node-red:palette.label."+rootCategory, {defaultValue:rootCategory}));
+                    createCategoryContainer(rootCategory, i18n("Drawer.editor.modules.panels."+rootCategory));
                 } else {
                     var ns = def.set.id;
-                    createCategoryContainer(rootCategory, RED._(ns+":palette.label."+rootCategory, {defaultValue:rootCategory}));
+                    createCategoryContainer(rootCategory, i18n("Drawer.editor.modules.panels."+rootCategory));
                 }
             }
             $("#palette-container-"+rootCategory).show();
@@ -9619,7 +9624,7 @@ RED.palette = (function() {
             categoryList = coreCategories
         }
         categoryList.forEach(function(category){
-            createCategoryContainer(category, RED._("palette.label."+category,{defaultValue:category}));
+            createCategoryContainer(category, i18n("Drawer.editor.modules.panels."+category));
         });
 
         $("#palette-collapse-all").on("click", function(e) {
@@ -9684,20 +9689,26 @@ RED.sidebar.info = (function() {
     content.className = "sidebar-node-info"
 
     var propertiesExpanded = false;
-
+    
     function init() {
         RED.sidebar.addTab({
+            id: "properties",
+            label: i18n("Drawer.index.properties"),
+            name: i18n("Nodered.menu.label.view.properties"),
+            content: propertiesForm,
+            enableOnEdit: true
+        });
+    	RED.sidebar.addTab({
             id: "info",
-            label: RED._("sidebar.info.label"),
-            name: RED._("sidebar.info.name"),
+            label: i18n("Drawer.index.infos"),
+            name: i18n("Nodered.menu.label.view.info"),
             content: content,
             enableOnEdit: true
         });
-
     }
 
     function show() {
-        RED.sidebar.show("info");
+        RED.sidebar.show("properties");
     }
 
     function jsonFilter(key,value) {
@@ -9719,12 +9730,12 @@ RED.sidebar.info = (function() {
 
     function refresh(node) {
         var table = '<table class="node-info"><tbody>';
-        table += '<tr class="blank"><td colspan="2">'+RED._("sidebar.info.node")+'</td></tr>';
+        table += '<tr class="blank"><td colspan="2">'+i18n("sidebar.info.node")+'</td></tr>';
         if (node.type != "subflow" && node.name) {
-            table += '<tr><td>'+RED._("common.label.name")+'</td><td>&nbsp;<span class="bidiAware" dir="'+RED.text.bidi.resolveBaseTextDir(node.name)+'">'+node.name+'</span></td></tr>';
+            table += '<tr><td>'+i18n("common.label.name")+'</td><td>&nbsp;<span class="bidiAware" dir="'+RED.text.bidi.resolveBaseTextDir(node.name)+'">'+node.name+'</span></td></tr>';
         }
-        table += "<tr><td>"+RED._("sidebar.info.type")+"</td><td>&nbsp;"+node.type+"</td></tr>";
-        table += "<tr><td>"+RED._("sidebar.info.id")+"</td><td>&nbsp;"+node.id+"</td></tr>";
+        table += "<tr><td>"+i18n("sidebar.info.type")+"</td><td>&nbsp;"+node.type+"</td></tr>";
+        table += "<tr><td>"+i18n("sidebar.info.id")+"</td><td>&nbsp;"+node.id+"</td></tr>";
 
         var m = /^subflow(:(.+))?$/.exec(node.type);
         var subflowNode;
@@ -9735,7 +9746,7 @@ RED.sidebar.info = (function() {
                 subflowNode = node;
             }
 
-            table += '<tr class="blank"><td colspan="2">'+RED._("sidebar.info.subflow")+'</td></tr>';
+            table += '<tr class="blank"><td colspan="2">'+i18n("sidebar.info.subflow")+'</td></tr>';
 
             var userCount = 0;
             var subflowType = "subflow:"+subflowNode.id;
@@ -9744,22 +9755,22 @@ RED.sidebar.info = (function() {
                     userCount++;
                 }
             });
-            table += '<tr><td>'+RED._("common.label.name")+'</td><td><span class="bidiAware" dir=\"'+RED.text.bidi.resolveBaseTextDir(subflowNode.name)+'">'+subflowNode.name+'</span></td></tr>';
-            table += "<tr><td>"+RED._("sidebar.info.instances")+"</td><td>"+userCount+"</td></tr>";
+            table += '<tr><td>'+i18n("common.label.name")+'</td><td><span class="bidiAware" dir=\"'+RED.text.bidi.resolveBaseTextDir(subflowNode.name)+'">'+subflowNode.name+'</span></td></tr>';
+            table += "<tr><td>"+i18n("sidebar.info.instances")+"</td><td>"+userCount+"</td></tr>";
         }
 
         if (!m && node.type != "subflow" && node.type != "comment") {
-            table += '<tr class="blank"><td colspan="2"><a href="#" class="node-info-property-header"><i style="width: 10px; text-align: center;" class="fa fa-caret-'+(propertiesExpanded?"down":"right")+'"></i> '+RED._("sidebar.info.properties")+'</a></td></tr>';
+            table += '<tr class="blank"><td colspan="2"><a href="#" class="node-info-property-header"><i style="width: 10px; text-align: center;" class="fa fa-caret-'+(propertiesExpanded?"down":"right")+'"></i> '+i18n("sidebar.info.properties")+'</a></td></tr>';
             if (node._def) {
                 for (var n in node._def.defaults) {
                     if (n != "name" && node._def.defaults.hasOwnProperty(n)) {
                         var val = node[n];
                         var type = typeof val;
                         if (val === null || val === undefined) {
-                            val = '<span style="font-style: italic; color: #ccc;">'+RED._("sidebar.info.null")+'</span>';
+                            val = '<span style="font-style: italic; color: #ccc;">'+i18n("sidebar.info.null")+'</span>';
                         } else if (type === "string") {
                             if (val.length === 0) {
-                                val = '<span style="font-style: italic; color: #ccc;">'+RED._("sidebar.info.blank")+'</span>';
+                                val = '<span style="font-style: italic; color: #ccc;">'+i18n("sidebar.info.blank")+'</span>';
                             } else {
                                 if (val.length > 30) {
                                     val = val.substring(0,30)+" ...";
@@ -9775,7 +9786,7 @@ RED.sidebar.info = (function() {
                                 val += "&nbsp;"+i+": "+vv+"<br/>";
                             }
                             if (node[n].length > 10) {
-                                val += "&nbsp;... "+RED._("sidebar.info.arrayItems",{count:node[n].length})+"<br/>";
+                                val += "&nbsp;... "+i18n("sidebar.info.arrayItems",{count:node[n].length})+"<br/>";
                             }
                             val += "]";
                         } else {
@@ -9911,7 +9922,7 @@ RED.sidebar.config = (function() {
             }
             $('<span class="config-node-filter-info"></span>').appendTo(header);
             category = $('<ul class="palette-content config-node-list"></ul>').appendTo(container);
-            container.i18n();
+            //container.i18n();
             var icon = header.find("i");
             var result = {
                 label: label,
@@ -9977,7 +9988,7 @@ RED.sidebar.config = (function() {
             })
             hiddenCount = hiddenCount - nodes.length;
             if (hiddenCount > 0) {
-                list.parent().find('.config-node-filter-info').text(RED._('sidebar.config.filtered',{count:hiddenCount})).show();
+                list.parent().find('.config-node-filter-info').text(i18n('sidebar.config.filtered',{count:hiddenCount})).show();
             } else {
                 list.parent().find('.config-node-filter-info').hide();
             }
@@ -9986,7 +9997,7 @@ RED.sidebar.config = (function() {
         }
         list.empty();
         if (nodes.length === 0) {
-            $('<li class="config_node_none" data-i18n="sidebar.config.none">NONE</li>').i18n().appendTo(list);
+            $('<li class="config_node_none" data-i18n="sidebar.config.none">NONE</li>').appendTo(list);
             category.close(true);
         } else {
             var currentType = "";
@@ -10088,8 +10099,8 @@ RED.sidebar.config = (function() {
     function init() {
         RED.sidebar.addTab({
             id: "config",
-            label: RED._("sidebar.config.label"),
-            name: RED._("sidebar.config.name"),
+            label: i18n("sidebar.config.label"),
+            name: i18n("sidebar.config.name"),
             content: content,
             toolbar: toolbar,
             closeable: true,
@@ -10322,47 +10333,47 @@ RED.palette.editor = (function() {
         var delta = (Date.now() - new Date(dateString).getTime())/1000;
 
         if (delta < 60) {
-            return RED._('palette.editor.times.seconds');
+            return i18n('palette.editor.times.seconds');
         }
         delta = Math.floor(delta/60);
         if (delta < 10) {
-            return RED._('palette.editor.times.minutes');
+            return i18n('palette.editor.times.minutes');
         }
         if (delta < 60) {
-            return RED._('palette.editor.times.minutesV',{count:delta});
+            return i18n('palette.editor.times.minutesV',{count:delta});
         }
 
         delta = Math.floor(delta/60);
 
         if (delta < 24) {
-            return RED._('palette.editor.times.hoursV',{count:delta});
+            return i18n('palette.editor.times.hoursV',{count:delta});
         }
 
         delta = Math.floor(delta/24);
 
         if (delta < 7) {
-            return RED._('palette.editor.times.daysV',{count:delta})
+            return i18n('palette.editor.times.daysV',{count:delta})
         }
         var weeks = Math.floor(delta/7);
         var days = delta%7;
 
         if (weeks < 4) {
-            return RED._('palette.editor.times.weeksV',{count:weeks})
+            return i18n('palette.editor.times.weeksV',{count:weeks})
         }
 
         var months = Math.floor(weeks/4);
         weeks = weeks%4;
 
         if (months < 12) {
-            return RED._('palette.editor.times.monthsV',{count:months})
+            return i18n('palette.editor.times.monthsV',{count:months})
         }
         var years = Math.floor(months/12);
         months = months%12;
 
         if (months === 0) {
-            return RED._('palette.editor.times.yearsV',{count:years})
+            return i18n('palette.editor.times.yearsV',{count:years})
         } else {
-            return RED._('palette.editor.times.year'+(years>1?'s':'')+'MonthsV',{y:years,count:months})
+            return i18n('palette.editor.times.year'+(years>1?'s':'')+'MonthsV',{y:years,count:months})
         }
     }
 
@@ -10422,33 +10433,33 @@ RED.palette.editor = (function() {
                         nodeEntries[module].totalUseCount += inUseCount;
 
                         if (inUseCount > 0) {
-                            setElements.enableButton.html(RED._('palette.editor.inuse'));
+                            setElements.enableButton.html(i18n('palette.editor.inuse'));
                             setElements.enableButton.addClass('disabled');
                         } else {
                             setElements.enableButton.removeClass('disabled');
                             if (set.enabled) {
-                                setElements.enableButton.html(RED._('palette.editor.disable'));
+                                setElements.enableButton.html(i18n('palette.editor.disable'));
                             } else {
-                                setElements.enableButton.html(RED._('palette.editor.enable'));
+                                setElements.enableButton.html(i18n('palette.editor.enable'));
                             }
                         }
                         setElements.setRow.toggleClass("palette-module-set-disabled",!set.enabled);
                     }
                 }
                 var nodeCount = (activeTypeCount === typeCount)?typeCount:activeTypeCount+" / "+typeCount;
-                nodeEntry.setCount.html(RED._('palette.editor.nodeCount',{count:typeCount,label:nodeCount}));
+                nodeEntry.setCount.html(i18n('palette.editor.nodeCount',{count:typeCount,label:nodeCount}));
 
                 if (nodeEntries[module].totalUseCount > 0) {
-                    nodeEntry.enableButton.html(RED._('palette.editor.inuse'));
+                    nodeEntry.enableButton.html(i18n('palette.editor.inuse'));
                     nodeEntry.enableButton.addClass('disabled');
                     nodeEntry.removeButton.hide();
                 } else {
                     nodeEntry.enableButton.removeClass('disabled');
                     nodeEntry.removeButton.show();
                     if (activeTypeCount === 0) {
-                        nodeEntry.enableButton.html(RED._('palette.editor.enableall'));
+                        nodeEntry.enableButton.html(i18n('palette.editor.enableall'));
                     } else {
-                        nodeEntry.enableButton.html(RED._('palette.editor.disableall'));
+                        nodeEntry.enableButton.html(i18n('palette.editor.disableall'));
                     }
                     nodeEntry.container.toggleClass("disabled",(activeTypeCount === 0));
                 }
@@ -10458,7 +10469,7 @@ RED.palette.editor = (function() {
             // if (loadedIndex.hasOwnProperty(module)) {
             //     if (moduleInfo.version !== loadedIndex[module].version) {
             //         nodeEntry.updateButton.show();
-            //         nodeEntry.updateButton.html(RED._('palette.editor.update',{version:loadedIndex[module].version}));
+            //         nodeEntry.updateButton.html(i18n('palette.editor.update',{version:loadedIndex[module].version}));
             //     } else {
             //         nodeEntry.updateButton.hide();
             //     }
@@ -10548,7 +10559,7 @@ RED.palette.editor = (function() {
         }
         searchInput.searchBox('count',loadedList.length);
         if (catalogueCount > 1) {
-            $(".palette-module-shade-status").html(RED._('palette.editor.loading')+"<br>"+catalogueLoadStatus.length+"/"+catalogueCount);
+            $(".palette-module-shade-status").html(i18n('palette.editor.loading')+"<br>"+catalogueLoadStatus.length+"/"+catalogueCount);
         }
         if (catalogueLoadStatus.length === catalogueCount) {
             var delta = 250-(Date.now() - catalogueLoadStart);
@@ -10563,12 +10574,12 @@ RED.palette.editor = (function() {
             loadedList = [];
             loadedIndex = {};
             packageList.editableList('empty');
-            $(".palette-module-shade-status").html(RED._('palette.editor.loading'));
+            $(".palette-module-shade-status").html(i18n('palette.editor.loading'));
             var catalogues = RED.settings.theme('palette.catalogues')||['https://catalogue.nodered.org/catalogue.json'];
             catalogueLoadStatus = [];
             catalogueCount = catalogues.length;
             if (catalogues.length > 1) {
-                $(".palette-module-shade-status").html(RED._('palette.editor.loading')+"<br>0/"+catalogues.length);
+                $(".palette-module-shade-status").html(i18n('palette.editor.loading')+"<br>0/"+catalogues.length);
             }
             $("#palette-module-install-shade").show();
             catalogueLoadStart = Date.now();
@@ -10653,7 +10664,7 @@ RED.palette.editor = (function() {
 
         editorTabs.addTab({
             id: 'nodes',
-            label: RED._('palette.editor.tab-nodes'),
+            label: i18n('palette.editor.tab-nodes'),
             content: modulesTab
         })
 
@@ -10694,13 +10705,13 @@ RED.palette.editor = (function() {
                     var setCount = $('<span>').appendTo(setButton);
                     var buttonGroup = $('<div>',{class:"palette-module-button-group"}).appendTo(buttonRow);
 
-                    var updateButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(RED._('palette.editor.update')).appendTo(buttonGroup);
+                    var updateButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.update')).appendTo(buttonGroup);
                     updateButton.click(function(evt) {
                         evt.preventDefault();
                     })
 
 
-                    var removeButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(RED._('palette.editor.remove')).appendTo(buttonGroup);
+                    var removeButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.remove')).appendTo(buttonGroup);
                     removeButton.click(function(evt) {
                         evt.preventDefault();
                         shade.show();
@@ -10711,7 +10722,7 @@ RED.palette.editor = (function() {
                     if (!entry.local) {
                         removeButton.hide();
                     }
-                    var enableButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(RED._('palette.editor.disableall')).appendTo(buttonGroup);
+                    var enableButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.disableall')).appendTo(buttonGroup);
 
                     var contentRow = $('<div>',{class:"palette-module-content"}).appendTo(container);
                     var shade = $('<div class="palette-module-shade hide"><img src="red/images/spin.svg" class="palette-spinner"/></div>').appendTo(container);
@@ -10779,7 +10790,7 @@ RED.palette.editor = (function() {
                     })
                     refreshNodeModule(entry.name);
                 } else {
-                    $('<div>',{class:"red-ui-search-empty"}).html(RED._('search.empty')).appendTo(container);
+                    $('<div>',{class:"red-ui-search-empty"}).html(i18n('search.empty')).appendTo(container);
                 }
             }
         });
@@ -10790,7 +10801,7 @@ RED.palette.editor = (function() {
 
         editorTabs.addTab({
             id: 'install',
-            label: RED._('palette.editor.tab-install'),
+            label: i18n('palette.editor.tab-install'),
             content: installTab
         })
 
@@ -10817,7 +10828,7 @@ RED.palette.editor = (function() {
             });
 
 
-        $('<span>').html(RED._("palette.editor.sort")+' ').appendTo(toolBar);
+        $('<span>').html(i18n("palette.editor.sort")+' ').appendTo(toolBar);
         var sortGroup = $('<span class="button-group"></span> ').appendTo(toolBar);
         var sortAZ = $('<a href="#" class="sidebar-header-button-toggle selected" data-i18n="palette.editor.sortAZ"></a>').appendTo(sortGroup);
         var sortRecent = $('<a href="#" class="sidebar-header-button-toggle" data-i18n="palette.editor.sortRecent"></a>').appendTo(sortGroup);
@@ -10862,7 +10873,7 @@ RED.palette.editor = (function() {
                if (object.more) {
                    container.addClass('palette-module-more');
                    var moreRow = $('<div>',{class:"palette-module-header palette-module"}).appendTo(container);
-                   var moreLink = $('<a href="#"></a>').html(RED._('palette.editor.more',{count:object.more})).appendTo(moreRow);
+                   var moreLink = $('<a href="#"></a>').html(i18n('palette.editor.more',{count:object.more})).appendTo(moreRow);
                    moreLink.click(function(e) {
                        e.preventDefault();
                        packageList.editableList('removeItem',object);
@@ -10890,14 +10901,14 @@ RED.palette.editor = (function() {
                    var buttonRow = $('<div>',{class:"palette-module-meta"}).appendTo(headerRow);
                    var buttonGroup = $('<div>',{class:"palette-module-button-group"}).appendTo(buttonRow);
                    var shade = $('<div class="palette-module-shade hide"><img src="red/images/spin.svg" class="palette-spinner"/></div>').appendTo(container);
-                   var installButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(RED._('palette.editor.install')).appendTo(buttonGroup);
+                   var installButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.install')).appendTo(buttonGroup);
                    installButton.click(function(e) {
                        e.preventDefault();
                        if (!$(this).hasClass('disabled')) {
                            installNodeModule(entry.id,shade,function(xhr) {
                                if (xhr) {
                                    if (xhr.responseJSON) {
-                                       RED.notify(RED._('palette.editor.errors.installFailed',{module: entry.id,message:xhr.responseJSON.message}));
+                                       RED.notify(i18n('palette.editor.errors.installFailed',{module: entry.id,message:xhr.responseJSON.message}));
                                    }
                                }
                            })
@@ -10905,14 +10916,14 @@ RED.palette.editor = (function() {
                    })
                    if (nodeEntries.hasOwnProperty(entry.id)) {
                        installButton.addClass('disabled');
-                       installButton.html(RED._('palette.editor.installed'));
+                       installButton.html(i18n('palette.editor.installed'));
                    }
 
                    object.elements = {
                        installButton:installButton
                    }
                } else {
-                   $('<div>',{class:"red-ui-search-empty"}).html(RED._('search.empty')).appendTo(container);
+                   $('<div>',{class:"red-ui-search-empty"}).html(i18n('search.empty')).appendTo(container);
                }
            }
        });
@@ -11275,9 +11286,9 @@ RED.editor = (function() {
         input.after(button);
 
         if (node[property]) {
-            button.text(RED._("editor.configEdit"));
+            button.text(i18n("editor.configEdit"));
         } else {
-            button.text(RED._("editor.configAdd"));
+            button.text(i18n("editor.configAdd"));
         }
 
         button.click(function(e) {
@@ -11480,10 +11491,10 @@ RED.editor = (function() {
             var node = editStack[i];
             var label = node.type;
             if (node.type === 'subflow') {
-                label = RED._("subflow.editSubflow",{name:node.name})
+                label = i18n("subflow.editSubflow",{name:node.name})
             } else if (node.type.indexOf("subflow:")===0) {
                 var subflow = RED.nodes.subflow(node.type.substring(8));
-                label = RED._("subflow.editSubflow",{name:subflow.name})
+                label = i18n("subflow.editSubflow",{name:subflow.name})
             } else {
                 if (typeof node._def.paletteLabel !== "undefined") {
                     try {
@@ -11494,9 +11505,9 @@ RED.editor = (function() {
                 }
                 if (i === editStack.length-1) {
                     if (RED.nodes.node(node.id)) {
-                        label = RED._("editor.editNode",{type:label});
+                        label = i18n("editor.editNode",{type:label});
                     } else {
-                        label = RED._("editor.addNewConfig",{type:label});
+                        label = i18n("editor.addNewConfig",{type:label});
                     }
                 }
             }
@@ -11519,7 +11530,7 @@ RED.editor = (function() {
             buttons: [
                 {
                     id: "node-dialog-cancel",
-                    text: RED._("common.label.cancel"),
+                    text: i18n("common.label.cancel"),
                     click: function() {
                         if (editing_node._def) {
                             if (editing_node._def.oneditcancel) {
@@ -11555,7 +11566,7 @@ RED.editor = (function() {
                 },
                 {
                     id: "node-dialog-ok",
-                    text: RED._("common.label.done"),
+                    text: i18n("common.label.done"),
                     class: "primary",
                     click: function() {
                         var changes = {};
@@ -11761,7 +11772,7 @@ RED.editor = (function() {
             var id = editing_node.type.substring(8);
             trayOptions.buttons.unshift({
                 class: 'leftButton',
-                text: RED._("subflow.edit"),
+                text: i18n("subflow.edit"),
                 click: function() {
                     RED.workspaces.show(id);
                     $("#node-dialog-ok").click();
@@ -11812,7 +11823,7 @@ RED.editor = (function() {
 
         RED.view.state(RED.state.EDITING);
         var trayOptions = {
-            title: getEditStackTitle(), //(adding?RED._("editor.addNewConfig", {type:type}):RED._("editor.editConfig", {type:type})),
+            title: getEditStackTitle(), //(adding?i18n("editor.addNewConfig", {type:type}):i18n("editor.editConfig", {type:type})),
             resize: function() {
                 if (editing_config_node && editing_config_node._def.oneditresize) {
                     var form = $("#node-config-dialog-edit-form");
@@ -11898,7 +11909,7 @@ RED.editor = (function() {
 
                 dialogForm.i18n();
                 if (node_def.hasUsers !== false) {
-                    $("#node-config-dialog-user-count").find("span").html(RED._("editor.nodesUse", {count:editing_config_node.users.length})).parent().show();
+                    $("#node-config-dialog-user-count").find("span").html(i18n("editor.nodesUse", {count:editing_config_node.users.length})).parent().show();
                 }
             },
             close: function() {
@@ -11914,7 +11925,7 @@ RED.editor = (function() {
         trayOptions.buttons = [
             {
                 id: "node-config-dialog-cancel",
-                text: RED._("common.label.cancel"),
+                text: i18n("common.label.cancel"),
                 click: function() {
                     var configType = type;
                     var configId = editing_config_node.id;
@@ -11945,7 +11956,7 @@ RED.editor = (function() {
             },
             {
                 id: "node-config-dialog-ok",
-                text: adding?RED._("editor.configAdd"):RED._("editor.configUpdate"),
+                text: adding?i18n("editor.configAdd"):i18n("editor.configUpdate"),
                 class: "primary",
                 click: function() {
                     var configProperty = name;
@@ -12060,7 +12071,7 @@ RED.editor = (function() {
         if (!adding) {
             trayOptions.buttons.unshift({
                 class: 'leftButton',
-                text: RED._("editor.configDelete"), //'<i class="fa fa-trash"></i>',
+                text: i18n("editor.configDelete"), //'<i class="fa fa-trash"></i>',
                 click: function() {
                     var configProperty = name;
                     var configId = editing_config_node.id;
@@ -12132,9 +12143,9 @@ RED.editor = (function() {
             var button = $("#"+prefix+"-edit-"+name);
             if (button.length) {
                 if (value) {
-                    button.text(RED._("editor.configEdit"));
+                    button.text(i18n("editor.configEdit"));
                 } else {
-                    button.text(RED._("editor.configAdd"));
+                    button.text(i18n("editor.configAdd"));
                 }
                 $("#"+prefix+"-"+name).val(value);
             } else {
@@ -12182,7 +12193,7 @@ RED.editor = (function() {
                     delete cn.__label__;
                 });
 
-                select.append('<option value="_ADD_"'+(value===""?" selected":"")+'>'+RED._("editor.addNewType", {type:type})+'</option>');
+                select.append('<option value="_ADD_"'+(value===""?" selected":"")+'>'+i18n("editor.addNewType", {type:type})+'</option>');
                 window.setTimeout(function() { select.change();},50);
             }
         }
@@ -12199,7 +12210,7 @@ RED.editor = (function() {
             buttons: [
                 {
                     id: "node-dialog-cancel",
-                    text: RED._("common.label.cancel"),
+                    text: i18n("common.label.cancel"),
                     click: function() {
                         RED.tray.close();
                     }
@@ -12207,7 +12218,7 @@ RED.editor = (function() {
                 {
                     id: "node-dialog-ok",
                     class: "primary",
-                    text: RED._("common.label.done"),
+                    text: i18n("common.label.done"),
                     click: function() {
                         var i;
                         var changes = {};
@@ -12322,7 +12333,7 @@ RED.editor = (function() {
                         userCount++;
                     }
                 });
-                $("#subflow-dialog-user-count").html(RED._("subflow.subflowInstances", {count:userCount})).show();
+                $("#subflow-dialog-user-count").html(i18n("subflow.subflowInstances", {count:userCount})).show();
                 dialogForm.i18n();
             },
             close: function() {
@@ -12702,7 +12713,7 @@ RED.clipboard = (function() {
                 buttons: [
                     {
                         id: "clipboard-dialog-cancel",
-                        text: RED._("common.label.cancel"),
+                        text: i18n("common.label.cancel"),
                         click: function() {
                             $( this ).dialog( "close" );
                         }
@@ -12710,7 +12721,7 @@ RED.clipboard = (function() {
                     {
                         id: "clipboard-dialog-close",
                         class: "primary",
-                        text: RED._("common.label.close"),
+                        text: i18n("common.label.close"),
                         click: function() {
                             $( this ).dialog( "close" );
                         }
@@ -12718,19 +12729,19 @@ RED.clipboard = (function() {
                     {
                         id: "clipboard-dialog-copy",
                         class: "primary",
-                        text: RED._("clipboard.export.copy"),
+                        text: i18n("clipboard.export.copy"),
                         click: function() {
                             $("#clipboard-export").select();
                             document.execCommand("copy");
                             document.getSelection().removeAllRanges();
-                            RED.notify(RED._("clipboard.nodesExported"));
+                            RED.notify(i18n("clipboard.nodesExported"));
                             $( this ).dialog( "close" );
                         }
                     },
                     {
                         id: "clipboard-dialog-ok",
                         class: "primary",
-                        text: RED._("common.label.import"),
+                        text: i18n("common.label.import"),
                         click: function() {
                             RED.view.importNodes($("#clipboard-import").val(),$("#import-tab > a.selected").attr('id') === 'import-tab-new');
                             $( this ).dialog( "close" );
@@ -12767,7 +12778,7 @@ RED.clipboard = (function() {
 
         importNodesDialog = '<div class="form-row">'+
             '<textarea style="resize: none; width: 100%; border-radius: 0px;font-family: monospace; font-size: 12px; background:#eee; padding-left: 0.5em; box-sizing:border-box;" id="clipboard-import" rows="5" placeholder="'+
-            RED._("clipboard.pasteNodes")+
+            i18n("clipboard.pasteNodes")+
             '"></textarea>'+
             '</div>'+
             '<div class="form-row">'+
@@ -12818,7 +12829,7 @@ RED.clipboard = (function() {
             $(this).addClass('selected');
         });
 
-        dialog.dialog("option","title",RED._("clipboard.importNodes")).dialog("open");
+        dialog.dialog("option","title",i18n("clipboard.importNodes")).dialog("open");
     }
 
     function exportNodes() {
@@ -12909,7 +12920,7 @@ RED.clipboard = (function() {
                     return false;
                 })
             });
-        dialog.dialog("option","title",RED._("clipboard.exportNodes")).dialog( "open" );
+        dialog.dialog("option","title",i18n("clipboard.exportNodes")).dialog( "open" );
 
         setTimeout(function() {
             $("#clipboard-export").focus();
@@ -13050,7 +13061,7 @@ RED.library = (function() {
             var menu = buildMenu(data,"");
             $("#menu-item-import-examples").remove();
             if (examples) {
-                RED.menu.addItem("menu-item-import",{id:"menu-item-import-examples",label:RED._("menu.label.examples"),options:[]})
+                RED.menu.addItem("menu-item-import",{id:"menu-item-import-examples",label:i18n("menu.label.examples"),options:[]})
                 $("#menu-item-import-examples-submenu").replaceWith(buildMenu(examples,"_examples_"));
             }
             //TODO: need an api in RED.menu for this
@@ -13137,8 +13148,8 @@ RED.library = (function() {
             '<div class="btn-group" style="margin-left: 5px;">'+
             '<a id="node-input-'+options.type+'-lookup" class="editor-button" data-toggle="dropdown"><i class="fa fa-book"></i> <i class="fa fa-caret-down"></i></a>'+
             '<ul class="dropdown-menu pull-right" role="menu">'+
-            '<li><a id="node-input-'+options.type+'-menu-open-library" tabindex="-1" href="#">'+RED._("library.openLibrary")+'</a></li>'+
-            '<li><a id="node-input-'+options.type+'-menu-save-library" tabindex="-1" href="#">'+RED._("library.saveToLibrary")+'</a></li>'+
+            '<li><a id="node-input-'+options.type+'-menu-open-library" tabindex="-1" href="#">'+i18n("library.openLibrary")+'</a></li>'+
+            '<li><a id="node-input-'+options.type+'-menu-save-library" tabindex="-1" href="#">'+i18n("library.saveToLibrary")+'</a></li>'+
             '</ul></div>'
         );
 
@@ -13223,20 +13234,20 @@ RED.library = (function() {
         libraryEditor.$blockScrolling = Infinity;
 
         $( "#node-dialog-library-lookup" ).dialog({
-            title: RED._("library.typeLibrary", {type:options.type}),
+            title: i18n("library.typeLibrary", {type:options.type}),
             modal: true,
             autoOpen: false,
             width: 800,
             height: 450,
             buttons: [
                 {
-                    text: RED._("common.label.cancel"),
+                    text: i18n("common.label.cancel"),
                     click: function() {
                         $( this ).dialog( "close" );
                     }
                 },
                 {
-                    text: RED._("common.label.load"),
+                    text: i18n("common.label.load"),
                     class: "primary",
                     click: function() {
                         if (selectedLibraryItem) {
@@ -13266,12 +13277,12 @@ RED.library = (function() {
         function saveToLibrary(overwrite) {
             var name = $("#node-input-name").val().replace(/(^\s*)|(\s*$)/g,"");
             if (name === "") {
-                name = RED._("library.unnamedType",{type:options.type});
+                name = i18n("library.unnamedType",{type:options.type});
             }
             var filename = $("#node-dialog-library-save-filename").val().replace(/(^\s*)|(\s*$)/g,"");
             var pathname = $("#node-dialog-library-save-folder").val().replace(/(^\s*)|(\s*$)/g,"");
             if (filename === "" || !/.+\.js$/.test(filename)) {
-                RED.notify(RED._("library.invalidFilename"),"warning");
+                RED.notify(i18n("library.invalidFilename"),"warning");
                 return;
             }
             var fullpath = pathname+(pathname===""?"":"/")+filename;
@@ -13296,7 +13307,7 @@ RED.library = (function() {
                 //    }
                 //}
                 //if (exists) {
-                //    $("#node-dialog-library-save-content").html(RED._("library.dialogSaveOverwrite",{libraryType:options.type,libraryName:fullpath}));
+                //    $("#node-dialog-library-save-content").html(i18n("library.dialogSaveOverwrite",{libraryType:options.type,libraryName:fullpath}));
                 //    $("#node-dialog-library-save-confirm").dialog( "open" );
                 //    return;
                 //}
@@ -13319,30 +13330,30 @@ RED.library = (function() {
                 data: JSON.stringify(data),
                 contentType: "application/json; charset=utf-8"
             }).done(function(data,textStatus,xhr) {
-                RED.notify(RED._("library.savedType", {type:options.type}),"success");
+                RED.notify(i18n("library.savedType", {type:options.type}),"success");
             }).fail(function(xhr,textStatus,err) {
                 if (xhr.status === 401) {
-                    RED.notify(RED._("library.saveFailed",{message:RED._("user.notAuthorized")}),"error");
+                    RED.notify(i18n("library.saveFailed",{message:i18n("user.notAuthorized")}),"error");
                 } else {
-                    RED.notify(RED._("library.saveFailed",{message:xhr.responseText}),"error");
+                    RED.notify(i18n("library.saveFailed",{message:xhr.responseText}),"error");
                 }
             });
         }
         $( "#node-dialog-library-save-confirm" ).dialog({
-            title: RED._("library.saveToLibrary"),
+            title: i18n("library.saveToLibrary"),
             modal: true,
             autoOpen: false,
             width: 530,
             height: 230,
             buttons: [
                 {
-                    text: RED._("common.label.cancel"),
+                    text: i18n("common.label.cancel"),
                     click: function() {
                         $( this ).dialog( "close" );
                     }
                 },
                 {
-                    text: RED._("common.label.save"),
+                    text: i18n("common.label.save"),
                     class: "primary",
                     click: function() {
                         saveToLibrary(true);
@@ -13352,20 +13363,20 @@ RED.library = (function() {
             ]
         });
         $( "#node-dialog-library-save" ).dialog({
-            title: RED._("library.saveToLibrary"),
+            title: i18n("library.saveToLibrary"),
             modal: true,
             autoOpen: false,
             width: 530,
             height: 230,
             buttons: [
                 {
-                    text: RED._("common.label.cancel"),
+                    text: i18n("common.label.cancel"),
                     click: function() {
                         $( this ).dialog( "close" );
                     }
                 },
                 {
-                    text: RED._("common.label.save"),
+                    text: i18n("common.label.save"),
                     class: "primary",
                     click: function() {
                         saveToLibrary(false);
@@ -13409,11 +13420,11 @@ RED.library = (function() {
                     autoOpen: false,
                     width: 500,
                     resizable: false,
-                    title: RED._("library.exportToLibrary"),
+                    title: i18n("library.exportToLibrary"),
                     buttons: [
                         {
                             id: "library-dialog-cancel",
-                            text: RED._("common.label.cancel"),
+                            text: i18n("common.label.cancel"),
                             click: function() {
                                 $( this ).dialog( "close" );
                             }
@@ -13421,7 +13432,7 @@ RED.library = (function() {
                         {
                             id: "library-dialog-ok",
                             class: "primary",
-                            text: RED._("common.label.export"),
+                            text: i18n("common.label.export"),
                             click: function() {
                                 //TODO: move this to RED.library
                                 var flowName = $("#node-input-library-filename").val();
@@ -13433,12 +13444,12 @@ RED.library = (function() {
                                         contentType: "application/json; charset=utf-8"
                                     }).done(function() {
                                         RED.library.loadFlowLibrary();
-                                        RED.notify(RED._("library.savedNodes"),"success");
+                                        RED.notify(i18n("library.savedNodes"),"success");
                                     }).fail(function(xhr,textStatus,err) {
                                         if (xhr.status === 401) {
-                                            RED.notify(RED._("library.saveFailed",{message:RED._("user.notAuthorized")}),"error");
+                                            RED.notify(i18n("library.saveFailed",{message:i18n("user.notAuthorized")}),"error");
                                         } else {
-                                            RED.notify(RED._("library.saveFailed",{message:xhr.responseText}),"error");
+                                            RED.notify(i18n("library.saveFailed",{message:xhr.responseText}),"error");
                                         }
                                     });
                                 }
@@ -13719,7 +13730,7 @@ RED.search = (function() {
             addItem: function(container,i,object) {
                 var node = object.node;
                 if (node === undefined) {
-                    $('<div>',{class:"red-ui-search-empty"}).html(RED._('search.empty')).appendTo(container);
+                    $('<div>',{class:"red-ui-search-empty"}).html(i18n('search.empty')).appendTo(container);
 
                 } else {
                     var def = node._def;
@@ -14255,7 +14266,7 @@ RED.subflow = (function() {
     function convertToSubflow() {
         var selection = RED.view.selection();
         if (!selection.nodes) {
-            RED.notify(RED._("subflow.errors.noNodesSelected"),"error");
+            RED.notify(i18n("subflow.errors.noNodesSelected"),"error");
             return;
         }
         var i,n;
@@ -14318,7 +14329,7 @@ RED.subflow = (function() {
         candidateOutputs.sort(function(a,b) { return a.source.y-b.source.y});
 
         if (Object.keys(candidateInputNodes).length > 1) {
-             RED.notify(RED._("subflow.errors.multipleInputsToSelection"),"error");
+             RED.notify(i18n("subflow.errors.multipleInputsToSelection"),"error");
              return;
         }
 
