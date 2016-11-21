@@ -77,7 +77,7 @@ public class Client {
 
     JsonObject res = doRequest(request, Methods.GET);
     try {
-      return sanitise(res.get("data").getAsJsonObject().get("log").getAsString());
+      return res.get("data").getAsJsonObject().get("log").getAsString();
     } catch (RuntimeException e) {
       Logger.error(e.getMessage());
       throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
