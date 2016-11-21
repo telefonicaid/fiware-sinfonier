@@ -208,7 +208,7 @@
           .done(function (res) {
             $('#collapseLog-${_topology.getId()}')
                 .find('.log-expanded')
-                .append(res.data.msg);
+                .html(res.data.msg);
           })
           .fail(function (err) {
             //clearInterval(window.intervals['${_topology.getId()}']);
