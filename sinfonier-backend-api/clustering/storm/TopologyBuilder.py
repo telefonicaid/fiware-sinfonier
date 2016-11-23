@@ -48,11 +48,11 @@ class TopologyBuilder(object):
             _module_version_code = module[ModuleConsts.FIELD_VERSION_CODE]
 
             if not ids.get(_module_id):
-                ids.setdefault(_module_id, [_module_version_code])
-            elif ids.get(_module_id) and not ids.get(_module_id).__contains__(_module_version_code):
+                ids.setdefault(module[ModuleConsts.FIELD_MODULE_ID], [_module_version_code])
+            elif not ids.get(_module_id) and not ids.__contains__(_module_version_code):
                 _module_versions_codes = ids.get(_module_id)
                 _module_versions_codes.append(_module_version_code)
-                ids.setdefault(_module_id, _module_versions_codes)
+                ids.setdefault(module[ModuleConsts.FIELD_MODULE_ID], _module_versions_codes)
 
         _modules = MongodbFactory.get_modules(ids.keys())
 
@@ -136,7 +136,8 @@ class TopologyBuilder(object):
         if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "properties")):
 
             modules = self.get_modules_info(topologyInfo["config"]["modules"])
-            modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
+            normalizedWires = self.normalizeWiresSourceTarget(topologyInfo["config"]["wires"])
+            modulesWithWires = self.set_modules_wires(modules, normalizedWires)
 
             backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["properties"])
             backend_json["builderConfig"] = dict()
@@ -232,6 +233,14 @@ class TopologyBuilder(object):
                 # Throw error
                 pass
         return modules_info
+
+    def normalizeWiresSourceTarget(self, wires):
+
+        for wire in wires:
+            if "src" in wire and "terminal" in wire["src"] and wire["src"]["terminal"] not in ["out", "yes", "no"]:
+                 wire["src"], wire["tgt"] = wire["tgt"], wire["src"]
+
+        return wires
 
     def set_modules_wires(self, modules, wires):
         for wire in wires:
