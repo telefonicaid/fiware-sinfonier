@@ -315,6 +315,10 @@ Nodered.menu.label.view.info = Info. de módulos
 Nodered.menu.label.view.properties = Propiedades de la topología
 Nodered.menu.label.view.showGrid = Mostrar cuadrícula
 
+Nodered.sidebar.infos.module = Módulo
+Nodered.sidebar.infos.module.name = Nombre
+Nodered.sidebar.infos.module.type = Tipo
+Nodered.sidebar.infos.module.fields = Campos
 Nodered.sidebar.properties.label.stormNumWorkers = Num. de Workers de Storm
 Nodered.sidebar.properties.label.topologyMessageTimeout = Timeout de Mensaje de la Topología
 Nodered.sidebar.properties.label.stormConfiguration = Configuración Extra de Storm

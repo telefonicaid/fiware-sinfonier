@@ -29,6 +29,7 @@ import models.topology.TopologyModule;
 import models.topology.deserializers.TopologyDeserializer;
 import models.validators.ParamsValidator;
 import models.topology.json.LogData;
+import models.topology.json.serializers.FlowSerializer;
 import play.Logger;
 import play.data.validation.Required;
 import play.i18n.Messages;
@@ -46,7 +47,7 @@ public class Topologies extends WebSecurityController {
 
   private static Client client = Client.getInstance();
 
-  @Before(unless = {"index", "topology", "search", "log", "importTopology","doImport"})
+  @Before(unless = {"index", "topology", "search", "log", "importTopology", "doImport", "flows"})
   static void hasWritePermission() throws SinfonierException {
     String id = request.params.get("id");
     if (id != null) {
@@ -83,6 +84,27 @@ public class Topologies extends WebSecurityController {
     }
   }
 
+  public static void flows(String template) throws SinfonierException {
+    if (request.isAjax()) {
+      TopologiesContainer topologiesContainer = Topology.getTopologies(getCurrentUser(), false, false, null);
+      List<Topology> topologies = topologiesContainer.getTopologies();
+      if (template != null) {
+        Topology templateTopology = Topology.getAsTemplate(Topology.findById(template), getCurrentUser());
+        topologies.add(templateTopology);
+      }
+      
+      GsonBuilder builder = new GsonBuilder();
+      builder.registerTypeAdapter(Topology.class, new FlowSerializer());
+      Gson gson = builder.create();
+      String outputJson = "";
+      for (Topology topology : topologies) {
+        String topologyJson = gson.toJson(topology);
+        outputJson = outputJson.concat(topologyJson.substring(1, topologyJson.length() - 1)).concat(",");
+      }
+      renderJSON("["+outputJson.substring(0, outputJson.length() - 1)+"]");
+    }
+  }  
+  
   public static void save() throws SinfonierException {
     try {
       GsonBuilder gsonBuilder = new GsonBuilder();

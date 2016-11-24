@@ -51,6 +51,7 @@ POST /topology/{id}/publish                                     Topologies.publi
 POST /topology/{id}/export                                      Topologies.export
 POST /topologies/import                                         Topologies.doImport
 GET /topologies/{name}                                          Topologies.topology
+GET /flows                                                      Topologies.flows
 
 # Diagnostig
 GET /diagnosis                                                  Diagnosis.index

@@ -73,8 +73,8 @@ var RED = (function() {
             url: 'flows',
             success: function(nodes) {
                 var currentHash = window.location.hash;
-                RED.nodes.version(nodes.rev);
-                RED.nodes.import(nodes.flows);
+                //RED.nodes.version(nodes.rev);
+                RED.nodes.import(nodes);
                 RED.nodes.dirty(false);
                 RED.view.redraw(true);
                 if (/^#flow\/.+$/.test(currentHash)) {
@@ -248,6 +248,7 @@ var RED = (function() {
         $("#palette-search").removeClass("hide");
         $("#palette-container").removeClass("hide");
 
+        //TODO. Only for test. loadFlows is called from loadNodeList.
         loadFlows();
         loadNodeList();
     }
@@ -592,7 +593,7 @@ RED.user = (function() {
                         }
                         row.appendTo("#node-dialog-login-fields");
                     }
-                    $('<div class="form-row" style="text-align: right; margin-top: 10px;"><span id="node-dialog-login-failed" style="line-height: 2em;float:left;" class="hide">'+i18n("user.loginFailed")+'</span><img src="red/images/spin.svg" style="height: 30px; margin-right: 10px; " class="login-spinner hide"/>'+
+                    $('<div class="form-row" style="text-align: right; margin-top: 10px;"><span id="node-dialog-login-failed" style="line-height: 2em;float:left;" class="hide">'+i18n("user.loginFailed")+'</span><img src="public/images/newEditor/spin.svg" style="height: 30px; margin-right: 10px; " class="login-spinner hide"/>'+
                         (opts.cancelable?'<a href="#" id="node-dialog-login-cancel" style="margin-right: 20px;" tabIndex="'+(i+1)+'">'+i18n("common.label.cancel")+'</a>':'')+
                         '<input type="submit" id="node-dialog-login-submit" style="width: auto;" tabIndex="'+(i+2)+'" value="'+i18n("user.login")+'"></div>').appendTo("#node-dialog-login-fields");
 
@@ -5481,7 +5482,7 @@ RED.deploy = (function() {
                  '<span>'+i18n("deploy.deploy")+'</span>'+
                 '</span>'+
                 '<span class="deploy-button-spinner hide">'+
-                 '<img src="red/images/spin.svg"/>'+
+                 '<img src="public/images/newEditor/spin.svg"/>'+
                 '</span>'+
               '</a>'+
               '<a id="btn-deploy-options" data-toggle="dropdown" class="deploy-button" href="#"><i class="fa fa-caret-down"></i></a>'+
@@ -5507,7 +5508,7 @@ RED.deploy = (function() {
                   '<span>'+label+'</span>'+
                 '</span>'+
                 '<span class="deploy-button-spinner hide">'+
-                 '<img src="red/images/spin.svg"/>'+
+                 '<img src="public/images/newEditor/spin.svg"/>'+
                 '</span>'+
               '</a>'+
               '</span></li>').prependTo(".header-toolbar");
@@ -5714,7 +5715,7 @@ RED.deploy = (function() {
         //                 nodeDiv.css('backgroundColor',colour);
         //
         //                 var iconContainer = $('<div/>',{class:"palette_icon_container"}).appendTo(nodeDiv);
-        //                 $('<div/>',{class:"palette_icon",style:"background-image: url(icons/"+icon_url+")"}).appendTo(iconContainer);
+        //                 $('<div/>',{class:"palette_icon",style:"background-image: url(public/images/newEditor/icons/"+icon_url+")"}).appendTo(iconContainer);
         //
         //
         //
@@ -5819,7 +5820,7 @@ RED.deploy = (function() {
         $( "#node-dialog-confirm-deploy-type" ).val("conflict");
         $( "#node-dialog-confirm-deploy" ).dialog( "open" );
 
-        // $("#node-dialog-confirm-deploy-review").append($('<img src="red/images/spin.svg" style="background: rgba(255,255,255,0.8); margin-top: -16px; margin-left: -8px; height:16px; position: absolute; "/>'));
+        // $("#node-dialog-confirm-deploy-review").append($('<img src="public/images/newEditor/spin.svg" style="background: rgba(255,255,255,0.8); margin-top: -16px; margin-left: -8px; height:16px; position: absolute; "/>'));
         // $("#node-dialog-confirm-deploy-review .ui-button-text").css("opacity",0.4);
         // $("#node-dialog-confirm-deploy-review").attr("disabled",true).addClass("disabled");
         // $.ajax({
@@ -6407,6 +6408,7 @@ RED.workspaces = (function() {
                 RED.events.emit("workspace:change",event);
                 window.location.hash = 'flow/'+tab.id;
                 RED.sidebar.config.refresh();
+                RED.sidebar.properties.refresh(tab);
             },
             ondblclick: function(tab) {
                 if (tab.type != "subflow") {
@@ -8163,7 +8165,7 @@ RED.view = (function() {
                             .attr("height",function(d){return Math.min(50,d.h-4);});
 
                         var icon = icon_group.append("image")
-                            .attr("xlink:href","icons/"+d._def.icon)
+                            .attr("xlink:href","public/images/newEditor/icons/"+d._def.icon)
                             .attr("class","node_icon")
                             .attr("x",0)
                             .attr("width","30")
@@ -8194,7 +8196,7 @@ RED.view = (function() {
                         //}
 
                         var img = new Image();
-                        img.src = "icons/"+d._def.icon;
+                        img.src = "public/images/newEditor/icons/"+d._def.icon;
                         img.onload = function() {
                             icon.attr("width",Math.min(img.width,30));
                             icon.attr("height",Math.min(img.height,30));
@@ -8231,8 +8233,8 @@ RED.view = (function() {
                     //node.append("circle").attr({"class":"centerDot","cx":0,"cy":0,"r":5});
 
                     //node.append("path").attr("class","node_error").attr("d","M 3,-3 l 10,0 l -5,-8 z");
-                    node.append("image").attr("class","node_error hidden").attr("xlink:href","icons/node-error.png").attr("x",0).attr("y",-6).attr("width",10).attr("height",9);
-                    node.append("image").attr("class","node_changed hidden").attr("xlink:href","icons/node-changed.png").attr("x",12).attr("y",-6).attr("width",10).attr("height",10);
+                    node.append("image").attr("class","node_error hidden").attr("xlink:href","public/images/newEditor/icons/node-error.png").attr("x",0).attr("y",-6).attr("width",10).attr("height",9);
+                    node.append("image").attr("class","node_changed hidden").attr("xlink:href","public/images/newEditor/icons/node-changed.png").attr("x",12).attr("y",-6).attr("width",10).attr("height",10);
             });
 
             node.each(function(d,i) {
@@ -8256,7 +8258,8 @@ RED.view = (function() {
                         }
                         var thisNode = d3.select(this);
                         //thisNode.selectAll(".centerDot").attr({"cx":function(d) { return d.w/2;},"cy":function(d){return d.h/2}});
-                        thisNode.attr("transform", function(d) { return "translate(" + (d.x-d.w/2) + "," + (d.y-d.h/2) + ")"; });
+                        //thisNode.attr("transform", function(d) { return "translate(" + (d.x-d.w/2) + "," + (d.y-d.h/2) + ")"; });
+                        thisNode.attr("transform", function(d) { return "translate(" + (d.x) + "," + (d.y) + ")"; });
 
                         if (mouse_mode != RED.state.MOVING_ACTIVE) {
                             thisNode.selectAll(".node")
@@ -8359,10 +8362,10 @@ RED.view = (function() {
                                 } else {
                                     icon_url = d._def.icon;
                                 }
-                                if ("icons/"+icon_url != current_url) {
-                                    icon.attr("xlink:href","icons/"+icon_url);
+                                if ("public/images/newEditor/icons/"+icon_url != current_url) {
+                                    icon.attr("xlink:href","public/images/newEditor/icons/"+icon_url);
                                     var img = new Image();
-                                    img.src = "icons/"+d._def.icon;
+                                    img.src = "public/images/newEditor/icons/"+d._def.icon;
                                     img.onload = function() {
                                         icon.attr("width",Math.min(img.width,30));
                                         icon.attr("height",Math.min(img.height,30));
@@ -8523,7 +8526,8 @@ RED.view = (function() {
                         var y = -((numOutputs-1)/2)*13 +13*sourcePort;
 
                         var dy = d.target.y-(d.source.y+y);
-                        var dx = (d.target.x-d.target.w/2)-(d.source.x+d.source.w/2);
+                        //var dx = (d.target.x-d.target.w/2)-(d.source.x+d.source.w/2);
+						var dx = (d.target.x)-(d.source.x);
                         var delta = Math.sqrt(dy*dy+dx*dx);
                         var scale = lineCurveScale;
                         var scaleY = 0;
@@ -8538,15 +8542,21 @@ RED.view = (function() {
                             }
                         }
 
-                        d.x1 = d.source.x+d.source.w/2;
+                        //d.x1 = d.source.x+d.source.w/2;
+                        d.x1 = d.source.x;
                         d.y1 = d.source.y+y;
-                        d.x2 = d.target.x-d.target.w/2;
+                        //d.x2 = d.target.x-d.target.w/2;
+                        d.x2 = d.target.x;
                         d.y2 = d.target.y;
 
-                        return "M "+(d.source.x+d.source.w/2)+" "+(d.source.y+y)+
+                        /*return "M "+(d.source.x+d.source.w/2)+" "+(d.source.y+y)+
                             " C "+(d.source.x+d.source.w/2+scale*node_width)+" "+(d.source.y+y+scaleY*node_height)+" "+
                             (d.target.x-d.target.w/2-scale*node_width)+" "+(d.target.y-scaleY*node_height)+" "+
-                            (d.target.x-d.target.w/2)+" "+d.target.y;
+                            (d.target.x-d.target.w/2)+" "+d.target.y;*/
+                        return "M "+(d.source.x+d.source.w)+" "+(d.source.y+d.source.h/2+y)+
+                            " C "+(d.source.x+d.source.w+scale*node_width)+" "+(d.source.y+d.source.h/2+y+scaleY*node_height)+" "+
+                            (d.target.x-scale*node_width)+" "+(d.target.y+d.target.h/2-scaleY*node_height)+" "+
+                            (d.target.x)+" "+(d.target.y+d.target.h/2);							
                     });
                 }
             })
@@ -9155,6 +9165,7 @@ RED.sidebar = (function() {
     function init () {
         RED.keyboard.add("*",/* SPACE */ 32,{ctrl:true},function(){RED.menu.setSelected("menu-item-sidebar",!RED.menu.isSelected("menu-item-sidebar"));d3.event.preventDefault();});
         showSidebar();
+        RED.sidebar.properties.init();
         RED.sidebar.info.init();
         RED.sidebar.config.init();
         // hide info bar at start if screen rather narrow...
@@ -9330,7 +9341,7 @@ RED.palette = (function() {
                     console.log("Definition error: "+nt+".icon",err);
                 }
                 var iconContainer = $('<div/>',{class:"palette_icon_container"+(def.align=="right"?" palette_icon_container_right":"")}).appendTo(d);
-                $('<div/>',{class:"palette_icon",style:"background-image: url(icons/"+icon_url+")"}).appendTo(iconContainer);
+                $('<div/>',{class:"palette_icon",style:"background-image: url(public/images/newEditor/icons/"+icon_url+")"}).appendTo(iconContainer);
             }
 
             d.style.backgroundColor = def.color;
@@ -9691,13 +9702,6 @@ RED.sidebar.info = (function() {
     var propertiesExpanded = false;
     
     function init() {
-        RED.sidebar.addTab({
-            id: "properties",
-            label: i18n("Drawer.index.properties"),
-            name: i18n("Nodered.menu.label.view.properties"),
-            content: propertiesForm,
-            enableOnEdit: true
-        });
     	RED.sidebar.addTab({
             id: "info",
             label: i18n("Drawer.index.infos"),
@@ -9708,7 +9712,7 @@ RED.sidebar.info = (function() {
     }
 
     function show() {
-        RED.sidebar.show("properties");
+        RED.sidebar.show("info");
     }
 
     function jsonFilter(key,value) {
@@ -9730,12 +9734,11 @@ RED.sidebar.info = (function() {
 
     function refresh(node) {
         var table = '<table class="node-info"><tbody>';
-        table += '<tr class="blank"><td colspan="2">'+i18n("sidebar.info.node")+'</td></tr>';
+        table += '<tr class="blank"><td colspan="2">'+i18n("Nodered.sidebar.infos.module")+'</td></tr>';
         if (node.type != "subflow" && node.name) {
-            table += '<tr><td>'+i18n("common.label.name")+'</td><td>&nbsp;<span class="bidiAware" dir="'+RED.text.bidi.resolveBaseTextDir(node.name)+'">'+node.name+'</span></td></tr>';
+            table += '<tr><td>'+i18n("Nodered.sidebar.infos.module.name")+'</td><td>&nbsp;<span class="bidiAware" dir="'+RED.text.bidi.resolveBaseTextDir(node.name)+'">'+node.name+'</span></td></tr>';
         }
-        table += "<tr><td>"+i18n("sidebar.info.type")+"</td><td>&nbsp;"+node.type+"</td></tr>";
-        table += "<tr><td>"+i18n("sidebar.info.id")+"</td><td>&nbsp;"+node.id+"</td></tr>";
+        table += "<tr><td>"+i18n("Nodered.sidebar.infos.module.type")+"</td><td>&nbsp;"+node.type+"</td></tr>";
 
         var m = /^subflow(:(.+))?$/.exec(node.type);
         var subflowNode;
@@ -9755,12 +9758,12 @@ RED.sidebar.info = (function() {
                     userCount++;
                 }
             });
-            table += '<tr><td>'+i18n("common.label.name")+'</td><td><span class="bidiAware" dir=\"'+RED.text.bidi.resolveBaseTextDir(subflowNode.name)+'">'+subflowNode.name+'</span></td></tr>';
+            table += '<tr><td>'+i18n("Nodered.sidebar.infos.module.name")+'</td><td><span class="bidiAware" dir=\"'+RED.text.bidi.resolveBaseTextDir(subflowNode.name)+'">'+subflowNode.name+'</span></td></tr>';
             table += "<tr><td>"+i18n("sidebar.info.instances")+"</td><td>"+userCount+"</td></tr>";
         }
 
         if (!m && node.type != "subflow" && node.type != "comment") {
-            table += '<tr class="blank"><td colspan="2"><a href="#" class="node-info-property-header"><i style="width: 10px; text-align: center;" class="fa fa-caret-'+(propertiesExpanded?"down":"right")+'"></i> '+i18n("sidebar.info.properties")+'</a></td></tr>';
+            table += '<tr class="blank"><td colspan="2"><a href="#" class="node-info-property-header"><i style="width: 10px; text-align: center;" class="fa fa-caret-'+(propertiesExpanded?"down":"right")+'"></i> '+i18n("Nodered.sidebar.infos.module.fields")+'</a></td></tr>';
             if (node._def) {
                 for (var n in node._def.defaults) {
                     if (n != "name" && node._def.defaults.hasOwnProperty(n)) {
@@ -9831,6 +9834,7 @@ RED.sidebar.info = (function() {
 
             e.preventDefault();
         });
+        show();
     }
 
     function clear() {
@@ -9867,6 +9871,69 @@ RED.sidebar.info = (function() {
         refresh:refresh,
         clear: clear,
         set: set
+    }
+})();
+
+RED.sidebar.properties = (function() {
+
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: true,
+        smartLists: true,
+        smartypants: false
+    });
+    
+    function init() {
+        RED.sidebar.addTab({
+            id: "properties",
+            label: i18n("Drawer.index.properties"),
+            name: i18n("Nodered.menu.label.view.properties"),
+            content: propertiesForm,
+            enableOnEdit: true
+        });
+    }
+
+    function show() {
+        RED.sidebar.show("properties");
+    }
+
+    function refresh(tab) {
+    	if (tab.label && tab.label != "*") {
+    		$("#properties-form #properties-name").val(tab.label);
+    	} else {
+    		$("#properties-form #properties-name").val("");
+    	}
+    	if (tab.description) {
+    		$("#properties-form #properties-description").val(tab.description);
+    	} else {
+    		$("#properties-form #properties-description").val("");
+    	}
+    	if (tab.config) {
+    		if (tab.config.topologyProperties) {
+    			$("#properties-form #properties-topology-properties").val(tab.config.topologyProperties.topologyProperties);
+    		}
+    		if (tab.config.stormProperties) {
+    			$("#properties-form #properties-topology-workers").val(
+    					tab.config.stormProperties.TOPOLOGY_WORKERS ? tab.config.stormProperties.TOPOLOGY_WORKERS : "");
+    			$("#properties-form #properties-topology-max-spout-pending").val(
+    					tab.config.stormProperties.TOPOLOGY_MAX_SPOUT_PENDING ? tab.config.stormProperties.TOPOLOGY_MAX_SPOUT_PENDING : "");
+    			$("#properties-form #properties-topology-message-timeout-secs").val(
+    					tab.config.stormProperties.TOPOLOGY_MESSAGE_TIMEOUT_SECS ? tab.config.stormProperties.TOPOLOGY_MESSAGE_TIMEOUT_SECS : "");
+    			$("#properties-form #properties-extra-configuration").val(
+    					tab.config.stormProperties.extraConfiguration ? tab.config.stormProperties.extraConfiguration : "");
+    		}
+    	}
+    	show();
+    }
+
+    return {
+        init: init,
+        show: show,
+        refresh:refresh
     }
 })();
 ;/**
@@ -10725,7 +10792,7 @@ RED.palette.editor = (function() {
                     var enableButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.disableall')).appendTo(buttonGroup);
 
                     var contentRow = $('<div>',{class:"palette-module-content"}).appendTo(container);
-                    var shade = $('<div class="palette-module-shade hide"><img src="red/images/spin.svg" class="palette-spinner"/></div>').appendTo(container);
+                    var shade = $('<div class="palette-module-shade hide"><img src="public/images/newEditor/spin.svg" class="palette-spinner"/></div>').appendTo(container);
 
                     object.elements = {
                         updateButton: updateButton,
@@ -10900,7 +10967,7 @@ RED.palette.editor = (function() {
                    $('<span class="palette-module-updated"><i class="fa fa-calendar"></i> '+formatUpdatedAt(entry.updated_at)+'</span>').appendTo(metaRow);
                    var buttonRow = $('<div>',{class:"palette-module-meta"}).appendTo(headerRow);
                    var buttonGroup = $('<div>',{class:"palette-module-button-group"}).appendTo(buttonRow);
-                   var shade = $('<div class="palette-module-shade hide"><img src="red/images/spin.svg" class="palette-spinner"/></div>').appendTo(container);
+                   var shade = $('<div class="palette-module-shade hide"><img src="public/images/newEditor/spin.svg" class="palette-spinner"/></div>').appendTo(container);
                    var installButton = $('<a href="#" class="editor-button editor-button-small"></a>').html(i18n('palette.editor.install')).appendTo(buttonGroup);
                    installButton.click(function(e) {
                        e.preventDefault();
@@ -10928,7 +10995,7 @@ RED.palette.editor = (function() {
            }
        });
 
-       $('<div id="palette-module-install-shade" class="palette-module-shade hide"><div class="palette-module-shade-status"></div><img src="red/images/spin.svg" class="palette-spinner"/></div>').appendTo(installTab);
+       $('<div id="palette-module-install-shade" class="palette-module-shade hide"><div class="palette-module-shade-status"></div><img src="public/images/newEditor/spin.svg" class="palette-spinner"/></div>').appendTo(installTab);
 
         RED.events.on('registry:node-set-enabled', function(ns) {
             refreshNodeModule(ns.module);
@@ -13756,7 +13823,7 @@ RED.search = (function() {
                     nodeDiv.css('backgroundColor',colour);
 
                     var iconContainer = $('<div/>',{class:"palette_icon_container"}).appendTo(nodeDiv);
-                    $('<div/>',{class:"palette_icon",style:"background-image: url(icons/"+icon_url+")"}).appendTo(iconContainer);
+                    $('<div/>',{class:"palette_icon",style:"background-image: url(public/images/newEditor/icons/"+icon_url+")"}).appendTo(iconContainer);
 
                     var contentDiv = $('<div>',{class:"red-ui-search-result-description"}).appendTo(div);
                     if (node.z) {
