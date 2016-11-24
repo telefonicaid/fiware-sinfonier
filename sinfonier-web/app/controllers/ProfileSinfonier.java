@@ -18,7 +18,7 @@ public class ProfileSinfonier extends Profile {
 
   public static void edit(String email) {
     User current = getCurrentUser();
-    
+
     if (current.getEmail().equals(email) || current.isAdminUser()) {
       User user = DarwinFactory.getInstance().loadUser(email);
       if (user != null) {
@@ -30,21 +30,21 @@ public class ProfileSinfonier extends Profile {
       forbidden();
     }
   }
-  
-  public static void save(@Required(message = "validation.requiere.email") String email, 
-                          @Required(message = "validation.requiere.name") String name, 
-                          @Required String preferredLang, String twitter, String organization, 
-      String timeZone, String web) {
+
+  public static void save(@Required(message = "validation.requiere.email") String email,
+                          @Required(message = "validation.requiere.name") String name,
+                          @Required String preferredLang, String twitter, String organization,
+                          String timeZone, String web) {
     checkAuthenticity();
     User current = getCurrentUser();
     User user = DarwinFactory.getInstance().loadUser(email);
-    
+
     if (user != null && !Validation.hasErrors()) {
       if (current.getEmail().equals(email) || current.isAdminUser()) {
-        Logger.debug("Edit profile "+email+", name="+name+", preferredLang="+preferredLang);
+        Logger.debug("Edit profile " + email + ", name=" + name + ", preferredLang=" + preferredLang);
         user.setName(name);
         user.setPreferredLang(preferredLang);
-        
+
         // Save SinfonierUser fields
         SinfonierUser sinfonierUser = (SinfonierUser) user.getImplementation();
         sinfonierUser.setTwitter(twitter);
@@ -52,7 +52,7 @@ public class ProfileSinfonier extends Profile {
         sinfonierUser.setTimeZoneID(timeZone);
         sinfonierUser.setWeb(web);
         user.save();
-        
+
         // TODO: Change render when Bug #19153 is fixed in Darwin library. 
         //showUserProfile(email);
         render("Profile/index.html", user);
@@ -61,55 +61,60 @@ public class ProfileSinfonier extends Profile {
       }
     } else if (Validation.hasErrors()) {
       params.flash();
-      render("Profile/edit.html", user); 
+      render("Profile/edit.html", user);
     } else {
       notFound();
     }
   }
-  
+
   public static void changePassword(String email,
                                     @Required(message = "validation.required.profile.password")
-                                    @Password @Equals(value="newPassword2", message = "validation.match.profile.password") 
-                                    String newPassword1,
+                                    @Password @Equals(value = "newPassword2", message = "validation.match.profile.password")
+                                        String newPassword1,
                                     @Required(message = "validation.required.profile.password")
-                                    String newPassword2) 
-      throws SinfonierException {
-    checkAuthenticity();    
-    User current = getCurrentUser();
+                                        String newPassword2,
+                                    @Required(message = "validation.required.profile.oldPassword") String oldPassword)
+      throws SinfonierException, PasswordConstraintViolationException {
+    checkAuthenticity();
     User user = DarwinFactory.getInstance().loadUser(email);
-    
-    if (user != null) {
-      if (!Validation.hasErrors()) {
-        if (current.getEmail().equals(email) || current.isAdminUser()) {
-          Logger.debug("Change password "+email);
-          try {
-            user.changePassword(newPassword1);
-          } catch (PasswordConstraintViolationException e) {
-            throw new SinfonierException(SinfonierError.PASSWORD_CONSTRAINS, e);
-          }
-          user.save();
-          
-          // TODO: Change render when Bug #19153 is fixed in Darwin library. 
-          //showUserProfile(email);
-          render("Profile/index.html", user);
-        } else {
-          forbidden();
-        }
-      } else {
-        for (play.data.validation.Error error : Validation.errors()) {
-          Logger.error(error.message());
-        }
-    
-        params.flash();
-        // TODO: Change redirect when Bug #19469 is fixed in Darwin library. 
-        //showUserProfile(email);
-        render("Profile/index.html", user);
-      }
-    } else {
+
+    if (user == null || getCurrentUser() == null) {
       notFound();
     }
+
+    if (Validation.hasErrors()) {
+      for (play.data.validation.Error error : Validation.errors()) {
+        Logger.error(error.message());
+      }
+      params.flash();
+      // TODO: Change redirect when Bug #19469 is fixed in Darwin library.
+      //showUserProfile(email);
+      index(user);
+    }
+
+    if (!getCurrentUser().getEmail().equals(email) || !getCurrentUser().isAdminUser()) {
+      forbidden();
+    }
+
+
+    if (!user.authenticate(oldPassword)) {
+      validation.equals(true, false).message("Public.passwordReset.validation.invalidOldPassword");
+    }
+
+    if (validation.hasErrors()) {
+      validation.keep();
+      index(user);
+    }
+
+    user.changePassword(newPassword1);
+    user.save();
+    flash.clear();
+
+    // TODO: Change render when Bug #19153 is fixed in Darwin library.
+    //showUserProfile(email);
+    index(user);
   }
-  
+
   @Util
   @Catch(value = SinfonierException.class, priority = 1)
   public static void catchSinfonierExceptions(SinfonierException e) {

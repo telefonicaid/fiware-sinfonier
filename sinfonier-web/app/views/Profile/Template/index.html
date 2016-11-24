@@ -128,10 +128,18 @@
               </div>
               <div class="modal-body text-center">
                   #{form @ProfileSinfonier.changePassword(user.getEmail()), class:"form-horizontal"}
-                    <h5 class="overflow-hidden">&{'Profile.changePassword.message'}</h5>
-                    <!-- <input type="hidden" name="email" value="${user.getEmail()}" />-->
                     <div class="row">
                       <div class="col-xs-12">
+
+                        <div class="form-group">
+                          <label for="oldPassword" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label">&{'Public.register.oldPassword'}</label>
+                          <div class="col-sm-8 col-xs-12">
+                            <input id="oldPassword" name="oldPassword" type="password" class="form-control" required/>
+                          </div>
+                        </div>
+
+                        <h5 class="overflow-hidden">&{'Profile.changePassword.message'}</h5>
+
                         <div class="form-group">
                           <label for="newPassword1" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 control-label">&{'Profile.newPassword1'}</label>
                           <div class="col-sm-8 col-xs-12">
