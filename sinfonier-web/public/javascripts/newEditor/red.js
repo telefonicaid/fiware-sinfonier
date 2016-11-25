@@ -25,9 +25,9 @@ var RED = (function() {
             url: 'nodes',
             success: function(data) {
                 RED.nodes.setNodeList(data);
-
+               
                 var nsCount = 0;
-                for (var i=0;i<data.length;i++) {
+                /*for (var i=0;i<data.length;i++) {
                     var ns = data[i];
                     if (ns.module != "node-red") {
                         nsCount++;
@@ -38,7 +38,7 @@ var RED = (function() {
                             }
                         });
                     }
-                }
+                }*/
                 if (nsCount === 0) {
                     loadNodes();
                 }
@@ -55,7 +55,7 @@ var RED = (function() {
             url: 'nodes',
             success: function(data) {
                 $("body").append(data);
-                $("body").i18n();
+                //$("body").i18n();
                 $("#palette > .palette-spinner").hide();
                 $(".palette-scroll").removeClass("hide");
                 $("#palette-search").removeClass("hide");
@@ -248,8 +248,6 @@ var RED = (function() {
         $("#palette-search").removeClass("hide");
         $("#palette-container").removeClass("hide");
 
-        //TODO. Only for test. loadFlows is called from loadNodeList.
-        loadFlows();
         loadNodeList();
     }
 
@@ -8165,7 +8163,7 @@ RED.view = (function() {
                             .attr("height",function(d){return Math.min(50,d.h-4);});
 
                         var icon = icon_group.append("image")
-                            .attr("xlink:href","public/images/newEditor/icons/"+d._def.icon)
+                            .attr("xlink:href","public/images/icons/"+d._def.icon)
                             .attr("class","node_icon")
                             .attr("x",0)
                             .attr("width","30")
@@ -8196,11 +8194,12 @@ RED.view = (function() {
                         //}
 
                         var img = new Image();
-                        img.src = "public/images/newEditor/icons/"+d._def.icon;
+                        img.src = "public/images/icons/"+d._def.icon;
                         img.onload = function() {
                             icon.attr("width",Math.min(img.width,30));
                             icon.attr("height",Math.min(img.height,30));
                             icon.attr("x",15-Math.min(img.width,30)/2);
+                            icon.attr("y",15-Math.min(img.height,30)/2);
                             //if ("right" == d._def.align) {
                             //    icon.attr("x",function(d){return d.w-img.width-1-(d.outputs>0?5:0);});
                             //    icon_shade.attr("x",function(d){return d.w-30});
@@ -8362,14 +8361,15 @@ RED.view = (function() {
                                 } else {
                                     icon_url = d._def.icon;
                                 }
-                                if ("public/images/newEditor/icons/"+icon_url != current_url) {
-                                    icon.attr("xlink:href","public/images/newEditor/icons/"+icon_url);
+                                if ("public/images/icons/"+icon_url != current_url) {
+                                    icon.attr("xlink:href","public/images/icons/"+icon_url);
                                     var img = new Image();
-                                    img.src = "public/images/newEditor/icons/"+d._def.icon;
+                                    img.src = "public/images/icons/"+d._def.icon;
                                     img.onload = function() {
                                         icon.attr("width",Math.min(img.width,30));
                                         icon.attr("height",Math.min(img.height,30));
                                         icon.attr("x",15-Math.min(img.width,30)/2);
+                                        icon.attr("y",15-Math.min(img.height,30)/2);
                                     }
                                 }
                             }
@@ -9302,7 +9302,7 @@ RED.palette = (function() {
     }
 
     function escapeNodeType(nt) {
-        return nt.replace(" ","_").replace(".","_").replace(":","_");
+        return nt.replace(" ","_").replace(".","_").replace(":","_").replace("(","_").replace(")","_");
     }
 
     function addNodeType(nt,def) {
@@ -9341,7 +9341,7 @@ RED.palette = (function() {
                     console.log("Definition error: "+nt+".icon",err);
                 }
                 var iconContainer = $('<div/>',{class:"palette_icon_container"+(def.align=="right"?" palette_icon_container_right":"")}).appendTo(d);
-                $('<div/>',{class:"palette_icon",style:"background-image: url(public/images/newEditor/icons/"+icon_url+")"}).appendTo(iconContainer);
+                $('<div/>',{class:"palette_icon",style:"background-image: url(public/images/icons/"+icon_url+")"}).appendTo(iconContainer);
             }
 
             d.style.backgroundColor = def.color;
@@ -11045,7 +11045,9 @@ RED.palette.editor = (function() {
                 typesInUse[n.type] = (typesInUse[n.type]||0)+1;
                 if (typesInUse[n.type] === 1) {
                     var ns = RED.nodes.registry.getNodeSetForType(n.type);
-                    refreshNodeModule(ns.module);
+                    if (ns) {
+                        refreshNodeModule(ns.module);
+                    }
                 }
             }
         })

@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    RED.nodes.registerType('${(_module.getModule().getName() + 
+    		  (_module.getVersion().getVersionTag() != null ? " (" + _module.getVersion().getVersionTag() + ")" : "")).
+    		  escapeJavaScript()}',{
+        category: getCategory('${_module.getModule().getType()}'),
+        color: getColor('${_module.getModule().getType()}'),
+        defaults: {
+        },
+        inputs: getInputs('${_module.getModule().getType()}'),
+        outputs: getOutputs('${_module.getModule().getType()}'),
+        icon: getIcon('${_module.getModule().getType()}'),
+        label: function() {
+        	return '${(_module.getModule().getName() + 
+            (_module.getVersion().getVersionTag() != null ? " (" + _module.getVersion().getVersionTag() + ")" : "")).
+            escapeJavaScript()}';
+        }
+    });
+</script>

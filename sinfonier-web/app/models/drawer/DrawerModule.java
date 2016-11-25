@@ -1,6 +1,9 @@
 package models.drawer;
 
 import static models.SinfonierConstants.ModuleVersion.FIELD_CONTAINER;
+
+import java.util.ArrayList;
+
 import static models.SinfonierConstants.Module.FIELD_NAME;
 import static models.SinfonierConstants.Module.FIELD_TYPE;
 import static models.SinfonierConstants.Module.FIELD_LANGUAGE;
@@ -22,6 +25,8 @@ public class DrawerModule {
   public static final String FIELD_MODULE_NAME = "name";
   public static final String FIELD_MODULE_ID = "module_id";
   public static final String FIELD_VERSION_ID = "module_version_id";
+  
+  public static ArrayList<Class> instantiatedDerivedTypes = new ArrayList<Class>();
 
   protected Module module;
   protected ModuleVersion version;
@@ -29,6 +34,11 @@ public class DrawerModule {
   public DrawerModule() {
     this.module = new Module();
     this.version = new ModuleVersion();
+    
+    Class derivedClass = this.getClass();
+    if (!DrawerModule.instantiatedDerivedTypes.contains(derivedClass)) {
+        DrawerModule.instantiatedDerivedTypes.add(derivedClass);
+    }
   }
 
   public DrawerModule(Module module, ModuleVersion version) {

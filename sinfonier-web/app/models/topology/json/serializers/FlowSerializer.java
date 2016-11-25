@@ -36,7 +36,6 @@ import models.topology.Wire;
 
 public class FlowSerializer implements JsonSerializer<Topology> {
 
-  private static final String FIELD_MODULE = "module";
   private static final String FIELD_ID = "id";
   private static final String FIELD_TYPE = "type";
   private static final String FIELD_LABEL = "label";
@@ -83,7 +82,10 @@ public class FlowSerializer implements JsonSerializer<Topology> {
       jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_LANGUAGE, topologyModule.getLanguage());
       jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_PARALLELISMS,topologyModule.getParallelism());
       
-      jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_TYPE, topologyModule.getType());
+      String versionTag = getVersionTag(topologyModule);
+      jsonModule.addProperty(models.SinfonierConstants.TopologyModule.FIELD_TYPE, topologyModule.getName() +
+          (versionTag != null ? " (" + versionTag + ")" : ""));
+      
       jsonModule.addProperty(FIELD_TOPOLOGY_REF, topology.getId());
       jsonModule.addProperty(FIELD_NAME, topologyModule.getName());
       jsonModule.addProperty(FIELD_POSITION_X, topologyModule.getConfig().getPosition().get(0));
@@ -137,5 +139,18 @@ public class FlowSerializer implements JsonSerializer<Topology> {
       groupedWires.get(terminal).add(reference);
     }
     return new ArrayList(groupedWires.values());
+  }
+  
+  private String getVersionTag(TopologyModule topologyModule) {
+    String versionTag = null;
+    try {
+      if (topologyModule.getModuleId() != null && topologyModule.getModuleVersionId() != null) {
+        ModuleVersion moduleVersion = ModuleVersion.findById(topologyModule.getModuleVersionId());
+        versionTag = moduleVersion.getVersionTag();
+      }
+    } catch (SinfonierException e) {
+      throw new JsonException(e.getMessage(), e.getCause());
+    }
+    return versionTag;
   }
 }
