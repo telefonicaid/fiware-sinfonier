@@ -10,6 +10,8 @@ import org.jsoup.safety.Whitelist;
 import play.Logger;
 import play.Play;
 import play.libs.WS;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+import static org.apache.commons.lang.StringEscapeUtils.unescapeJava;
 
 public class Client {
   private static Client instance;
@@ -77,7 +79,7 @@ public class Client {
 
     JsonObject res = doRequest(request, Methods.GET);
     try {
-      return res.get("data").getAsJsonObject().get("log").getAsString();
+      return escapeHtml(unescapeJava(res.get("data").getAsJsonObject().get("log").getAsString()));
     } catch (RuntimeException e) {
       Logger.error(e.getMessage());
       throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
@@ -146,37 +148,6 @@ public class Client {
     }
 
     return null;
-  }
-
-  private String sanitise(String str) {
-    if (str == null)
-      return "";
-
-    String _str = Jsoup.clean(str, Whitelist.basic());
-    String separator = System.getProperty("line.separator");
-
-    if ((!_str.contains("\n") || !_str.contains(separator)) && StringUtils.split(_str).length > MAX_WORDS_PER_LINE) {
-      String[] words = StringUtils.split(_str);
-      int counterPerLine = 0;
-      _str = "";
-
-      for (int i = 0; i < words.length; i++) {
-        if (counterPerLine > MAX_WORDS_PER_LINE) {
-          _str += separator;
-          counterPerLine = 0;
-        }
-
-        _str += words[i] + " ";
-        counterPerLine++;
-
-        if (i == words.length - 1) {
-          _str += separator;
-          break;
-        }
-      }
-    }
-
-    return _str;
   }
 
   public static synchronized Client getInstance() {
