@@ -109,10 +109,10 @@ public class TopologyTests extends BaseTest {
 
   @Test
   public void getTopologiesTest() throws SinfonierException {
-    List<Topology> list = Topology.getTopologies(adminUser, null).getTopologies();
+    List<Topology> list = Topology.getTopologies(adminUser,null, null).getTopologies();
     assertTrue(list.size() == 3);
 
-    list = Topology.getTopologies(lostUser, false, false, null).getTopologies();
+    list = Topology.getTopologies(lostUser,null, false, false, null).getTopologies();
     assertTrue(list.size() == 0);
   }
 

@@ -16,11 +16,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.mongodb.BasicDBObject;
 
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
 import models.module.Module;
 import models.module.ModuleVersion;
+import models.project.Project;
 import models.responses.Codes;
 import models.storm.Client;
 import models.topology.TopologiesContainer;
@@ -30,6 +32,7 @@ import models.topology.deserializers.TopologyDeserializer;
 import models.validators.ParamsValidator;
 import models.topology.json.LogData;
 import play.Logger;
+import play.Play;
 import play.data.validation.Required;
 import play.i18n.Messages;
 import play.mvc.Before;
@@ -37,7 +40,7 @@ import play.mvc.Catch;
 import play.mvc.Util;
 
 
-public class Topologies extends WebSecurityController {
+public class Topologies extends BaseController {
   public static final String INDEX_MODE_MY_TOPOLOGIES = "myTopologies";
   public static final String FLASH_KEY_LAUNCHING_ERROR = "topology_error_launching";
   public static final String FLASH_KEY_STOPPING_ERROR = "topology_error_stopping";
@@ -62,7 +65,7 @@ public class Topologies extends WebSecurityController {
 
   public static void index(String indexMode, String template, int page) throws SinfonierException {
     if (request.isAjax()) {
-      TopologiesContainer topologiesContainer = Topology.getTopologies(getCurrentUser(), false, false, page);
+      TopologiesContainer topologiesContainer = Topology.getTopologies(getCurrentUser(), getCurrentProject(),false, false, page);
       List<Topology> topologies = topologiesContainer.getTopologies();
       if (template != null) {
         Topology templateTopology = Topology.getAsTemplate(Topology.findById(template), getCurrentUser());
@@ -73,9 +76,9 @@ public class Topologies extends WebSecurityController {
       TopologiesContainer topologiesContainer;
 
       if (indexMode != null && indexMode.equals(INDEX_MODE_MY_TOPOLOGIES)) {
-        topologiesContainer = Topology.getTopologies(getCurrentUser(), false, true, page);
+        topologiesContainer = Topology.getTopologies(getCurrentUser(), getCurrentProject(), false, true, page);
       } else {
-        topologiesContainer = Topology.getTopologies(getCurrentUser(), page);
+        topologiesContainer = Topology.getTopologies(getCurrentUser(), getCurrentProject(), page);
       }
       List<Topology> topologies = topologiesContainer.getTopologies();
       int totalTopologies = topologiesContainer.getCountBeforeLimit();
@@ -92,9 +95,17 @@ public class Topologies extends WebSecurityController {
       ParamsValidator validator = ParamsValidator.getInstance();
       Topology topology = gson.fromJson(request.params.get("body"), Topology.class);
       topology.setAuthorId(getCurrentUser().getId());
-  
+      
       if (validator.validate(topology.getConfig(), true)) {
+      	
         String topologyId = topology.save();
+        Project project = getCurrentProject();
+        if ("true".equals(Play.configuration.get("projects")) && project != null) {
+          if (!project.hasTopologyId(topologyId)) {
+            project.addTopology(topologyId);
+            setCurrentProject(project);
+          }
+        }
         renderJSON(new Gson().toJson(Topology.findById(topologyId)));
       } else {
         Codes c410 = Codes.CODE_400;

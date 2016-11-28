@@ -182,6 +182,35 @@ Modules.form.err.versionTagUsed = Etiqueta de versión previamente usada en este
 Modules.form.warning.versions.moreDeveloping = Existen más versiones en desarrollo de este módulo. Considere continuar trabajando en alguna de ellas antes de añadir una nueva versión
 Modules.form.warning.gistCode = Verifique que el nombre de clase especificado en su Gist coincide con el nombre de módulo utilizado
 
+Projects.current.label = Proyecto en uso:
+Projects.index.title = Proyectos
+Projects.add.title = Nuevo proyecto
+Projects.edit.title = Editar proyecto
+Projects.index.btn.top = Proyectos Top
+Projects.index.btn.my = Mis proyectos
+Projects.index.btn.new = Nuevo proyecto
+Projects.index.create_by = Creado por <a href="/profile/%s">%s (%s)</a> at %s
+Projects.index.create_by_short = Creado por <a href="/profile/%s">%s</a> at %s
+Projects.index.create_by_text = Creado por %s at %s
+
+Projects.form.err.pattern.name = Formato de nombre incorrecto. Debe ser UpperCamelCase
+Projects.form.name = Nombre
+Projects.form.owner = Creador
+Projects.form.owner.placeholder = Nombre o email
+Projects.form.status = Estado
+Projects.form.description = Descripción
+
+Projects.btn.create = Crear
+Projects.btn.search = Buscar
+Projects.btn.edit = Editar
+Projects.btn.delete = Borrar
+Projects.btn.update = Actualizar
+Projects.btn.use = Usar proyecto
+Projects.btn.deactivate = No usar ningún proyecto
+
+Projects.details.title = Proyecto
+Projects.new.title = Nuevo proyecto
+
 Topologies.index.title = Topologías
 Topologies.index.btn.my = Mis Topologías
 Topologies.index.btn.new = Nueva Topología
@@ -274,7 +303,8 @@ validation.required.drawer.versionCode = "El versionCode del módulo es requerid
 validation.requiere.email = "El email es requerido para esta operación"
 validation.requiere.name = "El nombre de usuario es obligatorio"
 validation.topology.params = "Algunos parámetros son incorrectos o no están permitidos."
-validation.topology.exists = "Already exists a topology with this name"
+validation.topology.exists = "Ya exite una topología con este nombre"
+validation.topology.module.unexistent = "Módulo inexistente "
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
 
 ## Password policy
