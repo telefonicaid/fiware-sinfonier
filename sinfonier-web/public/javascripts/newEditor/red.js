@@ -6899,8 +6899,12 @@ RED.view = (function() {
                 var helperOffset = d3.touches(ui.helper.get(0))[0]||d3.mouse(ui.helper.get(0));
                 var mousePos = d3.touches(this)[0]||d3.mouse(this);
 
-                mousePos[1] += this.scrollTop + ((nn.h/2)-helperOffset[1]);
-                mousePos[0] += this.scrollLeft + ((nn.w/2)-helperOffset[0]);
+                //Respect original position on old editor
+                //mousePos[1] += this.scrollTop + ((nn.h/2)-helperOffset[1]);
+                //mousePos[0] += this.scrollLeft + ((nn.w/2)-helperOffset[0]);
+                mousePos[1] += this.scrollTop - helperOffset[1];
+                mousePos[0] += this.scrollLeft - helperOffset[0];
+                
                 mousePos[1] /= scaleFactor;
                 mousePos[0] /= scaleFactor;
 
@@ -7104,10 +7108,13 @@ RED.view = (function() {
                 var sourcePort = drag_line.port;
                 var portY = -((numOutputs-1)/2)*13 +13*sourcePort;
 
-                var sc = (drag_line.portType === 0)?1:-1;
+                //var sc = (drag_line.portType === 0)?1:-1;
+                var sc = (drag_line.portType === 0)?1:0;
 
+                //var dy = mousePos[1]-(drag_line.node.y+portY);
+                //var dx = mousePos[0]-(drag_line.node.x+sc*drag_line.node.w/2);
                 var dy = mousePos[1]-(drag_line.node.y+portY);
-                var dx = mousePos[0]-(drag_line.node.x+sc*drag_line.node.w/2);
+                var dx = mousePos[0]-(drag_line.node.x);
                 var delta = Math.sqrt(dy*dy+dx*dx);
                 var scale = lineCurveScale;
                 var scaleY = 0;
@@ -7122,10 +7129,17 @@ RED.view = (function() {
                     }
                 }
 
-                drag_line.el.attr("d",
+                //Respect original position on old editor
+                /*drag_line.el.attr("d",
                     "M "+(drag_line.node.x+sc*drag_line.node.w/2)+" "+(drag_line.node.y+portY)+
                     " C "+(drag_line.node.x+sc*(drag_line.node.w/2+node_width*scale))+" "+(drag_line.node.y+portY+scaleY*node_height)+" "+
                     (mousePos[0]-sc*(scale)*node_width)+" "+(mousePos[1]-scaleY*node_height)+" "+
+                    mousePos[0]+" "+mousePos[1]
+                    );*/
+                drag_line.el.attr("d",
+                    "M "+(drag_line.node.x+sc*drag_line.node.w)+" "+(drag_line.node.y+drag_line.node.h/2+portY)+
+                    " C "+(drag_line.node.x+sc*(drag_line.node.w+node_width*scale))+" "+(drag_line.node.y+drag_line.node.h/2+portY+scaleY*node_height)+" "+
+                    (mousePos[0]-sc*(scale)*node_width)+" "+(mousePos[1]+drag_line.node.h/2-scaleY*node_height)+" "+
                     mousePos[0]+" "+mousePos[1]
                     );
             }
@@ -7164,10 +7178,14 @@ RED.view = (function() {
                 node.n.x = mousePos[0]+node.dx;
                 node.n.y = mousePos[1]+node.dy;
                 node.n.dirty = true;
-                minX = Math.min(node.n.x-node.n.w/2-5,minX);
+                /*minX = Math.min(node.n.x-node.n.w/2-5,minX);
                 minY = Math.min(node.n.y-node.n.h/2-5,minY);
                 maxX = Math.max(node.n.x+node.n.w/2+5,maxX);
-                maxY = Math.max(node.n.y+node.n.h/2+5,maxY);
+                maxY = Math.max(node.n.y+node.n.h/2+5,maxY);*/
+                minX = Math.min(node.n.x-5,minX);
+                minY = Math.min(node.n.y-5,minY);
+                maxX = Math.max(node.n.x+5,maxX);
+                maxY = Math.max(node.n.y+5,maxY);
             }
             if (minX !== 0 || minY !== 0) {
                 for (i = 0; i<moving_set.length; i++) {
@@ -7527,8 +7545,10 @@ RED.view = (function() {
                 node.n.x += dx;
                 node.n.y += dy;
                 node.n.dirty = true;
-                minX = Math.min(node.n.x-node.n.w/2-5,minX);
-                minY = Math.min(node.n.y-node.n.h/2-5,minY);
+                /*minX = Math.min(node.n.x-node.n.w/2-5,minX);
+                minY = Math.min(node.n.y-node.n.h/2-5,minY);*/
+                minX = Math.min(node.n.x-5,minX);
+                minY = Math.min(node.n.y-5,minY);
             }
 
             if (minX !== 0 || minY !== 0) {
@@ -7856,8 +7876,10 @@ RED.view = (function() {
             if (d3.event.button != 2) {
                 mouse_mode = RED.state.MOVING;
                 var mouse = d3.touches(this)[0]||d3.mouse(this);
-                mouse[0] += d.x-d.w/2;
-                mouse[1] += d.y-d.h/2;
+                /*mouse[0] += d.x-d.w/2;
+                mouse[1] += d.y-d.h/2;*/
+                mouse[0] += d.x;
+                mouse[1] += d.y;
                 for (i=0;i<moving_set.length;i++) {
                     moving_set[i].ox = moving_set[i].n.x;
                     moving_set[i].oy = moving_set[i].n.y;
@@ -8257,6 +8279,7 @@ RED.view = (function() {
                         }
                         var thisNode = d3.select(this);
                         //thisNode.selectAll(".centerDot").attr({"cx":function(d) { return d.w/2;},"cy":function(d){return d.h/2}});
+                        //Respect original position on old editor
                         //thisNode.attr("transform", function(d) { return "translate(" + (d.x-d.w/2) + "," + (d.y-d.h/2) + ")"; });
                         thisNode.attr("transform", function(d) { return "translate(" + (d.x) + "," + (d.y) + ")"; });
 
@@ -8526,6 +8549,7 @@ RED.view = (function() {
                         var y = -((numOutputs-1)/2)*13 +13*sourcePort;
 
                         var dy = d.target.y-(d.source.y+y);
+                        //Respect original position on old editor
                         //var dx = (d.target.x-d.target.w/2)-(d.source.x+d.source.w/2);
 						var dx = (d.target.x)-(d.source.x);
                         var delta = Math.sqrt(dy*dy+dx*dx);
@@ -8542,13 +8566,16 @@ RED.view = (function() {
                             }
                         }
 
+                        //Respect original position on old editor
                         //d.x1 = d.source.x+d.source.w/2;
                         d.x1 = d.source.x;
                         d.y1 = d.source.y+y;
+                        //Respect original position on old editor
                         //d.x2 = d.target.x-d.target.w/2;
                         d.x2 = d.target.x;
                         d.y2 = d.target.y;
 
+                        //Respect original position on old editor
                         /*return "M "+(d.source.x+d.source.w/2)+" "+(d.source.y+y)+
                             " C "+(d.source.x+d.source.w/2+scale*node_width)+" "+(d.source.y+y+scaleY*node_height)+" "+
                             (d.target.x-d.target.w/2-scale*node_width)+" "+(d.target.y-scaleY*node_height)+" "+
