@@ -63,7 +63,7 @@ GET /projects/search/0                                          Projects.search(
 POST /projects                                                  Projects.create
 PUT /projects/{id}                                              Projects.save
 PUT /projects/save                                              Projects.save
-GET /projects/{id}                                              Projects.show
+GET /projects/{name}                                            Projects.show
 POST /projects/{id}/activate                                    Projects.activate
 POST /projects/deactivate                                       Projects.deactivate
 

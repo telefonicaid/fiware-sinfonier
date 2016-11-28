@@ -16,5 +16,8 @@ public class TestData {
   public static final String TOPOLOGIES_COLLECTION = "topologies";
   public static final String TOPOLOGIES_JSON_FILE = "test/data/topologies.json";
 
+  public static final String PROJECTS_COLLECTION = "projects";
+  public static final String PROJECTS_JSON_FILE = "test/data/projects.json";
+
   public static final double OFFSET_DOUBLE = 0.001;
 }

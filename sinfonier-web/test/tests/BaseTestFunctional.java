@@ -24,6 +24,11 @@ public class BaseTestFunctional extends FunctionalTest {
     BaseTest.doMongoDrop(collectionName);
   }
 
+  protected static void doMongoReset(String collectionName, String jsonFilePath) throws UnknownHostException, IOException {
+    BaseTest.doMongoDrop(collectionName);
+    BaseTest.doMongoImport(collectionName, jsonFilePath);
+  }
+
   protected static Http.Request doLogin(String user, String password) throws IOException, ParserConfigurationException {
     if (sessionToken == null) {
       Http.Response login = GET(newRequest(), "/login");

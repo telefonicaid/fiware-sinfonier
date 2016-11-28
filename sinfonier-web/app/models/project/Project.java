@@ -58,6 +58,18 @@ public class Project implements Cloneable {
     this.setTopologyIds(ids);
   }
 
+  public Project(String name, User author,  String description, List<String> topologyIds) {
+    this.name = name;
+    this.author = author;
+    if (author != null)
+      this.authorId = author.getId();
+    this.description = description;
+    this.topologyIds = topologyIds;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+    this.status = STATUS_ACTIVE;
+  }
+
   public List<String> getTopologyIds() {
     return topologyIds;
   }
@@ -128,17 +140,6 @@ public class Project implements Cloneable {
     return count(query);
   }
 
-  public Project(String name, User author, Boolean sharing, String description, List<String> topologyIds) {
-    this.name = name;
-    this.author = author;
-    if (author != null)
-      this.authorId = author.getId();
-    this.description = description;
-    this.topologyIds = topologyIds;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-    this.status = STATUS_ACTIVE;
-  }
 
   public Project(DBObject o) throws SinfonierException {
     try {
