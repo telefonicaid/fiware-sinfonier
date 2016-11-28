@@ -91,27 +91,6 @@ public class Modules extends WebSecurityController {
     render("Modules/index.html", modules, totalModules);
   }
   
-  public static void nodes() throws SinfonierException {
-    if (request.isAjax()) {
-      Drawer drawer = new Drawer(getCurrentUser());
-      List<DrawerModule> drawerModules = drawer.getModules();
-      
-      if (request.headers.get("accept").values.get(0).equals("application/json")) {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(DrawerModule.class, new DrawerModuleSerializer());
-        for (Class cls : DrawerModule.instantiatedDerivedTypes) {
-          builder.registerTypeAdapter(cls, new DrawerModuleSerializer());
-        }
-        
-        Gson gson = builder.create();
-        
-        renderJSON(gson.toJson(drawerModules));
-      } else {
-        render(drawerModules);
-      }
-    }
-  }  
-
   public static void module(String name, Integer versionCode) throws SinfonierException {
     Module module = Module.findByName(name);
     User user = getCurrentUser();

@@ -31,7 +31,6 @@ POST /modules/{id}/versions/{versionCode}/validate              Modules.validate
 POST /modules/{id}/versions/{versionCode}/privatize             Modules.privatize
 POST /modules/{id}/versions/{versionCode}/publish               Modules.publish
 POST /modules/{id}/complain                                     Modules.complain
-GET /nodes                                                      Modules.nodes
 
 # Topologies
 GET /topologies/?                                               Topologies.index(page:'1')
@@ -60,6 +59,7 @@ GET /diagnosis                                                  Diagnosis.index
 # Editor
 GET /drawer                                                     Drawers.index
 GET /drawer/modules/{name}/versions/{versionCode}/json          Drawers.module
+GET /nodes                                                      Drawers.nodes
 
 # New Editor
 GET /newEditor                                                  NodeRedEditor.index
