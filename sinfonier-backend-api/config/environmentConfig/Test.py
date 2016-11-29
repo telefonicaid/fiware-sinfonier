@@ -81,5 +81,6 @@ class Config:
     MODULE_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/modules.json'))
     MODULE_VERSION_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/moduleVersions.json'))
     TOPOLOGIES_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/topologies.json'))
+    TOPOLOGY_INFO_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/info.json'))
 
 conf = Config()

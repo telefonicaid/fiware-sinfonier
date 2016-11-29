@@ -491,6 +491,12 @@ $(function(){
   
   
   var infoDataTable = function($table,columns,data){
+	  
+	  var len = columns.length;
+	  for (var i = 0; i < len; i++) {
+		  columns[i].title = i18n('Topologies.info.'+columns[i].data, columns[i].data)
+	  }
+
 	  if ( !$.fn.dataTable.isDataTable( $table ) ) {
     	  $table = $table.dataTable({
     		  ordering:false,
@@ -513,47 +519,47 @@ $(function(){
     	  {
 	    	  $target.find('.info-expanded').hide();
 	    	  var $general = $target.find('.general');
-	    	  infoDataTable($general,[{"title":"Status","data":"status"},
-	        		              {"title":"Uptime","data":"uptime"},
-	        		              {"title":"Num Workers","data":"workersTotal"},
-	        		              {"title":"Num Executors","data":"executorsTotal"},
-	        		              {"title":"Num Tasks","data":"tasksTotal"}],[res.data]); 
+	    	  infoDataTable($general,[{"data":"status"},
+	        		              {"data":"uptime"},
+	        		              {"data":"workersTotal"},
+	        		              {"data":"executorsTotal"},
+	        		              {"data":"tasksTotal"}],[res.data]); 
 	    	  var $stats = $target.find('.stats');
-	    	  infoDataTable($stats,[{"title":"Window","data":"windowPretty"},
-		        		              {"title":"Emitted","data":"emitted"},
-		        		              {"title":"Transferred","data":"transferred"},
-		        		              {"title":"Complete latency (ms)","data":"completeLatency"},
-		        		              {"title":"Acked","data":"acked"},
-		        		              {"title":"Failed","data":"failed"}]
+	    	  infoDataTable($stats,[{"data":"windowPretty"},
+		        		              {"data":"emitted"},
+		        		              {"data":"transferred"},
+		        		              {"data":"completeLatency"},
+		        		              {"data":"acked"},
+		        		              {"data":"failed"}]
 	    	  				,res.data.topologyStats);
 	    	  var $spouts = $target.find('.spouts');
-	    	  infoDataTable($spouts,[{"title":"Id","data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
-		        		              {"title":"Executors","data":"executors","type":"number"},
-		        		              {"title":"Tasks","data":"tasks"},
-		        		              {"title":"Emitted","data":"emitted"},
-		        		              {"title":"Transferred","data":"transferred"},
-		        		              {"title":"Complete latency (ms)","data":"completeLatency"},
-		        		              {"title":"Acked","data":"acked"},
-		        		              {"title":"Failed","data":"failed"},
-		        		              {"title":"Error Host","data":"errorHost"},
-		        		              {"title":"Error Port","data": "errorPort"},
-		        		              {"title":"Last Error","data": "lastError"}]
+	    	  infoDataTable($spouts,[{"data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
+		        		              {"data":"executors","type":"number"},
+		        		              {"data":"tasks"},
+		        		              {"data":"emitted"},
+		        		              {"data":"transferred"},
+		        		              {"data":"completeLatency"},
+		        		              {"data":"acked"},
+		        		              {"data":"failed"},
+		        		              {"data":"errorHost"},
+		        		              {"data": "errorPort"},
+		        		              {"data": "lastError"}]
 	    	  				,res.data.spouts);
 	    	  var $bolts = $target.find('.bolts');
-	    	  infoDataTable($bolts,[{"title":"Id","data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
-		        		              {"title":"Executors","data":"executors"},
-		        		              {"title":"Tasks","data":"tasks"},
-		        		              {"title":"Emitted","data":"emitted"},
-		        		              {"title":"Transferred","data":"transferred"},
-		        		              {"title":"Capacity (last 10m)","data":"capacity"},
-		        		              {"title":"Execute latency (ms)","data":"executeLatency"},
-		        		              {"title":"Executed","data":"executed"},
-		        		              {"title":"Process latency (ms)","data":"processLatency"},
-		        		              {"title":"Acked","data":"acked"},
-		        		              {"title":"Failed","data":"failed"},
-		        		              {"title":"Error Host","data":"errorHost"},
-		        		              {"title":"Error Port","data": "errorPort"},
-		        		              {"title":"Last Error","data": "lastError"}]
+	    	  infoDataTable($bolts,[{"data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
+		        		              {"data":"executors"},
+		        		              {"data":"tasks"},
+		        		              {"data":"emitted"},
+		        		              {"data":"transferred"},
+		        		              {"data":"capacity"},
+		        		              {"data":"executeLatency"},
+		        		              {"data":"executed"},
+		        		              {"data":"processLatency"},
+		        		              {"data":"acked"},
+		        		              {"data":"failed"},
+		        		              {"data":"errorHost"},
+		        		              {"data": "errorPort"},
+		        		              {"data": "lastError"}]
 	    	  				,res.data.bolts);
 	    	  setTimeout(showInfo,10000,$target);
     		 }

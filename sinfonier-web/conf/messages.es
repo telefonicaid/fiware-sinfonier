@@ -252,6 +252,31 @@ Topologies.error.stopping = Error intentando parar la topología
 Topologies.error.import.name = El nombre de la topología está vacío o no tiene el formato correcto
 Topologies.msgs.stopBeforeDelete = Debe detener la topología antes de poder borrarla
 
+Topologies.info.status = Estado
+Topologies.info.uptime = Levantado
+Topologies.info.workersTotal = Num Workers
+Topologies.info.executorsTotal = Num Executors
+Topologies.info.tasksTotal = Num Tasks
+Topologies.info.windowPretty = Ventana
+Topologies.info.emitted = Emitidos
+Topologies.info.transferred = Transferidos
+Topologies.info.completeLatency = Latencia completar (ms)
+Topologies.info.acked = Acked
+Topologies.info.failed = Fallados
+
+Topologies.info.spoutId = Id
+Topologies.info.executors = Executors
+Topologies.info.tasks = Tasks
+Topologies.info.errorHost = Máquina Error
+Topologies.info.errorPort = Puerto Error
+Topologies.info.lastError = Último Error
+
+Topologies.info.boltId = Id
+Topologies.info.capacity = Capacidad (ult. 10m)
+Topologies.info.executeLatency = Latencia ejecución (ms)
+Topologies.info.executed = Ejecutado
+Topologies.info.processLatency = Latencia proceso (ms)
+
 Profile.editAccount = Editar perfil
 Profile.saveAccount = Guardar perfil
 Profile.twitter = Twitter

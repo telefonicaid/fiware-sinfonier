@@ -7,6 +7,7 @@ from clustering.mongo.MongoHandler import MongodbFactory
 from clustering.storm.StormUI import StormUI
 from error.ErrorHandler import TopologyInvalidId, MissingMandatoryFields, Error
 from logger.Logger import logger
+from utils.SinfonierConstants import Topology as TopologyConst
 
 
 class GetTopologyInfo(ApiBase):
@@ -18,13 +19,13 @@ class GetTopologyInfo(ApiBase):
             if topology is None:
                 return ResponsesHandler.handle_404(resp, 'Topology not found')
 
-            info = StormUI.getTopologyByName(topology["name"])
+            info = StormUI.getTopologyByName(topology[TopologyConst.FIELD_NAME])
 
             return ResponsesHandler.handle_200(resp, {'id': topology_id, 'info': info})
         except HTTPError as ex:
             logger.error(ex.message)
             if ex.response.status_code == 400:
-                return ResponsesHandler.handle_200(resp, {'id': topology_id, 'log': ''})
+                return ResponsesHandler.handle_400(resp, {'id': topology_id, 'info': ''})
             else:
                 return ResponsesHandler.handle_500(resp)
         except TopologyInvalidId as Ex:
