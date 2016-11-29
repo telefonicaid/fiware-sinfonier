@@ -43,6 +43,7 @@ import models.Constants;
 import models.ModelCollection;
 import models.factory.DarwinFactory;
 import models.factory.MongoFactory;
+import models.module.validations.IconCheck;
 import models.module.validations.NameCheck;
 import models.user.Inappropriate;
 import models.user.Rating;
@@ -90,6 +91,8 @@ public class Module extends ModelCollection {
 
   @Required(message = "validation.required.module.language")
   private String language;
+
+  @CheckWith(IconCheck.class)
   private File icon;
   
   private Versions versions;

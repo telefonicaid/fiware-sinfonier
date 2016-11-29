@@ -267,6 +267,8 @@ validation.requiere.email = "Email is mandatory for this operation"
 validation.requiere.name = "User name is mandatory"
 validation.topology.params = "Some params are incorrect or it is not allowed."
 validation.not.allow.module.name="This module's name is not allowed"
+validation.icon.invalidFormat = Invalid format, the formats allowed are jpg, jpeg, png.
+validation.icon.exceedsSize = File exceeds the max size allowed.
 
 ## Password policy
 validation.passwordPolicy.username=The password cannot contain the user email.
