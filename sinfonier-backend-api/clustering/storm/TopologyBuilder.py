@@ -136,7 +136,8 @@ class TopologyBuilder(object):
         if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "properties")):
 
             modules = self.get_modules_info(topologyInfo["config"]["modules"])
-            modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
+            normalizedWires = self.normalizeWiresSourceTarget(topologyInfo["config"]["wires"])
+            modulesWithWires = self.set_modules_wires(modules, normalizedWires)
 
             backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["properties"])
             backend_json["builderConfig"] = dict()
@@ -201,7 +202,7 @@ class TopologyBuilder(object):
 
                 mod_info["language"] = module["language"]
                 mod_info["abstractionId"] = "{module_name}_{random_id}".format(module_name=module["name"], random_id=uuid.uuid4())
-                mod_info["parallelism"] = module["parallelism"] if "parallelism" in module else "1"
+                mod_info["parallelism"] = module["parallelisms"] if "parallelisms" in module else "1"
                 mod_info["language"] = module["language"]
                 mod_info["sources"] = list()
                 mod_info["params"] = dict()
@@ -232,6 +233,14 @@ class TopologyBuilder(object):
                 # Throw error
                 pass
         return modules_info
+
+    def normalizeWiresSourceTarget(self, wires):
+
+        for wire in wires:
+            if "src" in wire and "terminal" in wire["src"] and wire["src"]["terminal"] not in ["out", "yes", "no"]:
+                 wire["src"], wire["tgt"] = wire["tgt"], wire["src"]
+
+        return wires
 
     def set_modules_wires(self, modules, wires):
         for wire in wires:
