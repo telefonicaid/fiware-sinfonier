@@ -40,7 +40,7 @@ public class TopologiesTest extends BaseTestFunctional {
     mockClient();
   }
 
-  public static void mockClient() {
+  public static void mockClient() throws Exception {
     Client client =  TestMock.mockTopologiesClient();
     if (client != null) {
       try {
@@ -49,17 +49,19 @@ public class TopologiesTest extends BaseTestFunctional {
         field.set(null, client);
       } catch (Exception e) {
         e.printStackTrace();
+        throw e;
       } 
     }
   }
   
-  public static void unmockClient() {
+  public static void unmockClient() throws Exception{
     try {
       Field field = Topologies.class.getDeclaredField("client");
       field.setAccessible(true);
       field.set(null, Client.getInstance());
     } catch (Exception e) {
       e.printStackTrace();
+      throw e;
     };
   }
 

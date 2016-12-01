@@ -489,96 +489,94 @@ $(function(){
 		  }, window.intervalPolling);
   });
   
-  
-  var infoDataTable = function($table,columns,data){
-	  
-	  var len = columns.length;
-	  for (var i = 0; i < len; i++) {
-		  columns[i].title = i18n('Topologies.info.'+columns[i].data, columns[i].data)
-	  }
 
-	  if ( !$.fn.dataTable.isDataTable( $table ) ) {
-    	  $table = $table.dataTable({
-    		  ordering:false,
-    		  paging: false,
-              info: false,
-              searching: false,
-    		  columns:columns
-    	  });
-	  } else {
-		  $table.dataTable().fnClearTable();
-	  }
-	  $table.fnAddData(data);
+    
+  var infoDataTable = function($table, columns, data) {
+
+    var len = columns.length;
+    for (var i = 0; i < len; i++) {
+      columns[i].title = i18n('Topologies.info.' + columns[i].data, columns[i].data)
+    }
+
+    if (!$.fn.dataTable.isDataTable($table)) {
+      $table = $table.dataTable({
+        ordering : false,
+        paging : false,
+        info : false,
+        searching : false,
+        columns : columns
+      });
+    } else {
+      $table.dataTable().fnClearTable();
+    }
+    $table.fnAddData(data);
   };
   
   
   var showInfo = function($target){
 	  var url = $target.closest('.topology-info').data("info-url");
 	  $.get(url).done(function (res) {
-    	  if ($target.is(':visible'))
-    	  {
-	    	  $target.find('.info-expanded').hide();
-	    	  var $general = $target.find('.general');
-	    	  infoDataTable($general,[{"data":"status"},
-	        		              {"data":"uptime"},
-	        		              {"data":"workersTotal"},
-	        		              {"data":"executorsTotal"},
-	        		              {"data":"tasksTotal"}],[res.data]); 
-	    	  var $stats = $target.find('.stats');
-	    	  infoDataTable($stats,[{"data":"windowPretty"},
-		        		              {"data":"emitted"},
-		        		              {"data":"transferred"},
-		        		              {"data":"completeLatency"},
-		        		              {"data":"acked"},
-		        		              {"data":"failed"}]
-	    	  				,res.data.topologyStats);
-	    	  var $spouts = $target.find('.spouts');
-	    	  infoDataTable($spouts,[{"data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
-		        		              {"data":"executors","type":"number"},
-		        		              {"data":"tasks"},
-		        		              {"data":"emitted"},
-		        		              {"data":"transferred"},
-		        		              {"data":"completeLatency"},
-		        		              {"data":"acked"},
-		        		              {"data":"failed"},
-		        		              {"data":"errorHost"},
-		        		              {"data": "errorPort"},
-		        		              {"data": "lastError"}]
-	    	  				,res.data.spouts);
-	    	  var $bolts = $target.find('.bolts');
-	    	  infoDataTable($bolts,[{"data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
-		        		              {"data":"executors"},
-		        		              {"data":"tasks"},
-		        		              {"data":"emitted"},
-		        		              {"data":"transferred"},
-		        		              {"data":"capacity"},
-		        		              {"data":"executeLatency"},
-		        		              {"data":"executed"},
-		        		              {"data":"processLatency"},
-		        		              {"data":"acked"},
-		        		              {"data":"failed"},
-		        		              {"data":"errorHost"},
-		        		              {"data": "errorPort"},
-		        		              {"data": "lastError"}]
-	    	  				,res.data.bolts);
-	    	  setTimeout(showInfo,10000,$target);
-    		 }
-
-      })
-      .fail(function (err) {
-    	  $target.find('.info-expanded').html(new Date() + ' | [ERROR] Something was wrong with the connection.\n').show();          
-      });
+  	  if ($target.is(':visible'))
+  	  {
+    	  $target.find('.info-expanded').hide();
+    	  var $general = $target.find('.general');
+    	  infoDataTable($general,[{"data":"status"},
+        		              {"data":"uptime"},
+        		              {"data":"workersTotal"},
+        		              {"data":"executorsTotal"},
+        		              {"data":"tasksTotal"}],[res.data]); 
+    	  var $stats = $target.find('.stats');
+    	  infoDataTable($stats,[{"data":"windowPretty"},
+	        		              {"data":"emitted"},
+	        		              {"data":"transferred"},
+	        		              {"data":"completeLatency"},
+	        		              {"data":"acked"},
+	        		              {"data":"failed"}]
+    	  				,res.data.topologyStats);
+    	  var $spouts = $target.find('.spouts');
+    	  infoDataTable($spouts,[{"data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
+	        		              {"data":"executors","type":"number"},
+	        		              {"data":"tasks"},
+	        		              {"data":"emitted"},
+	        		              {"data":"transferred"},
+	        		              {"data":"completeLatency"},
+	        		              {"data":"acked"},
+	        		              {"data":"failed"},
+	        		              {"data":"errorHost"},
+	        		              {"data": "errorPort"},
+	        		              {"data": "lastError"}]
+    	  				,res.data.spouts);
+    	  var $bolts = $target.find('.bolts');
+    	  infoDataTable($bolts,[{"data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
+	        		              {"data":"executors"},
+	        		              {"data":"tasks"},
+	        		              {"data":"emitted"},
+	        		              {"data":"transferred"},
+	        		              {"data":"capacity"},
+	        		              {"data":"executeLatency"},
+	        		              {"data":"executed"},
+	        		              {"data":"processLatency"},
+	        		              {"data":"acked"},
+	        		              {"data":"failed"},
+	        		              {"data":"errorHost"},
+	        		              {"data": "errorPort"},
+	        		              {"data": "lastError"}]
+    	  				,res.data.bolts);
+    	  setTimeout(showInfo,10000,$target);
+  		 }
+    }).fail(function (err) {
+      $target.find('.info-expanded').html(new Date() + ' | [ERROR] Something was wrong with the connection.\n').show();          
+    });
   };
-  //Info
-  $('.collapse-info').click(function(){
-	  var target = $(this).attr('href');
-	  var $target = $(target);
-	  var $info_div = $target.find('.info-expanded');
-	  $info_div.html(''); 
-	  if (!$target.is(':visible'))
-	  {
-		  showInfo($target);
-	  };
+  // Info
+  $('.collapse-info').click(function() {
+    var target = $(this).attr('href');
+    var $target = $(target);
+    var $info_div = $target.find('.info-expanded');
+    $info_div.html('');
+    if (!$target.is(':visible')) {
+      showInfo($target);
+    };
   });
   
 });
