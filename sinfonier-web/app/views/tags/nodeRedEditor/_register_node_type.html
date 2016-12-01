@@ -1,18 +1,20 @@
 <script type="text/javascript">
-    RED.nodes.registerType('${(_module.getModule().getName() + 
-    		  (_module.getVersion().getVersionTag() != null ? " (" + _module.getVersion().getVersionTag() + ")" : "")).
-    		  escapeJavaScript()}',{
-        category: getCategory('${_module.getModule().getType()}'),
-        color: getColor('${_module.getModule().getType()}'),
+    RED.nodes.registerType('${_module.getFullName().escapeJavaScript()}',{
+        category: getCategory('${_module.getType()}'),
+        color: getColor('${_module.getType()}'),
         defaults: {
+        	#{list _module.getVersion().getFields(), as:'field'}
+        	  "${field.getName()}" : { 
+        	    "value" :""
+        	    ,"required" : ${field.isRequired()}
+        	    }${field_isLast ? '' : ','}
+        	#{/list}
         },
-        inputs: getInputs('${_module.getModule().getType()}'),
-        outputs: getOutputs('${_module.getModule().getType()}'),
-        icon: getIcon('${_module.getModule().getType()}'),
+        inputs: getInputs('${_module.getType()}'),
+        outputs: getOutputs('${_module.getType()}'),
+        icon: getIcon('${_module.getType()}'),
         label: function() {
-        	return '${(_module.getModule().getName() + 
-            (_module.getVersion().getVersionTag() != null ? " (" + _module.getVersion().getVersionTag() + ")" : "")).
-            escapeJavaScript()}';
+        	return '${_module.getFullName().escapeJavaScript()}';
         }
     });
 </script>

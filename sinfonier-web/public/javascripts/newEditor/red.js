@@ -11841,7 +11841,7 @@ RED.editor = (function() {
                 });
                 $('<input type="text" style="display: none;" />').prependTo(dialogForm);
                 prepareEditDialog(node,node._def,"node-input");
-                dialogForm.i18n();
+                //dialogForm.i18n();
             },
             close: function() {
                 if (RED.view.state() != RED.state.IMPORT_DRAGGING) {

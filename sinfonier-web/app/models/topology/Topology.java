@@ -113,10 +113,10 @@ public class Topology implements Cloneable {
     BasicDBList notDeletedAndAuthor = new BasicDBList();
     notDeletedAndAuthor.add(not_deleted);
     notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
-
+    notDeletedAndAuthor.add(new BasicDBObject(FIELD_NAME, "Abbar"));
 
     if (user.isAdminUser() && includeExternalSharing) {
-      topologies = find(null, sortByName, usePagination, page);
+      topologies = find(new BasicDBObject(FIELD_NAME, "Abbar"), sortByName, usePagination, page);
     } else if (includeExternalSharing) {
       BasicDBList notDeletedAndSharing = new BasicDBList();
       notDeletedAndSharing.add(not_deleted);

@@ -90,4 +90,12 @@ public class DrawerModule {
   public void setVersion(ModuleVersion version) {
     this.version = version;
   }
+  
+  public String getFullName(){
+    return this.module.getName() + ( this.version.getVersionTag() != null ? " (" + this.version.getVersionTag() + ")" : "" );
+  }
+  
+  public String getType() {
+    return this.module.getType();
+  }
 }
