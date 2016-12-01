@@ -48,11 +48,11 @@ class TopologyBuilder(object):
             _module_version_code = module[ModuleConsts.FIELD_VERSION_CODE]
 
             if not ids.get(_module_id):
-                ids.setdefault(_module_id, [_module_version_code])
-            elif ids.get(_module_id) and not ids.get(_module_id).__contains__(_module_version_code):
+                ids.setdefault(module[ModuleConsts.FIELD_MODULE_ID], [_module_version_code])
+            elif not ids.get(_module_id) and not ids.__contains__(_module_version_code):
                 _module_versions_codes = ids.get(_module_id)
                 _module_versions_codes.append(_module_version_code)
-                ids.setdefault(_module_id, _module_versions_codes)
+                ids.setdefault(module[ModuleConsts.FIELD_MODULE_ID], _module_versions_codes)
 
         _modules = MongodbFactory.get_modules(ids.keys())
 
