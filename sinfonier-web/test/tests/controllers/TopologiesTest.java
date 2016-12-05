@@ -1,20 +1,30 @@
 package tests.controllers;
 
 
-import exceptions.SinfonierException;
-import models.SinfonierConstants;
-import models.topology.Topology;
+import java.io.IOException;
+import java.lang.reflect.Field;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import controllers.Topologies;
+import models.storm.Client;
 import play.mvc.Http;
 import tests.BaseTestFunctional;
 import tests.TestData;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+import tests.TestMock;
 
 
 public class TopologiesTest extends BaseTestFunctional {
@@ -27,6 +37,32 @@ public class TopologiesTest extends BaseTestFunctional {
     doMongoImport(TestData.MODULES_COLLECTION, TestData.MODULES_JSON_FILE);
     doMongoImport(TestData.MODULE_VERSIONS_COLLECTION, TestData.MODULE_VERSIONS_JSON_FILE);
     doMongoImport(TestData.TOPOLOGIES_COLLECTION, TestData.TOPOLOGIES_JSON_FILE);
+    mockClient();
+  }
+
+  public static void mockClient() throws Exception {
+    Client client =  TestMock.mockTopologiesClient();
+    if (client != null) {
+      try {
+        Field field = Topologies.class.getDeclaredField("client");
+        field.setAccessible(true);
+        field.set(null, client);
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw e;
+      } 
+    }
+  }
+  
+  public static void unmockClient() throws Exception{
+    try {
+      Field field = Topologies.class.getDeclaredField("client");
+      field.setAccessible(true);
+      field.set(null, Client.getInstance());
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
+    };
   }
 
   @Before
@@ -101,11 +137,22 @@ public class TopologiesTest extends BaseTestFunctional {
     assertTrue(topologyElements.size() == 0);
   }
 
+  @Test
+  public void info_01() {
+    Http.Response response = GET(request, "/topologies/57becd7cd5c4fa520ae593ae/info");
+    assertIsOk(response);
+    assertContentType("application/json", response);
+    JsonParser parser = new JsonParser();
+    JsonObject json = parser.parse(response.out.toString()).getAsJsonObject();
+    assertTrue("ACTIVE".equals(json.get("data").getAsJsonObject().get("status").getAsString()));
+  }
+
   @AfterClass
   public static void afterClass() throws Exception {
     doMongoDrop(TestData.USERS_COLLECTION);
     doMongoDrop(TestData.TOPOLOGIES_COLLECTION);
     doMongoDrop(TestData.MODULE_VERSIONS_COLLECTION);
     doMongoDrop(TestData.MODULES_COLLECTION);
+    unmockClient();
   }
 }

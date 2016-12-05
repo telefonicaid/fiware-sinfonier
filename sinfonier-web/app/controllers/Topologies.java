@@ -48,7 +48,7 @@ public class Topologies extends BaseController {
   public static final String[] FLASH_KEYS = {FLASH_KEY_LAUNCHING_ERROR, FLASH_KEY_STOPPING_ERROR, FLASH_KEY_REMOVING_ERROR};
 
   private static Client client = Client.getInstance();
-
+  
   @Before(unless = {"index", "topology", "search", "log", "importTopology","doImport"})
   static void hasWritePermission() throws SinfonierException {
     String id = request.params.get("id");
@@ -95,9 +95,9 @@ public class Topologies extends BaseController {
       ParamsValidator validator = ParamsValidator.getInstance();
       Topology topology = gson.fromJson(request.params.get("body"), Topology.class);
       topology.setAuthorId(getCurrentUser().getId());
-      
+
       if (validator.validate(topology.getConfig(), true)) {
-      	
+
         String topologyId = topology.save();
         Project project = getCurrentProject();
         if ("true".equals(Play.configuration.get("projects")) && project != null) {
@@ -415,5 +415,21 @@ public class Topologies extends BaseController {
       renderJSON(c400.toGSON());
     }
   }
+  
+	public static void info(@Required String id) throws SinfonierException {
+		try {
+			JsonObject info = client.getTopologyInfo(id);
+
+			Codes code200 = Codes.CODE_200;
+			code200.setData(info);
+
+			renderJSON(code200.toGSON());
+		} catch (SinfonierException e) {
+			Logger.error(e.getMessage());
+			response.status = Codes.CODE_500.getCode();
+			renderJSON(Codes.CODE_500.toGSON());
+		}
+
+	}
 
 }

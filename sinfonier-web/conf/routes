@@ -40,6 +40,7 @@ GET /topologies/search/?                                        Topologies.searc
 GET /topologies/search/0                                        Topologies.search(page:'1')
 GET /topologies/search/{<-?[0-9]+>page}                         Topologies.search
 GET /topologies/import                                          Topologies.importTopology
+GET /topologies/{id}/info                                       Topologies.info
 POST /topology/save                                             Topologies.save
 POST /topologies/{id}/save                                      Topologies.save
 POST /topology/{id}/remove                                      Topologies.remove
