@@ -13,6 +13,29 @@
         inputs: getInputs('${_module.getType()}'),
         outputs: getOutputs('${_module.getType()}'),
         icon: getIcon('${_module.getType()}'),
+        fields: {
+          #{list _module.getVersion().getFields(), as:'field'}
+          "${field.getName()}" : {
+            type : "${field.getType()}"
+            #{if "list" == field.getType()}
+              ,"listType" : "${field.getListType()}"
+              ,"numElements" : ${field.getNumElements()}
+              ,"labels" : [
+                #{if field.getElementType() != null }  
+	                #{list field.getElementType().getFields(), as:'subfield'}
+	                  "${subfield.getTypeInvite()}"${subfield_isLast ? '' : ','}     
+	                #{/list}  
+                #{/if}
+                ]
+            #{/if}
+            }${field_isLast ? '' : ','}
+            #{/list}
+        },
+        #{if  _module.getVersion().hasListFields() }
+	        oneditprepare: REDSINF.form.oneditprepare,
+	        oneditsave: REDSINF.form.oneditsave,
+	        oneditresize: REDSINF.form.oneditresize,
+        #{/if}
         label: function() {
         	return '${_module.getFullName().escapeJavaScript()}';
         }

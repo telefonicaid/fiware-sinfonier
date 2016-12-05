@@ -64,4 +64,12 @@ public class Fields extends Model implements Iterable<Field> {
 
     return obj;
   }
+  
+  public boolean hasListFields() {
+    for (Field field : fields) {
+      if ( "list".equals(field.getType()))
+        return true;
+    }
+    return false;
+  }
 }

@@ -1,22 +1,22 @@
 <script type="text/x-red" data-template-name="${_module.getFullName().escapeJavaScript()}">
 #{list _module.getVersion().getFields(), as:'field'}
   #{if "string".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._string field:field /}
+    #{nodeRedEditor.templateFields._string field:field /}
   #{/if}
   #{if "integer".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._integer field:field /}
+    #{nodeRedEditor.templateFields._integer field:field /}
   #{/if}
   #{if "list".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._list field:field /}
+    #{nodeRedEditor.templateFields._list field:field /}
   #{/if}
   #{if "number".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._number field:field /}
+    #{nodeRedEditor.templateFields._number field:field /}
   #{/if}
   #{if "url".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._url field:field /}
+    #{nodeRedEditor.templateFields._url field:field /}
   #{/if}
   #{if "boolean".equals(field.getType()) }
-    #{nodeRedEditor.dataFields._boolean field:field /}
+    #{nodeRedEditor.templateFields._boolean field:field /}
   #{/if}
 #{/list}
 </script>

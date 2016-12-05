@@ -74,7 +74,7 @@ class Config:
         MAVEN_BINARY = 'mvn'
 
     MVN_REPOSITORY_ID = 'central'
-    MVN_REPOSITORY_URL = 'http://yourhost:8081/artifactory/libs-release-local'
+    MVN_REPOSITORY_URL = 'http://localhost:8081/artifactory/libs-release-local'
 
 
 conf = Config()

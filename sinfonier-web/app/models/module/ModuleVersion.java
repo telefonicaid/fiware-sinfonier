@@ -507,4 +507,9 @@ public class ModuleVersion extends ModelCollection {
   public String getBuildStatus() {
     return buildStatus;
   }
+  
+  public boolean hasListFields()
+  {
+    return fields.hasListFields();
+  }
 }

@@ -220,4 +220,25 @@ public class Field extends Model {
 
     return out;
   }
+  
+  public String getListType()
+  {
+    if (this.elementType == null) {
+      return "string";
+    } else
+    {
+      return this.elementType.getName();
+    }
+  }
+  public int getNumElements()
+  {
+    if (this.elementType == null) {
+      return 1;
+    } else
+    {
+      ElementTypeFields fields = this.elementType.getFields();
+      return fields != null ? fields.size() : 1;
+    }
+  }
+
 }
