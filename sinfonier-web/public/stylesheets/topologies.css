@@ -93,6 +93,9 @@ form.topologies input, form.topologies select {
   color: #FFF;
 }
 
+.topology-info table th,td {
+	text-align: right;
+}
 .input-group[class*=col-] {
   float: left;
 }    

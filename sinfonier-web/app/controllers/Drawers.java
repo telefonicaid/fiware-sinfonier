@@ -16,7 +16,7 @@ import models.module.Module;
 import models.module.ModuleVersion;
 import models.topology.json.serializers.DrawerModuleSerializer;
 
-public class Drawers extends WebSecurityController {
+public class Drawers extends BaseController {
 
   public static void index() throws SinfonierException {
     Drawer drawer = new Drawer(getCurrentUser());

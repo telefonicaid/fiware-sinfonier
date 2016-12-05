@@ -62,6 +62,18 @@ class StormUI:
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid
         return HTTPHandler.get_as_json(url)
 
+
+    ######################################
+    # /api/v1/topology/:id (GET)
+    # Returns topology information and statistics. Substitute id with topology id.
+    ######################################
+
+    @staticmethod
+    def getTopologyByName(topology_name):
+        id = StormUI.get_topology_id_by_name(topology_name)
+        if id is not None:
+            return StormUI.getTopology(id)
+        return None
     ######################################
     # /api/v1/topology/:id/component/:component (GET)
     # Returns detailed metrics and executor information

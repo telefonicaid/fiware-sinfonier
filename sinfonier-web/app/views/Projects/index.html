@@ -1,0 +1,107 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Projects.index.title'} (${totalProjects}) #{/set}
+#{set 'moreStyles'}
+    #{stylesheet 'projects.css' /}
+#{/set}
+
+#{if flash.get(controllers.Projects.FLASH_KEY_WARNING) }
+<div class="row">
+  <div class="col-lg-12">
+    <div id="project-div-error" class="alert alert-warning alert-dismissible" role="alert">
+      <button id="project-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    ${ flash.get(controllers.Projects.FLASH_KEY_WARNING) }
+    </div>
+  </div>
+</div>
+#{/if}
+
+<div class="row form-group">
+  <div class="col-md-4">
+    <a id="project-a-new" href="@{Projects.add()}" class="btn-tab btn btn-default width-100">&{'Projects.index.btn.new'}</a>
+  </div>
+</div>
+
+#{if projects.size() > 0 || flash.get("searching")}
+<div id="form-search" class="row non-h-padding">
+  <div class="col-lg-12">
+    <div class="well">
+        #{form @Projects.search(), method:'GET', id:'search-projects', class:'form-horizontal'}
+          <div class="form-group">
+            <!-- MODULE'S NAME -->
+            <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Projects.form.name'}</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              <input type="text" class="form-control" id="name" name="search.name" value="${search?.getName()}">
+            </div>
+
+            <!-- MODULE'S OWNER-->
+            <label for="owner" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Projects.form.owner'}</label>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+              <input type="text" class="form-control" id="owner" name="search.owner" value="${search?.getOwner()}" placeholder="&{'Projects.form.owner.placeholder'}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <!-- MODULE'S TYPE-->
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+              <button id="project-button-search" type="submit" class="btn btn-primary pull-right">&{'Projects.btn.search'}</button>
+            </div>
+          </div>
+        #{/form}
+    </div>
+  </div>
+</div>
+#{/if}
+
+%{
+  Map<String, String[]> params = new HashMap<String, String[]>();
+  for (Map.Entry<String, String[]> param : request.params.all()) {
+    if (!Arrays.asList(controllers.Projects.AVOIDED_PAGINATION_PARAMS).contains(param.getKey())) {
+      params.put(param.getKey(), param.getValue());
+    }
+  }
+}%
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalProjects, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+				<div id="empty-project" class="row">
+				  <div class="col-lg-9 col-xs-12 non-h-padding">
+			      <div class="col-lg-4"></div>
+		        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+		          <a id="project-none-button-use" data-id="" href="#" class="btn  pull-right btn-primary js-project-use">
+		           &{'Projects.btn.deactivate'}
+		          </a>
+		        </div>
+				  </div>
+				</div>
+	    </div>
+	  </div>
+	</div>
+<div id="projects" class="row">
+  <div class="col-lg-6 col-xs-12 non-h-padding">
+  #{list items:projects, as:'project'}
+    #{if project_index%2 != 0}
+      #{projects._project project:project,  wc:controllers.WebController/}
+  #{/if}
+  #{/list}
+  </div>
+  <div class="col-lg-6 col-xs-12 non-h-padding">
+  #{list items:projects, as:'project'}
+    #{if project_index%2 == 0}
+      #{projects._project project:project, wc:controllers.WebController/}
+  #{/if}
+  #{/list}
+  </div>
+</div>
+#{common.pagination url: request.action, params: params, currentPage: page, total: totalProjects, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+
+
+#{set 'moreScripts'}
+    #{script 'projects.js'/}
+
+#{/set}

@@ -24,12 +24,28 @@
       <!-- LOG -->
       #{if _topology.getStatus().equals(models.SinfonierConstants.Topology.STATUS_RUNNING)}
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+          <a id="topology-${_topology.getId()}-a-info" role="button" data-toggle="collapse"
+             href="#collapseInfo-${_topology.getId()}" aria-expanded="false" aria-controls="collapseInfo" class="collapse-info">
+            <i class="fa fa-info" style="font-size: 2em;">&nbsp;</i>
+          </a>
           <a id="topology-${_topology.getId()}-a-log" role="button" data-toggle="collapse"
              href="#collapseLog-${_topology.getId()}" aria-expanded="false" aria-controls="collapseLog" class="collapse-log">
             <img src="@{'public/images/log.png'}" alt="logger console">
           </a>
         </div>
       #{/if}
+
+      <div class="col-lg-12 topology-info" id="info_${_topology.getId()}"  data-id="${_topology.getId()}" data-info-url="@{Topologies.info(_topology.getId())}" >
+        <div class="collapse" id="collapseInfo-${_topology.getId()}">
+          <div class="well topology-info">
+            <div id="topology-${_topology.getId()}-div-info-error" class="alert alert-danger alert-dismissible info-expanded hide" role="alert"></div>
+            <table id="topology-${_topology.getId()}-div-general" class="general display" width="100%"></table>
+            <table id="topology-${_topology.getId()}-div-stats" class="display stats" width="100%"></table>
+            <table id="topology-${_topology.getId()}-div-spouts" class="display spouts" width="100%"></table>
+						<table id="topology-${_topology.getId()}-div-bolts"	class="display bolts" width="100%"></table>
+					</div>
+        </div>
+      </div>
 
       <div class="col-lg-12 topology-log" id="log_${_topology.getId()}"  data-id="${_topology.getId()}" data-log-url="@{Topologies.log(_topology.getId())}" >
         <div class="collapse" id="collapseLog-${_topology.getId()}">

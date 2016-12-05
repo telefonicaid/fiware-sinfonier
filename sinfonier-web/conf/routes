@@ -40,6 +40,7 @@ GET /topologies/search/?                                        Topologies.searc
 GET /topologies/search/0                                        Topologies.search(page:'1')
 GET /topologies/search/{<-?[0-9]+>page}                         Topologies.search
 GET /topologies/import                                          Topologies.importTopology
+GET /topologies/{id}/info                                       Topologies.info
 POST /topology/save                                             Topologies.save
 POST /topologies/{id}/save                                      Topologies.save
 POST /topology/{id}/remove                                      Topologies.remove
@@ -52,6 +53,21 @@ POST /topology/{id}/export                                      Topologies.expor
 POST /topologies/import                                         Topologies.doImport
 GET /topologies/{name}                                          Topologies.topology
 GET /flows                                                      Topologies.flows
+
+# Projects
+GET /projects/add                                               Projects.add
+GET /projects/edit                                              Projects.edit
+GET /projects/?                                                 Projects.index(page:'1')
+GET /projects/0                                                 Projects.index(page:'1')
+GET /projects/{<-?[0-9]+>page}                                  Projects.index
+GET /projects/search/?                                          Projects.search(page:'1')
+GET /projects/search/0                                          Projects.search(page:'1')
+POST /projects                                                  Projects.create
+PUT /projects/{id}                                              Projects.save
+PUT /projects/save                                              Projects.save
+GET /projects/{name}                                            Projects.show
+POST /projects/{id}/activate                                    Projects.activate
+POST /projects/deactivate                                       Projects.deactivate
 
 # Diagnostig
 GET /diagnosis                                                  Diagnosis.index

@@ -1,1 +1,1 @@
-__all__ = ['LaunchTopologyTests', 'StopTopologyTests', 'LogTopologyTests']
+__all__ = ['LaunchTopologyTests', 'StopTopologyTests', 'LogTopologyTests','TopologyInfoTests']

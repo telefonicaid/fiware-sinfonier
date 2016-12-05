@@ -224,4 +224,17 @@ public class Client {
 
     return instance;
   }
+  
+  public JsonObject getTopologyInfo(String id) throws SinfonierException {
+    String path = Play.configuration.getProperty("storm.route.topologies.info");
+    WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );
+    JsonObject res = doRequest(request, Methods.GET);
+    try {
+      return  res.get("data").getAsJsonObject().get("info").getAsJsonObject();
+    } catch (RuntimeException e) {
+      Logger.error(e.getMessage());
+      throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
+    }
+  }
+
 }
