@@ -28,6 +28,8 @@ Drawer.editor.toolbar.run = Run
 Drawer.editor.toolbar.save = Save
 Drawer.editor.toolbar.zoomIn = Zoom in
 Drawer.editor.toolbar.zoomOut = Zoom out
+Drawer.editor.toolbar.fullScreen = Full screen
+Drawer.editor.toolbar.showMenu = Show menu
 Drawer.editor.loadPanel.title = Select the topology to load
 Drawer.editor.loadPanel.filter = Filter
 Drawer.editor.modules.header = Modules
@@ -68,7 +70,7 @@ Drawer.editor.messages.topologySaved = Saved!
 Drawer.editor.messages.topologySaveFailure = Unable to save the topology: %s
 Drawer.editor.messages.topologyDeleteConfirm = Are you sure you want to delete this topology?
 Drawer.editor.messages.topologyUnableDelete = Unable to delete topology:
-Drawer.editor.messages.topologyDeleted = Deleted! 
+Drawer.editor.messages.topologyDeleted = Deleted!
 Drawer.editor.messages.inputex.required = This field is required
 Drawer.editor.messages.inputex.invalid = This field is invalid
 Drawer.editor.messages.inputex.url.invalid = Invalid URL, ex: http://www.test.com
@@ -321,7 +323,7 @@ validation.required.author.id = "Author's id is mandatory for this operation."
 validation.required.author.name = "Author's name is mandatory for this operation."
 validation.required.author.email = "Author's email is mandatory for this operation."
 validation.required.sourceCode = "The source code is required."
-validation.required.sourceCodeUrl = "The url of the code is required."
+validation.required.sourceCodeUrl = "The url of the code is required and it must be valid."
 validation.required.complain.msg = "Complain's comment is mandatory for this operation"
 validation.required.drawer.name = "Module's name is mandatory for this operation"
 validation.required.drawer.versionCode = "Module's versionCode is mandatory for this operation"
@@ -331,6 +333,8 @@ validation.topology.params = "Some params are incorrect or it is not allowed."
 validation.topology.exists = "Already exists a topology with this name"
 validation.topology.module.unexistent = "Unexistent module "
 validation.not.allow.module.name="This module's name is not allowed"
+validation.icon.invalidFormat = Invalid format, the formats allowed are jpg, jpeg, png.
+validation.icon.exceedsSize = File exceeds the max size allowed.
 
 ## Password policy
 validation.passwordPolicy.username=The password cannot contain the user email.
@@ -342,10 +346,11 @@ Mailer.subject.reviewModule = New code review
 Mailer.subject.declineModule = Your module has been declined
 Mailer.subject.complainModule = Your module has been reported
 Mailer.subject.nofityComplainModuleAdmin = Module inappropriate
+Mailer.subject.notifySinfonierExceptionAdmin = A Sinfonier Exception has been raised
 
 Error.sinfonier.title = We have detected an error
 Error.500.title = Internal error
-Error.500.msg = This exception has been logged. Report to the administrator about the error.
+Error.500.msg = This exception has been logged. The administrator has been reported about this error.
 Error.1001.msg = The module name '%s' is already used
 Error.1002.msg = The module '%s' is not available.
 Error.1004.msg = The user reached the limit of pending modules.
@@ -354,3 +359,5 @@ Error.3001.msg = The password doesn't meet the security policy.
 
 Utils.pagination.first = First
 Utils.pagination.last = Last
+
+Users.index.modal.deleteUser=Delete user

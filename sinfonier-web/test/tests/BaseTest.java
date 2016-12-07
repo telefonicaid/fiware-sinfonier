@@ -7,6 +7,7 @@ import org.junit.Ignore;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 import play.test.UnitTest;
 
@@ -15,11 +16,13 @@ import com.google.gson.JsonParser;
 import com.mongodb.*;
 import com.mongodb.util.JSON;
 
-@Ignore public class BaseTest extends UnitTest {
+@Ignore
+public class BaseTest extends UnitTest {
 
   protected static void doMongoImport(String collectionName, String jsonFilePath) throws UnknownHostException, IOException {
+    doMongoDrop(collectionName);
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
-    
+
     JsonParser parser = new JsonParser();
     FileReader reader = new FileReader(jsonFilePath);
     JsonElement jsonElement = parser.parse(reader);
@@ -27,14 +30,13 @@ import com.mongodb.util.JSON;
     BasicDBList dbList = (BasicDBList) JSON.parse(jsonElement.toString());
 
     int i;
-    for (i=0; i < dbList.size(); i++) {
+    for (i = 0; i < dbList.size(); i++) {
       collection.insert((DBObject) dbList.get(i));
     }
   }
-  
+
   protected static void doMongoDrop(String collectionName) {
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
-    
     collection.drop();
   }
 }

@@ -50,10 +50,10 @@ public class TopologiesTest extends BaseTestFunctional {
       } catch (Exception e) {
         e.printStackTrace();
         throw e;
-      } 
+      }
     }
   }
-  
+
   public static void unmockClient() throws Exception{
     try {
       Field field = Topologies.class.getDeclaredField("client");

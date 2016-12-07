@@ -3,7 +3,7 @@
 #{set 'moreStyles'}
     #{stylesheet 'modules.css' /}
 #{/set}
-
+<h1>&{'Dashboard.index.title'}</h1>
 <section>
   <div class="row">
     <div class="col-lg-12 align-center">
@@ -21,14 +21,14 @@
 <section>
   <!-- Title -->
   <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-lg-12 align-center">
+    <div class="col-xs-12 align-center">
       <h3 id="dashboard-h3-modulesCount">&{'Dashboard.index.modules', dashboard.getModulesCount()}</h3>
     </div>
   </div>
 
   <!-- Modules -->
   <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-xs-12">
       <h3>
         <small>&{'Dashboard.index.topRated'}</small>
       </h3>
@@ -37,7 +37,7 @@
     #{/list}
     </div>
 
-    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="col-lg-6 col-xs-12">
       <h3>
         <small>&{'Dashboard.index.topUsed'}</small>
       </h3>

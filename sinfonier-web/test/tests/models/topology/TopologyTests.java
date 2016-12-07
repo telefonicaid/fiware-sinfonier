@@ -70,7 +70,7 @@ public class TopologyTests extends BaseTest {
     assertTrue(validator.validate(topology.getConfig(), true));
     assertEquals(topology.getConfig().getStormProperties().size(), 1);
     assertEquals(topology.getConfig().getTopologyProperties().size(), 3);
-    
+
     assertNotNull(topology);
     assertEquals(topology.getId(), id);
     assertEquals(topology.getAuthorId(), ID_OWNER);

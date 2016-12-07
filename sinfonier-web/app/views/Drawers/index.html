@@ -14,7 +14,7 @@
     #{stylesheet 'drawer/editor.css' /}
     #{stylesheet 'drawer/editor-sinfonier.css' /}
 #{/set}
-
+<h1>&{'Drawer.index.title'}</h1>
 <div class="yui-skin-sam">
   <div id="editorContainer">
     <div id="app" class="display-none">
@@ -143,12 +143,12 @@
           webhookit.language.modules.push(JSON.parse('${module.toString().escapeJavaScript().raw()}'));
           #{/if}
       #{/list}
-    	
+
       %{
     	  models.validators.ParamsValidator validator = models.validators.ParamsValidator.getInstance();
     	  models.storm.Params params = validator.getParams();
       }%
-      
+
       #{if models.SinfonierConstants.Drawer.IS_ACTIVE_N_WORKERS}
       webhookit.language.propertiesFields.push({
         "type": "string",
@@ -203,15 +203,17 @@
           }
         });
   });
+
   $(document).ready(function () {
+
     $('.menu-arrow').click(function (event) {
       setTimeout(function () {
         var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
         layout.resize();
-        regenerateModulesDD(); 
+        regenerateModulesDD();
       }, 1001);
     });
-    window.addEventListener('resize', function(event){      
+    window.addEventListener('resize', function(event){
       var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
       layout.resize();
       regenerateModulesDD();
@@ -219,7 +221,7 @@
     setTimeout(function () {
       $(".yui-layout-doc").on("click", ".yui-layout-unit-left .collapse, .yui-layout-clip-left .collapse", function(event) {
         setTimeout(function () {
-          regenerateModulesDD(); 
+          regenerateModulesDD();
         }, 1001);
       });
     }, 1000);
@@ -234,7 +236,7 @@
       });
     }, 1000);
    });
-  
+
   $("#changeToen,#changeToes,.form-logout").each(function(){
       $(this).submit(function(event) {
       adviseTopologyNotSaved(event, this);
@@ -246,9 +248,8 @@
       adviseTopologyNotSaved(event);
     });
   });
-  
-</script>
 
+</script>
     #{script 'vendor/webhookit/editor/adapter.js'/}
     #{script 'vendor/webhookit/editor/topology_editor.js'/}
     #{script 'drawer.js'/}

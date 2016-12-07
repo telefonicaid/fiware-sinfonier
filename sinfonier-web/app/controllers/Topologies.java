@@ -48,7 +48,7 @@ public class Topologies extends BaseController {
   public static final String[] FLASH_KEYS = {FLASH_KEY_LAUNCHING_ERROR, FLASH_KEY_STOPPING_ERROR, FLASH_KEY_REMOVING_ERROR};
 
   private static Client client = Client.getInstance();
-  
+
   @Before(unless = {"index", "topology", "search", "log", "importTopology","doImport"})
   static void hasWritePermission() throws SinfonierException {
     String id = request.params.get("id");
@@ -415,7 +415,7 @@ public class Topologies extends BaseController {
       renderJSON(c400.toGSON());
     }
   }
-  
+
 	public static void info(@Required String id) throws SinfonierException {
 		try {
 			JsonObject info = client.getTopologyInfo(id);

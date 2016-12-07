@@ -2,6 +2,7 @@ package models.module.validations;
 
 import models.module.ModuleVersion;
 import play.data.validation.Check;
+import play.libs.WS;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,12 @@ public class CodeSourceUrlCheck extends Check {
     Pattern pattern = Pattern.compile("^https?:\\/\\/gist\\.github\\.com\\/\\w+\\/\\w+$");
     Matcher matcher = pattern.matcher(url);
 
-    return matcher.lookingAt();
+    if (!matcher.lookingAt())
+      return false;
+
+    WS.WSRequest request = WS.url(url);
+    WS.HttpResponse response = request.get();
+
+    return response.success() && response.getStatus() == 200;
   }
 }

@@ -314,6 +314,13 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     });
     zoomOutButton.on("click", this.zoomOut, this, true);
 
+    var fullScreenButton = new YAHOO.widget.Button({
+      label: '<i class="material-icons">fullscreen</i>' + i18n('Drawer.editor.toolbar.fullScreen'),
+      id: "WiringEditor-fullScreenButton",
+      container: toolbar
+    });
+
+    fullScreenButton.on('click', this.fullScreen, this, true);
   },
 
   /**
@@ -431,7 +438,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       if (module.ticktuple) {
         containerConfig.fields = module.fields.concat(module.ticktuple);
       } else {
-        containerConfig.fields = module.fields; 
+        containerConfig.fields = module.fields;
       }
 
       containerConfig.getGrouper = function () {
@@ -501,7 +508,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       var pipe = this.getPipeByName(name);
 
       if (!pipe) {
-        this.alert(i18n('Drawer.editor.messages.topologyNotFound',name));
+        this.alert(i18n('Drawer.editor.messages.topologyNotFound', name));
         return;
       }
 
@@ -580,7 +587,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
 
               if (self.modulesByName[module_key]) {
                 var baseContainerConfig = self.modulesByName[module_key].container;
-                YAHOO.lang.augmentObject(m.config, baseContainerConfig);               
+                YAHOO.lang.augmentObject(m.config, baseContainerConfig);
                 m.config.title = baseContainerConfig.label;
                 var container = self.layer.addContainer(m.config);
                 YAHOO.util.Dom.addClass(container.el, "WiringEditor-module-" + m.name);
@@ -623,8 +630,27 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
     if (type == 'variable' || type == 'comment') {
       return i18n('Drawer.editor.modules.panels.util');
     } else {
-      return i18n('Drawer.editor.modules.panels.'+type);
+      return i18n('Drawer.editor.modules.panels.' + type);
     }
 
+  },
+
+  fullScreen: function () {
+    $('header, .menu, h1').toggle();
+    $('.control-panel').toggleClass('menu-closed');
+    $('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').toggleClass('full-size');
+    if ($('.control-panel .control-panel-content .control-panel-page, .control-panel .control-panel-content .control-panel-page .container-fluid').hasClass('full-size')) {
+      $('#WiringEditor-fullScreenButton-button')
+        .html('<i class="material-icons">fullscreen</i>' + i18n('Drawer.editor.toolbar.showMenu'));
+    } else {
+      $('#WiringEditor-fullScreenButton-button')
+        .html('<i class="material-icons">fullscreen</i>' + i18n('Drawer.editor.toolbar.fullScreen'));
+    }
+
+    setTimeout(function () {
+      var layout = YAHOO.widget.Layout.getLayoutById("editorContainer");
+      layout.resize();
+      regenerateModulesDD();
+    }, 1001);
   }
 });

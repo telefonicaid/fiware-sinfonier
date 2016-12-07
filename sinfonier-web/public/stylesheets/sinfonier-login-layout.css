@@ -1,63 +1,68 @@
 html, body {
-  background: #1F74BA none;
+  background: url('../images/sinfonier-background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  font-family: 'TelefonicaWebRegular' !important;
 }
+
+
 
 .login .content {
-  margin: 10px auto !important;
+    margin: 10px auto !important;
 }
 
-.btn-bezel.btn-primary, .btn-primary {
-  background-color: #1F74BA;
-  background-image: none !important;
-  transition: background 1s;
+.btn-bezel.btn-primary,
+.btn-primary {
+    background-color: #1F74BA;
+    background-image: none !important;
+    transition: background 1s;
 }
 
-.btn-bezel.btn-primary:hover, .btn-primary:hover {
-  background: #3F96DE;
-  transition: background 1s;
+.btn-bezel.btn-primary:hover,
+.btn-primary:hover {
+    background: #3F96DE;
+    transition: background 1s;
 }
 
-.btn-bezel span, .btn-bezel i.material-icons {
-  line-height: 1;
+.btn-bezel span,
+.btn-bezel i.material-icons {
+    line-height: 1;
 }
 
 .login .logo {
-  margin-left: -30px;
+    margin-left: -30px;
 }
 
-.login .footer {
-  transition: padding 1s;
-  padding-left: 210px;
+.login-bg .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    opacity: .4;
+    font-family: "TelefonicaWebLight";
 }
 
-.login .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  max-width: 100%;
-  padding-right: 40px;
-  padding-bottom: 10px;
-  vertical-align: middle;
-  opacity: .4;
-  font-family: "TelefonicaWebLight";
+.login-bg .footer {
+    padding: 20px 40px;
+    max-width: 100%;
 }
 
-.login .footer {
-  padding: 20px 40px;
-  max-width: inherit;
+.login-bg .footer .logo1 {
+    width: 155px;
+    opacity: .35;
 }
 
-.login .footer .logo1 {
-  width: 155px;
-  opacity: .35;
+.login-bg .footer .logo2 {
+    opacity: .35;
+    width: 200px;
 }
 
-.login .footer .logo2 {
-  opacity: .35;
-  width: 200px;
-}
-
-.login .footer .copy {
+.login-bg .footer .copy {
   display: block;
   color: #fff;
   padding-top: 5px;
