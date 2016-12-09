@@ -28,6 +28,8 @@ Drawer.editor.toolbar.run = Ejecutar
 Drawer.editor.toolbar.save = Guardar
 Drawer.editor.toolbar.zoomIn = Zoom dentro
 Drawer.editor.toolbar.zoomOut = Zoom fuera
+Drawer.editor.toolbar.fullScreen = Pantalla completa
+Drawer.editor.toolbar.showMenu = Mostrar el menu
 Drawer.editor.loadPanel.title = Seleccione la topología a cargar
 Drawer.editor.loadPanel.filter = Filtro
 Drawer.editor.modules.header = Módulos
@@ -67,8 +69,8 @@ Drawer.editor.messages.topologyNotSavedTitle = No guardada
 Drawer.editor.messages.topologySaved = ¡Guardada!
 Drawer.editor.messages.topologySaveFailure = No es posible guardar la topología: %s
 Drawer.editor.messages.topologyDeleteConfirm = ¿Está seguro de que quiere borrar esta topología?
-Drawer.editor.messages.topologyUnableDelete = No es posible borrar la topología: 
-Drawer.editor.messages.topologyDeleted = ¡Borrada! 
+Drawer.editor.messages.topologyUnableDelete = No es posible borrar la topología:
+Drawer.editor.messages.topologyDeleted = ¡Borrada!
 Drawer.editor.messages.inputex.required = Este campo es obligatorio
 Drawer.editor.messages.inputex.invalid = Este campo no es válido
 Drawer.editor.messages.inputex.url.invalid = URL no válida, ej.: http://www.test.com
@@ -321,7 +323,7 @@ validation.required.author.id = "El id del autor es requerido para esta operaci�
 validation.required.author.name = "El name del autor es requerido para esta operación."
 validation.required.author.email = "El email del autor es requerido para esta operación."
 validation.required.sourceCode = "El código fuente es requerido."
-validation.required.sourceCodeUrl = "La url del código es requerido."
+validation.required.sourceCodeUrl = "La url del código es requerida y debe ser válida."
 validation.required.complain.msg = "El comentario de la queja es requerido para esta operación"
 validation.required.drawer.name = "El name del módulo es requerido para esta operación"
 validation.required.drawer.versionCode = "El versionCode del módulo es requerido para esta operación"
@@ -331,6 +333,8 @@ validation.topology.params = "Algunos parámetros son incorrectos o no están pe
 validation.topology.exists = "Ya exite una topología con este nombre"
 validation.topology.module.unexistent = "Módulo inexistente "
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
+validation.icon.invalidFormat = Formato incorrecto, los tipos permitidos son: jpg, jpeg, png.
+validation.icon.exceedsSize = El fichero excede el tamaño maximo permitido.
 
 ## Password policy
 validation.passwordPolicy.username=La constraseña no puede contener el email.
@@ -342,10 +346,11 @@ Mailer.subject.reviewModule = Nueva revisión de código
 Mailer.subject.declineModule = Su módulo ha sido rechazado
 Mailer.subject.complainModule = Su módulo ha sido denunciado
 Mailer.subject.nofityComplainModuleAdmin = Módulo inapropiado
+Mailer.subject.notifySinfonierExceptionAdmin = Ha sido capturado un error en Sinfonier.
 
 Error.sinfonier.title = Hemos detectado un error.
 Error.500.title = Error interno.
-Error.500.msg = Esta excepción ha sido registrada. Reporte al administrador sobre el error.
+Error.500.msg = Esta excepción ha sido registrada. El administrador ha sido informado sobre este error.
 Error.1001.msg = El nombre del módulo '%s' ya está siendo utilizado.
 Error.1002.msg = El módulo '%s' no esta disponible.
 Error.1004.msg = El usuario llegó al limite de módulos pendientes.
@@ -355,11 +360,13 @@ Error.3001.msg = La contraseña no cumple con la política de seguridad.
 Utils.pagination.first = Primera
 Utils.pagination.last = Última
 
+Users.index.modal.deleteUser=Eliminar Usuario
+
 Nodered.common.label.cancel = Cancelar
 Nodered.common.label.done = Confirmar
 Nodered.common.label.delete = Borrar
 
-Nodered.menu.label.add = Añadir 
+Nodered.menu.label.add = Añadir
 Nodered.menu.label.delete = Borrar
 Nodered.menu.label.flows = Topologías
 Nodered.menu.label.rename = Renombrar

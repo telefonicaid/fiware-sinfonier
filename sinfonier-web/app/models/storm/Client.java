@@ -19,6 +19,8 @@ import models.topology.json.LogData;
 import play.Logger;
 import play.Play;
 import play.libs.WS;
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
+import static org.apache.commons.lang.StringEscapeUtils.unescapeJava;
 
 public class Client {
   private static Client instance;
@@ -83,19 +85,19 @@ public class Client {
   public List<String> getTopologyLog(String id, List<LogData> logDatas) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.log");
     WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );
-    
+
     List<String> starts = new ArrayList<String>(logDatas.size());
     List<String> lengths = new ArrayList<String>(logDatas.size());
-    
+
     for (LogData logData: logDatas)
     {
     	starts.add(logData.getStart().toString());
     	lengths.add(logData.getLength().toString());
     }
-    
+
     request.setParameter("start",StringUtils.join(starts, ","));
     request.setParameter("length",StringUtils.join(lengths, ","));
-    
+
     JsonObject res = doRequest(request, Methods.GET);
 		try {
 			JsonArray logs = res.get("data").getAsJsonObject().get("log").getAsJsonArray();
@@ -106,7 +108,7 @@ public class Client {
 			throw new SinfonierException(SinfonierError.INVALID_RESPONSE);
 		}
   }
-  
+
   public List<LogData> getTopologyLogSizes(String id) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.logsizes");
     WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );
@@ -186,37 +188,6 @@ public class Client {
     return null;
   }
 
-  private String sanitise(String str) {
-    if (str == null)
-      return "";
-
-    String _str = Jsoup.clean(str, Whitelist.basic());
-    String separator = System.getProperty("line.separator");
-
-    if ((!_str.contains("\n") || !_str.contains(separator)) && StringUtils.split(_str).length > MAX_WORDS_PER_LINE) {
-      String[] words = StringUtils.split(_str);
-      int counterPerLine = 0;
-      _str = "";
-
-      for (int i = 0; i < words.length; i++) {
-        if (counterPerLine > MAX_WORDS_PER_LINE) {
-          _str += separator;
-          counterPerLine = 0;
-        }
-
-        _str += words[i] + " ";
-        counterPerLine++;
-
-        if (i == words.length - 1) {
-          _str += separator;
-          break;
-        }
-      }
-    }
-
-    return _str;
-  }
-
   public static synchronized Client getInstance() {
     if (instance == null) {
       instance = new Client();
@@ -224,7 +195,7 @@ public class Client {
 
     return instance;
   }
-  
+
   public JsonObject getTopologyInfo(String id) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.info");
     WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id) );

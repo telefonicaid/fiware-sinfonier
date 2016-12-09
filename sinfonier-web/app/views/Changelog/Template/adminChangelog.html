@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-xs-6">
+        <h1>Changelog</h1>
+    </div>
+    <div class="col-xs-6">
+        <h2 class="page-title pull-left"></h2>
+        <a class="submit pull-right" data-toggle="collapse" href="#newChangeLogCollapse" aria-expanded="false" aria-controls="newChangeLogCollapse">
+            <i class="material-icons">add</i>
+        </a>
+        #{form @Changelog.reset()}
+            <button type="submit" class="submit pull-right m-r-5"><i class="material-icons">refresh</i></button>
+        #{/form}
+    </div>
+
+</div>
+<div class="collapse" id="newChangeLogCollapse">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                #{form @Changelog.upsert()}
+                <div class="form-group">
+                    <label class="control-label"><span class="bold">&{'changelog.adminIndex.version'}</span></label>
+                    <div class="input-icon max-with-default">
+                        <i class="fa fa-tag"></i>
+                        <input class="form-control" type="text" value="${flash.version}" placeholder="Version" name="version">
+                    </div>
+                </div>
+                <div class="row">
+                    #{list items:controllers.WebController.getSupportedLanguages(), as:'supportedLang'}
+                    <div class="col-xs-12 ">
+                        %{ flashTitle = "title_" + supportedLang}%
+                        %{ flashContent= "content_" + supportedLang}%
+                        <div class="form-group">
+                            <label class="control-label"><span class="bold">&{'changelog.adminIndex.title', supportedLang}</span></label>
+                            <div class="input-icon">
+                                <i class="fa fa-tag"></i>
+                                <input class="form-control" type="text" value="${flash.flashTitle}" placeholder="Title ${supportedLang}" name="title_${supportedLang}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"><span class="bold">&{'changelog.adminIndex.content', supportedLang}</span></label>
+                            <div class="input-icon">
+                                <i class="fa fa-tag"></i>
+                                <textarea class="form-control" placeholder="Content ${supportedLang}" name="content_${supportedLang}">${flash.flashContent}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    #{/list}
+                </div>
+                <div class="form-actions pull-right">
+                    <button type="submit" class="btn-bezel primary m-b-0 m-r-5"> <i class="material-icons">add</i></button>
+                </div>
+                #{/form}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        #{list items:changelog, as:'changelogPoint'}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <h3 class="changelog-title">
+                            <a role="button" data-toggle="collapse" href="#${changelogPoint.id}" aria-expanded="true" aria-controls="collapseOne">
+                                v${changelogPoint.version} - ${changelogPoint.getTitle(lang)}
+                            </a>
+                        </h3>
+                      </div>
+                        <div class="col-xs-4">
+                        <div class="form-actions">
+                            <a class="btn-bezel danger pull-right m-b-0" data-toggle="modal" href="#${changelogPoint.id}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}"><i class="material-icons">clear</i></a>
+                        </div>
+                        </div>
+                        <div id="${changelogPoint.id}" class="collapse m-t-10">
+                            #{form @Changelog.upsert()}
+                            <input type="hidden" name="id" value="${changelogPoint.id}">
+                            <div class="form-group">
+                                <label class="control-label"><span class="bold">&{'changelog.adminIndex.version'}</span></label>
+                                <div class="input-icon max-with-default">
+                                    <i class="fa fa-tag"></i>
+                                    <input class="form-control" type="text" placeholder="Version" name="version" value="${changelogPoint.version}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                #{list items:controllers.WebController.getSupportedLanguages(), as:'supportedLang'}
+                                %{ flashTitle = "title_" + supportedLang}%
+                                %{ flashContent= "content_" + supportedLang}%
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label"><span class="bold">&{'changelog.adminIndex.title', supportedLang}</span></label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-tag"></i>
+                                            <input class="form-control" type="text" placeholder="Title ${supportedLang}" name="title_${supportedLang}" value="${changelogPoint.getTitle(supportedLang)}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"><span class="bold">&{'changelog.adminIndex.content', supportedLang}</span></label>
+                                        <div class="input-icon">
+                                            <i class="fa fa-tag"></i>
+                                            <textarea class="form-control" placeholder="Content ${lang}" name="content_${supportedLang}">${changelogPoint.getContent(supportedLang)}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                #{/list}
+                            </div>
+                            <div class="form-actions pull-right">
+                                <button type="submit" class="btn-bezel primary pull-right m-b-0 m-r-5"> <i class="material-icons">edit</i></button>
+                            </div>
+                            #{/form}
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <!-- BEGIN REMOVE MODAL -->
+            <div class="modal fade" id="${changelogPoint.id}RemoveModal" tabindex="-1" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">&{'changelog.remove.title'}</h3>
+                        </div>
+                        <div class="modal-body text-center">
+                            #{form @Changelog.remove()}
+                                <h5 class="overflow-hidden">&{'changelog.remove'}</h5>
+                                <input type="hidden" name="id" value="${changelogPoint.id}">
+                                <button type="submit" class="submit">&{'changelog.remove.confirm'}</button>
+                            #{/form}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END REMOVE  MODAL -->
+        #{/list}
+    </div>
+</div>

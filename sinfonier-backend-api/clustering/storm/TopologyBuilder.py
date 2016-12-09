@@ -138,7 +138,7 @@ class TopologyBuilder(object):
 
             backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["stormProperties"])
 
-            modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"]["topologyProperties"])
+            modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"].get("topologyProperties"))
             modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
 
             backend_json["builderConfig"] = dict()
@@ -202,7 +202,7 @@ class TopologyBuilder(object):
 
                 mod_info["language"] = module["language"]
                 mod_info["abstractionId"] = "{module_name}_{random_id}".format(module_name=module["name"], random_id=uuid.uuid4())
-                mod_info["parallelism"] = module["parallelism"] if "parallelism" in module else "1"
+                mod_info["parallelism"] = module["parallelisms"] if "parallelisms" in module else "1"
                 mod_info["language"] = module["language"]
                 mod_info["sources"] = list()
                 mod_info["params"] = dict()
@@ -234,6 +234,14 @@ class TopologyBuilder(object):
                 # Throw error
                 pass
         return modules_info
+
+    def normalizeWiresSourceTarget(self, wires):
+
+        for wire in wires:
+            if "src" in wire and "terminal" in wire["src"] and wire["src"]["terminal"] not in ["out", "yes", "no"]:
+                 wire["src"], wire["tgt"] = wire["tgt"], wire["src"]
+
+        return wires
 
     def set_modules_wires(self, modules, wires):
         for wire in wires:
@@ -283,6 +291,8 @@ class TopologyBuilder(object):
             return "error"
 
     def replace_value(self,module_version_id,param, value,properties):
+        if properties is None:
+            return value
         if isinstance(value, basestring):
             pattern = re.compile("^\[\$(.+)\]$")
             res = pattern.match(value)

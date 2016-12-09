@@ -42,7 +42,7 @@
 <div class="row form-group">
 #{if module?.getId() == null}
   <div class="pull-right col-lg-2 col-md-2 col-sm-2 col-xs-12">
-    <button id="import-btn" class="btn btn-primary" type="button">&{'Modules.btn.import'}</button>
+    <button id="import-btn" class="btn btn-blue" type="button">&{'Modules.btn.import'}</button>
   </div>
 
   <div id="import-doc" class="pull-right col-lg-10 col-md-10 col-sm-10 col-xs-12 display-none">
@@ -93,7 +93,7 @@ function verifyPreviousSourceCode(field) {
         },
         confirm: {
           label: '&{'Modules.btn.confirm'}',
-          className: 'btn btn-primary btn-modal'
+          className: 'btn btn-blue btn-modal'
         }
       },
       callback: function (result) {

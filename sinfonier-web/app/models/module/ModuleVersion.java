@@ -7,10 +7,10 @@ import static models.SinfonierConstants.Module.STATUS_DEV;
 import static models.SinfonierConstants.Module.FIELD_ICON;
 import static models.SinfonierConstants.Module.FIELD_AUTHOR_ID;
 import static models.SinfonierConstants.Module.FIELD_AVERAGE_RATE;
+import static models.SinfonierConstants.Module.FIELD_RATINGS;
+import static models.SinfonierConstants.Module.FIELD_COMPLAINS;
 import static models.SinfonierConstants.Module.FIELD_CATEGORY;
 import static models.SinfonierConstants.Module.FIELD_VERSIONS;
-import static models.SinfonierConstants.Module.FIELD_COMPLAINS;
-import static models.SinfonierConstants.Module.FIELD_RATINGS;
 import static models.SinfonierConstants.Module.FIELD_TOPOLOGIES_COUNT;
 import static models.SinfonierConstants.Module.PATH_TO_SAVE;
 import static models.SinfonierConstants.Module.STATUS_DEV;
@@ -220,7 +220,7 @@ public class ModuleVersion extends ModelCollection {
 
     return null;
   }
-  
+
   public static List<ModuleVersion> findByDescription(String description) throws SinfonierException {
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
     List<ModuleVersion> list = new ArrayList<ModuleVersion>();

@@ -1,6 +1,5 @@
 package models.module.validations;
 
-import models.module.Module;
 import models.module.ModuleVersion;
 import play.data.validation.Check;
 
