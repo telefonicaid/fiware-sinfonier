@@ -2,6 +2,7 @@ import json
 import os
 import uuid
 import re
+import codecs
 import xml.etree.cElementTree as ET
 
 from clustering.mongo.MongoHandler import MongodbFactory
@@ -26,7 +27,7 @@ class TopologyBuilder(object):
 
         try:
             try:
-                with open(file_name, 'w') as text_file:
+                with codecs.open(file_name, 'w', 'utf-8') as text_file:
                     t_dict = self.build_backend_json(self.topology)
                     t_json = json.dumps(t_dict)
                     logger.info(t_json)
@@ -225,6 +226,8 @@ class TopologyBuilder(object):
                         if val.endswith('.0'):
                             val = val[:-2]
                         mod_info["params"][param] = val
+                    elif type(value) is unicode:
+                        mod_info["params"][param] = value
                     else:
                         mod_info["params"][param] = str(value)
 
