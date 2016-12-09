@@ -200,6 +200,8 @@ Projects.form.name = Nombre
 Projects.form.owner = Creador
 Projects.form.owner.placeholder = Nombre o email
 Projects.form.status = Estado
+Projects.form.status.active = activo
+Projects.form.status.deleted = borrado
 Projects.form.description = Descripción
 
 Projects.btn.create = Crear
