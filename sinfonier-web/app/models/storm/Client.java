@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,8 +17,6 @@ import models.topology.json.LogData;
 import play.Logger;
 import play.Play;
 import play.libs.WS;
-import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
-import static org.apache.commons.lang.StringEscapeUtils.unescapeJava;
 
 public class Client {
   private static Client instance;
