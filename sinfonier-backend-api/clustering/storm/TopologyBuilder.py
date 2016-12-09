@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+import re
 import xml.etree.cElementTree as ET
 
 from clustering.mongo.MongoHandler import MongodbFactory
@@ -17,7 +18,7 @@ class TopologyBuilder(object):
     def __init__(self, topology_model):
 
         self.topology = topology_model
-
+        self.module_versions_fields = {}
         # create a workspace
         self.base_path = Compiler.generate_basic_workspace()
         # code file path
@@ -133,13 +134,13 @@ class TopologyBuilder(object):
 
         backend_json = dict()
 
-        if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "properties")):
+        if "config" in topologyInfo and all(key in topologyInfo["config"] for key in ("modules", "wires", "stormProperties")):
 
-            modules = self.get_modules_info(topologyInfo["config"]["modules"])
-            normalizedWires = self.normalizeWiresSourceTarget(topologyInfo["config"]["wires"])
-            modulesWithWires = self.set_modules_wires(modules, normalizedWires)
+            backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["stormProperties"])
 
-            backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["properties"])
+            modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"].get("topologyProperties"))
+            modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
+
             backend_json["builderConfig"] = dict()
             backend_json["builderConfig"] = self.list_of_modules_by_type(modulesWithWires)
 
@@ -180,10 +181,9 @@ class TopologyBuilder(object):
 
         return topoProperties
 
-    def get_modules_info(self, modules):
+    def get_modules_info(self, modules, topoProperties):
         modules_info = list()
         for module in modules:
-
             if all(key in module for key in ("type", "language", "name", "value")):
 
                 if module["type"] == "operator":
@@ -207,19 +207,20 @@ class TopologyBuilder(object):
                 mod_info["sources"] = list()
                 mod_info["params"] = dict()
 
-                for param, value in module["value"].items():
-                    if type(module["value"][param]) is list:
+                for param, val in module["value"].items():
+                    value = self.replace_value(module["module_version_id"],param,val,topoProperties)
+                    if type(value) is list:
                         mod_info["params"][param] = list()
                         list_type = self.get_list_type(module["value"][param])
 
-                        for item in module["value"][param]:
+                        for item in value:
                             if list_type == "string":
                                 mod_info["params"][param].append(item)
                             elif list_type == "keyvalue":
                                 mod_info["params"][param].append({item[0]: item[1]})
                             elif list_type == "keyvaluedefault":
                                 mod_info["params"][param].append({item[0]: item[1], "default": item[2]})
-                    elif type(module["value"][param]) is float:
+                    elif type(value) is float:
                         val = str(value)
                         if val.endswith('.0'):
                             val = val[:-2]
@@ -288,3 +289,43 @@ class TopologyBuilder(object):
             return "keyvaluedefault"
         else:
             return "error"
+
+    def replace_value(self,module_version_id,param, value,properties):
+        if properties is None:
+            return value
+        if isinstance(value, basestring):
+            pattern = re.compile("^\[\$(.+)\]$")
+            res = pattern.match(value)
+            if res is not None:
+                value = properties.get(res.groups()[0])
+                field_type = self.get_module_version_fields(module_version_id)[param]["type"]
+                if field_type == "number":
+                    return float(value)
+                elif field_type == "integer":
+                    return int(value)
+                elif field_type == "bool":
+                    return bool(value)
+                elif field_type == "list":
+                    return value.split(',')
+                elif field_type == "url":
+                    return value
+        elif isinstance(value,list):
+            res = []
+            for item in value:
+                value = self.replace_value(module_version_id,param,item,properties);
+                if isinstance(value,list):
+                    res.extend(value)
+                else:
+                    res.append(value)
+            return res
+        return value
+
+    def get_module_version_fields(self,version_id):
+        module_version_fields = self.module_versions_fields.get(version_id)
+        if module_version_fields is None:
+            module_version = MongodbFactory.get_module_version(version_id)
+            module_version_fields = {}
+            for field in module_version["fields"]:
+                module_version_fields[field["name"]] = field
+            self.module_versions_fields[version_id] = module_version_fields
+        return module_version_fields

@@ -14,14 +14,19 @@ public enum SinfonierError {
   MODULE_INVALID(1002, "The module no exists or we can't find it."),
   MODULE_INVALID_CONSTRUCTION(1003, "Error trying to build a module"),
   MODULE_VERSION_NO_DEFINED(1004, "Any module version has been defined yet."),
-
-  MODULE_LIMIT_PENDING(1004, "The user reached the limit of pending modules"),
+  MODULE_NOT_FOUND(1005, "Module not found"),
+  MODULE_CODE_NOT_MATCH(1006, "Module code does not match"),
+  MODULE_VERSION_NOT_FOUND(1007, "Module version not found"),
+  MODULE_LIMIT_PENDING(1008, "The user reached the limit of pending modules"),
+  ERROR_WRITING_JSON_FILE(1009, "Can not create json file"),
 
   TOPOLOGY_DUPLICATE(2001, "The topology name is already used"),
   TOPOLOGY_INVALID_CONSTRUCTION(2003, "Error trying to build a topology"),
 
   TOPOLOGY_BUILDER_TYPE(2101, "The topology or some property required is not found it."), 
-  
+
+  PROJECT_INVALID_CONSTRUCTION(2201, "Error trying to build a project"),
+
   PASSWORD_CONSTRAINS(3001, "The password doesn't meet the security policy.");
 
   private static final String DEFAULT_KEY_MSG = "Error.500.msg";

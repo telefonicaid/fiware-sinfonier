@@ -62,6 +62,18 @@ class StormUI:
         url = StormUI.baseurl() + "/api/v1/topology/" + topologyid
         return HTTPHandler.get_as_json(url)
 
+
+    ######################################
+    # /api/v1/topology/:id (GET)
+    # Returns topology information and statistics. Substitute id with topology id.
+    ######################################
+
+    @staticmethod
+    def getTopologyByName(topology_name):
+        id = StormUI.get_topology_id_by_name(topology_name)
+        if id is not None:
+            return StormUI.getTopology(id)
+        return None
     ######################################
     # /api/v1/topology/:id/component/:component (GET)
     # Returns detailed metrics and executor information
@@ -320,6 +332,9 @@ class StormUI:
         return {}
 
     @staticmethod
-    def getFile(file_name, num_lines):
-        url = file_name + "&tail=" + str(num_lines)
+    def getFile(file_name, start = 0, length=5000):
+        if start == -1:
+            url = file_name + "&tail="  + str(length)
+        else:
+            url = file_name + "&start="+str(start)+"&length=" + str(length)
         return HTTPHandler.get(url)

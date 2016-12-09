@@ -8,7 +8,7 @@ import static models.SinfonierConstants.Wire.*;
 import com.google.gson.annotations.SerializedName;
 
 public class Wire {
-  private String xType;
+  private String xtype;
   
   @SerializedName(FIELD_SOURCES_ANNOTATION)
   private Point source;
@@ -17,14 +17,14 @@ public class Wire {
   private Point target;
 
   public Wire(String xType, Point source, Point target) {
-    this.xType = xType;
+    this.xtype = xType;
     this.source = source;
     this.target = target;
   }
 
   public Wire(DBObject o) {
     if (o != null) {
-      xType = o.get(FIELD_XTYPE).toString();
+      xtype = o.get(FIELD_XTYPE).toString();
       source = new Point(((DBObject) o.get(FIELD_SOURCES)));
       target = new Point(((DBObject) o.get(FIELD_TARGET)));
     }
@@ -33,8 +33,8 @@ public class Wire {
   public DBObject toDBObject() {
     DBObject object = new BasicDBObject();
 
-    if (xType != null) {
-      object.put(FIELD_XTYPE, xType);
+    if (xtype != null) {
+      object.put(FIELD_XTYPE, xtype);
       object.put(FIELD_SOURCES, source.toDBObject());
       object.put(FIELD_TARGET, target.toDBObject());
     }
@@ -43,11 +43,11 @@ public class Wire {
   }
 
   public String getxType() {
-    return xType;
+    return xtype;
   }
 
   public void setxType(String xType) {
-    this.xType = xType;
+    this.xtype = xType;
   }
 
   public Point getSource() {

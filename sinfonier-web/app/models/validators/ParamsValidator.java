@@ -1,8 +1,10 @@
-package models.storm;
+package models.validators;
 
 import com.google.gson.*;
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
+import models.storm.ParamValues;
+import models.storm.Params;
 import models.topology.TopologyConfig;
 import play.Logger;
 import play.Play;
@@ -15,6 +17,7 @@ import java.util.regex.Pattern;
 
 import static models.SinfonierConstants.Drawer.IS_ACTIVE_EXTRA_PARAMS;
 import static models.SinfonierConstants.TopologyConfig.FIELD_EXTRA_CONFIGURATION;
+import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 
 public class ParamsValidator {
   private static final String KEY_CONFIG_FILE_PATH = "storm.options.file";
@@ -96,12 +99,14 @@ public class ParamsValidator {
     return true;
   }
 
-  public boolean validate(TopologyConfig config) throws SinfonierException {
-    Map properties = config.getProperties();
+  public boolean validate(TopologyConfig config, boolean validateTopologyConfig) throws SinfonierException {
+    Map properties = config.getStormProperties();
     Map params = new TreeMap();
     if (IS_ACTIVE_EXTRA_PARAMS && properties.containsKey(FIELD_EXTRA_CONFIGURATION)) {
       try {
-        params.putAll(parseExtraConfig(((String) properties.get(FIELD_EXTRA_CONFIGURATION))));
+        Map extraConfig = parseExtraConfig(((String) properties.get(FIELD_EXTRA_CONFIGURATION)));   
+        params.putAll(extraConfig);
+        config.getStormProperties().putAll(extraConfig);
       } catch (SinfonierException e) {
         Logger.error(e.getMessage());
         return false;
@@ -113,8 +118,29 @@ public class ParamsValidator {
         params.put(o, properties.get(o));
       }
     }
-
-    return validate(((Map<String, Object>) params));
+    
+    boolean validStormProperties = validate(((Map<String, Object>) params)); 
+    
+    //TopologyProperties validation
+    if (validStormProperties && validateTopologyConfig && config.getTopologyProperties() != null) {
+      Map topologyProperties = config.getTopologyProperties();
+      Map<String, Object> topologyParams = new TreeMap<String, Object>();
+      try {
+        Map topologyConfig = parseExtraConfig(((String) topologyProperties.get(FIELD_TOPOLOGY_PROPERTIES)));   
+        topologyParams.putAll(topologyConfig);
+        config.getTopologyProperties().putAll(topologyConfig);
+      } catch (SinfonierException e) {
+        Logger.error(e.getMessage());
+        return false;
+      }
+      for (String key : topologyParams.keySet()) {
+        if (!validateTopologyConfKey(key) || !validateTopologyConfValue((String)topologyParams.get(key))) {
+          return false;
+        }
+      }
+    }
+    
+    return validStormProperties;
   }
 
   private ParamValues getOrigin(String keyParam) {
@@ -140,6 +166,18 @@ public class ParamsValidator {
     return value.length() > 0 && matcher.matches();
   }
 
+  private boolean validateTopologyConfKey(String value) {
+    Pattern pattern = Pattern.compile("^([a-zA-Z0-9]+)*$");
+    Matcher matcher = pattern.matcher(value);
+    return value.length() > 0 && matcher.matches();
+  }
+  
+  private boolean validateTopologyConfValue(String value) {
+    Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.:/@]+){1,25}+([,][\\s]*([a-zA-Z0-9_\\-\\.:/@]+){1,25}+)*$");
+    Matcher matcher = pattern.matcher(value);
+    return value.length() > 0 && matcher.matches();
+  }
+  
   private boolean validateBoolean(String value) {
     return value.equals("true") || value.equals("false");
   }
@@ -159,13 +197,13 @@ public class ParamsValidator {
 
     String[] rows = config.split("\n");
     for (String row : rows) {
-      if (row.length() == 0) {
+      if (row.trim().length() == 0) {
         continue;
       }
 
       String[] values = row.split("=");
 
-      if (values.length != 2 || values[0].length() == 0 || values[1].length() == 0) {
+      if (values.length != 2 || values[0].trim().length() == 0 || values[1].trim().length() == 0) {
         throw new SinfonierException(SinfonierError.PARSE_EXTRA_PARAMS_EXCEPTION);
       }
       map.put(values[0], values[1]);

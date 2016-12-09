@@ -1,5 +1,6 @@
 package models.module;
 
+import static models.SinfonierConstants.ModuleVersion.*;
 import static models.SinfonierConstants.ModelCollection.FIELD_ID;
 import static models.SinfonierConstants.Module.STATUS_PENDING;
 import static models.SinfonierConstants.Module.STATUS_DEV;
@@ -10,14 +11,18 @@ import static models.SinfonierConstants.Module.FIELD_RATINGS;
 import static models.SinfonierConstants.Module.FIELD_COMPLAINS;
 import static models.SinfonierConstants.Module.FIELD_CATEGORY;
 import static models.SinfonierConstants.Module.FIELD_VERSIONS;
+import static models.SinfonierConstants.Module.FIELD_TOPOLOGIES_COUNT;
 import static models.SinfonierConstants.Module.PATH_TO_SAVE;
-import static models.SinfonierConstants.ModuleVersion.*;
+import static models.SinfonierConstants.Module.STATUS_DEV;
+import static models.SinfonierConstants.Module.STATUS_DELETED;
+import static models.SinfonierConstants.Module.STATUS_PENDING;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -27,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import exceptions.SinfonierError;
@@ -215,6 +221,19 @@ public class ModuleVersion extends ModelCollection {
     return null;
   }
 
+  public static List<ModuleVersion> findByDescription(String description) throws SinfonierException {
+    DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
+    List<ModuleVersion> list = new ArrayList<ModuleVersion>();
+    if (description != null && description.trim().length() > 0) {
+      DBObject query = new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE));
+      DBCursor cursor = collection.find(query);
+      for (DBObject dbObject : cursor) {
+        list.add(new ModuleVersion(dbObject));
+      }
+    }
+    return list;
+  }
+
   public void save() throws SinfonierException {
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
 
@@ -268,43 +287,49 @@ public class ModuleVersion extends ModelCollection {
     collection.update(query, new BasicDBObject("$set", toSet), false, false);
   }
 
-  public File exportAsJson(Module module) {
-    DBObject obj = module.toDBObject();
-    obj.putAll(this.toDBObject());
+	public File exportAsJson(Module module) throws SinfonierException {
+		JsonObject res = toJson(module);
+		File dir = FileUtils.getFile(PATH_TO_SAVE);
 
-    obj.removeField(FIELD_ID);
-    obj.removeField(FIELD_ICON);
-    obj.removeField(FIELD_STATUS);
-    obj.removeField(FIELD_AUTHOR_ID);
-    obj.removeField(FIELD_CREATED);
-    obj.removeField(FIELD_UPDATED);
-    obj.removeField(FIELD_RATINGS);
-    obj.removeField(FIELD_AVERAGE_RATE);
-    obj.removeField(FIELD_TOPOLOGIES_COUNT);
-    obj.removeField(FIELD_MY_TOOLS);
-    obj.removeField(FIELD_COMPLAINS);
-    obj.removeField(FIELD_CONTAINER);
-    obj.removeField(FIELD_CATEGORY);
-    obj.removeField(FIELD_VERSIONS);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 
-    JsonObject res = Mongo2gson.getAsJsonObject(obj);
-    File dir = FileUtils.getFile(PATH_TO_SAVE);
+		String fileName = module.getName() + ".json";
+		File file = FileUtils.getFile(dir, fileName);
 
-    if (!dir.exists()) {
-      dir.mkdirs();
-    }
+		try {
+			FileUtils.writeByteArrayToFile(file, res.toString().getBytes("UTF-8"));
+		} catch (IOException e) {
+			Logger.error(e.getMessage());
+			throw new SinfonierException(SinfonierError.ERROR_WRITING_JSON_FILE,e);
+		}
 
-    String fileName = module.getName() + ".json";
-    File file = FileUtils.getFile(dir, fileName);
+		return file;
+	}
 
-    try {
-      FileUtils.writeByteArrayToFile(file, res.toString().getBytes("UTF-8"));
-    } catch (IOException e) {
-      Logger.error(e.getMessage());
-    }
+	public JsonObject toJson(Module module) {
+		DBObject obj = module.toDBObject();
+		obj.putAll(this.toDBObject());
 
-    return file;
-  }
+		obj.removeField(FIELD_ID);
+		obj.removeField(FIELD_ICON);
+		obj.removeField(FIELD_STATUS);
+		obj.removeField(FIELD_AUTHOR_ID);
+		obj.removeField(FIELD_CREATED);
+		obj.removeField(FIELD_UPDATED);
+		obj.removeField(FIELD_RATINGS);
+		obj.removeField(FIELD_AVERAGE_RATE);
+		obj.removeField(FIELD_TOPOLOGIES_COUNT);
+		obj.removeField(FIELD_MY_TOOLS);
+		obj.removeField(FIELD_COMPLAINS);
+		obj.removeField(FIELD_CONTAINER);
+		obj.removeField(FIELD_CATEGORY);
+		obj.removeField(FIELD_VERSIONS);
+
+		JsonObject res = Mongo2gson.getAsJsonObject(obj);
+		return res;
+	}
 
   public void addToMyTools(MyTool tool) {
     DBObject toSet = new BasicDBObject();

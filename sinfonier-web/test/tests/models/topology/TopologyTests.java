@@ -9,6 +9,8 @@ import models.topology.Topology;
 import models.topology.TopologyConfig;
 import models.factory.MongoFactory;
 import models.user.User;
+import models.validators.ParamsValidator;
+
 import org.bson.types.ObjectId;
 import org.junit.*;
 
@@ -64,6 +66,11 @@ public class TopologyTests extends BaseTest {
 
     Topology topology = new Topology(dbObject);
 
+    ParamsValidator validator = ParamsValidator.getInstance();
+    assertTrue(validator.validate(topology.getConfig(), true));
+    assertEquals(topology.getConfig().getStormProperties().size(), 1);
+    assertEquals(topology.getConfig().getTopologyProperties().size(), 3);
+
     assertNotNull(topology);
     assertEquals(topology.getId(), id);
     assertEquals(topology.getAuthorId(), ID_OWNER);
@@ -88,21 +95,24 @@ public class TopologyTests extends BaseTest {
     String status = STATUS_ACTIVE;
     String name = "Test";
     String author = "test_other@test.com";
+    String description = "test";
 
-    List<Topology> listByStatus = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(status, null, null, adminUser, null).getTopologies();
-    List<Topology> listByName = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(null, name, null, adminUser, null).getTopologies();
-    List<Topology> listByAuthor = Topology.findByStatusOrNameOrAuthorOrUpdatedDate(null, author, null, adminUser, null).getTopologies();
+    List<Topology> listByStatus = Topology.findByCriteria(status, null, null, null, adminUser, null).getTopologies();
+    List<Topology> listByName = Topology.findByCriteria(null, name, null, null, adminUser, null).getTopologies();
+    List<Topology> listByAuthor = Topology.findByCriteria(null, author, null, null, adminUser, null).getTopologies();
+    List<Topology> listByDescription = Topology.findByCriteria(null, null, null, description, adminUser, null).getTopologies();
 
     assertTrue(listByStatus.size() == 3 && listByName.size() == 3);
+    assertTrue(listByDescription.size() == 1);
     assertTrue(listByAuthor.size() == 0);
   }
 
   @Test
   public void getTopologiesTest() throws SinfonierException {
-    List<Topology> list = Topology.getTopologies(adminUser, null).getTopologies();
+    List<Topology> list = Topology.getTopologies(adminUser,null, null).getTopologies();
     assertTrue(list.size() == 3);
 
-    list = Topology.getTopologies(lostUser, false, false, null).getTopologies();
+    list = Topology.getTopologies(lostUser,null, false, false, null).getTopologies();
     assertTrue(list.size() == 0);
   }
 
@@ -122,7 +132,7 @@ public class TopologyTests extends BaseTest {
     Topology template = Topology.getAsTemplate(origin, adminUser);
 
     assertTrue(template.getName().equals(TEMPLATE_NAME));
-    assertTrue("shuold have the property tempalteid", template.getConfig().getProperties().containsKey("templateid"));
+    assertTrue("should have the property template_id", template.getConfig().getStormProperties().containsKey("templateid"));
   }
 
   @Test

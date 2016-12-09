@@ -4,8 +4,9 @@ import com.google.gson.JsonObject;
 
 public enum Codes {
   CODE_200("OK", 200),
-  CODE_400("NOOK", 400),
-  CODE_500("NOOK", 500);
+  CODE_400("Bad Request", 400),
+  CODE_404("Not Found", 404),
+  CODE_500("Internal Server Error", 500);
 
   private final String status;
   private final Integer code;
@@ -36,6 +37,12 @@ public enum Codes {
   public void setData(JsonObject data) {
     this.data = data;
   }
+  
+  public void setMessageData(String message) {
+  	JsonObject data = new JsonObject();
+    data.addProperty("message", message);
+    this.data = data;
+}
 
   public JsonObject toGSON() {
     JsonObject object = new JsonObject();

@@ -43,12 +43,14 @@ Drawer.editor.properties.label.topologyDescription = Description
 Drawer.editor.properties.label.stormNumWorkers = Storm Num. Workers
 Drawer.editor.properties.label.maxSpoutsPending = Max. Spouts Pending
 Drawer.editor.properties.label.topologyMessageTimeout = Topology Message Timeout
-Drawer.editor.properties.label.extraConfiguration = Extra Configuration
+Drawer.editor.properties.label.stormConfiguration = Storm Extra Configuration
+Drawer.editor.properties.label.topologyConfiguration = Topology Configuration
 Drawer.editor.properties.placeholder.topologyName = (mandatory)
 Drawer.editor.properties.placeholder.stormNumWorkers = 1 (default) (%s - %s)
 Drawer.editor.properties.placeholder.maxSpoutsPending = blank or integer (%s - %s)
 Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (default) (%s - %s)
-Drawer.editor.properties.placeholder.extraConfiguration = extra configuration using multiple lines with key=value format
+Drawer.editor.properties.placeholder.stormConfiguration = extra Storm configuration using multiple lines with key=value format
+Drawer.editor.properties.placeholder.topologyConfiguration = topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format.
 
 Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press ok to continue anyway.
 Drawer.editor.messages.header = Message
@@ -68,12 +70,13 @@ Drawer.editor.messages.topologySaved = Saved!
 Drawer.editor.messages.topologySaveFailure = Unable to save the topology: %s
 Drawer.editor.messages.topologyDeleteConfirm = Are you sure you want to delete this topology?
 Drawer.editor.messages.topologyUnableDelete = Unable to delete topology:
-Drawer.editor.messages.topologyDeleted = Deleted! 
+Drawer.editor.messages.topologyDeleted = Deleted!
 Drawer.editor.messages.inputex.required = This field is required
 Drawer.editor.messages.inputex.invalid = This field is invalid
 Drawer.editor.messages.inputex.url.invalid = Invalid URL, ex: http://www.test.com
 Drawer.editor.messages.inputex.list.add = Add
 Drawer.editor.messages.inputex.list.remove = Remove
+Drawer.editor.messages.inputex.string.invalidConfigReference = Invalid configuration reference
 
 Modules.index.title = Modules
 Modules.index.btn.top = Top Modules
@@ -181,14 +184,47 @@ Modules.form.err.versionTagUsed = Version tag already used in this module
 Modules.form.warning.versions.moreDeveloping = There are more developing versions of this module. Consider continue working in some of them before adding a new version
 Modules.form.warning.gistCode = Verify that the class name specified in your Gist matches the module name used
 
+Projects.current.label = Project in use:
+Projects.index.title = Projects
+Projects.new.title = New Project
+Projects.edit.title = Edit Project
+Projects.index.btn.top = Top Projects
+Projects.index.btn.my = My Projects
+Projects.index.btn.new = New Project
+Projects.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s
+Projects.index.create_by_short = Created by <a href="/profile/%s">%s</a> at %s
+Projects.index.create_by_text = Created by %s at %s
+
+Projects.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
+Projects.form.name = Name
+Projects.form.owner = Owner
+Projects.form.owner.placeholder = Name or email
+Projects.form.status = Status
+Projects.form.description = Description
+
+Projects.btn.create = Create
+Projects.btn.search = Search
+Projects.btn.edit = Edit
+Projects.btn.delete = Delete
+Projects.btn.update = Update
+Projects.btn.use = Use Project
+Projects.btn.deactivate = Do not use any project
+
+Projects.details.title = Project
+Projects.new.title = New project
+
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies
 Topologies.index.btn.new = New Topology
+Topologies.index.btn.import = Import Topology
 Topology.btn.privatize = Privatize
 Topology.btn.publish = Publish
 Topology.index.create_by = Created by <a href="/profile/%s">%s (%s)</a> at %s, last update %s.
 Topology.index.create_by_text = Created by %s at %s, last update %s.
+Topologies.import.title = Import Topology
+Topologies.import.instructions = Select the JSON file to be imported and click the "Import" button
 
+Topologies.form.name = Name
 Topologies.form.description = Description
 Topologies.form.sharing = Sharing
 Topologies.form.status = Status
@@ -206,6 +242,8 @@ Topologies.btn.launch = Launch
 Topologies.btn.stop = Stop
 Topologies.btn.edit = Edit
 Topologies.btn.asTemplate = Use as template
+Topologies.btn.export = Export
+Topologies.btn.import = Import
 
 Topologies.details.delete.title = Remove topology
 Topologies.details.delete.text = Do you want to delete the topology '%s'?
@@ -213,7 +251,33 @@ Topologies.details.delete.text = Do you want to delete the topology '%s'?
 Topologies.topology = Topology
 Topologies.error.launching = Error trying to launching the topology
 Topologies.error.stopping = Error trying to stopping the topology
+Topologies.error.import.name = The topology name is empty or does not have the correct format
 Topologies.msgs.stopBeforeDelete = You must stop the topology before delete it
+
+Topologies.info.status = Status
+Topologies.info.uptime = Uptime
+Topologies.info.workersTotal = Num Workers
+Topologies.info.executorsTotal = Num Executors
+Topologies.info.tasksTotal = Num Tasks
+Topologies.info.windowPretty = Window
+Topologies.info.emitted = Emitted
+Topologies.info.transferred = Transferred
+Topologies.info.completeLatency = Complete latency (ms)
+Topologies.info.acked = Acked
+Topologies.info.failed = Failed
+
+Topologies.info.spoutId = Id
+Topologies.info.executors = Executors
+Topologies.info.tasks = Tasks
+Topologies.info.errorHost = Error Host
+Topologies.info.errorPort = Error Port
+Topologies.info.lastError = Last Error
+
+Topologies.info.boltId = Id
+Topologies.info.capacity = Capacity (last 10m)
+Topologies.info.executeLatency = Execute latency (ms)
+Topologies.info.executed = Executed
+Topologies.info.processLatency = Process latency (ms)
 
 Profile.editAccount = Edit profile
 Profile.saveAccount = Save profile
@@ -266,6 +330,8 @@ validation.required.drawer.versionCode = "Module's versionCode is mandatory for 
 validation.requiere.email = "Email is mandatory for this operation"
 validation.requiere.name = "User name is mandatory"
 validation.topology.params = "Some params are incorrect or it is not allowed."
+validation.topology.exists = "Already exists a topology with this name"
+validation.topology.module.unexistent = "Unexistent module "
 validation.not.allow.module.name="This module's name is not allowed"
 validation.icon.invalidFormat = Invalid format, the formats allowed are jpg, jpeg, png.
 validation.icon.exceedsSize = File exceeds the max size allowed.
@@ -288,6 +354,7 @@ Error.500.msg = This exception has been logged. The administrator has been repor
 Error.1001.msg = The module name '%s' is already used
 Error.1002.msg = The module '%s' is not available.
 Error.1004.msg = The user reached the limit of pending modules.
+Error.2001.msg = The topology name is already used.
 Error.3001.msg = The password doesn't meet the security policy.
 
 Utils.pagination.first = First

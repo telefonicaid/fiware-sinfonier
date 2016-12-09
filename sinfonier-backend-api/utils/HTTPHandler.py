@@ -12,7 +12,7 @@ class HTTPHandler:
         return HTTPHandler._get(url, retrytimes=retrytimes, *args, **kvargs).text
 
     @staticmethod
-    def getJson(url, retrytimes=0, *args, **kvargs):
+    def get_as_json(url, retrytimes=0, *args, **kvargs):
         try:
             return HTTPHandler._get(url, retrytimes=retrytimes, *args, **kvargs).json()
         except requests.exceptions.HTTPError as r:

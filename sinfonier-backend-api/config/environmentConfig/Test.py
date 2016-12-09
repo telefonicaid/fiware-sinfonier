@@ -12,8 +12,8 @@ class Config:
     STORM_UI_PORT = "8080"
 
     # Gist Credentials
-    GIST_USERNAME = 'communitysinfonier'
-    GIST_TOKEN = '7cd03355ffe31e9216941fdb966b6dab9e781df3'
+    GIST_USERNAME = os.getenv('GIST_USERNAME', '')
+    GIST_TOKEN = os.getenv('GIST_TOKEN', '')
 
     # Mongodb's Config
     MONGO_HOST = 'localhost'
@@ -81,5 +81,6 @@ class Config:
     MODULE_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/modules.json'))
     MODULE_VERSION_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/moduleVersions.json'))
     TOPOLOGIES_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/topologies.json'))
+    TOPOLOGY_INFO_JSON_FILE = os.path.normpath(os.path.join(_root, 'tests/data/info.json'))
 
 conf = Config()

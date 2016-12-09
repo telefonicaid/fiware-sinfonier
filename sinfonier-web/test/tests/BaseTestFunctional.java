@@ -20,6 +20,11 @@ public class BaseTestFunctional extends FunctionalTest {
     BaseTest.doMongoImport(collectionName, jsonFilePath);
   }
 
+  protected static void doMongoReset(String collectionName, String jsonFilePath) throws UnknownHostException, IOException {
+    BaseTest.doMongoDrop(collectionName);
+    BaseTest.doMongoImport(collectionName, jsonFilePath);
+  }
+
   protected static void doMongoDrop(String collectionName) {
     BaseTest.doMongoDrop(collectionName);
   }

@@ -43,12 +43,14 @@ Drawer.editor.properties.label.topologyDescription = Descripción
 Drawer.editor.properties.label.stormNumWorkers = Num. de Workers de<br/> Storm
 Drawer.editor.properties.label.maxSpoutsPending = Max. Spouts Pendientes
 Drawer.editor.properties.label.topologyMessageTimeout = Timeout de Mensaje<br/> de la Topología
-Drawer.editor.properties.label.extraConfiguration = Configuración Extra
+Drawer.editor.properties.label.stormConfiguration = Configuración Extra<br/> de Storm
+Drawer.editor.properties.label.topologyConfiguration = Configuración de topología
 Drawer.editor.properties.placeholder.topologyName = (obligatorio)
 Drawer.editor.properties.placeholder.stormNumWorkers = 1 (por defecto) (%s - %s)
 Drawer.editor.properties.placeholder.maxSpoutsPending = en blanco o entero (%s - %s)
 Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (%s - %s)
-Drawer.editor.properties.placeholder.extraConfiguration = configuración extra usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.stormConfiguration = configuración extra de Storm usando múltiples líneas con el formato clave=valor
+Drawer.editor.properties.placeholder.topologyConfiguration = config. de topología, varias líneas con formato clave=valor.\nPuede ser referenciada desde los campos de módulos con el formato '[$clave]'.
 
 Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje
@@ -67,13 +69,14 @@ Drawer.editor.messages.topologyNotSavedTitle = No guardada
 Drawer.editor.messages.topologySaved = ¡Guardada!
 Drawer.editor.messages.topologySaveFailure = No es posible guardar la topología: %s
 Drawer.editor.messages.topologyDeleteConfirm = ¿Está seguro de que quiere borrar esta topología?
-Drawer.editor.messages.topologyUnableDelete = No es posible borrar la topología: 
-Drawer.editor.messages.topologyDeleted = ¡Borrada! 
+Drawer.editor.messages.topologyUnableDelete = No es posible borrar la topología:
+Drawer.editor.messages.topologyDeleted = ¡Borrada!
 Drawer.editor.messages.inputex.required = Este campo es obligatorio
 Drawer.editor.messages.inputex.invalid = Este campo no es válido
 Drawer.editor.messages.inputex.url.invalid = URL no válida, ej.: http://www.test.com
 Drawer.editor.messages.inputex.list.add = Añadir
 Drawer.editor.messages.inputex.list.remove = Borrar
+Drawer.editor.messages.inputex.string.invalidConfigReference = Referencia a configuración no válida
 
 Modules.index.title = Módulos
 Modules.index.btn.top = Módulos Top
@@ -94,7 +97,7 @@ Modules.details.versions = Versiones
 Modules.sendValidation.title = Enviar petición de validación
 Modules.sendValidation.text = ¿Está seguro que desea enviar el modulo: <strong>'%s (%s)'</strong> para validación? En caso de ser así, por favor asegúrese de que la versión del código que quiere que sea validada este disponible antes de enviar esta petición.
 Modules.decline.title = Rechazar módulo del usuario
-Modules.decline.form.label = Por favor, indeque el motivo por el módulo ha sido rechazado.
+Modules.decline.form.label = Por favor, indique el motivo por el módulo ha sido rechazado.
 
 Modules.btn.import = Importar
 Modules.btn.add = Añadir
@@ -181,14 +184,47 @@ Modules.form.err.versionTagUsed = Etiqueta de versión previamente usada en este
 Modules.form.warning.versions.moreDeveloping = Existen más versiones en desarrollo de este módulo. Considere continuar trabajando en alguna de ellas antes de añadir una nueva versión
 Modules.form.warning.gistCode = Verifique que el nombre de clase especificado en su Gist coincide con el nombre de módulo utilizado
 
+Projects.current.label = Proyecto en uso:
+Projects.index.title = Proyectos
+Projects.add.title = Nuevo proyecto
+Projects.edit.title = Editar proyecto
+Projects.index.btn.top = Proyectos Top
+Projects.index.btn.my = Mis proyectos
+Projects.index.btn.new = Nuevo proyecto
+Projects.index.create_by = Creado por <a href="/profile/%s">%s (%s)</a> at %s
+Projects.index.create_by_short = Creado por <a href="/profile/%s">%s</a> at %s
+Projects.index.create_by_text = Creado por %s at %s
+
+Projects.form.err.pattern.name = Formato de nombre incorrecto. Debe ser UpperCamelCase
+Projects.form.name = Nombre
+Projects.form.owner = Creador
+Projects.form.owner.placeholder = Nombre o email
+Projects.form.status = Estado
+Projects.form.description = Descripción
+
+Projects.btn.create = Crear
+Projects.btn.search = Buscar
+Projects.btn.edit = Editar
+Projects.btn.delete = Borrar
+Projects.btn.update = Actualizar
+Projects.btn.use = Usar proyecto
+Projects.btn.deactivate = No usar ningún proyecto
+
+Projects.details.title = Proyecto
+Projects.new.title = Nuevo proyecto
+
 Topologies.index.title = Topologías
 Topologies.index.btn.my = Mis Topologías
 Topologies.index.btn.new = Nueva Topología
+Topologies.index.btn.import = Importar Topología
 Topology.btn.privatize = Privatizar
 Topology.btn.publish = Publicar
 Topology.index.create_by = Creada por <a href="/profile/%s">%s (%s)</a> el %s, última actualización el %s.
 Topology.index.create_by_text = Creada por %s el %s, última actualización el %s.
+Topologies.import.title = Importar Topología
+Topologies.import.instructions = Seleccione el fichero JSON a importar y haga click en "Importar"
 
+Topologies.form.name = Nombre
 Topologies.form.description = Descripción
 Topologies.form.sharing = Compartida
 Topologies.form.status = Estado
@@ -206,6 +242,8 @@ Topologies.btn.launch = Lanzar
 Topologies.btn.stop = Detener
 Topologies.btn.edit = Editar
 Topologies.btn.asTemplate = Usar como plantilla
+Topologies.btn.export = Exportar
+Topologies.btn.import = Importar
 
 Topologies.details.delete.title = Eliminar la topología
 Topologies.details.delete.text = Quiere eliminar la topología '%s'?
@@ -213,7 +251,33 @@ Topologies.details.delete.text = Quiere eliminar la topología '%s'?
 Topologies.topology = Topología
 Topologies.error.launching = Error intentando lanzar la topología
 Topologies.error.stopping = Error intentando parar la topología
+Topologies.error.import.name = El nombre de la topología está vacío o no tiene el formato correcto
 Topologies.msgs.stopBeforeDelete = Debe detener la topología antes de poder borrarla
+
+Topologies.info.status = Estado
+Topologies.info.uptime = Levantado
+Topologies.info.workersTotal = Num Workers
+Topologies.info.executorsTotal = Num Executors
+Topologies.info.tasksTotal = Num Tasks
+Topologies.info.windowPretty = Ventana
+Topologies.info.emitted = Emitidos
+Topologies.info.transferred = Transferidos
+Topologies.info.completeLatency = Latencia completar (ms)
+Topologies.info.acked = Acked
+Topologies.info.failed = Fallados
+
+Topologies.info.spoutId = Id
+Topologies.info.executors = Executors
+Topologies.info.tasks = Tasks
+Topologies.info.errorHost = Máquina Error
+Topologies.info.errorPort = Puerto Error
+Topologies.info.lastError = Último Error
+
+Topologies.info.boltId = Id
+Topologies.info.capacity = Capacidad (ult. 10m)
+Topologies.info.executeLatency = Latencia ejecución (ms)
+Topologies.info.executed = Ejecutado
+Topologies.info.processLatency = Latencia proceso (ms)
 
 Profile.editAccount = Editar perfil
 Profile.saveAccount = Guardar perfil
@@ -266,6 +330,8 @@ validation.required.drawer.versionCode = "El versionCode del módulo es requerid
 validation.requiere.email = "El email es requerido para esta operación"
 validation.requiere.name = "El nombre de usuario es obligatorio"
 validation.topology.params = "Algunos parámetros son incorrectos o no están permitidos."
+validation.topology.exists = "Ya exite una topología con este nombre"
+validation.topology.module.unexistent = "Módulo inexistente "
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
 validation.icon.invalidFormat = Formato incorrecto, los tipos permitidos son: jpg, jpeg, png.
 validation.icon.exceedsSize = El fichero excede el tamaño maximo permitido.
@@ -288,6 +354,7 @@ Error.500.msg = Esta excepción ha sido registrada. El administrador ha sido inf
 Error.1001.msg = El nombre del módulo '%s' ya está siendo utilizado.
 Error.1002.msg = El módulo '%s' no esta disponible.
 Error.1004.msg = El usuario llegó al limite de módulos pendientes.
+Error.2001.msg = El nombre de la topología ya está en uso.
 Error.3001.msg = La contraseña no cumple con la política de seguridad.
 
 Utils.pagination.first = Primera

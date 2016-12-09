@@ -145,7 +145,7 @@
       #{/list}
 
       %{
-    	  models.storm.ParamsValidator validator = models.storm.ParamsValidator.getInstance();
+    	  models.validators.ParamsValidator validator = models.validators.ParamsValidator.getInstance();
     	  models.storm.Params params = validator.getParams();
       }%
 
@@ -174,11 +174,19 @@
       webhookit.language.propertiesFields.push({
         "type": "text",
         inputParams: {
-          "name": "extraConfiguration", label: i18n('Drawer.editor.properties.label.extraConfiguration'), cols: 30, rows: 3,
-          typeInvite: i18n('Drawer.editor.properties.placeholder.extraConfiguration')
+          "name": "extraConfiguration", label: i18n('Drawer.editor.properties.label.stormConfiguration'), cols: 30, rows: 3,
+          typeInvite: i18n('Drawer.editor.properties.placeholder.stormConfiguration')
         }
       });
       #{/if}
+
+      webhookit.language.propertiesFields.push({
+        "type": "text",
+        inputParams: {
+          "name": "topologyProperties", label: i18n('Drawer.editor.properties.label.topologyConfiguration'), cols: 30, rows: 5,
+          typeInvite: i18n('Drawer.editor.properties.placeholder.topologyConfiguration')
+        }
+      });
 
   webhookit.language.parentEl = 'editorContainer';
 
@@ -217,63 +225,32 @@
         }, 1001);
       });
     }, 1000);
-  });
 
-  function regenerateModulesDD() {
-    var layerPos = Dom.getXY(webhookit.editor.layer.el);
-    for (var i=0; i<webhookit.editor.layer.containers.length; i++) {
-      webhookit.editor.layer.containers[i].dd = new WireIt.util.DD(webhookit.editor.layer.containers[i].terminals,webhookit.editor.layer.containers[i].el);
-      var containerPos = Dom.getXY(webhookit.editor.layer.containers[i].el);
-      webhookit.editor.layer.containers[i].dd.setXConstraint(containerPos[0] - layerPos[0]);
-      webhookit.editor.layer.containers[i].dd.setYConstraint(containerPos[1] - layerPos[1]);
-      if(webhookit.editor.layer.containers[i].ddHandle) {
-        webhookit.editor.layer.containers[i].dd.setHandleElId(webhookit.editor.layer.containers[i].ddHandle);
-      }
-    }
-  }
+
+   setTimeout(function () {
+      $(".yui-layout-doc").on("change", "textarea[name='topologyProperties']", function(event) {
+        if ($(this).val()) {
+          parseTopologyConfig(this);
+          revalidateRelatedFields();
+        }
+      });
+    }, 1000);
+   });
 
   $("#changeToen,#changeToes,.form-logout").each(function(){
-    $(this).submit(function(event) {
+      $(this).submit(function(event) {
       adviseTopologyNotSaved(event, this);
     });
   });
-
+  
   $("a[id^='menu-a'],a[id^='header-a']").each(function(){
     $(this).click(function(event) {
       adviseTopologyNotSaved(event);
     });
   });
 
-  function adviseTopologyNotSaved(event, form) {
-    if (!webhookit.editor.isSaved()) {
-      var link = event.target.href || event.target.parentElement.href;
-      event.preventDefault();
-      bootbox.confirm({
-        title: i18n('Modules.form.fieldsChanged.title'),
-        message: i18n('Drawer.editor.messages.workNotSaved'),
-        buttons: {
-          cancel: {
-            label: i18n('Modules.btn.cancel'),
-            className: 'btn btn-default btn-modal'
-          },
-          confirm: {
-            label: i18n('Modules.btn.confirm'),
-            className: 'btn btn-primary btn-modal'
-          }
-        },
-        callback: function (result) {
-          if (result) {
-            if (form) {
-        	    form.submit();
-            } else {
-              document.location.href = link;
-            }
-          }
-        }
-      });
-    }
-  }
 </script>
     #{script 'vendor/webhookit/editor/adapter.js'/}
     #{script 'vendor/webhookit/editor/topology_editor.js'/}
+    #{script 'drawer.js'/}
 #{/set}

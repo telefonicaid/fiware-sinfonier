@@ -1,6 +1,22 @@
 package models.topology;
 
-import static models.SinfonierConstants.Topology.*;
+import static models.SinfonierConstants.Topology.COLLECTION_NAME;
+import static models.SinfonierConstants.Topology.FIELD_AUTHOR_ID;
+import static models.SinfonierConstants.Topology.FIELD_CONFIG;
+import static models.SinfonierConstants.Topology.FIELD_CREATED;
+import static models.SinfonierConstants.Topology.FIELD_DESCRIPTION;
+import static models.SinfonierConstants.Topology.FIELD_ID;
+import static models.SinfonierConstants.Topology.FIELD_NAME;
+import static models.SinfonierConstants.Topology.FIELD_SHARING;
+import static models.SinfonierConstants.Topology.FIELD_STATUS;
+import static models.SinfonierConstants.Topology.FIELD_TEMPLATE_ID;
+import static models.SinfonierConstants.Topology.FIELD_UPDATED;
+import static models.SinfonierConstants.Topology.STATUS_ACTIVE;
+import static models.SinfonierConstants.Topology.STATUS_DELETED;
+import static models.SinfonierConstants.Topology.STATUS_RUNNING;
+import static models.SinfonierConstants.Topology.TEMPLATE_NAME;
+import static models.SinfonierConstants.Topology.TOPOLOGY_MAX_RESULTS_PAGE;
+import static models.SinfonierConstants.TopologyConfig.FIELD_TOPOLOGY_PROPERTIES;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,17 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import models.factory.DarwinFactory;
-import models.factory.MongoFactory;
-import models.module.Module;
-import models.module.ModuleVersion;
-import models.module.ModulesContainer;
-import models.user.User;
-
 import org.bson.types.ObjectId;
 
-import play.Logger;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -28,7 +37,15 @@ import com.mongodb.MongoException;
 
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
-
+import models.factory.DarwinFactory;
+import models.factory.MongoFactory;
+import models.module.Module;
+import models.module.ModuleVersion;
+import models.project.Project;
+import models.topology.json.serializers.TopologySerializer;
+import models.user.User;
+import play.Logger;
+import play.Play;
 import utils.Utils;
 
 public class Topology implements Cloneable {
@@ -45,7 +62,7 @@ public class Topology implements Cloneable {
   private TopologyConfig config;
   private ObjectId templateId;
 
-  public static TopologiesContainer findByStatusOrNameOrAuthorOrUpdatedDate(String status, String q, Date updated, User user, Integer page) throws SinfonierException {
+  public static TopologiesContainer findByCriteria(String status, String q, Date updated, String description, User user, Integer page) throws SinfonierException {
     DBObject query = new BasicDBObject();
     BasicDBList andQuery = new BasicDBList();
 
@@ -74,6 +91,10 @@ public class Topology implements Cloneable {
       andQuery.add(new BasicDBObject(FIELD_UPDATED, new BasicDBObject("$gt", updated)));
     }
 
+    if (description != null && description.length() > 0) {
+      andQuery.add(new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE)));
+    }
+
     if (andQuery.size() > 0) {
       query.put("$and", andQuery);
     }
@@ -81,23 +102,29 @@ public class Topology implements Cloneable {
     return find(query, page);
   }
   
-  public static TopologiesContainer getTopologies(User user, Integer page) throws SinfonierException {
-    return getTopologies(user, true, true, page);
+  public static TopologiesContainer getTopologies(User user, Project project, Integer page) throws SinfonierException {
+    return getTopologies(user, project, true, true, page);
   }
 
-  public static TopologiesContainer getTopologies(User user, boolean includeExternalSharing, boolean usePagination, Integer page) throws SinfonierException {
+  public static TopologiesContainer getTopologies(User user, Project project, boolean includeExternalSharing, boolean usePagination, Integer page) throws SinfonierException {
     TopologiesContainer topologies;
 
     DBObject sortByName = new BasicDBObject(FIELD_NAME, 1);
     BasicDBObject not_deleted = new BasicDBObject(FIELD_STATUS, new BasicDBObject("$ne", STATUS_DELETED));
 
     BasicDBList notDeletedAndAuthor = new BasicDBList();
+    BasicDBObject projectCondition = null;
     notDeletedAndAuthor.add(not_deleted);
     notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
 
+    if ("true".equals(Play.configuration.get("projects")) && project != null )
+    {
+    	projectCondition = new BasicDBObject("_id",new BasicDBObject("$in", project.getArrTopologyIds()));
+    	notDeletedAndAuthor.add(projectCondition);
+    }
 
     if (user.isAdminUser() && includeExternalSharing) {
-      topologies = find(null, sortByName, usePagination, page);
+      topologies = find(projectCondition, sortByName, usePagination, page);
     } else if (includeExternalSharing) {
       BasicDBList notDeletedAndSharing = new BasicDBList();
       notDeletedAndSharing.add(not_deleted);
@@ -161,12 +188,27 @@ public class Topology implements Cloneable {
       throw new SinfonierException(SinfonierError.TOPOLOGY_INVALID_CONSTRUCTION, ex);
     }
     templateTopology.setName(TEMPLATE_NAME);
-    Map<String, String> properties = templateTopology.getConfig().getProperties();
+    
+    Map<String, String> properties = templateTopology.getConfig().getStormProperties();
+    if (!templateTopology.isOwner(user)) {
+      properties.clear();
+    }
     properties.put("templateid", topology.getId());
-    templateTopology.getConfig().setProperties(properties);
+
+    templateTopology.getConfig().setStormProperties(properties);
+    
+    if (!templateTopology.isOwner(user) && templateTopology.getConfig().getTopologyProperties().get(FIELD_TOPOLOGY_PROPERTIES) != null) {
+      templateTopology.getConfig().getTopologyProperties().remove(FIELD_TOPOLOGY_PROPERTIES);
+    }
+    
     if (!templateTopology.isOwner(user) && templateTopology.getConfig().getModules() != null) {
+      String[] emptyArray = {};
       for (TopologyModule m : templateTopology.getConfig().getModules()) {
-        m.setValues(null);
+        Map provValues = m.getValues();
+        for (Object key : provValues.keySet()) {
+          provValues.put(key, (provValues.get(key).getClass().toString().equals("java.lang.String") ? "" : emptyArray));
+        }
+        m.setValues(provValues);
       }
     }
     return templateTopology;
@@ -509,4 +551,12 @@ public class Topology implements Cloneable {
   private static String getCollectionName() {
     return COLLECTION_NAME;
   }
+  
+  public String export() {
+	  GsonBuilder builder = new GsonBuilder();
+	  builder.registerTypeAdapter(Topology.class, new TopologySerializer());
+	  Gson gson = builder.create();
+	  return gson.toJson(this);
+  }
+
 }

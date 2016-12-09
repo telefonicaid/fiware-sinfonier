@@ -18,6 +18,8 @@ class Routes:
         self.api.add_route('/topologies/{id}/launch', LaunchTopology.LaunchTopology())
         self.api.add_route('/topologies/{id}/stop', StopTopology.StopTopology())
         self.api.add_route('/topologies/{id}/log', GetTopologyLog.GetTopologyLog())
+        self.api.add_route('/topologies/{id}/logsizes', GetTopologyLogSizes.GetTopologyLogSizes())
+        self.api.add_route('/topologies/{id}/info', GetTopologyInfo.GetTopologyInfo())
 
         # Otherwise return a 404
         self.api.add_sink(ResponsesHandler.handle_otherwise, '')

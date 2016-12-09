@@ -15,6 +15,7 @@
 #{topologies._topology topology:topology, size:"large", vote:true, wc:controllers.WebController/}
 </div>
 
+#{i18n /}
 #{set 'moreScripts'}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
@@ -24,6 +25,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/jquery.tinymce.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/plugins/codesample/plugin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.3.12/plugins/autoresize/plugin.min.js"></script>
+
     #{script 'util/code.js'/}
     #{script 'topologies.js'/}
 #{/set}
+

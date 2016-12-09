@@ -1,0 +1,34 @@
+#{extends 'Layouts/darwin-control-panel-layout.html' /}
+#{set 'title'} &{'Topologies.import.title'}  #{/set}
+#{set 'moreStyles'}
+  <link rel="stylesheet" href="/public/javascripts/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    #{stylesheet 'topologies.css' /}
+#{/set}
+
+<div class="row form-group">
+  <div class="col-md-offset-4 col-md-4">
+  #{if request.querystring.contains("indexMode=" + controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES)}
+    <a id="topologies-a-list" href="@{Topologies.index(null, null, 0)}" class="btn-tab btn btn-default width-100">&{'Topologies.index.title'}</a>
+  #{/if}
+  #{else }
+    <a id="topologies-a-my" href="@{Topologies.index(controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES, null, 0)}"
+       class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.my'}</a>
+  #{/else}
+  </div>
+  <div class="col-md-4">
+    <a id="topologies-a-add" href="@{Drawers.index()}" class="btn-tab btn btn-default width-100">&{'Topologies.index.btn.new'}</a>
+  </div>
+</div>
+
+
+
+#{topologies._topology_import topology:topology, wc:controllers.WebController/}
+
+#{i18n /}
+#{set 'moreScripts'}
+<script type="text/javascript" src="/public/javascripts/vendor/moment/moment-with-locales.min.js"></script>
+<script type="text/javascript" src="/public/javascripts/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    #{script 'topologies.js'/}
+    #{script 'import_topologies.js'/}
+
+#{/set}

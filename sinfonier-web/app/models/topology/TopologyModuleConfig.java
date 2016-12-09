@@ -11,16 +11,16 @@ import java.util.List;
 
 public class TopologyModuleConfig {
   private List<Integer> position;
-  private String xType;
+  private String xtype;
 
   public TopologyModuleConfig(List<Integer> position, String xType) {
     this.position = position;
-    this.xType = xType;
+    this.xtype = xType;
   }
 
   public TopologyModuleConfig(DBObject o) {
     if (o != null && o.get(FIELD_XTYPE) != null) {
-      xType = o.get(FIELD_XTYPE).toString();
+      xtype = o.get(FIELD_XTYPE).toString();
     }
 
     if (o != null && o.get(FIELD_POSITION) != null) {
@@ -36,8 +36,8 @@ public class TopologyModuleConfig {
     DBObject object = new BasicDBObject();
     BasicDBList positionDbList = new BasicDBList();
 
-    if (xType != null && position != null) {
-      object.put(FIELD_XTYPE, xType);
+    if (xtype != null && position != null) {
+      object.put(FIELD_XTYPE, xtype);
       
       for (Integer pos : position) {
         positionDbList.add(pos);
@@ -58,11 +58,11 @@ public class TopologyModuleConfig {
   }
 
   public String getXType() {
-    return xType;
+    return xtype;
   }
 
   public void setXType(String xtype) {
-    this.xType = xtype;
+    this.xtype = xtype;
   }
 
   @Override

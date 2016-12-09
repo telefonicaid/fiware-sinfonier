@@ -9,7 +9,7 @@ import models.drawer.DrawerModule;
 import models.module.Module;
 import models.module.ModuleVersion;
 
-public class Drawers extends WebSecurityController {
+public class Drawers extends BaseController {
 
   public static void index() throws SinfonierException {
     Drawer drawer = new Drawer(getCurrentUser());

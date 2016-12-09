@@ -228,7 +228,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       return;
     }
 
-    if (!/\w+/i.test(value.name)) {
+    if(!/\w+/i.test(value.name)) {
       this.alert(i18n('Drawer.editor.messages.invalidName'));
       return;
     }
@@ -523,15 +523,29 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
       this.layer.clear();
 
       // Add to properties name and description for normalize
-      pipe.working.properties['name'] = pipe.name;
-      pipe.working.properties['description'] = pipe.description;
+      if (document.getElementById("templateid").value == '') {
+        pipe.working.properties['name'] = pipe.name;
+        pipe.working.properties['description'] = pipe.description;
+      } else {
+        document.getElementById("previous").value = '';
+      }
+
+      //Add topology properties to properties form
+      if (pipe.working.topologyProperties['topologyProperties']) {
+        pipe.working.properties['topologyProperties'] = pipe.working.topologyProperties['topologyProperties'];
+      }
 
       this.propertiesForm.setValue(pipe.working.properties, false); // the false tells inputEx to NOT fire the updatedEvt
-      if (pipe.name) // When loading a template not set readonly
-        $("input[name=name]").attr('readonly', true);
+      //Process topology configuration
+      if (this.propertiesForm.inputsNames["topologyProperties"]) {
+        if (this.propertiesForm.inputsNames["topologyProperties"].el.value != "" &&
+            this.propertiesForm.inputsNames["topologyProperties"].el.value != this.propertiesForm.inputsNames["topologyProperties"].options.typeInvite) {
+        	parseTopologyConfig(this.propertiesForm.inputsNames["topologyProperties"].el);
+        }
+      }
 
       // When loading a template not set readonly
-      if (pipe.name) $("input[name=name]").attr('readonly', true);
+      if (pipe.name && document.getElementById("templateid").value == '') $("input[name=name]").attr('readonly', true);
 
       if (!pipe.working.modules) pipe.working.modules = [];
       if (YAHOO.lang.isArray(pipe.working.modules)) {

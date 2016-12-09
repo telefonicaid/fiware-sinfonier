@@ -66,7 +66,9 @@
           }
         }
       ],
-      "properties": {
+      "stormProperties": {
+      },
+      "topologyProperties": {
       }
     }
   },
@@ -169,7 +171,9 @@
           }
         }
       ],
-      "properties": {
+      "stormProperties": {
+      },
+      "topologyProperties": {
       }
     }
   }
