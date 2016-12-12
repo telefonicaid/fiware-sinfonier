@@ -28,7 +28,7 @@
     #{if _size != "small"}
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-          <p id="project-${_project?.getId()}-p-status"><span class="bold">&{'Projects.form.status'}:</span> ${_project?.getStatus()}
+          <p id="project-${_project?.getId()}-p-status"><span class="bold">&{'Projects.form.status'}:</span> &{'Projects.form.status.'+_project?.getStatus()}
           </p>
         </div>
       </div>

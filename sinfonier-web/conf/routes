@@ -91,6 +91,8 @@ POST    /apiclients/remove                                      404
 POST    /apiclients/edit/name                                   404
 POST    /apiclients/renew/secret                                404
 
+# Latch bugs
+GET /latch/pair                                                 Latch.checkLatch
 
 # Darwin
 * /                                                             module:darwin
