@@ -363,3 +363,7 @@ Utils.pagination.first = First
 Utils.pagination.last = Last
 
 Users.index.modal.deleteUser=Delete user
+
+##### Latch Bugs on Darwin #####
+latch.pair.info.description.one.free=free.
+latch.pair.token.info.description=Pairing Latch with your account is very easy. Open the Latch app on your mobile device and, on the "Add a new service" screen, press "Pair with Latch" and then "Generate new code". Then, enter it here:
