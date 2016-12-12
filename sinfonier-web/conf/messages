@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (default) (%s -
 Drawer.editor.properties.placeholder.stormConfiguration = extra Storm configuration using multiple lines with key=value format
 Drawer.editor.properties.placeholder.topologyConfiguration = topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format.
 
-Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press ok to continue anyway.
+Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press Confirm to continue anyway.
 Drawer.editor.messages.header = Message
 Drawer.editor.messages.blankName = Please choose a name
 Drawer.editor.messages.invalidName = Please choose a valid name

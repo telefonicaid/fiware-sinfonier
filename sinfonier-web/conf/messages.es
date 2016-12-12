@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (
 Drawer.editor.properties.placeholder.stormConfiguration = configuración extra de Storm usando múltiples líneas con el formato clave=valor
 Drawer.editor.properties.placeholder.topologyConfiguration = config. de topología, varias líneas con formato clave=valor.\nPuede ser referenciada desde los campos de módulos con el formato '[$clave]'.
 
-Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
+Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse Confirmar para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje
 Drawer.editor.messages.blankName = Seleccione un nombre
 Drawer.editor.messages.invalidName = Seleccione un nombre válido
