@@ -363,3 +363,6 @@ Utils.pagination.first = Primera
 Utils.pagination.last = Última
 
 Users.index.modal.deleteUser=Eliminar Usuario
+
+##### Latch Bugs on Darwin #####
+latch.pair.info.description.one.free=gratuita.
