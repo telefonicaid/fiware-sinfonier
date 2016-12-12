@@ -36,12 +36,6 @@
   </li>
 #{/secure.check}
 
-#{secure.check "API_CLIENTS"}
-  <li class="#{if request.action.equals('APIClients.index')} active #{/if}">
-    <a id="menu-a-apiClients" href="@{APIClients.index()}"><i class="material-icons">code</i> <span>&{'Nav.apiClients'}</span></a>
-  </li>
-#{/secure.check}
-
 #{if models.Config.isLatchActive() }
   <li class="#{if request.url.contains('latch')} active #{/if}"><a id="menu-a-latch" href="@{Latch.checkLatch()}"><i class="icn-latch"></i><span>Latch</span></a></li>
 #{/if}
