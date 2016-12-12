@@ -45,7 +45,7 @@
       <div class="row no-overf">
         <div class="col-sm-8 col-xs-12">
           <p id="module-${_module?.getId()}-p-type"><span class="bold">&{'Modules.form.type'}:</span> ${_module?.getType()}</p>
-          <p id="module-${_module?.getId()}-p-status"><span class="bold">&{'Modules.form.status'}:</span> ${_version?.getStatus()}
+          <p id="module-${_module?.getId()}-p-status"><span class="bold">&{'Modules.form.status'}:</span> &{'Modules.form.status.'+_version?.getStatus()}
               #{if _size =="large" && _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_SUCCESS)}
                 <br>
                 <small class="text-success">&{'Modules.build.status'}: &{'Modules.build.status.success'}</small>
