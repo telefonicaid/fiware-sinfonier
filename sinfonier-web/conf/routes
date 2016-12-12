@@ -84,6 +84,9 @@ GET /profile/{email}/edit                                       ProfileSinfonier
 POST /profile/{email}/save                                      ProfileSinfonier.save
 POST /profile/{email}/changePassword                            ProfileSinfonier.changePassword
 
+# Latch bugs
+GET /latch/pair                                                 Latch.checkLatch
+
 # Darwin
 * /                                                             module:darwin
 

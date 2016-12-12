@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (default) (%s -
 Drawer.editor.properties.placeholder.stormConfiguration = extra Storm configuration using multiple lines with key=value format
 Drawer.editor.properties.placeholder.topologyConfiguration = topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format.
 
-Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press ok to continue anyway.
+Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press Confirm to continue anyway.
 Drawer.editor.messages.header = Message
 Drawer.editor.messages.blankName = Please choose a name
 Drawer.editor.messages.invalidName = Please choose a valid name
@@ -363,3 +363,8 @@ Utils.pagination.first = First
 Utils.pagination.last = Last
 
 Users.index.modal.deleteUser=Delete user
+
+##### Latch Bugs on Darwin #####
+latch.pair.badToken=This token is not valid or has expired. Try it again.
+latch.pair.info.description.one.free=free.
+latch.pair.token.info.description=Pairing Latch with your account is very easy. Open the Latch app on your mobile device and, on the "Add a new service" screen, press "Pair with Latch" and then "Generate new code". Then, enter it here:

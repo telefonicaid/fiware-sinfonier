@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (
 Drawer.editor.properties.placeholder.stormConfiguration = configuración extra de Storm usando múltiples líneas con el formato clave=valor
 Drawer.editor.properties.placeholder.topologyConfiguration = config. de topología, varias líneas con formato clave=valor.\nPuede ser referenciada desde los campos de módulos con el formato '[$clave]'.
 
-Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
+Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse Confirmar para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje
 Drawer.editor.messages.blankName = Seleccione un nombre
 Drawer.editor.messages.invalidName = Seleccione un nombre válido
@@ -363,3 +363,8 @@ Utils.pagination.first = Primera
 Utils.pagination.last = Última
 
 Users.index.modal.deleteUser=Eliminar Usuario
+
+##### Latch Bugs on Darwin #####
+latch.pair.badToken=El token no es válido o ha caducado. Vuelve a intentarlo.
+latch.pair.info.description.one.free=gratuita.
+latch.pair.token.info.description=Parear Latch con tu cuenta es muy sencillo. Abre la app de Latch en tu móvil y en la pantalla Añadir nuevo servicio, pulsa "Parear servicio con Latch" y después "Generar nuevo código". Después, introdúcelo aquí:
