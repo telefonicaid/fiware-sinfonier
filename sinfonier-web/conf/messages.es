@@ -97,7 +97,7 @@ Modules.details.versions = Versiones
 Modules.sendValidation.title = Enviar petición de validación
 Modules.sendValidation.text = ¿Está seguro que desea enviar el modulo: <strong>'%s (%s)'</strong> para validación? En caso de ser así, por favor asegúrese de que la versión del código que quiere que sea validada este disponible antes de enviar esta petición.
 Modules.decline.title = Rechazar módulo del usuario
-Modules.decline.form.label = Por favor, indique el motivo por el módulo ha sido rechazado.
+Modules.decline.form.label = Por favor, indique el motivo por el que el módulo ha sido rechazado.
 
 Modules.btn.import = Importar
 Modules.btn.add = Añadir
