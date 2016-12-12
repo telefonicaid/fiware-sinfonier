@@ -13,6 +13,7 @@ import exceptions.SinfonierError;
 import exceptions.SinfonierException;
 import models.user.SinfonierUser;
 import models.validation.Password;
+import play.templates.JavaExtensions;
 
 public class ProfileSinfonier extends Profile {
 
@@ -50,7 +51,7 @@ public class ProfileSinfonier extends Profile {
         sinfonierUser.setTwitter(twitter);
         sinfonierUser.setOrganization(organization);
         sinfonierUser.setTimeZoneID(timeZone);
-        sinfonierUser.setWeb(web);
+        sinfonierUser.setWeb(web != null ? JavaExtensions.slugify(web): "");
         user.save();
 
         // TODO: Change render when Bug #19153 is fixed in Darwin library. 
