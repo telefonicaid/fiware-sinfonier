@@ -159,6 +159,7 @@ Modules.form.text.code = Código fuente
 Modules.form.lib.url = URL
 Modules.form.status.developing = desarrollando
 Modules.form.status.pending = pendiente
+Modules.form.status.predefined = predefinido
 Modules.form.status.published = publicado
 Modules.form.status.private = privado
 Modules.form.status.deleted = borrado
