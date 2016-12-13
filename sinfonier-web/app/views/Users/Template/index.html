@@ -1,6 +1,19 @@
 <h1> &{'Nav.users'}</h1>
 #{utils.userFinder action:@Users.index(finder, 0), fieldsAllowed:models.finder.UserFinder.getFieldsAllowed(), model:finder /}
 <div class="spacer"></div>
+%{
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    Map<String, String[]> finderParams = request.params.sub("finder");
+    for (Map.Entry<String, String[]> param : finderParams) {
+        params.put("finder." + param.getKey(), param.getValue());
+    }
+}%
+<div class="sinf-pagination">
+  #{common.pagination url: request.action, params: params, currentPage: page, total: totalUsers, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+</div>
+#{if totalUSer > models.Constants.Utils.MAX_RESULTS_PAGE}
+  <div class="spacer"></div>
+#{/if}
 <div class="row">
     <div class="col-xs-12">
         <div class="table-responsive" style="overflow-x:initial;">
@@ -75,11 +88,6 @@
         </div>
     </div>
 </div>
-%{
-    Map<String, String[]> params = new HashMap<String, String[]>();
-    Map<String, String[]> finderParams = request.params.sub("finder");
-    for (Map.Entry<String, String[]> param : finderParams) {
-        params.put("finder." + param.getKey(), param.getValue());
-    }
-}%
-#{utils.pagination url: 'Users.index', params:params, currentPage: page, total: totalUsers /}
+<div class="sinf-pagination">
+  #{common.pagination url: request.action, params: params, currentPage: page, total: totalUsers, pageSize: models.Constants.Utils.MAX_RESULTS_PAGE /}
+</div>
