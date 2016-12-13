@@ -281,6 +281,7 @@ Topologies.info.executeLatency = Execute latency (ms)
 Topologies.info.executed = Executed
 Topologies.info.processLatency = Process latency (ms)
 
+Profile.created=Sign up since
 Profile.editAccount = Edit profile
 Profile.saveAccount = Save profile
 Profile.twitter = Twitter
