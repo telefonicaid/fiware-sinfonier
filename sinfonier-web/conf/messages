@@ -369,3 +369,6 @@ Users.index.modal.deleteUser=Delete user
 latch.pair.badToken=This token is not valid or has expired. Try it again.
 latch.pair.info.description.one.free=free.
 latch.pair.token.info.description=Pairing Latch with your account is very easy. Open the Latch app on your mobile device and, on the "Add a new service" screen, press "Pair with Latch" and then "Generate new code". Then, enter it here:
+
+##### Activate Account Bugs on Darwin#####
+Public.activate.adminActivationUser=Great, your account was created successfully but and administrator should activate it first. You will receive an email when this happens.

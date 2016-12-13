@@ -369,3 +369,6 @@ Users.index.modal.deleteUser=Eliminar Usuario
 latch.pair.badToken=El token no es válido o ha caducado. Vuelve a intentarlo.
 latch.pair.info.description.one.free=gratuita.
 latch.pair.token.info.description=Parear Latch con tu cuenta es muy sencillo. Abre la app de Latch en tu móvil y en la pantalla Añadir nuevo servicio, pulsa "Parear servicio con Latch" y después "Generar nuevo código". Después, introdúcelo aquí:
+
+##### Activate Account Bugs on Darwin#####
+Public.activate.adminActivationUser=Tu cuenta se ha creado correctamente, pero es necesario que un administrador la active. Se te notificará por correo electrónico.
