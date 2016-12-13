@@ -108,10 +108,10 @@
             <div class="well">
               <p id="topology-${_topology.getId()}-p-createBy" class="details">
               #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
-                &{'Topology.index.create_by', _topology.getAuthor().getEmail(), _topology.getAuthor().getName(), _topology.getAuthor().getEmail(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                &{'Topology.index.create_by', _topology.getAuthor().getEmail()?.escapeHtml().raw(), _topology.getAuthor().getName()?.escapeHtml().raw(), _topology.getAuthor().getEmail()?.escapeHtml().raw(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
               #{/if}
               #{else}
-                &{'Topology.index.create_by_text', _topology.getAuthor().getName(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), , _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                &{'Topology.index.create_by_text', _topology.getAuthor().getName()?.escapeHtml().raw(), _topology.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format")), , _topology.getUpdatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
               #{/else}
               </p>
             </div>

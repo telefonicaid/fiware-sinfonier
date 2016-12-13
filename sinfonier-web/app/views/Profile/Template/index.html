@@ -58,8 +58,8 @@
           <div class="col-xs-6">
             <p>
               <span class="bold">&{'Profile.web'}:</span>
-              <a id="profile-a-web" href="${user.getImplementation().getWeb()}" target="_blank">
-              ${user.getImplementation().getWeb()}</a>
+              <a id="profile-a-web" href="${user.getImplementation().getWeb().slugify().raw()}" target="_blank">
+              ${user.getImplementation().getWeb().slugify().raw()}</a>
             </p>
           </div>
 
