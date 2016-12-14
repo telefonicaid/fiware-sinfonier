@@ -217,6 +217,7 @@ Projects.new.title = New project
 
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies
+Topologies.index.btn.all = All Topologies
 Topologies.index.btn.new = New Topology
 Topologies.index.btn.import = Import Topology
 Topology.btn.privatize = Privatize

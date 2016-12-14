@@ -1,0 +1,9 @@
+#{if request.querystring.contains(controllers.Modules.INDEX_MODE_TOP_MODULES)}
+  &{'Modules.index.btn.top'}
+#{/if}
+#{elseif request.querystring.contains(controllers.Modules.INDEX_MODE_MY_MODULES)}
+  &{'Modules.index.btn.my'}
+#{/elseif}
+#{else }
+  &{'Modules.index.title'}
+#{/else}
