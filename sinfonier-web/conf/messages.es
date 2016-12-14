@@ -373,3 +373,6 @@ latch.pair.token.info.description=Parear Latch con tu cuenta es muy sencillo. Ab
 
 ##### Activate Account Bugs on Darwin#####
 Public.activate.adminActivationUser=Tu cuenta se ha creado correctamente, pero es necesario que un administrador la active. Se te notificará por correo electrónico.
+
+##### Register Bugs on Darwin#####
+Public.register.oldPassword=Contraseña anterior

@@ -373,3 +373,6 @@ latch.pair.token.info.description=Pairing Latch with your account is very easy. 
 
 ##### Activate Account Bugs on Darwin#####
 Public.activate.adminActivationUser=Great, your account was created successfully but and administrator should activate it first. You will receive an email when this happens.
+
+##### Register Bugs on Darwin#####
+Public.register.oldPassword=Old password
