@@ -221,4 +221,8 @@
     code: '${_version.getSourceCodeBase64()}'
   };
   #{/if}
+  
+  #{if _module?.getIcon() != null}
+    var moduleIcon = "${_module?.getIcon()}";
+  #{/if}
 </script>
