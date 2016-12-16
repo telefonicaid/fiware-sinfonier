@@ -29,3 +29,16 @@ var FormTools = function (f) {
 
   return this;
 };
+
+function checkField(field, requiredMessage, patternMessage) {
+  if (field.validity.valid || (field.offsetWidth == 0 && field.offsetHeight == 0))
+    return false;
+  if (field.validity.valueMissing) {
+    field.setCustomValidity(requiredMessage);
+  } else if ((field.validity.patternMismatch || field.validity.typeMismatch) && patternMessage) {
+    field.setCustomValidity(patternMessage);
+  } else {
+	field.setCustomValidity('');  
+  }
+  return true;
+}
