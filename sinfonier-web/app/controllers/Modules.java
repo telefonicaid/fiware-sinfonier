@@ -224,7 +224,7 @@ public class Modules extends BaseController {
     if (version.isFromGist()) {
       flash.put(FLASH_KEY_WARNING, Messages.get("Modules.form.warning.gistCode"));
     }
-    index(INDEX_MODE_MY_MODULES, 1);
+    module(module.getName(), version.getVersionCode());
   }
 
   public static void remove(String id, Integer versionCode) throws SinfonierException {
