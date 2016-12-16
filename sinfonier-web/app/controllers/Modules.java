@@ -156,9 +156,9 @@ public class Modules extends BaseController {
   public static void save(@Valid Module module, @Valid ModuleVersion version) throws SinfonierException {
     checkAuthenticity();
 
-    if (Validation.hasErrors()) {
-      for (play.data.validation.Error error : Validation.errors()) {
-        Logger.error(error.message());
+    if (validation.hasErrors()) {
+      for (play.data.validation.Error error : validation.errors()) {
+        Logger.error(error.getKey() + ": " + error.message());
       }
       params.flash();
       ModuleVersion moduleVersion = version;
