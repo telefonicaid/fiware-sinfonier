@@ -156,9 +156,9 @@ public class Modules extends BaseController {
   public static void save(@Valid Module module, @Valid ModuleVersion version) throws SinfonierException {
     checkAuthenticity();
 
-    if (Validation.hasErrors()) {
-      for (play.data.validation.Error error : Validation.errors()) {
-        Logger.error(error.message());
+    if (validation.hasErrors()) {
+      for (play.data.validation.Error error : validation.errors()) {
+        Logger.error(error.getKey() + ": " + error.message());
       }
       params.flash();
       ModuleVersion moduleVersion = version;
@@ -224,7 +224,7 @@ public class Modules extends BaseController {
     if (version.isFromGist()) {
       flash.put(FLASH_KEY_WARNING, Messages.get("Modules.form.warning.gistCode"));
     }
-    index(INDEX_MODE_MY_MODULES, 1);
+    module(module.getName(), version.getVersionCode());
   }
 
   public static void remove(String id, Integer versionCode) throws SinfonierException {
@@ -572,7 +572,7 @@ public class Modules extends BaseController {
 
     } catch (SinfonierException se) {
         Codes c400 = Codes.CODE_400;
-        c400.setMessageData(se.getMessage());
+        c400.setMessageData(se.getError() != null ? se.getError().getMessagei18n() : se.getMessage());
         response.status = c400.getCode();
         renderJSON(c400.toGSON());
     }

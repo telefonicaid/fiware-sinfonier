@@ -1,19 +1,9 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
-#{set 'title'} &{'Modules.index.title'} (${totalModules}) #{/set}
+#{set 'title'} #{modules._title/} (${totalModules}) #{/set}
 #{set 'moreStyles'}
     #{stylesheet 'modules.css' /}
 #{/set}
-<h1>&{'Modules.index.title'}</h1>
-#{if flash.get(controllers.Modules.FLASH_KEY_WARNING) }
-<div class="row">
-  <div class="col-lg-12">
-    <div id="module-div-error" class="alert alert-warning alert-dismissible" role="alert">
-      <button id="module-button-errorClose" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    ${ flash.get(controllers.Modules.FLASH_KEY_WARNING) }
-    </div>
-  </div>
-</div>
-#{/if}
+<h1>#{modules._title/}</h1>
 
 <div class="row form-group">
   <div class="col-md-4">

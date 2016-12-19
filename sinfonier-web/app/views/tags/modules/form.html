@@ -13,7 +13,9 @@
           <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
             <input type="text" class="form-control" id="name" name="module.name"
-                   pattern="^(([A-Z]+[a-z0-9]*)+)$" title="&{'Modules.form.err.pattern.name'}"
+                   pattern="^([A-Z][a-z0-9]+)+" title="&{'Modules.form.err.pattern.name'}"
+                   oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.name'}');"
+                   oninput="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.name'}');"
                    value="${_module?.getName()}" required #{if _module?.getId() != null}readonly#{/if}>
           </div>
         </div>
@@ -24,6 +26,8 @@
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
             <input type="text" class="form-control" id="versionTag" name="version.versionTag"
                    pattern="^[A-Za-z0-9_\.-]+$" title="&{'Modules.form.err.pattern.versionTag'}"
+                   oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.versionTag'}');"
+                   oninput="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.versionTag'}');"
                    value="${_version?.getVersionTag()}" required>
           </div>
         </div>
@@ -120,8 +124,10 @@
             *</label>
           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <input type="text" pattern="^https?:\/\/gist\.github\.com\/\w+\/\w+$" class="form-control" id="code-url"
+                   oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.sourceCodeURL'}');"
+                   oninput="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.sourceCodeURL'}');"
                    value="${_version?.getSourceCodeURL()}"
-                   name="version.sourceCodeURL">
+                   name="version.sourceCodeURL" title="&{'Modules.form.err.pattern.sourceCodeURL'}">
           </div>
 
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
@@ -220,5 +226,9 @@
     type: '${_module.getType()}',
     code: '${_version.getSourceCodeBase64()}'
   };
+  #{/if}
+  
+  #{if _module?.getIcon() != null}
+    var moduleIcon = "${_module?.getIcon()}";
   #{/if}
 </script>

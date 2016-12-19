@@ -1,15 +1,18 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
-#{set 'title'} &{'Topologies.index.title'} (${totalTopologies}) #{/set}
+#{set 'title'} 
+  #{topologies._title/} 
+  (${totalTopologies}) 
+#{/set}
 #{set 'moreStyles'}
 <link rel="stylesheet" href="/public/javascripts/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
 
     #{stylesheet 'topologies.css' /}
 #{/set}
-<h1>&{'Topologies.index.title'}</h1>
+<h1>#{topologies._title/}</h1>
 <div class="row form-group">
   <div class="col-md-4">
   #{if request.querystring.contains("indexMode=" + controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES)}
-    <a id="topologies-a-list" href="@{Topologies.index(null, null, 0)}" class="btn btn-blue width-100">&{'Topologies.index.title'}</a>
+    <a id="topologies-a-list" href="@{Topologies.index(null, null, 0)}" class="btn btn-blue width-100">&{'Topologies.index.btn.all'}</a>
   #{/if}
   #{else }
     <a id="topologies-a-my" href="@{Topologies.index(controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES, null, 0)}"

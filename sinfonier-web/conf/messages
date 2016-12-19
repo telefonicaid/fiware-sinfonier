@@ -1,6 +1,8 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+Common.form.err.required = Required field
+
 UserArea.latch=Latch your account
 UserArea.password=Change your password
 UserArea.logout=Logout
@@ -159,9 +161,11 @@ Modules.form.text.code = Source code
 Modules.form.lib.url = URL
 Modules.form.status.developing = developing
 Modules.form.status.pending = pending
+Modules.form.status.predefined = predefined
 Modules.form.status.published = published
 Modules.form.status.private = private
 Modules.form.status.deleted = deleted
+Modules.form.yes = Yes
 Modules.validate.error = Something was wrong trying to validate the module
 Modules.recheck.error = Something was wrong trying to check the module. Please contact us if you have any enquiries
 Modules.recheck.compilation_fails = We cannot compile the module, because probably we found a few mistakes. Please check the log
@@ -175,7 +179,8 @@ Modules.build.status.failure = Failure
 
 Modules.form.err.required.name = Name is required
 Modules.form.err.pattern.name = Invalid name format. Must be UpperCamelCase
-Modules.form.err.pattern.versionTag = Invalid version tag format. Must be without space
+Modules.form.err.pattern.versionTag = Invalid version tag format. It must be a string with no spaces or special characters
+Modules.form.err.pattern.sourceCodeURL = It must be a valid Gist URL
 Modules.form.err.required.type = Type is required
 Modules.form.err.required.language = Language is required
 Modules.form.err.required.description = Description is required
@@ -217,6 +222,7 @@ Projects.new.title = New project
 
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies
+Topologies.index.btn.all = All Topologies
 Topologies.index.btn.new = New Topology
 Topologies.index.btn.import = Import Topology
 Topology.btn.privatize = Privatize
@@ -281,6 +287,7 @@ Topologies.info.executeLatency = Execute latency (ms)
 Topologies.info.executed = Executed
 Topologies.info.processLatency = Process latency (ms)
 
+Profile.created=Sign up since
 Profile.editAccount = Edit profile
 Profile.saveAccount = Save profile
 Profile.twitter = Twitter
@@ -357,6 +364,9 @@ Error.500.msg = This exception has been logged. The administrator has been repor
 Error.1001.msg = The module name '%s' is already used
 Error.1002.msg = The module '%s' is not available.
 Error.1004.msg = The user reached the limit of pending modules.
+Error.1005.msg = Module not found.
+Error.1006.msg = Module code does not match.
+Error.1007.msg = Module version not found.
 Error.2001.msg = The topology name is already used.
 Error.3001.msg = The password doesn't meet the security policy.
 
@@ -369,3 +379,9 @@ Users.index.modal.deleteUser=Delete user
 latch.pair.badToken=This token is not valid or has expired. Try it again.
 latch.pair.info.description.one.free=free.
 latch.pair.token.info.description=Pairing Latch with your account is very easy. Open the Latch app on your mobile device and, on the "Add a new service" screen, press "Pair with Latch" and then "Generate new code". Then, enter it here:
+
+##### Activate Account Bugs on Darwin#####
+Public.activate.adminActivationUser=Great, your account was created successfully but and administrator should activate it first. You will receive an email when this happens.
+
+##### Register Bugs on Darwin#####
+Public.register.oldPassword=Old password
