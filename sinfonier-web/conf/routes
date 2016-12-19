@@ -67,6 +67,7 @@ PUT /projects/save                                              Projects.save
 GET /projects/{name}                                            Projects.show
 POST /projects/{id}/activate                                    Projects.activate
 POST /projects/deactivate                                       Projects.deactivate
+POST /projects/delete                                           Projects.delete
 
 # Diagnostig
 GET /diagnosis                                                  Diagnosis.index

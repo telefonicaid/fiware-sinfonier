@@ -216,6 +216,10 @@ Projects.btn.deactivate = Do not use any project
 Projects.details.title = Project
 Projects.new.title = New project
 
+Projects.details.delete.title = Remove project
+Projects.details.delete.text = Do you want to delete the project '%s'?
+
+
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies
 Topologies.index.btn.all = All Topologies

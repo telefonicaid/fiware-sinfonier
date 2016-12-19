@@ -224,7 +224,7 @@ public class Topologies extends BaseController {
   }
 
   public static void search(String status, String query, Date updated, String description, int page) throws SinfonierException {
-    TopologiesContainer topologiesContainer = Topology.findByCriteria(status, query, updated, description, getCurrentUser(), page);
+    TopologiesContainer topologiesContainer = Topology.findByCriteria(status, query, updated, description, getCurrentUser(), getCurrentProject(), page);
     flash("searching", true);
     params.flash();
     List<Topology> topologies = topologiesContainer.getTopologies();
@@ -397,6 +397,13 @@ public class Topologies extends BaseController {
 
       if (validator.validate(topology.getConfig(), false)) {
         String topologyId = topology.save();
+        Project project = getCurrentProject();
+        if ("true".equals(Play.configuration.get("projects")) && project != null) {
+          if (!project.hasTopologyId(topologyId)) {
+            project.addTopology(topologyId);
+            setCurrentProject(project);
+          }
+        }
         renderJSON(new Gson().toJson(Topology.findById(topologyId)));
       } else {
         Codes c400 = Codes.CODE_400;

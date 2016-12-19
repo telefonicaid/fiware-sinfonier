@@ -1,7 +1,6 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
 #{set 'title'} ${project?.getName()} #{/set}
 #{set 'moreStyles'}
-<link rel="stylesheet" href="@{'/public/javascripts/vendor/codemirror-5.16.0/lib/codemirror.css'}">
     #{stylesheet 'projects.css' /}
 #{/set}
 
@@ -70,8 +69,10 @@
 
 
 <div class="row">
-#{projects._project project:project,  size:"large", vote:true, wc:controllers.WebController/}
+#{projects._project project:project, currentProject:currentProject, size:"large", vote:true, wc:controllers.WebController/}
 </div>
+
+
 
 #{set 'moreScripts'}
 

@@ -53,7 +53,7 @@
           <div class="right-nav">
             #{if "true".equals(play.configuration['projects'])}
 	            <div class="nav-lang">
-		            <div class="btn-group">
+		            <div class="btn-group noclickable">
 			            #{if currentProject != null }
 			              &{'Projects.current.label'} ${ currentProject.getName()}
 			            #{/if}

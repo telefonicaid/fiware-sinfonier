@@ -97,10 +97,10 @@ public class TopologyTests extends BaseTest {
     String author = "test_other@test.com";
     String description = "test";
 
-    List<Topology> listByStatus = Topology.findByCriteria(status, null, null, null, adminUser, null).getTopologies();
-    List<Topology> listByName = Topology.findByCriteria(null, name, null, null, adminUser, null).getTopologies();
-    List<Topology> listByAuthor = Topology.findByCriteria(null, author, null, null, adminUser, null).getTopologies();
-    List<Topology> listByDescription = Topology.findByCriteria(null, null, null, description, adminUser, null).getTopologies();
+    List<Topology> listByStatus = Topology.findByCriteria(status, null, null, null, adminUser,null, null).getTopologies();
+    List<Topology> listByName = Topology.findByCriteria(null, name, null, null, adminUser,null, null).getTopologies();
+    List<Topology> listByAuthor = Topology.findByCriteria(null, author, null, null, adminUser,null, null).getTopologies();
+    List<Topology> listByDescription = Topology.findByCriteria(null, null, null, description, adminUser,null, null).getTopologies();
 
     assertTrue(listByStatus.size() == 3 && listByName.size() == 3);
     assertTrue(listByDescription.size() == 1);

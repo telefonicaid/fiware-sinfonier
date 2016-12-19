@@ -62,9 +62,15 @@ public class Topology implements Cloneable {
   private TopologyConfig config;
   private ObjectId templateId;
 
-  public static TopologiesContainer findByCriteria(String status, String q, Date updated, String description, User user, Integer page) throws SinfonierException {
+  public static TopologiesContainer findByCriteria(String status, String q, Date updated, String description, User user, Project project, Integer page) throws SinfonierException {
     DBObject query = new BasicDBObject();
     BasicDBList andQuery = new BasicDBList();
+
+    if ("true".equals(Play.configuration.get("projects")) && project != null )
+    {
+      BasicDBObject projectCondition = new BasicDBObject("_id",new BasicDBObject("$in", project.getArrTopologyIds()));
+      andQuery.add(projectCondition);
+    }
 
 
     if (!user.isAdminUser()) {
