@@ -4,6 +4,7 @@ import play.Logger;
 import play.data.validation.Equals;
 import play.data.validation.Required;
 import play.data.validation.Validation;
+import play.i18n.Lang;
 import play.mvc.Catch;
 import play.mvc.Util;
 import models.exception.PasswordConstraintViolationException;
@@ -53,6 +54,9 @@ public class ProfileSinfonier extends Profile {
         sinfonierUser.setTimeZoneID(timeZone);
         sinfonierUser.setWeb(web != null ? JavaExtensions.slugify(web): "");
         user.save();
+        
+        //Change web language if user has changed preferred language
+        changeWebLangIfUserLangIsChanged(current, email, preferredLang);
 
         // TODO: Change render when Bug #19153 is fixed in Darwin library. 
         //showUserProfile(email);
@@ -123,5 +127,12 @@ public class ProfileSinfonier extends Profile {
     SinfonierError error = e.getError();
     Object[] args = e.getArgs();
     render("errors/error.html", error, args);
+  }
+  
+  private static void changeWebLangIfUserLangIsChanged(User currentUser, String email, String preferredLang) {
+    if (currentUser.getEmail().equals(email) && preferredLang != null && !preferredLang.equals(currentUser.getPreferredLang())) {
+      Lang.change(preferredLang);
+      session.put(LANGUAGE_SESSION_KEY, preferredLang);
+    }
   }
 }
