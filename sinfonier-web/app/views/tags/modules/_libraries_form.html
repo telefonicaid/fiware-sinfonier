@@ -13,13 +13,21 @@
         <!-- LIBRARIES'S NAME -->
         <label for="name-library" class="col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
         <div class="col-sm-3 col-xs-12">
-          <input type="text" class="form-control" id="name-library" name="version.libraries.libraries[X].name" required>
+          <input type="text" class="form-control" id="name-library" name="version.libraries.libraries[X].name" 
+          title="&{'Common.form.err.required'}"
+          oninvalid="checkField(this,'&{'Common.form.err.required'}');"
+          oninput="checkField(this,'&{'Common.form.err.required'}');" 
+          required>
         </div>
 
         <!-- LIBRARIES'S URL -->
         <label for="url-library" class="col-sm-2 col-xs-12 control-label">&{'Modules.form.lib.url'} *</label>
         <div class="col-sm-5 col-xs-12">
-          <input type="url" class="form-control" id="url-library" name="version.libraries.libraries[X].url" required>
+          <input type="url" class="form-control" id="url-library" name="version.libraries.libraries[X].url"
+          title="&{'Drawer.editor.messages.inputex.url.invalid'}"
+          oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Drawer.editor.messages.inputex.url.invalid'}');"
+          oninput="checkField(this,'&{'Common.form.err.required'}','&{'Drawer.editor.messages.inputex.url.invalid'}');" 
+          required>
         </div>
 
       </div>

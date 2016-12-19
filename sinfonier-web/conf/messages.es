@@ -1,6 +1,8 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+Common.form.err.required = Campo requerido
+
 UserArea.latch=Protege tu cuenta con Latch
 UserArea.password=Cambiar la contraseña
 UserArea.logout=Cerrar sesión
@@ -163,6 +165,7 @@ Modules.form.status.predefined = predefinido
 Modules.form.status.published = publicado
 Modules.form.status.private = privado
 Modules.form.status.deleted = borrado
+Modules.form.yes = Sí
 Modules.validate.error = Algo fue mal intentando validar el módulo.
 Modules.recheck.error = Algo fue mal en la comprobación del módulo. Si tiene alguna duda sobre el proceso, por favor, póngase en contacto con nosotros.
 Modules.recheck.compilation_fails = No hemos podido compilar el módulo, probablemente hayamos encontrado algún error. Por favor, compruebe el log.
@@ -176,7 +179,8 @@ Modules.build.status.failure = Error
 
 Modules.form.err.required.name = Nombre es obligatorio
 Modules.form.err.pattern.name = Formato de nombre no válido. Debe ser UpperCamelCase
-Modules.form.err.pattern.versionTag = Formato de etiqueta de versión no válido. Debe ser una cadena sin espacios.
+Modules.form.err.pattern.versionTag = Formato de etiqueta de versión no válido. Debe ser una cadena sin espacios o caracteres especiales
+Modules.form.err.pattern.sourceCodeURL = Debe ser la URL de un Gist válido
 Modules.form.err.required.type = Tipo es obligatorio
 Modules.form.err.required.language = Lenguaje es obligatorio
 Modules.form.err.required.description = Descripción es obligatoria
@@ -319,8 +323,8 @@ validation.required.field.label = "La etiqueta de campo es requerida si se utili
 validation.required.field.type = "El tipo del campo es requerido si se utiliza en el módulo."
 validation.required.field.required = "El obligatorio del campo es requerido si se utiliza en el módulo."
 validation.required.field.wirable = "Permitir variables del campo es requerido si se utiliza en el módulo."
-validation.required.library.name = "El nombre del la librería es requerido si se utiliza en el módulo."
-validation.required.library.url = "La url del la librería es requerido si se utiliza en el módulo."
+validation.required.library.name = "El nombre de la librería es requerido si se utiliza en el módulo."
+validation.required.library.url = "La url de la librería es requerido si se utiliza en el módulo."
 validation.required.rating.rate = "La calificación es requerida para esta operación."
 validation.required.topology.id = "El id de la topología es requerido para esta operación."
 validation.required.topology.name = "El nombre de la topología es requerido para esta operación."
@@ -359,6 +363,9 @@ Error.500.msg = Esta excepción ha sido registrada. El administrador ha sido inf
 Error.1001.msg = El nombre del módulo '%s' ya está siendo utilizado.
 Error.1002.msg = El módulo '%s' no esta disponible.
 Error.1004.msg = El usuario llegó al limite de módulos pendientes.
+Error.1005.msg = Módulo no encontrado.
+Error.1006.msg = El código del módulo no coincide.
+Error.1007.msg = Versión del módulo no encontrada.
 Error.2001.msg = El nombre de la topología ya está en uso.
 Error.3001.msg = La contraseña no cumple con la política de seguridad.
 

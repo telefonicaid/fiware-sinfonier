@@ -11,13 +11,19 @@
         <!-- FIELD'S NAME -->
         <label for="name-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <input type="text" pattern="\w+" class="form-control" id="name-field" name="version.fields.fields[X].name" required>
+          <input type="text" pattern="\w+" class="form-control" id="name-field" name="version.fields.fields[X].name"
+          oninvalid="checkField(this,'&{'Common.form.err.required'}');"
+          oninput="checkField(this,'&{'Common.form.err.required'}');" 
+          title="&{'Common.form.err.required'}" required>
         </div>
 
         <!-- FIELD'S Label -->
         <label for="label-field" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.label'} *</label>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <input type="text" class="form-control" id="label-field" name="version.fields.fields[X].label" required>
+          <input type="text" class="form-control" id="label-field" name="version.fields.fields[X].label"
+          oninvalid="checkField(this,'&{'Common.form.err.required'}');"
+          oninput="checkField(this,'&{'Common.form.err.required'}');" 
+          title="&{'Common.form.err.required'}" required>
         </div>
       </div>
 
@@ -40,7 +46,7 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
           <select name="version.fields.fields[X].required" id="required-field" class="form-control" required>
             <option value="false" selected>No</option>
-            <option value="true">Yes</option>
+            <option value="true">&{'Modules.form.yes'}</option>
           </select>
         </div>
       </div>
@@ -51,7 +57,7 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
           <select name="version.fields.fields[X].wirable" id="var-field" class="form-control" required>
             <option value="false" selected>No</option>
-            <option value="true">Yes</option>
+            <option value="true">&{'Modules.form.yes'}</option>
           </select>
         </div>
       </div>

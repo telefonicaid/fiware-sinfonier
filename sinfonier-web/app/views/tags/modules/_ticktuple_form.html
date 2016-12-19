@@ -22,7 +22,9 @@
                      class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.label'} *</label>
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <input type="text" class="form-control" id="label-tuple" name="version.tickTuple.label"
-                       value="${_tickTuple?.getLabel()}">
+                       value="${_tickTuple?.getLabel()}" title="&{'Common.form.err.required'}"
+                       oninvalid="checkField(this,'&{'Common.form.err.required'}');"
+                       oninput="checkField(this,'&{'Common.form.err.required'}');">
               </div>
 
               <!-- TICK TUPLE'S type -->
@@ -46,7 +48,7 @@
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
               #{select 'version.tickTuple.required', value:_tickTuple?.isRequired(), class:'form-control', id:'required-tuple'}
                   #{option false}No#{/option}
-                  #{option true}Yes#{/option}
+                  #{option true}&{'Modules.form.yes'}#{/option}
               #{/select}
               </div>
 
@@ -56,7 +58,7 @@
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
               #{select 'version.tickTuple.wirable', value:_tickTuple?.isWirable(), class:'form-control', id:'var-tuple'}
                   #{option false}No#{/option}
-                  #{option true}Yes#{/option}
+                  #{option true}&{'Modules.form.yes'}#{/option}
               #{/select}
 
               </div>

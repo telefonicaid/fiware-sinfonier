@@ -3,22 +3,24 @@
     <div class="panel panel-default">
       <div class="panel-body">
         #{form @Projects.save(), enctype:"multipart/form-data", method:'POST', id:'project-form', class:'form-horizontal'}
-      
+
           #{if _project?.getId() != null}<input type="hidden" name="project.id" value="${_project?.getId()}">#{/if}
           <!-- NAME -->
           <div class="form-group">
             <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Projects.form.name'} *</label>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-              <input type="text" class="form-control" id="name" name="project.name" 
-              pattern="^(([A-Z]+[a-z0-9]*)+)$" title="&{'Projects.form.err.pattern.name'}" 
+              <input type="text" class="form-control" id="name" name="project.name"
+              pattern="^(([A-Z]+[a-z0-9]*)+)$" title="&{'Projects.form.err.pattern.name'}"
+              oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Projects.form.err.pattern.name'}');"
+              oninput="checkField(this,'&{'Common.form.err.required'}','&{'Projects.form.err.pattern.name'}');"
               value="${_project?.getName()}" required #{if _project?.getId() != null}readonly#{/if}>
             </div>
           </div>
-          
-      
-      
-      
-      
+
+
+
+
+
           <!-- DESCRIPTION -->
           <div class="form-group">
             <label for="type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Projects.form.description'}</label>
@@ -26,8 +28,8 @@
                 <textarea name="project.description" id="description" cols="30" rows="5" class="form-control">${_project?.getDescription()}</textarea>
             </div>
           </div>
-      
-      
+
+
           <div class="row form-group">
             <div class="col-lg-2">
               <button id="project-${_project?.getId()}-button-save" type="submit" class="btn btn-primary">

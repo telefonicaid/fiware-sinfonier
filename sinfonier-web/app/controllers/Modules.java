@@ -572,7 +572,7 @@ public class Modules extends BaseController {
 
     } catch (SinfonierException se) {
         Codes c400 = Codes.CODE_400;
-        c400.setMessageData(se.getMessage());
+        c400.setMessageData(se.getError() != null ? se.getError().getMessagei18n() : se.getMessage());
         response.status = c400.getCode();
         renderJSON(c400.toGSON());
     }
