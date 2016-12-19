@@ -557,7 +557,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
           var m = pipe.working.modules[i];
           var module_key;
 
-          if (!m.versionCode) {
+          if (!m.versionCode || m.versionCode == 0) {
             module_key = m.name;
           } else {
             module_key = m.name + ' (' + m.versionCode + ')'
@@ -579,7 +579,7 @@ YAHOO.lang.extend(webhookit.WiringEditor, WireIt.ComposableWiringEditor, {
               var m = pipe.working.modules[i];
               var module_key;
 
-              if (!m.versionCode) {
+              if (!m.versionCode || m.versionCode == 0) {
                 module_key = m.name;
               } else {
                 module_key = m.name + ' (' + m.versionCode + ')'

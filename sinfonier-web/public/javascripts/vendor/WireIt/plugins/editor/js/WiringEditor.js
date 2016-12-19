@@ -41,7 +41,7 @@
       for (var i = 0; i < this.modules.length; i++) {
         var m = this.modules[i];
         var key;
-        if (m.container.versionCode != undefined)
+        if (m.container.versionCode != undefined && m.container.versionCode != 0)
           key = m.container.name + ' (' + m.container.versionCode + ')';
         else
           key = m.container.name;

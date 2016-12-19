@@ -110,10 +110,8 @@ public class TopologyModule {
       object.put(FIELD_TYPE, type);
       object.put(FIELD_LANGUAGE, language);
       object.put(FIELD_PARALLELISMS, parallelism);
-
-      if (this.versionCode > 0) {
-        object.put(FIELD_VERSION_CODE, this.versionCode);
-      }
+        
+      object.put(FIELD_VERSION_CODE, this.versionCode);
 
       object.put(FIELD_CONFIG, config.toDBObject());
       object.put(FIELD_VALUES, values);
