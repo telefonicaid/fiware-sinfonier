@@ -94,6 +94,10 @@ POST    /apiclients/renew/secret                                404
 # Latch bugs
 GET /latch/pair                                                 Latch.checkLatch
 
+# PublicContentBase
+POST    /processRequestPasswordResetSinfonier                   PublicContentSinfonier.processRequestPasswordResetSinfonier
+
+
 # Darwin
 * /                                                             module:darwin
 
