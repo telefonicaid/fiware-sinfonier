@@ -3,6 +3,7 @@ package controllers;
 import play.Logger;
 import play.data.validation.Equals;
 import play.data.validation.Required;
+import play.data.validation.URL;
 import play.data.validation.Validation;
 import play.mvc.Catch;
 import play.mvc.Util;
@@ -35,7 +36,7 @@ public class ProfileSinfonier extends Profile {
   public static void save(@Required(message = "validation.requiere.email") String email,
                           @Required(message = "validation.requiere.name") String name,
                           @Required String preferredLang, String twitter, String organization,
-                          String timeZone, String web) {
+                          String timeZone, @URL(message = "validation.url.invalid") String web) {
     checkAuthenticity();
     User current = getCurrentUser();
     User user = DarwinFactory.getInstance().loadUser(email);

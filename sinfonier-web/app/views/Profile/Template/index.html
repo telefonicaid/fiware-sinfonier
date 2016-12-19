@@ -59,8 +59,8 @@
             <p>
               <span class="bold">&{'Profile.web'}:</span>
               #{if user.getImplementation().getWeb() != null}
-                <a id="profile-a-web" href="${user.getImplementation().getWeb().slugify().raw()}" target="_blank">
-                ${user.getImplementation().getWeb().slugify().raw()}</a>
+                <a id="profile-a-web" href="${user.getImplementation().getWeb()?.raw()}" target="_blank">
+                ${user.getImplementation().getWeb()?.raw()}</a>
               #{/if}
             </p>
           </div>
