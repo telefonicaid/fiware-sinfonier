@@ -2425,6 +2425,7 @@ h2.title.inline a {
 
 .btn-link {
   color: #1F74BA;
+  width: initial;
 }
 
 .table>tbody>tr.active>td,
