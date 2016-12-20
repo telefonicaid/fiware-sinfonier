@@ -58,8 +58,10 @@
           <div class="col-xs-6">
             <p>
               <span class="bold">&{'Profile.web'}:</span>
-              <a id="profile-a-web" href="${user.getImplementation().getWeb()?.slugify().raw()}" target="_blank">
-              ${user.getImplementation().getWeb()?.slugify().raw()}</a>
+              #{if user.getImplementation().getWeb() != null}
+                <a id="profile-a-web" href="${user.getImplementation().getWeb()}" target="_blank">
+                ${user.getImplementation().getWeb()}</a>
+              #{/if}
             </p>
           </div>
 

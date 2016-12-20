@@ -344,6 +344,7 @@ validation.topology.module.unexistent = "Módulo inexistente "
 validation.not.allow.module.name="El nombre del módulo no esta permitido."
 validation.icon.invalidFormat = Formato incorrecto, los tipos permitidos son: jpg, jpeg, png.
 validation.icon.exceedsSize = El fichero excede el tamaño maximo permitido.
+validation.url.invalid = El formato de la url es inválido.
 
 ## Password policy
 validation.passwordPolicy.username=La constraseña no puede contener el email.
