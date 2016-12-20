@@ -1,0 +1,6 @@
+#{if request.querystring.contains("indexMode=" + controllers.Topologies.INDEX_MODE_MY_TOPOLOGIES)}
+  &{'Topologies.index.btn.my'}
+#{/if}
+#{else }
+  &{'Topologies.index.title'}
+#{/else}

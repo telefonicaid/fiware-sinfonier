@@ -88,6 +88,20 @@ GET /profile/{email}/edit                                       ProfileSinfonier
 POST /profile/{email}/save                                      ProfileSinfonier.save
 POST /profile/{email}/changePassword                            ProfileSinfonier.changePassword
 
+# APIClients
+GET     /apiclients                                             404
+POST    /apiclients/create                                      404
+POST    /apiclients/remove                                      404
+POST    /apiclients/edit/name                                   404
+POST    /apiclients/renew/secret                                404
+
+# Latch bugs
+GET /latch/pair                                                 Latch.checkLatch
+
+# PublicContentBase
+POST    /processRequestPasswordResetSinfonier                   PublicContentSinfonier.processRequestPasswordResetSinfonier
+
+
 # Darwin
 * /                                                             module:darwin
 

@@ -20,13 +20,13 @@
         <div class="row">
 
           <div class="col-xs-6">
+            <p id="profile-p-email"><span class="bold">&{'Profile.name'}:</span> ${user.getName()}</p>
+          </div>
+          <div class="col-xs-6">
             <p id="profile-p-email"><span class="bold">&{'Profile.email'}:</span> ${user.getEmail()}</p>
           </div>
           <div class="col-xs-6">
             <p id="profile-p-created"><span class="bold">&{'Profile.created'}:</span> ${user.getCreated().format()}</p>
-          </div>
-          <div class="col-xs-6">
-            <p id="profile-p-preferredLang"><span class="bold">&{'Profile.preferredLang'}:</span> &{'Languages.' + user.getPreferredLang()}</p>
           </div>
           <div class="col-xs-6">
             <p id="profile-p-preferredLang"><span class="bold">&{'Profile.preferredLang'}:</span> &{'Languages.' + user.getPreferredLang()}</p>
@@ -58,8 +58,8 @@
           <div class="col-xs-6">
             <p>
               <span class="bold">&{'Profile.web'}:</span>
-              <a id="profile-a-web" href="${user.getImplementation().getWeb()}" target="_blank">
-              ${user.getImplementation().getWeb()}</a>
+              <a id="profile-a-web" href="${user.getImplementation().getWeb()?.slugify().raw()}" target="_blank">
+              ${user.getImplementation().getWeb()?.slugify().raw()}</a>
             </p>
           </div>
 
@@ -74,48 +74,52 @@
           #{/if}
       #{/secure.check}
 
-      #{secure.check "USER_SELF_DELETE"}
-          #{if session.get("username") == user.getEmail()}
-            <div class="row">
-              <div class="col-xs-12">
-                <hr class="spacer">
-              </div>
-              <div class="col-lg-offset-3 col-lg-3 col-xs-4">
-                <a id="profile-a-delete" class="btn btn-cancel" data-toggle="modal"
-                   href="#${user.getEmail().hash()}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}">
-                &{'Profile.deleteAccount'}</a>
-              </div>
-              <div class="col-lg-3 col-xs-4">
-                <a id="profile-a-edit" class="btn btn-ok" href="@{ProfileSinfonier.edit(user.getEmail())}"
-                   title="&{'Profile.editAccount'}">&{'Profile.editAccount'}</a>
-              </div>
-              <div class="col-lg-3 col-xs-4">
-                <a id="profile-a-changePassword" class="btn btn-blue" data-toggle="modal"
-                   href="#${user.getEmail().hash()}PasswordModal" title="&{'Profile.editAccount'}">&{'Profile.changePassword'}</a>
-              </div>
+      
+      #{if session.get("username") == user.getEmail()}
+        <div class="row">
+          <div class="col-xs-12">
+            <hr class="spacer">
+          </div>
+          #{secure.check "USER_SELF_DELETE"}
+            <div class="col-lg-offset-3 col-lg-3 col-xs-4">
+              <a id="profile-a-delete" class="btn btn-cancel" data-toggle="modal"
+                 href="#${user.getEmail().hash()}RemoveModal" title="&{'Users.index.table.actions.deleteUser'}">
+              &{'Profile.deleteAccount'}</a>
             </div>
-            <!-- BEGIN REMOVE  MODAL -->
-            <div class="modal fade" id="${user.getEmail().hash()}RemoveModal" tabindex="-1" aria-hidden="false">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title m-b-0">&{'Profile.deleteAccount'}</h2>
-                  </div>
-                  <div class="modal-body text-center">
-                      #{form @Profile.deleteAccount()}
-                        <h5 class="overflow-hidden">&{'Profile.deleteAccount.message'}</h5>
-                        <input type="hidden" name="email" value="${user.getEmail()}">
-                        <button id="profile-button-delete" type="submit" class="submit">
-                        &{'Profile.deleteAccount.confirm'}</button>
-                      #{/form}
-                  </div>
+          #{/secure.check}
+          <div class="#{if !controllers.Secure.Security.invoke("check", "USER_SELF_DELETE")} col-lg-offset-3 #{/if}col-lg-3 col-xs-4">
+            <a id="profile-a-edit" class="btn btn-ok" href="@{ProfileSinfonier.edit(user.getEmail())}"
+               title="&{'Profile.editAccount'}">&{'Profile.editAccount'}</a>
+          </div>
+          <div class="col-lg-3 col-xs-4">
+            <a id="profile-a-changePassword" class="btn btn-blue" data-toggle="modal"
+               href="#${user.getEmail().hash()}PasswordModal" title="&{'Profile.editAccount'}">&{'Profile.changePassword'}</a>
+          </div>
+        </div>
+        #{secure.check "USER_SELF_DELETE"}
+          <!-- BEGIN REMOVE  MODAL -->
+          <div class="modal fade" id="${user.getEmail().hash()}RemoveModal" tabindex="-1" aria-hidden="false">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h2 class="modal-title m-b-0">&{'Profile.deleteAccount'}</h2>
+                </div>
+                <div class="modal-body text-center">
+                    #{form @Profile.deleteAccount()}
+                      <h5 class="overflow-hidden">&{'Profile.deleteAccount.message'}</h5>
+                      <input type="hidden" name="email" value="${user.getEmail()}">
+                      <button id="profile-button-delete" type="submit" class="submit">
+                      &{'Profile.deleteAccount.confirm'}</button>
+                    #{/form}
                 </div>
               </div>
             </div>
-            <!-- END REMOVE  MODAL -->
-          #{/if}
-      #{/secure.check}
+          </div>
+          <!-- END REMOVE  MODAL -->
+        #{/secure.check}
+      #{/if}
+      
       #{if session.get("username") == user.getEmail() || controllers.WebController.getCurrentUser().isAdminUser()}
 
         <!-- BEGIN CHANGE PASSWORD MODAL -->

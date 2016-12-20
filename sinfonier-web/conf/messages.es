@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (por defecto) (
 Drawer.editor.properties.placeholder.stormConfiguration = configuración extra de Storm usando múltiples líneas con el formato clave=valor
 Drawer.editor.properties.placeholder.topologyConfiguration = config. de topología, varias líneas con formato clave=valor.\nPuede ser referenciada desde los campos de módulos con el formato '[$clave]'.
 
-Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse OK para continuar de todos modos.
+Drawer.editor.messages.workNotSaved = Atención: ¡Su trabajo no se ha guardado aún! Pulse Confirmar para continuar de todos modos.
 Drawer.editor.messages.header = Mensaje
 Drawer.editor.messages.blankName = Seleccione un nombre
 Drawer.editor.messages.invalidName = Seleccione un nombre válido
@@ -97,7 +97,7 @@ Modules.details.versions = Versiones
 Modules.sendValidation.title = Enviar petición de validación
 Modules.sendValidation.text = ¿Está seguro que desea enviar el modulo: <strong>'%s (%s)'</strong> para validación? En caso de ser así, por favor asegúrese de que la versión del código que quiere que sea validada este disponible antes de enviar esta petición.
 Modules.decline.title = Rechazar módulo del usuario
-Modules.decline.form.label = Por favor, indique el motivo por el módulo ha sido rechazado.
+Modules.decline.form.label = Por favor, indique el motivo por el que el módulo ha sido rechazado.
 
 Modules.btn.import = Importar
 Modules.btn.add = Añadir
@@ -159,6 +159,7 @@ Modules.form.text.code = Código fuente
 Modules.form.lib.url = URL
 Modules.form.status.developing = desarrollando
 Modules.form.status.pending = pendiente
+Modules.form.status.predefined = predefinido
 Modules.form.status.published = publicado
 Modules.form.status.private = privado
 Modules.form.status.deleted = borrado
@@ -200,6 +201,8 @@ Projects.form.name = Nombre
 Projects.form.owner = Creador
 Projects.form.owner.placeholder = Nombre o email
 Projects.form.status = Estado
+Projects.form.status.active = activo
+Projects.form.status.deleted = borrado
 Projects.form.description = Descripción
 
 Projects.btn.create = Crear
@@ -215,6 +218,7 @@ Projects.new.title = Nuevo proyecto
 
 Topologies.index.title = Topologías
 Topologies.index.btn.my = Mis Topologías
+Topologies.index.btn.all = Todas las Topologías
 Topologies.index.btn.new = Nueva Topología
 Topologies.index.btn.import = Importar Topología
 Topology.btn.privatize = Privatizar
@@ -279,6 +283,7 @@ Topologies.info.executeLatency = Latencia ejecución (ms)
 Topologies.info.executed = Ejecutado
 Topologies.info.processLatency = Latencia proceso (ms)
 
+Profile.created = Cuenta creada en
 Profile.editAccount = Editar perfil
 Profile.saveAccount = Guardar perfil
 Profile.twitter = Twitter
@@ -361,6 +366,17 @@ Utils.pagination.first = Primera
 Utils.pagination.last = Última
 
 Users.index.modal.deleteUser=Eliminar Usuario
+
+##### Latch Bugs on Darwin #####
+latch.pair.badToken=El token no es válido o ha caducado. Vuelve a intentarlo.
+latch.pair.info.description.one.free=gratuita.
+latch.pair.token.info.description=Parear Latch con tu cuenta es muy sencillo. Abre la app de Latch en tu móvil y en la pantalla Añadir nuevo servicio, pulsa "Parear servicio con Latch" y después "Generar nuevo código". Después, introdúcelo aquí:
+
+##### Activate Account Bugs on Darwin#####
+Public.activate.adminActivationUser=Tu cuenta se ha creado correctamente, pero es necesario que un administrador la active. Se te notificará por correo electrónico.
+
+##### Register Bugs on Darwin#####
+Public.register.oldPassword=Contraseña anterior
 
 Nodered.common.label.cancel = Cancelar
 Nodered.common.label.done = Confirmar

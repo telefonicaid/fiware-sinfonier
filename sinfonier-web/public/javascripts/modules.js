@@ -206,7 +206,7 @@ function handleAddLibrary() {
 }
 
 function handleIconModule(file) {
-  var basePath = '/public/images/modules/';
+  var basePath = '/public/images/modules/';	
 
   if (file != null) {
     // Read icon file
@@ -217,7 +217,8 @@ function handleIconModule(file) {
     }
     fReader.readAsDataURL(file);
   } else if ($('form#module-form #icon-preview img').size() > 0 &&
-    $('form#module-form #icon-preview img').attr('src').match("^" + basePath)) {
+      $('form#module-form #icon-preview img').attr('src').match("^" + basePath) &&
+      typeof moduleIcon == 'undefined') {	  
     // Set example icon
     switch ($('form#module-form select#type').val()) {
       case 'drain':

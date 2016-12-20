@@ -45,7 +45,8 @@
       <div class="row no-overf">
         <div class="col-sm-8 col-xs-12">
           <p id="module-${_module?.getId()}-p-type"><span class="bold">&{'Modules.form.type'}:</span> ${_module?.getType()}</p>
-          <p id="module-${_module?.getId()}-p-status"><span class="bold">&{'Modules.form.status'}:</span> ${_version?.getStatus()}
+          <p id="module-${_module?.getId()}-p-status"><span class="bold">&{'Modules.form.status'}:</span> &{'Modules.form.status.'+
+            _version?.getStatus()}
               #{if _size =="large" && _version?.getBuildStatus()?.equals(models.SinfonierConstants.ModuleVersion.BUILD_STATUS_SUCCESS)}
                 <br>
                 <small class="text-success">&{'Modules.build.status'}: &{'Modules.build.status.success'}</small>
@@ -125,7 +126,7 @@
             #{/if}
             #{else}
                 #{if _module?.getType() == "spout"}
-                <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
+                  <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
                        alt="${_module?.getName()}" class="module-icon"/>
                 #{/if}
                 #{elseif _module?.getType() == "bolt"}
@@ -225,16 +226,16 @@
       <div class="row">
         <div class="col-lg-12">
 
-            <span class="bold">&{'Modules.form.ticktuple'}:</span>
+          <span class="bold">&{'Modules.form.ticktuple'}:</span>
           <table class="table sinfonier table-bordered">
-              <thead>
+            <thead>
             <tr class="active">
               <th>&{'Modules.form.name'}</th>
               <th>&{'Modules.form.label'}</th>
               <th>&{'Modules.form.type'}</th>
             </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
             <tr id="module-${_module?.getId()}-tr-field${_version.getFields()?.size() + 1}">
               <td>#{if _version.getTickTuple().isRequired()}
                 <span style="text-decoration: underline;">${_version.getTickTuple().getName()}</span>
@@ -245,7 +246,8 @@
               </td>
               <td>${_version.getTickTuple().getLabel()}</td>
               <td>${_version.getTickTuple().getType()}</td>
-            </tr></tbody>
+            </tr>
+            </tbody>
           </table>
 
         </div>
@@ -257,19 +259,19 @@
       <div class="row details-section">
         <div class="col-lg-12">
 
-            <p id="module-${_module?.getId()}-p-createBy" class="details">
-                #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
-                    #{if _size != "small"}
-                    &{'Modules.index.create_by', _module.getAuthor()?.getEmail(), _module.getAuthor()?.getName(), _module.getAuthor()?.getEmail(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
-                    #{/if}
-                    #{else}
-                    &{'Modules.index.create_by_short', _module.getAuthor()?.getEmail(), _module.getAuthor()?.getName(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
-                    #{/else}
-                #{/if}
+          <p id="module-${_module?.getId()}-p-createBy" class="details">
+              #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
+                  #{if _size != "small"}
+                  &{'Modules.index.create_by', _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _module.getAuthor()?.getName()?.escapeHtml().raw(), _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                  #{/if}
+                  #{else}
+                  &{'Modules.index.create_by_short', _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _module.getAuthor()?.getName()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                  #{/else}
+              #{/if}
             #{else}
-            &{'Modules.index.create_by_text', _module.getAuthor()?.getName(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
-            #{/else}
-            </p>
+          &{'Modules.index.create_by_text', _module.getAuthor()?.getName()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+          #{/else}
+          </p>
 
         </div>
       </div>
@@ -364,7 +366,7 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="collapse" id="collapseCode${_module.getId()}">
-              <br \>
+            <br \>
             <textarea id="code" cols="30" rows="10" class="form-control">${_version?.getSourceCode()}</textarea>
           </div>
         </div>

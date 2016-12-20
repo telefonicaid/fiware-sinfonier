@@ -52,7 +52,7 @@ Drawer.editor.properties.placeholder.topologyMessageTimeout = 30 (default) (%s -
 Drawer.editor.properties.placeholder.stormConfiguration = extra Storm configuration using multiple lines with key=value format
 Drawer.editor.properties.placeholder.topologyConfiguration = topology configuration using multiple lines with key=value format.\nIt may be referenced from modules fields with '[$key]' format.
 
-Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press ok to continue anyway.
+Drawer.editor.messages.workNotSaved = Warning: Your work is not saved yet! Press Confirm to continue anyway.
 Drawer.editor.messages.header = Message
 Drawer.editor.messages.blankName = Please choose a name
 Drawer.editor.messages.invalidName = Please choose a valid name
@@ -159,6 +159,7 @@ Modules.form.text.code = Source code
 Modules.form.lib.url = URL
 Modules.form.status.developing = developing
 Modules.form.status.pending = pending
+Modules.form.status.predefined = predefined
 Modules.form.status.published = published
 Modules.form.status.private = private
 Modules.form.status.deleted = deleted
@@ -200,6 +201,8 @@ Projects.form.name = Name
 Projects.form.owner = Owner
 Projects.form.owner.placeholder = Name or email
 Projects.form.status = Status
+Projects.form.status.active = active
+Projects.form.status.deleted = deleted
 Projects.form.description = Description
 
 Projects.btn.create = Create
@@ -215,6 +218,7 @@ Projects.new.title = New project
 
 Topologies.index.title = Topologies
 Topologies.index.btn.my = My Topologies
+Topologies.index.btn.all = All Topologies
 Topologies.index.btn.new = New Topology
 Topologies.index.btn.import = Import Topology
 Topology.btn.privatize = Privatize
@@ -279,6 +283,7 @@ Topologies.info.executeLatency = Execute latency (ms)
 Topologies.info.executed = Executed
 Topologies.info.processLatency = Process latency (ms)
 
+Profile.created=Sign up since
 Profile.editAccount = Edit profile
 Profile.saveAccount = Save profile
 Profile.twitter = Twitter
@@ -361,6 +366,17 @@ Utils.pagination.first = First
 Utils.pagination.last = Last
 
 Users.index.modal.deleteUser=Delete user
+
+##### Latch Bugs on Darwin #####
+latch.pair.badToken=This token is not valid or has expired. Try it again.
+latch.pair.info.description.one.free=free.
+latch.pair.token.info.description=Pairing Latch with your account is very easy. Open the Latch app on your mobile device and, on the "Add a new service" screen, press "Pair with Latch" and then "Generate new code". Then, enter it here:
+
+##### Activate Account Bugs on Darwin#####
+Public.activate.adminActivationUser=Great, your account was created successfully but and administrator should activate it first. You will receive an email when this happens.
+
+##### Register Bugs on Darwin#####
+Public.register.oldPassword=Old password
 
 Nodered.common.label.cancel = Cancel
 Nodered.common.label.done = Done

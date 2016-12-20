@@ -28,7 +28,7 @@
     #{if _size != "small"}
       <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-          <p id="project-${_project?.getId()}-p-status"><span class="bold">&{'Projects.form.status'}:</span> ${_project?.getStatus()}
+          <p id="project-${_project?.getId()}-p-status"><span class="bold">&{'Projects.form.status'}:</span> &{'Projects.form.status.'+_project?.getStatus()}
           </p>
         </div>
       </div>
@@ -43,22 +43,38 @@
         </div>
       </div>
 
+      <!-- SOME DETAILS -->
+      <div class="row details-section">
+        <div class="col-lg-12">
+          <div class="well">
+            <p id="project-${_project.getId()}-p-createBy" class="details">
+            #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
+              &{'Modules.index.create_by', _project.getAuthor().getEmail()?.escapeHtml().raw(), _project.getAuthor().getName()?.escapeHtml().raw(), _project.getAuthor().getEmail()?.escapeHtml().raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+            #{/if}
+            #{else}
+              &{'Modules.index.create_by_text', _project.getAuthor().getName()?.escapeHtml().raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+            #{/else}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- BUTTONS -->
     #{if _size == "large"}
-      <div class="row">
+      <div class="row form-group">
           #{if _project.hasWritePermission(_wc?.getCurrentUser())}
             <!-- DELETE -->
               #{if _project.getStatus().equals(models.SinfonierConstants.Project.STATUS_ACTIVE)}
-                <div class="col-xs-2">
-                  <button id="project-${_project?.getId()}-button-delete" class="btn btn-danger btn-inline" type="button"
+                <div class="col-xs-12 col-sm-2">
+                  <button id="project-${_project?.getId()}-button-delete" class="btn btn-danger" type="button"
                           data-toggle="modal" data-target="#confirmModal">
                   &{'Projects.btn.delete'}
                   </button>
                 </div>
               #{/if}
             <!-- EDIT -->
-            <div class="col-xs-2">
-              <a id="project-${_project?.getId()}-button-edit" href="@{Projects.edit(_project?.getName())}" class="btn btn-success btn-inline">	              
+            <div class="col-xs-12 col-sm-2">
+              <a id="project-${_project?.getId()}-button-edit" href="@{Projects.edit(_project?.getName())}" class="btn btn-success">	              
 	             &{'Projects.btn.edit'}
               </a>
             </div>

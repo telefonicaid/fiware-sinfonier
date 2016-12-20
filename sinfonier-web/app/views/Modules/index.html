@@ -1,9 +1,9 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
-#{set 'title'} &{'Modules.index.title'} (${totalModules}) #{/set}
+#{set 'title'} #{modules._title/} (${totalModules}) #{/set}
 #{set 'moreStyles'}
     #{stylesheet 'modules.css' /}
 #{/set}
-<h1>&{'Modules.index.title'}</h1>
+<h1>#{modules._title/}</h1>
 #{if flash.get(controllers.Modules.FLASH_KEY_WARNING) }
 <div class="row">
   <div class="col-lg-12">
