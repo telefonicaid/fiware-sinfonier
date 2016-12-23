@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.bson.types.ObjectId;
+import play.templates.JavaExtensions;
 
 import static models.SinfonierConstants.Topology.*;
 import static models.SinfonierConstants.TopologyConfig.FIELD_STORM_PROPERTIES;
@@ -33,7 +34,7 @@ public class TopologyDeserializer implements JsonDeserializer<Topology> {
       id = idElement.getAsString();
     }
 
-    final String name = topologyObject.get("name").getAsString();
+    final String name = JavaExtensions.slugify(topologyObject.get("name").getAsString());
     final String description = topologyObject.get("description").getAsString();
     final JsonObject configObject = topologyObject.get("config").getAsJsonObject();
     final JsonArray modulesElements = configObject.get("modules").getAsJsonArray();
