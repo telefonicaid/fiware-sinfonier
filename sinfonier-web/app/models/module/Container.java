@@ -194,10 +194,8 @@ public class Container extends Model {
     dbObj.put(FIELD_SINGLETON, singleton);
     dbObj.put(FIELD_DESCRIPTION, description);
     dbObj.put(FIELD_LANGUAGE, language);
-
-    if (versionCode > 0) {
-      dbObj.put(FIELD_VERSION_CODE, versionCode);
-    }
+      
+    dbObj.put(FIELD_VERSION_CODE, versionCode);
 
     return dbObj;
   }
