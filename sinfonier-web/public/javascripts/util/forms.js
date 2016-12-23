@@ -31,14 +31,18 @@ var FormTools = function (f) {
 };
 
 function checkField(field, requiredMessage, patternMessage) {
-  if (field.validity.valid || (field.offsetWidth == 0 && field.offsetHeight == 0))
+  if (field.validity.valid || (field.offsetWidth == 0 && field.offsetHeight == 0)) {
+    if (field.offsetWidth == 0 && field.offsetHeight == 0) {    
+      field.setCustomValidity('');
+    }
     return false;
+  }  
   if (field.validity.valueMissing) {
     field.setCustomValidity(requiredMessage);
   } else if ((field.validity.patternMismatch || field.validity.typeMismatch) && patternMessage) {
     field.setCustomValidity(patternMessage);
   } else {
-	field.setCustomValidity('');  
+    field.setCustomValidity('');  
   }
   return true;
 }

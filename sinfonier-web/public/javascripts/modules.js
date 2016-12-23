@@ -338,6 +338,9 @@ function handleSourceCode() {
 
     $('#module-form #code-url').prop('required', '');
     $('#module-form #code-url').val('');
+    if (!document.getElementById("code-url").validity.valid) {
+      document.getElementById("code-url").setCustomValidity('');	
+    }
   } else {
     isEdit = false;
     selector = '#source-external-code';
