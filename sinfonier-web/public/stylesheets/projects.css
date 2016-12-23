@@ -85,3 +85,10 @@
   opacity: 1;
   color: #FFF;
 }
+
+pre.project-desc {
+	border: 0;
+	background-color: inherit;
+	font-size: inherit;
+	font-family: inherit;
+}

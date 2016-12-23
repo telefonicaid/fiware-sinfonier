@@ -18,11 +18,13 @@
           #{/if}
           </h2>         
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-          <a id="project-${_project?.getId()}-button-use" data-id="${_project?.getId()}" href="#" class="btn btn-success btn-inline js-project-use">               
-           &{'Projects.btn.use'}
-          </a>
-        </div>
+        #{if !_project?.getName().equals(_currentProject?.getName()) && _project.getStatus().equals(models.SinfonierConstants.Project.STATUS_ACTIVE)  }
+	        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+	          <a id="project-${_project?.getId()}-button-use" data-id="${_project?.getId()}" href="#" class="btn btn-success btn-inline js-project-use">               
+	           &{'Projects.btn.use'}
+	          </a>
+	        </div>
+        #{/if}
       </div>
 
     #{if _size != "small"}
@@ -39,7 +41,7 @@
       <div class="row">
         <div class="col-lg-12">
           <span class="bold">&{'Projects.form.description'}:</span>
-          <p id="project-${_project?.getId()}-p-description">${_project.getDescription()}</p>
+          <pre id="project-${_project?.getId()}-p-description" class="project-desc">${_project.getDescription()}</pre>
         </div>
       </div>
 
@@ -64,10 +66,10 @@
       <div class="row form-group">
           #{if _project.hasWritePermission(_wc?.getCurrentUser())}
             <!-- DELETE -->
-              #{if _project.getStatus().equals(models.SinfonierConstants.Project.STATUS_ACTIVE)}
+              #{if !_project?.getName().equals(_currentProject?.getName()) && _project.getStatus().equals(models.SinfonierConstants.Project.STATUS_ACTIVE)}
                 <div class="col-xs-12 col-sm-2">
                   <button id="project-${_project?.getId()}-button-delete" class="btn btn-danger" type="button"
-                          data-toggle="modal" data-target="#confirmModal">
+                          data-toggle="modal" data-target="#confirmModal-${_project?.getId()}">
                   &{'Projects.btn.delete'}
                   </button>
                 </div>
@@ -81,6 +83,29 @@
           #{/if}
       </div>
     #{/if}
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModal-${_project?.getId()}" tabindex="-1" role="dialog" aria-labelledby="confirmModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">&{'Projects.details.delete.title'}</h4>
+      </div>
+      <div class="modal-body">
+      &{'Projects.details.delete.text', _project?.getName()}
+      </div>
+      <div class="modal-footer">
+      #{form @Projects.delete(_project.getId()), method:'POST', id:'delete-' + _project.getId()}
+        <button id="project-${_project.getId()}-button-deleteCancel" type="button" class="btn btn-default btn-modal"
+                data-dismiss="modal">&{'Modules.btn.cancel'}</button>
+        <button id="project-${_project.getId()}-button-deleteOK" type="submit" class="btn btn-cancel btn-modal">
+        &{'Projects.btn.delete'}</button>
+      #{/form}
+      </div>
     </div>
   </div>
 </div>

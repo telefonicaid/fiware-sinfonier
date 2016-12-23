@@ -88,7 +88,7 @@
   <div class="col-lg-6 col-xs-12 non-h-padding">
   #{list items:projects, as:'project'}
     #{if project_index%2 != 0}
-      #{projects._project project:project,  wc:controllers.WebController/}
+      #{projects._project project:project, currentProject:currentProject, wc:controllers.WebController/}
   #{/if}
   #{/list}
   </div>

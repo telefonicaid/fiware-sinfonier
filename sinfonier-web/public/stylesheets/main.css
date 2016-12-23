@@ -98,3 +98,7 @@ div.checkbox label {
 .align-center {
   text-align: center;
 }
+
+.control-panel header .nav-area .container-fluid .btn-group.noclickable {
+	cursor: default;
+}

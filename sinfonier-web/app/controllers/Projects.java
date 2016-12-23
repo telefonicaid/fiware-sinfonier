@@ -44,7 +44,7 @@ import play.i18n.Messages;
 import play.mvc.Before;
 import play.mvc.Catch;
 import play.mvc.Util;
-
+ 
 public class Projects extends BaseController {
   public static final String INDEX_MODE_MY_PROJECTS = "myProjects";
   public static final String FLASH_KEY_BACKEND_LOG = "backend_log";
