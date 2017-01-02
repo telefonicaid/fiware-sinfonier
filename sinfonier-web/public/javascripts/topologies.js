@@ -94,9 +94,9 @@ var drawModule = function (ctxt, module, hRatio, vRatio, style) {
 
   var module_name = module.name;
   if (module.versionTag)
-    module_name = module_name +" ("+module.versionTag+")";
+    module_name = module_name + " (" + module.versionTag + ")";
   if (typeof(ctxt.measureText) != 'undefined') textWidth = ctxt.measureText(module_name).width;
-  
+
   var fontWidth = textWidth + 4;
   var width = Math.max(boxWidth * hRatio, fontWidth), height = boxHeight * vRatio;
 
@@ -453,130 +453,145 @@ $(function () {
 });
 
 //Log pooling
-$(function(){
+$(function () {
 
   if (!window.intervalPolling)
     window.intervalPolling = parseInt('${play.Play.configuration.getProperty("storm.log.frequency")}', 10) || 3000;
   if (!window.intervals) window.intervals = {};
   if (!window.errors) window.errors = {};
-  var topology_init = {}
-  $('.topology-log').each(function(){
-	  var id = $(this).data("id");
-	  var url = $(this).data("log-url");
-	  var $collapse = $(this).find('.collapse');
-	  topology_init[id] = '?start=-1';
-	  window.intervals[id] = setInterval(function () {
-		    if ($collapse.hasClass('in')) {
-		      $.ajax(url+topology_init[id], {method: 'POST'})
-		          .done(function (res) {
-		        	  topology_init[id] = ''
-		        	  var str = res.data.msg;
-		        	  var logPre = $collapse.find('.log-expanded');
-		        	  logPre.append(str);
-		        	  logPre.scrollTop(logPre.prop("scrollHeight"));
-		          })
-		          .fail(function (err) {
-		        	  topology_init[id] = ''
-		            //clearInterval(window.intervals['${_topology.getId()}']);
-		            $collapse.find('.log-expanded')
-		                .append(new Date() + ' | [ERROR] Something was wrong with the connection.\n');
-		          });
-		    } else {
-		    	topology_init[id]  = '?start=-1'
-		    	var logPre = $collapse.find('.log-expanded');
-		    	logPre.html('');
-		    }
-		  }, window.intervalPolling);
+  var topology_init = {};
+  $('.topology-log').each(function () {
+    var id = $(this).data("id");
+    var url = $(this).data("log-url");
+    var $collapse = $(this).find('.collapse');
+    topology_init[id] = '?start=-1';
+    window.intervals[id] = setInterval(function () {
+      if ($collapse.hasClass('in')) {
+        $.ajax(url + topology_init[id], {method: 'POST'})
+          .done(function (res) {
+            topology_init[id] = ''
+            var str = res.data.msg;
+            var logPre = $collapse.find('.log-expanded');
+            logPre.append(str);
+            logPre.scrollTop(logPre.prop("scrollHeight"));
+          })
+          .fail(function (err) {
+            topology_init[id] = ''
+            //clearInterval(window.intervals['${_topology.getId()}']);
+            $collapse.find('.log-expanded')
+              .append(new Date() + ' | [ERROR] Something was wrong with the connection.\n');
+          });
+      } else {
+        topology_init[id] = '?start=-1';
+        var logPre = $collapse.find('.log-expanded');
+        logPre.html('');
+      }
+    }, window.intervalPolling);
   });
-  
 
-    
-  var infoDataTable = function($table, columns, data) {
+  var infoDataTable = function ($table, columns, data) {
 
     var len = columns.length;
     for (var i = 0; i < len; i++) {
       columns[i].title = i18n('Topologies.info.' + columns[i].data, columns[i].data)
     }
 
-    if (!$.fn.dataTable.isDataTable($table)) {
-      $table = $table.dataTable({
-        ordering : false,
-        paging : false,
-        info : false,
-        searching : false,
-        columns : columns
-      });
-    } else {
-      $table.dataTable().fnClearTable();
+    try {
+      if (!$.fn.dataTable.isDataTable($table)) {
+        $table = $table.dataTable({
+          ordering: false,
+          paging: false,
+          info: false,
+          searching: false,
+          columns: columns
+        });
+      } else {
+        $table.dataTable().fnClearTable();
+      }
+      $table.fnAddData(data);
+    } catch (e) {
+      console.error(e);
     }
-    $table.fnAddData(data);
   };
-  
-  
-  var showInfo = function($target){
-	  var url = $target.closest('.topology-info').data("info-url");
-	  $.get(url).done(function (res) {
-  	  if ($target.is(':visible'))
-  	  {
-    	  $target.find('.info-expanded').hide();
-    	  var $general = $target.find('.general');
-    	  infoDataTable($general,[{"data":"status"},
-        		              {"data":"uptime"},
-        		              {"data":"workersTotal"},
-        		              {"data":"executorsTotal"},
-        		              {"data":"tasksTotal"}],[res.data]); 
-    	  var $stats = $target.find('.stats');
-    	  infoDataTable($stats,[{"data":"windowPretty"},
-	        		              {"data":"emitted"},
-	        		              {"data":"transferred"},
-	        		              {"data":"completeLatency"},
-	        		              {"data":"acked"},
-	        		              {"data":"failed"}]
-    	  				,res.data.topologyStats);
-    	  var $spouts = $target.find('.spouts');
-    	  infoDataTable($spouts,[{"data":"spoutId","render": function(data,type,full,meta){return data.split('_')[0];}},
-	        		              {"data":"executors","type":"number"},
-	        		              {"data":"tasks"},
-	        		              {"data":"emitted"},
-	        		              {"data":"transferred"},
-	        		              {"data":"completeLatency"},
-	        		              {"data":"acked"},
-	        		              {"data":"failed"},
-	        		              {"data":"errorHost"},
-	        		              {"data": "errorPort"},
-	        		              {"data": "lastError"}]
-    	  				,res.data.spouts);
-    	  var $bolts = $target.find('.bolts');
-    	  infoDataTable($bolts,[{"data":"boltId","render": function(data,type,full,meta){return data.split('_')[0];}},
-	        		              {"data":"executors"},
-	        		              {"data":"tasks"},
-	        		              {"data":"emitted"},
-	        		              {"data":"transferred"},
-	        		              {"data":"capacity"},
-	        		              {"data":"executeLatency"},
-	        		              {"data":"executed"},
-	        		              {"data":"processLatency"},
-	        		              {"data":"acked"},
-	        		              {"data":"failed"},
-	        		              {"data":"errorHost"},
-	        		              {"data": "errorPort"},
-	        		              {"data": "lastError"}]
-    	  				,res.data.bolts);
-    	  setTimeout(showInfo,10000,$target);
-  		 }
+
+
+  var showInfo = function ($target) {
+    var url = $target.closest('.topology-info').data("info-url");
+    $.get(url).done(function (res) {
+      if ($target.is(':visible')) {
+        $target.find('.info-expanded').hide();
+        var $general = $target.find('.general');
+        infoDataTable($general, [{"data": "status"},
+          {"data": "uptime"},
+          {"data": "workersTotal"},
+          {"data": "executorsTotal"},
+          {"data": "tasksTotal"}], [res.data]);
+        var $stats = $target.find('.stats');
+        infoDataTable($stats, [{"data": "windowPretty"},
+            {"data": "emitted"},
+            {"data": "transferred"},
+            {"data": "completeLatency"},
+            {"data": "acked"},
+            {"data": "failed"}]
+          , res.data.topologyStats);
+        var $spouts = $target.find('.spouts');
+        infoDataTable($spouts, [{
+            "data": "spoutId", "render": function (data, type, full, meta) {
+              return data.split('_')[0];
+            }
+          },
+            {"data": "executors", "type": "number"},
+            {"data": "tasks"},
+            {"data": "emitted"},
+            {"data": "transferred"},
+            {"data": "completeLatency"},
+            {"data": "acked"},
+            {"data": "failed"},
+            {"data": "errorHost"},
+            {"data": "errorPort"},
+            {"data": "lastError"}]
+          , res.data.spouts);
+        var $bolts = $target.find('.bolts');
+        infoDataTable($bolts, [{
+            "data": "boltId", "render": function (data, type, full, meta) {
+              return data.split('_')[0];
+            }
+          },
+            {"data": "executors"},
+            {"data": "tasks"},
+            {"data": "emitted"},
+            {"data": "transferred"},
+            {"data": "capacity"},
+            {"data": "executeLatency"},
+            {"data": "executed"},
+            {"data": "processLatency"},
+            {"data": "acked"},
+            {"data": "failed"},
+            {"data": "errorHost"},
+            {"data": "errorPort"},
+            {"data": "lastError"}]
+          , res.data.bolts);
+        setTimeout(showInfo, 10000, $target);
+      }
     }).fail(function (err) {
-      $target.find('.info-expanded').html(new Date() + ' | [ERROR] Something was wrong with the connection.\n').show();          
+      if($target && $target.find('.info-expanded').hasClass('hide')) {
+        $target
+          .find('.info-expanded')
+          .removeClass('hide')
+          .html(new Date() + ' | [ERROR] Something was wrong with the connection.\n')
+          .show();
+      }
     });
   };
   // Info
-  $('.collapse-info').click(function() {
+  $('.collapse-info').click(function () {
     var target = $(this).attr('href');
     var $target = $(target);
     var $info_div = $target.find('.info-expanded');
     $info_div.html('');
     if (!$target.is(':visible')) {
       showInfo($target);
-    };
+    }
   });
-  
+
 });
