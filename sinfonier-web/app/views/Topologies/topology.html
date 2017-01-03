@@ -28,5 +28,22 @@
 
     #{script 'util/code.js'/}
     #{script 'topologies.js'/}
+
+<script>
+  var _id = '${topology.getId()}';
+  var _element = $('#topology-${topology?.getId()}');
+  var _size = (_element.height() - 10) + 'px';
+  _element
+      .find('#form-' + _id + '-launch')
+      .click(function () {
+        $('#panel-' + _id)
+            .height(_size)
+            .show();
+
+        $('#panel-' + _id)
+            .find('.img-loading')
+            .css('margin-top', Math.round(parseInt(_size.substr(0, _size.length - 2), 10) / 2) - 35);
+      });
+</script>
 #{/set}
 
