@@ -17,8 +17,8 @@ public class SinfonierUser extends MongoUser {
   protected String timeZoneID;
   protected String web;
 
-  public SinfonierUser(String name, String email, String password, boolean eula) {
-    super(name, email, password, eula);
+  public SinfonierUser(String name, String email, String password) {
+    super(name, email, password);
   }
   
   public SinfonierUser(DBObject o) {

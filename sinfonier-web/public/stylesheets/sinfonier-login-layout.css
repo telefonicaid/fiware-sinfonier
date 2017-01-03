@@ -7,12 +7,10 @@ html, body {
   font-family: 'TelefonicaWebRegular' !important;
 }
 
+
+
 .login .content {
     margin: 10px auto !important;
-}
-
-.login form > .checkbox a {
-  margin-top: -3px;
 }
 
 .btn-bezel.btn-primary,
