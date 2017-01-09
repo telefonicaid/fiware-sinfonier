@@ -221,7 +221,7 @@ Projects.details.title = Proyecto
 Projects.new.title = Nuevo proyecto
 
 Projects.details.delete.title = Borrar proyecto
-Projects.details.delete.text = Quieres borrar el proyecto '%s'?
+Projects.details.delete.text = ¿Quieres borrar el proyecto '%s'?
 
 Topologies.index.title = Topologías
 Topologies.index.btn.my = Mis Topologías
@@ -257,7 +257,7 @@ Topologies.btn.export = Exportar
 Topologies.btn.import = Importar
 
 Topologies.details.delete.title = Eliminar la topología
-Topologies.details.delete.text = Quiere eliminar la topología '%s'?
+Topologies.details.delete.text = ¿Quiere eliminar la topología '%s'?
 
 Topologies.topology = Topología
 Topologies.error.launching = Error intentando lanzar la topología
