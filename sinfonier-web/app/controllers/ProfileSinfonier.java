@@ -53,7 +53,7 @@ public class ProfileSinfonier extends Profile {
         sinfonierUser.setTwitter(twitter);
         sinfonierUser.setOrganization(organization);
         sinfonierUser.setTimeZoneID(timeZone);
-        sinfonierUser.setWeb(web != null ? JavaExtensions.slugify(web): "");
+        sinfonierUser.setWeb(web != null ? web: "");
         user.save();
         
         //Change web language if user has changed preferred language
