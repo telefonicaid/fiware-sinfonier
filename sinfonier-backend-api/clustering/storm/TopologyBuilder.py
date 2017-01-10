@@ -140,7 +140,8 @@ class TopologyBuilder(object):
             backend_json["properties"] = self.validate_topology_properties(topologyInfo["config"]["stormProperties"])
 
             modules = self.get_modules_info(topologyInfo["config"]["modules"],topologyInfo["config"].get("topologyProperties"))
-            modulesWithWires = self.set_modules_wires(modules, topologyInfo["config"]["wires"])
+            normalizedWires = self.normalizeWiresSourceTarget(topologyInfo["config"]["wires"])
+            modulesWithWires = self.set_modules_wires(modules, normalizedWires)
 
             backend_json["builderConfig"] = dict()
             backend_json["builderConfig"] = self.list_of_modules_by_type(modulesWithWires)
