@@ -191,7 +191,7 @@ function TemplateCode(name, language, type, code) {
 
     if (that.type === 'bolt' || that.type === 'drain') {
       code += 'import basesinfonier' + that.type + '\n\n' +
-        'class ' + _.upperFirst(_.camelCase(that.name)) + ' (basesinfonier' + _.capitalize(that.type) + '.BaseSinfonier' + _.capitalize(that.type) + '):\n\n' +
+        'class ' + _.upperFirst(_.camelCase(that.name)) + ' (basesinfonier' + that.type + '.BaseSinfonier' + _.capitalize(that.type) + '):\n\n' +
         '\tdef userprepare(self):\n' +
         '\t\t# TO-DO: Init values. Code here runs once\n' +
         '\t\tself.variable = "hello"\n\n' +
