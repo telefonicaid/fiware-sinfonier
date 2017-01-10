@@ -469,14 +469,14 @@ $(function () {
       if ($collapse.hasClass('in')) {
         $.ajax(url + topology_init[id], {method: 'POST'})
           .done(function (res) {
-            topology_init[id] = ''
+            topology_init[id] = '';
             var str = res.data.msg;
             var logPre = $collapse.find('.log-expanded');
             logPre.append(str);
             logPre.scrollTop(logPre.prop("scrollHeight"));
           })
           .fail(function (err) {
-            topology_init[id] = ''
+            topology_init[id] = '';
             //clearInterval(window.intervals['${_topology.getId()}']);
             $collapse.find('.log-expanded')
               .append(new Date() + ' | [ERROR] Something was wrong with the connection.\n');
@@ -497,6 +497,9 @@ $(function () {
     }
 
     try {
+      if ($.fn.dataTable.ext.errMode != 'none') {
+        $.fn.dataTable.ext.errMode = 'none';
+      }
       if (!$.fn.dataTable.isDataTable($table)) {
         $table = $table.dataTable({
           ordering: false,
@@ -574,7 +577,7 @@ $(function () {
         setTimeout(showInfo, 10000, $target);
       }
     }).fail(function (err) {
-      if($target && $target.find('.info-expanded').hasClass('hide')) {
+      if ($target && $target.find('.info-expanded').hasClass('hide')) {
         $target
           .find('.info-expanded')
           .removeClass('hide')
