@@ -9,6 +9,7 @@
     "passChange": {
       "$date": "2116-08-19T08:37:12.974Z"
     },
+    "eula": true,
     "authenticationAttempts": 0,
     "active": true,
     "preferredLang": "en",
@@ -36,6 +37,7 @@
     },
     "authenticationAttempts":0,
     "active":true,
+    "eula": true,
     "preferredLang":"es",
     "latchId":"",
     "latchOtp":"",
