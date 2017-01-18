@@ -388,3 +388,6 @@ Public.activate.adminActivationUser=Tu cuenta se ha creado correctamente, pero e
 
 ##### Register Bugs on Darwin#####
 Public.register.oldPassword=Contraseña anterior
+
+##### Email Bugs on Darwin #######
+Public.emailLayout.footer=Copyright © %s <a href=\"http://www.elevenpaths.com\" style=\"text-decoration: none;word-wrap: break-word;-ms-text-size-adjust: 100%%;-webkit-text-size-adjust: 100%%;font-weight: normal;\" target=\"_blank\">ElevenPaths</a>. Todos los derechos reservados.<br> Telefónica Digital España, S.L.U. es una empresa española con sede social en Distrito Telefónica, Ronda de la Comunicación, s/n, 28050 – Madrid (España), con número de identificación fiscal (CIF) B-86362886 e inscrita en el Registro Mercantil de Madrid, volumen 29508; libro 0; folio 12, Sección 8; Hoja M-531046. Para cualquier información relativa al tratamiento digital de sus datos personales para ejercer su derecho de consulta, modificación o borrado, puede ponerse en contacto con nosotros mediante el correo electrónico <a href=\"mailto:contact@support.elevenpaths.com\" style="text-decoration: none;word-wrap: break-word;-ms-text-size-adjust: 100%%;-webkit-text-size-adjust: 100%%;font-weight: normal;\">contact@support.elevenpaths.com</a>.
