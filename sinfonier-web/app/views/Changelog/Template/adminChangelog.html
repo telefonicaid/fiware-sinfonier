@@ -24,7 +24,7 @@
                     <label class="control-label"><span class="bold">&{'changelog.adminIndex.version'}</span></label>
                     <div class="input-icon max-with-default">
                         <i class="fa fa-tag"></i>
-                        <input class="form-control" type="text" value="${flash.version}" placeholder="Version" name="version">
+                        <input class="form-control" type="text" value="${flash.version?.escapeHtml()?.raw()}" placeholder="Version" name="version">
                     </div>
                 </div>
                 <div class="row">
@@ -36,14 +36,14 @@
                             <label class="control-label"><span class="bold">&{'changelog.adminIndex.title', supportedLang}</span></label>
                             <div class="input-icon">
                                 <i class="fa fa-tag"></i>
-                                <input class="form-control" type="text" value="${flash.flashTitle}" placeholder="Title ${supportedLang}" name="title_${supportedLang}">
+                                <input class="form-control" type="text" value="${flash.flashTitle?.escapeHtml()?.raw()}" placeholder="Title ${supportedLang?.escapeHtml()?.raw()}" name="title_${supportedLang?.escapeHtml()?.raw()}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label"><span class="bold">&{'changelog.adminIndex.content', supportedLang}</span></label>
                             <div class="input-icon">
                                 <i class="fa fa-tag"></i>
-                                <textarea class="form-control" placeholder="Content ${supportedLang}" name="content_${supportedLang}">${flash.flashContent}</textarea>
+                                <textarea class="form-control" placeholder="Content ${supportedLang?.escapeHtml()?.raw()}" name="content_${supportedLang?.escapeHtml()?.raw()}">${flash.flashContent?.escapeHtml()?.raw()}</textarea>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="col-xs-8">
                         <h3 class="changelog-title">
                             <a role="button" data-toggle="collapse" href="#${changelogPoint.id}" aria-expanded="true" aria-controls="collapseOne">
-                                v${changelogPoint.version} - ${changelogPoint.getTitle(lang)}
+                                v${changelogPoint.version?.escapeHtml()?.raw()} - ${changelogPoint.getTitle(lang)?.escapeHtml()?.raw()}
                             </a>
                         </h3>
                       </div>
@@ -84,7 +84,7 @@
                                 <label class="control-label"><span class="bold">&{'changelog.adminIndex.version'}</span></label>
                                 <div class="input-icon max-with-default">
                                     <i class="fa fa-tag"></i>
-                                    <input class="form-control" type="text" placeholder="Version" name="version" value="${changelogPoint.version}">
+                                    <input class="form-control" type="text" placeholder="Version" name="version" value="${changelogPoint.version?.escapeHtml()?.raw()}">
                                 </div>
                             </div>
 
@@ -97,14 +97,14 @@
                                         <label class="control-label"><span class="bold">&{'changelog.adminIndex.title', supportedLang}</span></label>
                                         <div class="input-icon">
                                             <i class="fa fa-tag"></i>
-                                            <input class="form-control" type="text" placeholder="Title ${supportedLang}" name="title_${supportedLang}" value="${changelogPoint.getTitle(supportedLang)}">
+                                            <input class="form-control" type="text" placeholder="Title ${supportedLang?.escapeHtml()?.raw()}" name="title_${supportedLang?.escapeHtml()?.raw()}" value="${changelogPoint.getTitle(supportedLang)?.escapeHtml()?.raw()}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"><span class="bold">&{'changelog.adminIndex.content', supportedLang}</span></label>
                                         <div class="input-icon">
                                             <i class="fa fa-tag"></i>
-                                            <textarea class="form-control" placeholder="Content ${lang}" name="content_${supportedLang}">${changelogPoint.getContent(supportedLang)}</textarea>
+                                            <textarea class="form-control" placeholder="Content ${lang?.escapeHtml()?.raw()}" name="content_${supportedLang?.escapeHtml()?.raw()}">${changelogPoint.getContent(supportedLang)?.escapeHtml()?.raw()}</textarea>
                                         </div>
                                     </div>
                                 </div>

@@ -50,7 +50,7 @@
               class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">&{'Topologies.form.query'}</label>
             <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
               <input type="text" class="form-control" id="query" name="query"
-                value="${params.get("query")}" placeholder="&{'Topologies.form.queryHelp'}">
+                value="${params.get("query")?.escapeHtml()?.raw()}" placeholder="&{'Topologies.form.queryHelp'}">
             </div>
           </div>
 
@@ -59,7 +59,7 @@
 						<label for="update" class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">&{'Topologies.form.update'}</label>
 						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 input-group date" id="updateDate">
 							<input type="text" class="form-control" id="updated"
-								name="updated" placeholder="yyyy-mm-dd" value="${params.get("updated")}">
+								name="updated" placeholder="yyyy-mm-dd" value="${params.get("updated")?.escapeHtml()?.raw()}">
 							<span class="input-group-addon"> <span id="topologies-span-updated" class="glyphicon glyphicon-calendar"></span>
 							</span>
 						</div>
@@ -68,7 +68,7 @@
               class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Topologies.form.description'}</label>
             <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
               <input type="text" class="form-control" id="description"
-                name="description" value="${params.get("description")}">
+                name="description" value="${params.get("description")?.escapeHtml()?.raw()}">
             </div>
 					</div>
 

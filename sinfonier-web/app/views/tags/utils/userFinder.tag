@@ -5,14 +5,14 @@
             <div class="form-group">
                 <select class="selectpicker" name="finder.field">
                     #{list items:_fieldsAllowed, as:'field' }
-                        <option value="${field}" #{if _model != null && _model.field != null && _model.field.equals(field)}selected#{/if}>&{'finder.' + field}</option>
+                        <option value="${field?.escapeHtml()?.raw()}" #{if _model != null && _model.field != null && _model.field.equals(field)}selected#{/if}>&{'finder.' + field}</option>
                     #{/list}
                 </select>
             </div>
             <div class="form-group">
                 <div class="input-icon">
                     <i class="fa fa-search"></i>
-                    <input class="form-control" type="text" value="#{if _model != null && _model.value != null}${_model.value.escapeHtml().raw()}#{/if}" placeholder="" name="finder.value">
+                    <input class="form-control" type="text" value="#{if _model != null && _model.value != null}${_model.value?.escapeHtml()?.raw()}#{/if}" placeholder="" name="finder.value">
                 </div>
             </div>
             <div class="form-group">

@@ -1,5 +1,5 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
-#{set 'title'} ${topology?.getName()} #{/set}
+#{set 'title'} ${topology?.getName()?.escapeHtml()?.raw()} #{/set}
 #{set 'moreStyles'}
     #{stylesheet 'topologies.css' /}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha384-Bq1wXRbQ8E+UZevo8qy87YMNttTKWJolQPWE35WXcbmSBLQ07MIVSLLzN6U+ynCj" crossorigin="anonymous">
@@ -7,7 +7,7 @@
 
 <div class="row form-group">
   <div class="col-lg-12">
-    <h1 id="topology-h1-title">&{'Topologies.topology'} '${topology?.getName()}'</h1>
+    <h1 id="topology-h1-title">&{'Topologies.topology'} '${topology?.getName()?.escapeHtml()?.raw()}'</h1>
   </div>
 </div>
 

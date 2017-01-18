@@ -1,9 +1,9 @@
 <div class="panel panel-default latch-set">
     <div class="panel-heading">
-        ${operation.getName()}
+        ${operation.getName()?.escapeHtml()?.raw()}
         <div class="pull-right">
             #{form @Profile.changeLatch()}
-            <input type="hidden" name="email" value="${user.getEmail()}"/>
+            <input type="hidden" name="email" value="${user.getEmail()?.escapeHtml()?.raw()}"/>
             <input type="hidden" name="operationId" value="${operation.getId()}"/>
             <div class="onoffswitch">
                 <input type="checkbox" class="onoffswitch-checkbox" id="${operation.getId()}" name="status" onchange="this.form.submit()" #{if operation.getStatus().equals("off")} checked #{/if}>

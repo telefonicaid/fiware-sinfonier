@@ -1,5 +1,5 @@
 #{extends 'Layouts/darwin-control-panel-layout.html' /}
-#{set 'title'} ${project?.getName()} #{/set}
+#{set 'title'} ${project?.getName()?.escapeHtml()?.raw()} #{/set}
 #{set 'moreStyles'}
     #{stylesheet 'projects.css' /}
 #{/set}
@@ -34,7 +34,7 @@
 
 <div class="row">
   <div class="col-lg-8 form-group">
-    <h1 id="module-h1-title">&{'Projects.details.title'} '${project?.getName()}'</h1>
+    <h1 id="module-h1-title">&{'Projects.details.title'} '${project?.getName()?.escapeHtml()?.raw()}'</h1>
   </div>
   <div class="col-lg-4">
     <div class="form-group col-lg-3 col-md-3 col-sm-2 col-xs-12 ">

@@ -22,13 +22,13 @@
         <div class="form-group">
           <label for="name" class="col-sm-2 control-label">&{'Profile.name'}*</label>
           <div class="col-sm-10">
-            <input id="name" name="name" type="text" class="form-control" value="${user.getName()}" required/>
+            <input id="name" name="name" type="text" class="form-control" value="${user.getName()?.escapeHtml()?.raw()}" required/>
           </div>
         </div>
         <div class="form-group">
           <label for="email" class="control-label col-sm-2">&{'Profile.email'}</label>
           <div class="col-sm-10">
-            <input id="email" name="email" type="text" class="form-control" value="${user.getEmail()}" readonly/>
+            <input id="email" name="email" type="text" class="form-control" value="${user.getEmail()?.escapeHtml()?.raw()}" readonly/>
           </div>
         </div>
         <div class="form-group">
@@ -45,13 +45,13 @@
         <div class="form-group">
           <label for="twitter" class="col-sm-2 control-label">&{'Profile.twitter'}</label>
           <div class="col-sm-10">
-            <input id="twitter" name="twitter" type="text" class="form-control" pattern="^@?(\w){1,15}$"  value="${user.getImplementation().getTwitter()}" />
+            <input id="twitter" name="twitter" type="text" class="form-control" pattern="^@?(\w){1,15}$"  value="${user.getImplementation().getTwitter()?.escapeHtml()?.raw()}" />
           </div>
         </div>
         <div class="form-group">
           <label for="organization" class="col-sm-2 control-label">&{'Profile.organization'}</label>
           <div class="col-sm-10">
-            <input id="organization" name="organization" type="text" class="form-control" value="${user.getImplementation().getOrganization()}" />
+            <input id="organization" name="organization" type="text" class="form-control" value="${user.getImplementation().getOrganization()?.escapeHtml()?.raw()}" />
           </div>
         </div>
         <div class="form-group">
@@ -68,7 +68,7 @@
         <div class="form-group">
           <label for="web" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Profile.web'}</label>
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-            <input id="web" name="web" type="url" class="form-control" pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" value="${user.getImplementation().getWeb()}" placeholder="http://www.yourweb.com"/>
+            <input id="web" name="web" type="url" class="form-control" pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)" value="${user.getImplementation().getWeb()?.escapeHtml()?.raw()}" placeholder="http://www.yourweb.com"/>
           </div>
         </div>
         <div class="col-xs-6 col-xs-offset-6 col-lg-3 col-lg-offset-9">
