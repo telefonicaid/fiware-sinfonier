@@ -1,5 +1,6 @@
 package controllers;
 
+import notifiers.SinfonierMailer;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -29,7 +30,10 @@ public class PublicContentSinfonier extends PublicContentBase {
     } else {
       User user = DarwinFactory.getInstance().loadUser(email);
       actualLang = Lang.get();
-      Lang.set(user.getPreferredLang());
+
+      if(user != null) {
+        Lang.set(user.getPreferredLang());
+      }
     }
     doProcessRequestPasswordReset(email, actualLang);
   }
@@ -40,7 +44,7 @@ public class PublicContentSinfonier extends PublicContentBase {
         if (user != null) {
             Token token = DarwinFactory.getInstance().buildToken(email, TokenTypeBase.RESET_PASSWORD);
             token.save();
-            DarwinMailer.passwordReset(user, token.getToken());
+            SinfonierMailer.passwordReset(user, token.getToken());
         }
     } catch (MailException e) {
         Logger.info("Error sending email notification");

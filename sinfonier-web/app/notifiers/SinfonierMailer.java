@@ -83,6 +83,16 @@ public class SinfonierMailer extends DarwinMailer {
     Lang.set(actualLang);
   }
 
+  public static void passwordReset(User user, String token) {
+    String email = user.getEmail();
+    configureEmailSettings(email, SUBJECT_PASSWORD_RESET);
+    String baseUrl = getBaseUrl();
+    String appName = Config.getApplicationName();
+    Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
+    String userLang = user.getPreferredLang();
+    send(getTemplatePath("passwordReset", userLang), userLang, renderArgs, appName, user, token, baseUrl);
+  }
+
   protected static String getTemplatePath(String template, String lang) {
     if (lang == null) {
       lang = DEFAULT_LANG;
