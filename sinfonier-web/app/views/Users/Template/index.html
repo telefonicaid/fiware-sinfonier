@@ -30,8 +30,8 @@
                 <tbody>
                     #{list items:users, as:'user'}
                         <tr>
-                            <td><span class="bold">${user.getName()}</span></td>
-                            <td>${user.getEmail()}</td>
+                            <td><span class="bold">${user.getName()?.escapeHtml()?.raw()}</span></td>
+                            <td>${user.getEmail()?.escapeHtml()?.raw()}</td>
                             <td>
                                 #{form @Users.setRole()}
                                     <div class="form-group m-b-0">
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="modal-body text-center">
                                     #{form @Users.deleteUser()}
-                                        <h5 class="overflow-hidden">&{'Users.index..modal.deleteConfirmation'} <em>"${user.getEmail()}"</em>?</h5>
+                                        <h5 class="overflow-hidden">&{'Users.index..modal.deleteConfirmation'} <em>"${user.getEmail()?.escapeHtml()?.raw()}"</em>?</h5>
                                         <input type="hidden" name="id" value="${user.getId()}">
                                         <button type="submit" class="submit">&{'Users.index..modal.deleteConfirm'}</button>
                                     #{/form}

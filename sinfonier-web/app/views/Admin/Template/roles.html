@@ -29,13 +29,13 @@
                             <div class="form-group">
                                 <div class="input-icon max-with-default">
                                     <i class="fa fa-tag"></i>
-                                    <input class="form-control" type="text" value="${flash.name}" placeholder="&{'Roles.index.form.name'}" name="name">
+                                    <input class="form-control" type="text" value="${flash.name?.escapeHtml()?.raw()}" placeholder="&{'Roles.index.form.name'}" name="name">
                                 </div>
                             </div>
                             #{list items:permissions, as:'permission'}
                             <div class="check-tag checkbox-inline">
-                                <input id="${permission + permission_index}" type="checkbox" name="permissions" value="${permission}" />
-                                <label for="${permission + permission_index}">${permission}</label>
+                                <input id="${permission + permission_index}" type="checkbox" name="permissions" value="${permission?.escapeHtml()?.raw()}" />
+                                <label for="${permission + permission_index}">${permission?.escapeHtml()?.raw()}</label>
                             </div>
                             #{/list}
                             <div class="form-actions">
@@ -63,15 +63,15 @@
                             <div class="form-group">
                                 <div class="input-icon">
                                     <i class="fa fa-tag"></i>
-                                    <input class="form-control" type="text" value="${role.getName()}" placeholder="&{'Roles.index.form.name'}" name="name" #{if models.Constants.UserRole.specialRole.containsKey(role.getId())} readonly #{/if}>
+                                    <input class="form-control" type="text" value="${role.getName()?.escapeHtml()?.raw()}" placeholder="&{'Roles.index.form.name'}" name="name" #{if models.Constants.UserRole.specialRole.containsKey(role.getId())} readonly #{/if}>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-7">
                             #{list items:permissions, as:'permission'}
                             <div class="check-tag checkbox-inline">
-                                <input id="${role.id + permission + permission_index}" type="checkbox" name="permissions" value="${permission}" #{if role.hasPermission(permission)} checked #{/if}/>
-                                <label for="${role.id + permission + permission_index}">${permission}</label>
+                                <input id="${role.id + permission + permission_index}" type="checkbox" name="permissions" value="${permission?.escapeHtml()?.raw()}" #{if role.hasPermission(permission)} checked #{/if}/>
+                                <label for="${role.id + permission + permission_index}">${permission?.escapeHtml()?.raw()}</label>
                             </div>
                             #{/list}
                         </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="modal-body text-center">
                 #{form @Admin.deleteRole()}
-                <h5 class="overflow-hidden">&{'Roles.index.modal.deleteConfirmation'} <em>"${role.getName()}"</em>?</h5>
+                <h5 class="overflow-hidden">&{'Roles.index.modal.deleteConfirmation'} <em>"${role.getName()?.escapeHtml()?.raw()}"</em>?</h5>
                 <input type="hidden" name="roleId" value="${role.getId()}">
                 <button type="submit" class="submit">&{'Roles.index.modal.deleteConfirm'}</button> #{/form}
             </div>

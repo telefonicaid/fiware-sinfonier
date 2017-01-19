@@ -20,7 +20,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="input-icon">
                 <i class="fa fa-envelope"></i>
-                <input class="form-control" type="text" value="${flash.username}" placeholder="&{'Public.login.email'}" id="username" name="username">
+                <input class="form-control" type="text" value="${flash.username?.escapeHtml()?.raw()}" placeholder="&{'Public.login.email'}" id="username" name="username">
             </div>
 
             <div class="input-icon">

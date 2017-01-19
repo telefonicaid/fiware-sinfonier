@@ -20,10 +20,10 @@
         <div class="row">
 
           <div class="col-xs-6">
-            <p id="profile-p-email"><span class="bold">&{'Profile.name'}:</span> ${user.getName()}</p>
+            <p id="profile-p-email"><span class="bold">&{'Profile.name'}:</span> ${user.getName()?.escapeHtml()?.raw()}</p>
           </div>
           <div class="col-xs-6">
-            <p id="profile-p-email"><span class="bold">&{'Profile.email'}:</span> ${user.getEmail()}</p>
+            <p id="profile-p-email"><span class="bold">&{'Profile.email'}:</span> ${user.getEmail()?.escapeHtml()?.raw()}</p>
           </div>
           <div class="col-xs-6">
             <p id="profile-p-created"><span class="bold">&{'Profile.created'}:</span> ${user.getCreated().format()}</p>
@@ -39,14 +39,14 @@
           </div>
           <div class="col-xs-6">
             <p><span class="bold">&{'Profile.twitter'}:</span> <a id="profile-a-twitter"
-                                                                  href="https://twitter.com/${user.getImplementation().getTwitter()}" target="_blank">
-            ${user.getImplementation().getTwitter()}</a>
+                                                                  href="https://twitter.com/${user.getImplementation().getTwitter()?.escapeHtml()?.raw()}" target="_blank">
+            ${user.getImplementation().getTwitter()?.escapeHtml()?.raw()}</a>
             </p>
           </div>
 
           <div class="col-xs-6">
             <p id="profile-p-organization">
-              <span class="bold">&{'Profile.organization'}:</span> ${user.getImplementation().getOrganization()}
+              <span class="bold">&{'Profile.organization'}:</span> ${user.getImplementation().getOrganization()?.escapeHtml()?.raw()}
             </p>
           </div>
           <div class="col-xs-6">
@@ -59,8 +59,8 @@
             <p>
               <span class="bold">&{'Profile.web'}:</span>
               #{if user.getImplementation().getWeb() != null}
-                <a id="profile-a-web" href="${user.getImplementation().getWeb()}" target="_blank">
-                ${user.getImplementation().getWeb()}</a>
+                <a id="profile-a-web" href="${user.getImplementation().getWeb()?.escapeHtml()?.raw()}" target="_blank">
+                ${user.getImplementation().getWeb()?.escapeHtml()?.raw()}</a>
               #{/if}
             </p>
           </div>
@@ -110,7 +110,7 @@
                 <div class="modal-body text-center">
                     #{form @Profile.deleteAccount()}
                       <h5 class="overflow-hidden">&{'Profile.deleteAccount.message'}</h5>
-                      <input type="hidden" name="email" value="${user.getEmail()}">
+                      <input type="hidden" name="email" value="${user.getEmail()?.escapeHtml()?.raw()}">
                       <button id="profile-button-delete" type="submit" class="submit">
                       &{'Profile.deleteAccount.confirm'}</button>
                     #{/form}

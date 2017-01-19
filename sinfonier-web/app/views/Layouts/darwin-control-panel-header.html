@@ -55,7 +55,7 @@
 	            <div class="nav-lang">
 		            <div class="btn-group noclickable">
 			            #{if currentProject != null }
-			              &{'Projects.current.label'} ${ currentProject.getName()}
+			              &{'Projects.current.label'} ${ currentProject.getName()?.escapeHtml()?.raw()}
 			            #{/if}
 		            </div>
 	            </div>
@@ -64,7 +64,7 @@
             #{include 'Lang/languages.html' /}
             </div>
             <div class="nav-lang">
-              <div class="btn-group"><a data-toggle="dropdown" aria-expanded="false" class="btn-lang">${session.username} <span class="caret"></span></a>
+              <div class="btn-group"><a data-toggle="dropdown" aria-expanded="false" class="btn-lang">${session.username?.escapeHtml()?.raw()} <span class="caret"></span></a>
                 <ul role="menu" class="dropdown-menu">
                   <li><a href="@{Profile.index()}" id="header-a-profile">&{'Profile'}</a></li>
                   <li><a href="@{PublicContentBase.passwordReset()}" id="header-a-password">&{'UserArea.password'}</a></li>

@@ -40,13 +40,13 @@
             <!-- MODULE'S NAME -->
             <label for="name" class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'}</label>
             <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
-              <input type="text" class="form-control" id="name" name="search.name" value="${search?.getName()}">
+              <input type="text" class="form-control" id="name" name="search.name" value="${search?.getName()?.escapeHtml()?.raw()}">
             </div>
 
             <!-- MODULE'S OWNER-->
             <label for="owner" class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.owner'}</label>
             <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
-              <input type="text" class="form-control" id="owner" name="search.owner" value="${search?.getOwner()}" placeholder="&{'Modules.form.owner.placeholder'}">
+              <input type="text" class="form-control" id="owner" name="search.owner" value="${search?.getOwner()?.escapeHtml()?.raw()}" placeholder="&{'Modules.form.owner.placeholder'}">
             </div>
           </div>
 
@@ -64,7 +64,7 @@
             <!-- MODULE'S DESCRIPTION -->
             <label for="description" class="col-lg-1 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.description'}</label>
             <div class="col-lg-5 col-md-4 col-sm-4 col-xs-12">
-              <input type="text" class="form-control" id="description" name="search.description" value="${search?.getDescription()}">
+              <input type="text" class="form-control" id="description" name="search.description" value="${search?.getDescription()?.escapeHtml()?.raw()}">
             </div>
           </div>
           <div class="form-group">

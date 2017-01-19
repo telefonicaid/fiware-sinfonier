@@ -13,19 +13,15 @@
               pattern="^(([A-Z]+[a-z0-9]*)+)$" title="&{'Projects.form.err.pattern.name'}"
               oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Projects.form.err.pattern.name'}');"
               oninput="checkField(this,'&{'Common.form.err.required'}','&{'Projects.form.err.pattern.name'}');"
-              value="${_project?.getName()}" required #{if _project?.getId() != null}readonly#{/if}>
+              value="${_project?.getName()?.escapeHtml()?.raw()}" required #{if _project?.getId() != null}readonly#{/if}>
             </div>
           </div>
-
-
-
-
 
           <!-- DESCRIPTION -->
           <div class="form-group">
             <label for="type" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Projects.form.description'}</label>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                <textarea name="project.description" id="description" cols="30" rows="5" class="form-control">${_project?.getDescription()}</textarea>
+                <textarea name="project.description" id="description" cols="30" rows="5" class="form-control">${_project?.getDescription()?.escapeHtml()?.raw()}</textarea>
             </div>
           </div>
 
