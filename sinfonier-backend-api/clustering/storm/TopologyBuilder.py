@@ -204,7 +204,7 @@ class TopologyBuilder(object):
 
                 mod_info["language"] = module["language"]
                 mod_info["abstractionId"] = "{module_name}_{random_id}".format(module_name=module["name"], random_id=uuid.uuid4())
-                mod_info["parallelism"] = module["parallelisms"] if "parallelisms" in module else "1"
+                mod_info["parallelism"] = module["parallelism"] if "parallelism" in module else "1"
                 mod_info["language"] = module["language"]
                 mod_info["sources"] = list()
                 mod_info["params"] = dict()
