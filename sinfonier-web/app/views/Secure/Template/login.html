@@ -43,6 +43,10 @@
 #{/form}
 #{include 'Secure/loginWithMobileConnect.html' /}
 <hr/>
+<div id="bFiware" style=" margin: auto;">
+    <img src="@{'/public/images/SFiware.png'}" onclick="document.location='@{OAuthController.redirect()}'" style="margin-left: auto;margin-right: auto; display: block; cursor: pointer;">
+</div>
+<hr/>
 <h2>&{'Public.login.forgot.title'}</h2>
 <p>&{'Public.login.forgot.description1'} <a href="@{PublicContentBase.requestPasswordReset()}">&{'Public.login.forgot.link'}</a> &{'Public.login.forgot.description2'}</p>
 #{if !models.user.ActivationType.INVITATION.equals(models.Config.getUserActivationType()) }
