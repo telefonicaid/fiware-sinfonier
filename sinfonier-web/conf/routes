@@ -98,6 +98,10 @@ GET /latch/pair                                                 Latch.checkLatch
 # PublicContentBase
 POST    /processRequestPasswordResetSinfonier                   PublicContentSinfonier.processRequestPasswordResetSinfonier
 
+# OAuth2 FIWARE
+GET /oauth/authenticate                                         OAuthController.authenticate
+GET /oauth/redirect                                             OAuthController.redirect
+
 
 # Darwin
 * /                                                             module:darwin
