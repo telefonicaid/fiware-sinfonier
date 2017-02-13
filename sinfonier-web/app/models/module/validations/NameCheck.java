@@ -12,10 +12,12 @@ import java.util.regex.Pattern;
 
 public class NameCheck extends Check {
 
+  public static final String PATTERN = "^[A-Z]+[a-zA-Z0-9]+";
+
   @Override
   public boolean isSatisfied(Object module, Object name) {
     Module m;
-    Pattern p = Pattern.compile("(([A-Z]+[a-z0-9]*)+)");
+    Pattern p = Pattern.compile(PATTERN);
     List<String> blackList = new ArrayList<String>(Arrays.asList(SinfonierConstants.Module.BLACKLIST.split(",")));
 
     if (module instanceof Module) {

@@ -13,7 +13,7 @@
           <label for="name" class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">&{'Modules.form.name'} *</label>
           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
             <input type="text" class="form-control" id="name" name="module.name"
-                   pattern="^([A-Z][a-z0-9]+)+" title="&{'Modules.form.err.pattern.name'}"
+                   pattern="${models.module.validations.NameCheck.PATTERN}" title="&{'Modules.form.err.pattern.name'}"
                    oninvalid="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.name'}');"
                    oninput="checkField(this,'&{'Common.form.err.required'}','&{'Modules.form.err.pattern.name'}');"
                    value="${_module?.getName()?.escapeHtml()?.raw()}" required #{if _module?.getId() != null}readonly#{/if}>
@@ -62,7 +62,7 @@
           <!-- PREVIEW -->
           <div id="icon-preview" class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
               #{if _module?.getIcon() != null}
-                <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()?.escapeHtml()?.raw()}" alt="icono" style="width: 100px;"/>
+                <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()?.getCanonicalPath()?.escapeHtml()?.raw()}" alt="icono" style="width: 100px;"/>
               #{/if}
               #{else}
                 <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}" alt="icono" style="width: 100px;"/>
@@ -229,6 +229,6 @@
   #{/if}
   
   #{if _module?.getIcon() != null}
-    var moduleIcon = "${_module?.getIcon()?.escapeJavaScript()?.raw()}";
+    var moduleIcon = "${_module?.getIcon()?.getCanonicalPath()?.escapeJavaScript()?.raw()}";
   #{/if}
 </script>
