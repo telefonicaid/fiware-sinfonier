@@ -1,29 +1,29 @@
 # Sinfonier Drawer
 
-FrontEnd part of Sinfonier Project. Allow users to define Apache Storm Topologies (DAG - Directed acyclic graph) in a visual way and send it to Storm Cluster using [Sifonier API](https://github.com/telefonicaid/fiware-sinfonier/tree/master/sinfonier-web)
+FrontEnd part of Sinfonier Project. Allow users to define Apache Storm Topologies (DAG - Directed acyclic graph) in a visual way and send it to Storm Cluster using [Sinfonier API](https://github.com/telefonicaid/fiware-sinfonier/tree/master/sinfonier-web)
 
 ## Requisites
 
- * [Playframework](http://playframework.com) (= 1.4)
- * [mongoDB](http://www.mongodb.org/) (>= 2)
+* [Playframework](http://playframework.com) (= 1.4)
+* [mongoDB](http://www.mongodb.org/) (>= 2)
 
 ## Install
 
-    ```sh
-    git clone git@github.com:telefonicaid/fiware-sinfonier.git
-    cd fiware-sinfonier/sinfonier-web
-    play dependencies --sync
-    ```
+```sh
+git clone git@github.com:telefonicaid/fiware-sinfonier.git
+cd fiware-sinfonier/sinfonier-web
+play dependencies --sync
+```
 
 ## Start
 
 * Ensure you have a MongoDB running on localhost
 * Start play app
 
-    ```sh
-    cd /path/to/sinfonier-frontend
-    play run
-    ```
+```sh
+cd /path/to/sinfonier-frontend
+play run
+```
 
 * Browse this URL [http://localhost:9000](http://localhost:9000)
 * By default you can register with `admin@localhost.com`. Also, you can define the default admin user and
