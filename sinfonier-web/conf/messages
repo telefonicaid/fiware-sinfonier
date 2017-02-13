@@ -389,6 +389,3 @@ Public.activate.adminActivationUser=Great, your account was created successfully
 
 ##### Register Bugs on Darwin#####
 Public.register.oldPassword=Old password
-
-##### Email Bugs on Darwin #######
-Public.emailLayout.footer=Copyright © %s <a href=\"http://www.elevenpaths.com\" style=\"text-decoration: none;word-wrap: break-word-ms-text-size-adjust: 100%%;-webkit-text-size-adjust: 100%%;font-weight: normal;\" target=\"_blank\">ElevenPaths</a>. All rights reserved.<br> Telefónica Digital España, SLU. is a Spanish company with registered office at Telefónica District, Ronda de la Comunicación, s / n, 28050 - Madrid (Spain), with tax identification number (CIF) B-86362886 and registered in the Commercial Registry of Madrid, volume 29508; Book 0; Folio 12, Section 8; Sheet M-531046. For any information regarding the digital processing of your personal data to exercise your right to access, rectify, cancel or oppose, you can contact us by email <a href=\"mailto:contact@support.elevenpaths.com\" style=\"text-decoration: none;word-wrap: break-word;-ms-text-size-adjust: 100%%;-webkit-text-size-adjust: 100%%;font-weight: normal;\">contact@support.elevenpaths.com</a>.

@@ -18,8 +18,8 @@
 <body class="login-bg">
 
 <div class="login">
-  <div class="logo">
-    <img src="@{'/public/images/logo.png'}" alt="ElevenPaths"/>
+  <div #{if play.Play.configuration.getProperty("oauth")} class="logo-with-oauth" #{/if} #{else } class="logo"#{/else} >
+    <img src="@{'/public/images/logo.png'}" alt="Sinfonier"/>
   </div>
 #{doLayout /}
 </div>
