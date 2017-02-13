@@ -121,21 +121,21 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             #{if _module?.getIcon() != null}
-              <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" alt="${_module?.getName()}"
-                   class="module-icon"/>
+              <img id="module-${_module?.getId()}-img-icon" src="${_module?.getIcon()}" class="module-icon"
+                   alt="${org.apache.commons.lang.StringUtils.abbreviate(_module?.getName(), 15)}"/>
             #{/if}
             #{else}
                 #{if _module?.getType() == "spout"}
                   <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/spout-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                       alt="${org.apache.commons.lang.StringUtils.abbreviate(_module?.getName(), 15)}" class="module-icon"/>
                 #{/if}
                 #{elseif _module?.getType() == "bolt"}
                   <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/bolt-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                       alt="${org.apache.commons.lang.StringUtils.abbreviate(_module?.getName(), 15)}" class="module-icon"/>
                 #{/elseif}
                 #{elseif _module?.getType() == "drain"}
                   <img id="module-${_module?.getId()}-img-icon" src="@{'/public/images/modules/drain-big.png'}"
-                       alt="${_module?.getName()}" class="module-icon"/>
+                       alt="${org.apache.commons.lang.StringUtils.abbreviate(_module?.getName(), 15)}" class="module-icon"/>
                 #{/elseif}
             #{/else}
         </div>
