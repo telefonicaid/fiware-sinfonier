@@ -43,7 +43,7 @@
 #{/form}
 #{include 'Secure/loginWithMobileConnect.html' /}
 <hr/>
-#{if play.Play.configuration.getProperty("oauth").equalsIgnoreCase("true")}
+#{if play.Play.configuration.getProperty("oauth")?.equalsIgnoreCase("true")}
 <div id="bFiware" style=" margin: auto;">
   <img src="@{'/public/images/SFiware.png'}" onclick="document.location='@{OAuthController.redirect()}'" class="oauth-button">
 </div>
