@@ -459,6 +459,16 @@ function initCodeMirror(field) {
     // Events
     $('#ticktuple-collapse').on('hide.bs.collapse', function () {
       $('#ticktuple-form input#label-tuple').val('');
+      $('#tick-tuple-section a.btn')
+        .removeClass('btn-cancel')
+        .addClass('btn-blue')
+        .text(TitlesI18n.add);
+    });
+    $('#ticktuple-collapse').on('show.bs.collapse', function () {
+      $('#tick-tuple-section a.btn')
+        .removeClass('btn-blue')
+        .addClass('btn-cancel')
+        .text(TitlesI18n.delete);
     });
 
     /**

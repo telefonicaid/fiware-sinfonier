@@ -146,10 +146,14 @@ public class ModuleVersion extends ModelCollection {
 
     if (fields != null) {
       obj.put(FIELD_FIELDS, fields.toDBObject());
+    } else {
+      obj.put(FIELD_FIELDS, new BasicDBList());
     }
 
     if (libraries != null) {
       obj.put(FIELD_LIBRARIES, libraries.toDBObject());
+    } else {
+      obj.put(FIELD_LIBRARIES, new BasicDBList());
     }
 
     if (myTools != null) {
