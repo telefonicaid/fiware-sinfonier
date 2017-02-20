@@ -98,8 +98,8 @@ public class ProfileSinfonier extends Profile {
       index(user);
     }
 
-    if (!getCurrentUser().getEmail().equals(email) || !getCurrentUser().isAdminUser()) {
-      forbidden();
+    if (!getCurrentUser().isAdminUser() && !getCurrentUser().getEmail().equals(email)) {
+        forbidden();
     }
 
 
