@@ -25,9 +25,9 @@ function TemplateCode(name, language, type, code) {
       code += 'package com.sinfonier.' + that.type + 's;\n\n' +
         'public class ' + _.upperFirst(_.camelCase(that.name)) + ' extends BaseSinfonier' + _.capitalize(that.type) + ' {\n' +
         '\t//TO-DO: Declare variables\n' +
-        '\tprivate String var;\n' +
+        '\tprivate String var;\n' +
         '\tprivate String name;\n' +
-        '\tpublic ' + _.upperFirst(_.camelCase(that.name)) + ' (String xmlFile) {\n' +
+        '\tpublic ' + _.upperFirst(_.camelCase(that.name)) + ' (String xmlFile) {\n' +
         '\t\tsuper(xmlFile);\n' +
         '\t}\n\n' +
         '\t@Override\n' +
