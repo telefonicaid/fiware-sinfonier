@@ -214,7 +214,7 @@ function handleIconModule(file) {
     file = $(file)[0]['files'][0];
     fReader.onload = function (e) {
       $('form#module-form #icon-preview img').attr('src', e.target.result);
-    }
+    };
     fReader.readAsDataURL(file);
   } else if ($('form#module-form #icon-preview img').size() > 0 &&
       $('form#module-form #icon-preview img').attr('src').match("^" + basePath) &&
