@@ -421,6 +421,13 @@ public class Topologies extends BaseController {
       response.status = c400.getCode();
       renderJSON(c400.toGSON());
     }
+    catch (Exception e) {
+      Logger.error(e.getMessage());
+      Codes c500 = Codes.CODE_500;
+      c500.setMessageData(Messages.get("validation.topology.params"));
+      response.status = c500.getCode();
+      renderJSON(c500.toGSON());
+    }
   }
 
 	public static void info(@Required String id) throws SinfonierException {

@@ -1,4 +1,5 @@
 var topology=null;
+
 function ImportTopology(e) {
   var result, that = this;
 
@@ -71,7 +72,6 @@ function ImportTopology(e) {
 
   return this;
 }
-
 
 function prepareTopology(file) {
 	  var fReader = new FileReader();
