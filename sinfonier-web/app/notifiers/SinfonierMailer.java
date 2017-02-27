@@ -38,15 +38,19 @@ public class SinfonierMailer extends DarwinMailer {
   }
 
   public static void complainModule(Module module, Inappropriate inappropriate) {
-    String emails = module.getAuthor().getEmail();
-    String actualLang = Lang.get();
-    Lang.set(module.getAuthor().getPreferredLang());
-    configureEmailSettings(emails, SUBJECT_COMPLAIN_MODULE);
-    String baseUrl = getBaseUrl();
-    String appName = Config.getApplicationName();
-    Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
-    send(getTemplatePath("complainModule", module.getAuthor().getPreferredLang()), renderArgs, appName, baseUrl, module, inappropriate);
-    Lang.set(actualLang);
+    User author = module.getAuthor();
+    if (author != null) {
+      String emails = author.getEmail();
+      String actualLang = Lang.get();
+      Lang.set(author.getPreferredLang());
+      configureEmailSettings(emails, SUBJECT_COMPLAIN_MODULE);
+      String baseUrl = getBaseUrl();
+      String appName = Config.getApplicationName();
+      Scope.RenderArgs renderArgs = Scope.RenderArgs.current();
+      send(getTemplatePath("complainModule", author.getPreferredLang()), renderArgs, appName, baseUrl, module, inappropriate);
+      Lang.set(actualLang);
+    }
+
   }
 
   public static void notifyComplainModuleAdmin(Module module, Inappropriate inappropriate) {
