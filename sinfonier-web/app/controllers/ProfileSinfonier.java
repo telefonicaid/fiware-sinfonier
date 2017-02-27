@@ -95,7 +95,7 @@ public class ProfileSinfonier extends Profile {
       params.flash();
       // TODO: Change redirect when Bug #19469 is fixed in Darwin library.
       //showUserProfile(email);
-      index(user);
+      index();
     }
 
     if (!getCurrentUser().isAdminUser() && !getCurrentUser().getEmail().equals(email)) {
@@ -109,7 +109,7 @@ public class ProfileSinfonier extends Profile {
 
     if (validation.hasErrors()) {
       validation.keep();
-      index(user);
+      index();
     }
 
     user.changePassword(newPassword1);
@@ -118,7 +118,7 @@ public class ProfileSinfonier extends Profile {
 
     // TODO: Change render when Bug #19153 is fixed in Darwin library.
     //showUserProfile(email);
-    index(user);
+    index();
   }
 
   @Util
