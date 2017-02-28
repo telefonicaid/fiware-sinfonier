@@ -51,10 +51,10 @@
           <div class="well">
             <p id="project-${_project.getId()}-p-createBy" class="details">
             #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
-              &{'Modules.index.create_by', _project.getAuthor().getEmail()?.escapeHtml().raw(), _project.getAuthor().getName()?.escapeHtml().raw(), _project.getAuthor().getEmail()?.escapeHtml().raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+              &{'Modules.index.create_by', _project.getAuthor()?.getEmail()?.escapeHtml()?.raw(), _project.getAuthor()?.getName()?.escapeHtml()?.raw(), _project.getAuthor()?.getEmail()?.escapeHtml()?.raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
             #{/if}
             #{else}
-              &{'Modules.index.create_by_text', _project.getAuthor().getName()?.escapeHtml().raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+              &{'Modules.index.create_by_text', _project.getAuthor()?.getName()?.escapeHtml()?.raw(), _project.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
             #{/else}
             </p>
           </div>
