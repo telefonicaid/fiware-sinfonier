@@ -69,8 +69,8 @@ class Compiler(object):
         self.language = module_language
         self.install = install
         self.name = module_name
+        self.dependencies = filter(lambda x: x is not None, dependencies) if dependencies else list()
         self.version = module_version
-        self.dependencies = dependencies
         self.params = params if params else dict()
         self._package = self.type + 's'
         self._is_installed = False
