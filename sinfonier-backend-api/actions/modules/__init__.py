@@ -1,1 +1,1 @@
-__all__=["UploadModule","ValidateModule","DeleteModule"]
+__all__ = ['UploadModule', 'ValidateModule', 'DeleteModule']

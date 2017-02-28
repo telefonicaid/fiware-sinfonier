@@ -119,7 +119,6 @@ public class Client {
     }
   }
 
-
   public JsonObject topologyLaunch(String id) throws SinfonierException {
     String path = Play.configuration.getProperty("storm.route.topologies.launch");
     WS.WSRequest request = WS.url(BASE_URL + buildPathById(path, id));
