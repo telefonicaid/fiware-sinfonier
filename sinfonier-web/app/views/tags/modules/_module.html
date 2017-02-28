@@ -262,14 +262,14 @@
           <p id="module-${_module?.getId()}-p-createBy" class="details">
               #{if session.username && controllers.Secure.Security.invoke("check", "USER_READ_PROFILES")}
                   #{if _size != "small"}
-                  &{'Modules.index.create_by', _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _module.getAuthor()?.getName()?.escapeHtml().raw(), _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                  &{'Modules.index.create_by', _module.getAuthor()?.getEmail()?.escapeHtml()?.raw(), _module.getAuthor()?.getName()?.escapeHtml()?.raw(), _module.getAuthor()?.getEmail()?.escapeHtml()?.raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
                   #{/if}
                   #{else}
-                  &{'Modules.index.create_by_short', _module.getAuthor()?.getEmail()?.escapeHtml().raw(), _module.getAuthor()?.getName()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+                  &{'Modules.index.create_by_short', _module.getAuthor()?.getEmail()?.escapeHtml()?.raw(), _module.getAuthor()?.getName()?.escapeHtml()?.raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
                   #{/else}
               #{/if}
             #{else}
-          &{'Modules.index.create_by_text', _module.getAuthor()?.getName()?.escapeHtml().raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
+          &{'Modules.index.create_by_text', _module.getAuthor()?.getName()?.escapeHtml()?.raw(), _version.getCreatedAt()?.format(play.Play.configuration.getProperty("date.format"))}
           #{/else}
           </p>
 
