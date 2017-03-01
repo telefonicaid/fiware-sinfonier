@@ -1,50 +1,23 @@
 package controllers;
 
-import static models.SinfonierConstants.Module.STATUS_DEV;
-
-import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import exceptions.SinfonierError;
 import exceptions.SinfonierException;
-import models.module.Module;
-import models.module.ModuleSearch;
-import models.module.ModuleVersion;
-import models.module.ModulesContainer;
-import models.module.Versions;
 import models.project.Project;
 import models.project.ProjectSearch;
 import models.project.ProjectsContainer;
 import models.responses.Codes;
-import models.topology.TopologiesContainer;
-import models.topology.Topology;
-import models.topology.TopologyModule;
-import models.topology.deserializers.TopologyDeserializer;
-import models.topology.json.LogData;
 import models.user.User;
-import models.validators.ParamsValidator;
 import play.Logger;
 import play.Play;
-import play.data.validation.Required;
-import play.i18n.Messages;
 import play.mvc.Before;
-import play.mvc.Catch;
-import play.mvc.Util;
- 
+
 public class Projects extends BaseController {
   public static final String INDEX_MODE_MY_PROJECTS = "myProjects";
   public static final String FLASH_KEY_BACKEND_LOG = "backend_log";

@@ -58,7 +58,7 @@ public class Project implements Cloneable {
     this.setTopologyIds(ids);
   }
 
-  public Project(String name, User author,  String description, List<String> topologyIds) {
+  public Project(String name, User author, String description, List<String> topologyIds) {
     this.name = name;
     this.author = author;
     if (author != null)
@@ -79,11 +79,10 @@ public class Project implements Cloneable {
   }
 
   public static ProjectsContainer getProjects(User user, Integer page) throws SinfonierException {
-    return getProjects(user,  true, page);
+    return getProjects(user, true, page);
   }
 
-  public static ProjectsContainer getProjects(User user,  boolean usePagination,
-      Integer page) throws SinfonierException {
+  public static ProjectsContainer getProjects(User user, boolean usePagination, Integer page) throws SinfonierException {
     ProjectsContainer projects;
 
     DBObject sortByName = new BasicDBObject(FIELD_NAME, 1);
@@ -93,7 +92,7 @@ public class Project implements Cloneable {
     notDeletedAndAuthor.add(not_deleted);
     notDeletedAndAuthor.add(new BasicDBObject(FIELD_AUTHOR_ID, user.getId()));
 
-    if (user.isAdminUser() ) {
+    if (user.isAdminUser()) {
       projects = find(null, sortByName, usePagination, page);
     } else {
       projects = find(new BasicDBObject("$and", notDeletedAndAuthor), sortByName, usePagination, page);
@@ -373,16 +372,14 @@ public class Project implements Cloneable {
     return find(new BasicDBObject("$and", query), page);
   }
 
-  private static ProjectsContainer find(DBObject query, DBObject sortBy, boolean usePagination, Integer page)
-      throws SinfonierException {
+  private static ProjectsContainer find(DBObject query, DBObject sortBy, boolean usePagination, Integer page) throws SinfonierException {
     if (usePagination)
       return find(query, sortBy, PROJECT_MAX_RESULTS_PAGE, page);
     else
       return find(query, sortBy, null, page);
   }
 
-  private static ProjectsContainer find(DBObject query, DBObject orderBy, Integer limit, Integer page)
-      throws SinfonierException {
+  private static ProjectsContainer find(DBObject query, DBObject orderBy, Integer limit, Integer page) throws SinfonierException {
     DBCollection collection = MongoFactory.getDB().getCollection(getCollectionName());
     List<Project> list = new ArrayList<Project>();
     DBCursor cursor;

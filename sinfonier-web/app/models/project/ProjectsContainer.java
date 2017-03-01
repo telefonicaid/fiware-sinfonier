@@ -18,7 +18,6 @@ public class ProjectsContainer {
     this.countBeforeLimit = countBeforeLimit;
   }
 
-  
   public int getCount() {
     return projects.size();
   }
