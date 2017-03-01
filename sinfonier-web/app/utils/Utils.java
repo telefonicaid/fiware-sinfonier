@@ -8,6 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import models.Constants;
 import models.factory.DarwinFactory;
@@ -16,6 +17,8 @@ import models.user.User;
 import models.user.UsersContainer;
 
 public class Utils {
+
+  private final static Pattern SPECIAL_REGEX_CHARS = Pattern.compile("[{}()\\[\\].+*?^$\\\\|]");
 
   public static String displayTimeZone(String tzID, String lang) {
     String result = "";
@@ -54,5 +57,17 @@ public class Utils {
       emails.add(user.getEmail());
     }
     return emails;
+  }
+
+  /**
+   * This method allow to escape a string to be use for generate a Pattern.
+   * <p>
+   *     Ex: my.String* ==> my\.String\*
+   * </p>
+   * @param str String to escape.
+   * @return the String escaped.
+   */
+  public static String escapeSpecialRegexChars(String str) {
+    return SPECIAL_REGEX_CHARS.matcher(str).replaceAll("\\\\$0");
   }
 }

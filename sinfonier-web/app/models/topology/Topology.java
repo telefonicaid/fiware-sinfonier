@@ -87,8 +87,8 @@ public class Topology implements Cloneable {
 
     if (q != null && q.length() > 0) {
       BasicDBList orQuery = new BasicDBList();
-      orQuery.add(new BasicDBObject(FIELD_NAME, Pattern.compile(q, Pattern.CASE_INSENSITIVE)));
-      orQuery.add(new BasicDBObject(FIELD_AUTHOR_ID, Pattern.compile(q, Pattern.CASE_INSENSITIVE)));
+      orQuery.add(new BasicDBObject(FIELD_NAME, Pattern.compile(Utils.escapeSpecialRegexChars(q), Pattern.CASE_INSENSITIVE)));
+      orQuery.add(new BasicDBObject(FIELD_AUTHOR_ID, Pattern.compile(Utils.escapeSpecialRegexChars(q), Pattern.CASE_INSENSITIVE)));
       orQuery.add(new BasicDBObject(FIELD_AUTHOR_ID, new BasicDBObject("$in", Utils.getUsersEmailsByName(q))));
       andQuery.add(new BasicDBObject("$or", orQuery));
     }
@@ -98,7 +98,7 @@ public class Topology implements Cloneable {
     }
 
     if (description != null && description.length() > 0) {
-      andQuery.add(new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE)));
+      andQuery.add(new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(Utils.escapeSpecialRegexChars(description), Pattern.CASE_INSENSITIVE)));
     }
 
     if (andQuery.size() > 0) {
