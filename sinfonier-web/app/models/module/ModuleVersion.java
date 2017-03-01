@@ -49,6 +49,7 @@ import play.data.binding.NoBinding;
 import play.data.validation.CheckWith;
 import play.data.validation.Required;
 import play.data.validation.Valid;
+import utils.Utils;
 
 public class ModuleVersion extends ModelCollection {
 
@@ -229,7 +230,7 @@ public class ModuleVersion extends ModelCollection {
     DBCollection collection = MongoFactory.getDB().getCollection(collectionName);
     List<ModuleVersion> list = new ArrayList<ModuleVersion>();
     if (description != null && description.trim().length() > 0) {
-      DBObject query = new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(description, Pattern.CASE_INSENSITIVE));
+      DBObject query = new BasicDBObject(FIELD_DESCRIPTION, Pattern.compile(Utils.escapeSpecialRegexChars(description), Pattern.CASE_INSENSITIVE));
       DBCursor cursor = collection.find(query);
       for (DBObject dbObject : cursor) {
         list.add(new ModuleVersion(dbObject));

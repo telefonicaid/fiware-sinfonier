@@ -264,12 +264,12 @@ public class Module extends ModelCollection {
     }
 
     if (search.getName() != null && search.getName().length() > 0) {
-      query.add(new BasicDBObject(FIELD_NAME, Pattern.compile(search.getName(), Pattern.CASE_INSENSITIVE)));
+      query.add(new BasicDBObject(FIELD_NAME, Pattern.compile(Utils.escapeSpecialRegexChars(search.getName()), Pattern.CASE_INSENSITIVE)));
     }
 
     if (search.getOwner() != null && search.getOwner().length() > 0) {
       BasicDBList list = new BasicDBList();
-      list.add(new BasicDBObject(FIELD_AUTHOR_ID, Pattern.compile(search.getOwner(), Pattern.CASE_INSENSITIVE)));
+      list.add(new BasicDBObject(FIELD_AUTHOR_ID, Pattern.compile(Utils.escapeSpecialRegexChars(search.getOwner()), Pattern.CASE_INSENSITIVE)));
       list.add(new BasicDBObject(FIELD_AUTHOR_ID, new BasicDBObject("$in", Utils.getUsersEmailsByName(search.getOwner()))));
       query.add(new BasicDBObject("$or", list));
     }
