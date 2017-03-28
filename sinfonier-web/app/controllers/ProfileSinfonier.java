@@ -1,5 +1,12 @@
 package controllers;
 
+import exceptions.SinfonierError;
+import exceptions.SinfonierException;
+import models.exception.PasswordConstraintViolationException;
+import models.factory.DarwinFactory;
+import models.user.SinfonierUser;
+import models.user.User;
+import models.validation.Password;
 import play.Logger;
 import play.data.validation.Equals;
 import play.data.validation.Required;
@@ -8,14 +15,6 @@ import play.data.validation.Validation;
 import play.i18n.Lang;
 import play.mvc.Catch;
 import play.mvc.Util;
-import models.exception.PasswordConstraintViolationException;
-import models.factory.DarwinFactory;
-import models.user.User;
-import exceptions.SinfonierError;
-import exceptions.SinfonierException;
-import models.user.SinfonierUser;
-import models.validation.Password;
-import play.templates.JavaExtensions;
 
 public class ProfileSinfonier extends Profile {
 
@@ -59,9 +58,7 @@ public class ProfileSinfonier extends Profile {
         //Change web language if user has changed preferred language
         changeWebLangIfUserLangIsChanged(current, email, preferredLang);
 
-        // TODO: Change render when Bug #19153 is fixed in Darwin library. 
-        //showUserProfile(email);
-        render("Profile/index.html", user);
+        index();
       } else {
         forbidden();
       }
@@ -93,9 +90,7 @@ public class ProfileSinfonier extends Profile {
         Logger.error(error.message());
       }
       params.flash();
-      // TODO: Change redirect when Bug #19469 is fixed in Darwin library.
-      //showUserProfile(email);
-      index();
+      render("Profile/index.html", user);
     }
 
     if (!getCurrentUser().isAdminUser() && !getCurrentUser().getEmail().equals(email)) {
@@ -116,8 +111,6 @@ public class ProfileSinfonier extends Profile {
     user.save();
     flash.clear();
 
-    // TODO: Change render when Bug #19153 is fixed in Darwin library.
-    //showUserProfile(email);
     index();
   }
 

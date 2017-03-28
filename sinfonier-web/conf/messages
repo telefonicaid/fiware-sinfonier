@@ -307,6 +307,7 @@ Diagnosis.index.play = App
 Diagnosis.index.api = API
 Diagnosis.index.db = Database
 
+validation.required.profile.oldPassword = The old password field is required
 validation.required.profile.password = The password field is required
 validation.match.profile.password = The two passwords must match
 
