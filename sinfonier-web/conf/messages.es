@@ -306,6 +306,7 @@ Diagnosis.index.play = Aplicación
 Diagnosis.index.api = API
 Diagnosis.index.db = Base de datos
 
+validation.required.profile.oldPassword = La contraseña antigua es obligatoria
 validation.required.profile.password = El campo contraseña es obligatorio
 validation.match.profile.password = Las dos contraseñas deben coincidir
 
