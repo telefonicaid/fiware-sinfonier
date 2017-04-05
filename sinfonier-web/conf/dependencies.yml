@@ -2,7 +2,7 @@
 
 require:
     - play
-    - Darwin -> darwin 1.0.7SNAPSHOT
+    - Darwin -> darwin 1.0.7
     - org.jsoup -> jsoup 1.7.2
     - play -> mockito 0.1
     - org.apache.oltu.oauth2 -> org.apache.oltu.oauth2.client 1.0.2
