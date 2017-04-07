@@ -1,0 +1,24 @@
+string_login:
+  form_elements:
+    title:
+      en: Login to your account
+      es: Inicia sesión
+
+
+string_latch:
+  correct_message:
+    correct_pair:
+      en: User has been successfully paired.
+      es: El usuario ha sido pareado con éxito.
+    correct_unpair:
+      en: User has been successfully unpaired.
+      es: El usuario ha sido despareado con éxito.
+
+
+
+create_user:
+  success_message:
+    message:
+      en: Great, your account was created successfully but and administrator should activate it first. You will receive an email when this happens.
+      es: Tú cuenta se ha creado correctamente, pero es necesário que un administrador la active. Se te notificará por correo electrónico.
+
